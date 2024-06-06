@@ -1,0 +1,20 @@
+import 'dart:ui';
+
+class KalakarColors{
+  static const  Color turquoise= Color(0xFF01C3CC);
+  static const  Color blue= Color(0xFF2A89DA);
+  static const  Color purple = Color(0xFF7D2AE7);
+  static const  Color black = Color(0xFF4D4D4D);
+  static const  Color white = Color(0xFFFFFFFF);
+  static const  Color appBarBackground = Color(0xFf36b6a9);
+  static const  Color appBarText = Color(0xFf1e2529);
+  static const  Color background = Color(0xFf262d35);
+  static const  Color background2 = Color(0xFf14181b);
+  static const  Color buttonText = Color(0xFff65c5e);
+  static const  Color buttonBackground = Color(0xFf52f1dd);
+  static const  Color textColor = Color(0xFf97a1ab);
+  static const  Color headerText = Color(0xFff45d68);
+  static const  Color border = Color(0xFf282c35);
+  static const  Color selectedBorder = Color(0xFf493aed);
+
+}
