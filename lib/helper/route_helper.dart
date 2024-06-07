@@ -17,7 +17,7 @@ class RouteHelper {
     ),
     GetPage(
       name: login,
-      page: () => LoginPage(),
+      page: () => AuthPage(),
     ),
     GetPage(
       name: createAccount,

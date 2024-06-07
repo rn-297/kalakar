@@ -18,7 +18,7 @@ class KalakarConstants {
   static const String newKalakaarAccount = "New Kalakaar Account";
   static const String signIn = "Sign In";
   static const String orSignInWith = "Or sign in with";
-  static const String continueWithGoogle = "continue with Google";
+  static const String continueWithGoogle = "Continue with Google";
   static const String signupText = "Let's get started by filling out the form below.";
   static const String sigInText = "Fill out the information below in order to access your account";
   static const String kalakaar = "KALAKAAR";
