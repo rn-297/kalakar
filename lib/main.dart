@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return GetMaterialApp(
             title: 'Kalakar',
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               // This is the theme of your application.
               //
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
               // tested with just a hot reload.
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
+              fontFamily: "Lato"
             ),
             getPages: RouteHelper.routes,
             initialRoute: RouteHelper.login,

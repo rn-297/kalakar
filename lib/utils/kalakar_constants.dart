@@ -9,6 +9,8 @@ class KalakarConstants {
   static const String lastName = "Last Name";
   static const String whatsappNumber = "WhatsApp Number";
   static const String email = "Email";
+  static const String artist = "Artist";
+  static const String company = "Company";
   static const String password = "Password";
   static const String userName = "User Name";
   static const String referralCode = "Referral Code";

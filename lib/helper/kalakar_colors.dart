@@ -8,12 +8,12 @@ class KalakarColors{
   static const  Color white = Color(0xFFFFFFFF);
   static const  Color appBarBackground = Color(0xFf36b6a9);
   static const  Color appBarText = Color(0xFf1e2529);
-  static const  Color background = Color(0xFf262d35);
+  static const  Color background = Color(0xFfe0e3e8);
   static const  Color background2 = Color(0xFf14181b);
   static const  Color buttonText = Color(0xFff65c5e);
   static const  Color buttonBackground = Color(0xFf52f1dd);
-  static const  Color textColor = Color(0xFf97a1ab);
-  static const  Color headerText = Color(0xFff45d68);
+  static const  Color textColor = Color(0xFf000000);
+  static const  Color headerText = Color(0xFf670397);
   static const  Color border = Color(0xFf282c35);
   static const  Color selectedBorder = Color(0xFf493aed);
 
