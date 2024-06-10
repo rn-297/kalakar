@@ -1,4 +1,8 @@
 class KalakarConstants {
+  //API
+  static const String BASE_URL="";
+  static const String NO_INTERNET_MESSAGE="";
+  //Strings
   static const String usernameHint = "E-mail Id or Contact Number";
   static const String passwordHint = "Password";
   static const String login = "Log In";
@@ -7,14 +11,18 @@ class KalakarConstants {
   static const String fieldName = "Field Name";
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
-  static const String whatsappNumber = "WhatsApp Number";
+  static const String whatsappNumber = "Mobile Number";
   static const String email = "Email";
   static const String artist = "Artist";
   static const String company = "Company";
   static const String password = "Password";
+  static const String cnfmPassword = "Confirm Password";
   static const String userName = "User Name";
   static const String referralCode = "Referral Code";
-  static const String getStarted = "Get Started";
+  static const String getStarted = "Sign Up";
+  static const String userType = "User Type";
+  static const String enterOtp = "Enter OTP";
+  static const String getOtp= "Get Otp";
   static const String orSignupWith = "Or sign up with";
   static const String welcomeBack = "Welcome back";
   static const String newKalakaarAccount = "New Kalakaar Account";

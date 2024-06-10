@@ -58,7 +58,7 @@ class SlidingButton extends StatelessWidget {
                 curve: Curves.fastOutSlowIn,
                 child: Container(
                   width: constraints.maxWidth / 2 ,
-                  height: 40,
+                  height: 40.h,
                   decoration: BoxDecoration(
                       color: buttonBackgroundColor,
                       border: Border.all(color: buttonBorderColor),
@@ -70,7 +70,6 @@ class SlidingButton extends StatelessWidget {
               width: constraints.maxWidth   ,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkWell(
                     onTap: () {

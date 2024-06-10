@@ -16,6 +16,7 @@ class AuthPageController extends GetxController {
   bool createPasswordValue = true;
   bool createShowCnfmPassword = true;
   bool signInPasswordValue = true;
+  bool isOtpSent = false;
   String oTP = "";
 
   //sign In
@@ -40,4 +41,13 @@ class AuthPageController extends GetxController {
     }
     update();
   }
+
+  void getOTP() {
+    isOtpSent = true;
+    update();
+  }
+
+  void signInCall() {}
+
+  void signInWithGoogle() {}
 }
