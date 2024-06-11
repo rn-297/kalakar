@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -84,14 +85,14 @@ class AuthPage extends StatelessWidget {
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorColor: KalakarColors.selectedBorder,
                   tabs: [
-                    Text(KalakarConstants.createAccount),
                     Text(KalakarConstants.signIn),
+                    Text(KalakarConstants.createAccount),
                   ]),
             ),
             body: TabBarView(
               children: [
-                mobileSignUpPage(),
                 mobileSignInPage(),
+                mobileSignUpPage(),
               ],
             ),
           )),
@@ -99,50 +100,58 @@ class AuthPage extends StatelessWidget {
   }
 
   tabBarWebView() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 64.w),
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      decoration: BoxDecoration(
-          color: KalakarColors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 5.0,
-            ),
-          ],
-          borderRadius: BorderRadius.circular(12.r)),
-      child: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              titleSpacing: 0.0,
-              backgroundColor: Colors.transparent,
-              toolbarHeight: 10.h,
-              bottom: TabBar(
-                  dividerHeight: 0.0,
-                  labelStyle: TextStyle(
-                      color: KalakarColors.textColor,
-                      fontSize: 8.sp,
-                      fontWeight: FontWeight.bold),
-                  unselectedLabelStyle:
-                      TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
-                  labelPadding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorColor: KalakarColors.selectedBorder,
-                  tabs: [
-                    Text(KalakarConstants.createAccount),
-                    Text(KalakarConstants.signIn),
-                  ]),
-            ),
-            body: TabBarView(
-              children: [
-                webSignUpPage(),
-                webSignInPage(),
-              ],
-            ),
-          )),
+    return Row(
+      children: [
+        Expanded(child: Image.asset("assets/images/app_bar_logo.png")),
+        Expanded(
+          flex: 2,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            decoration: BoxDecoration(
+                color: KalakarColors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5.0,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(12.r)),
+            child: DefaultTabController(
+                length: 2,
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  appBar: AppBar(
+                    titleSpacing: 0.0,
+                    backgroundColor: Colors.transparent,
+                    toolbarHeight: 10.h,
+                    bottom: TabBar(
+                        dividerHeight: 0.0,
+                        labelStyle: TextStyle(
+                            color: KalakarColors.textColor,
+                            fontSize: 8.sp,
+                            fontWeight: FontWeight.bold),
+                        unselectedLabelStyle:
+                            TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
+                        labelPadding:
+                            EdgeInsets.symmetric(horizontal: 8.w, vertical:   4.h),
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicatorColor: KalakarColors.selectedBorder,
+                        tabs: [
+                          Text(KalakarConstants.signIn),
+                          Text(KalakarConstants.createAccount),
+                        ]),
+                  ),
+                  body: TabBarView(
+                    children: [
+                      webSignInPage(),
+                      webSignUpPage(),
+                    ],
+                  ),
+                )),
+          ),
+        ),
+      ],
     );
   }
 
@@ -612,8 +621,7 @@ class AuthPage extends StatelessWidget {
                           child: Text(
                             KalakarConstants.enterOtp,
                             style: TextStyle(
-                                color: KalakarColors.textColor,
-                                fontSize: 4.sp),
+                                color: KalakarColors.textColor, fontSize: 4.sp),
                           )),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -653,8 +661,7 @@ class AuthPage extends StatelessWidget {
                           child: Text(
                             "User Type",
                             style: TextStyle(
-                                color: KalakarColors.textColor,
-                                fontSize: 4.sp),
+                                color: KalakarColors.textColor, fontSize: 4.sp),
                           )),
                       SizedBox(
                         height: 8.h,
@@ -716,7 +723,7 @@ class AuthPage extends StatelessWidget {
                       onTap: () {
                         authPageController.getOTP();
                       },
-                      horizontalPadding: 15.w,
+                      horizontalPadding: 10.w,
                       verticalPadding: 4.h,
                       fontSize: 8.sp,
                       backgroundColor: KalakarColors.buttonBackground,
@@ -742,31 +749,22 @@ class AuthPage extends StatelessWidget {
               height: 20.h,
             ),
             Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 2.h),
-                decoration: BoxDecoration(
-                    // color: KalakarColors.background,
-                    border: Border.all(color: KalakarColors.border),
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text(
-                    "G",
-                    style: TextStyle(
-                        fontSize: 10.sp,
-                        color: KalakarColors.textColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Text(
-                    KalakarConstants.continueWithGoogle,
-                    style: TextStyle(
-                        fontSize: 6.sp,
-                        color: KalakarColors.textColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ]),
+              child: CustomSignInButtonWidget(
+                onTap: () {
+                  authPageController.signInWithGoogle();
+                },
+                text: KalakarConstants.continueWithGoogle,
+                icon: Text(
+                  "G",
+                  style: TextStyle(
+                      fontSize: 10.sp,
+                      color: KalakarColors.textColor,
+                      fontWeight: FontWeight.bold),
+                ),
+                paddingHorizontal: 10.w,
+                paddingVertical: 2.h,
+                borderRadius: 50.r,
+                textSize: 6.sp,
               ),
             ),
             SizedBox(
@@ -861,12 +859,15 @@ class AuthPage extends StatelessWidget {
               text: KalakarConstants.continueWithGoogle,
               icon: Text(
                 "G",
-                style: TextStyle(fontSize: 10.sp,color: KalakarColors.textColor,
+                style: TextStyle(
+                    fontSize: 10.sp,
+                    color: KalakarColors.textColor,
                     fontWeight: FontWeight.bold),
               ),
               paddingHorizontal: 10.w,
               paddingVertical: 2.h,
-              borderRadius: 50.r, textSize: 6.sp,
+              borderRadius: 50.r,
+              textSize: 6.sp,
             ),
             SizedBox(
               height: 20.h,
@@ -892,34 +893,20 @@ class AuthPage extends StatelessWidget {
       // padding: EdgeInsets.symmetric(vertical: 16.h),
       margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.h),
       decoration: BoxDecoration(
-          color: KalakarColors.appBarBackground,
+          // color: KalakarColors.appBarBackground,
           borderRadius: BorderRadius.circular(16.r)),
-      child: Center(
-          child: Text(
-        KalakarConstants.kalakaar,
-        style: TextStyle(
-            color: KalakarColors.appBarText,
-            fontWeight: FontWeight.w500,
-            fontSize: 35.sp),
-      )),
+      child: Center(child: Image.asset("assets/images/app_bar_logo.png")),
     );
   }
 
   appBarWebView() {
     return Container(
       // padding: EdgeInsets.symmetric(vertical: 16.h),
-      margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.h),
-      decoration: BoxDecoration(
-          color: KalakarColors.appBarBackground,
-          borderRadius: BorderRadius.circular(16.r)),
-      child: Center(
-          child: Text(
-        KalakarConstants.kalakaar,
-        style: TextStyle(
-            color: KalakarColors.appBarText,
-            fontWeight: FontWeight.w500,
-            fontSize: 10.sp),
-      )),
+      // margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.h),
+      // decoration: BoxDecoration(
+          // color: KalakarColors.appBarBackground,
+          // borderRadius: BorderRadius.circular(16.r)),
+      // child: Center(child: Image.asset("assets/images/app_bar_logo.png")),
     );
   }
 
