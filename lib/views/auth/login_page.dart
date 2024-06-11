@@ -37,7 +37,7 @@ class AuthPage extends StatelessWidget {
             ),
             SizedBox(
               height: Get.size.height / 1.4,
-              child: ScreenTypeLayout.builder(
+                child: ScreenTypeLayout.builder(
                 mobile: (BuildContext context) => tabBarMobileView(),
                 tablet: (BuildContext context) => tabBarWebView(),
               ),

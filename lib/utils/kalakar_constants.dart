@@ -11,7 +11,7 @@ class KalakarConstants {
   static const String fieldName = "Field Name";
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
-  static const String whatsappNumber = "Mobile Number";
+  static const String whatsappNumber = "WhatsApp Number";
   static const String email = "Email";
   static const String artist = "Artist";
   static const String company = "Company";
@@ -32,4 +32,14 @@ class KalakarConstants {
   static const String signupText = "Let's get started by filling out the form below.";
   static const String sigInText = "Fill out the information below in order to access your account";
   static const String kalakaar = "KALAKAAR";
+  static const String home = "Home";
+  static const String profile = "Profile";
+  static const String settings = "Settings";
+  static const String opportunities = "Opportunities";
+  static const String namskarKalakar = "Namskar Kalakaar";
+  static const String searchAnything = "Search Anything";
+  static const String newOpportunities = "New Opportunities :";
+  static const String seeAll = "See all >>";
+  static const String upcomingProjects = "Upcoming Projects :";
+  static const String reviews = "REVIEWS :";
 }

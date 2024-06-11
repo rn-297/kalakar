@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 
 enum PasswordType { createPass, createCnfmPass, signInPass }
@@ -47,7 +48,9 @@ class AuthPageController extends GetxController {
     update();
   }
 
-  void signInCall() {}
+  void signInCall() {
+    Get.offNamed(RouteHelper.bottomNavigationPage);
+  }
 
   void signInWithGoogle() {}
 }
