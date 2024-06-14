@@ -429,123 +429,125 @@ class AuthPage extends StatelessWidget {
 
   mobileSignInPage() {
     return GetBuilder<AuthPageController>(builder: (authPageController) {
-      return SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: 16.h,
-            ),
-            Text(
-              KalakarConstants.welcomeBack,
-              style:
-                  TextStyle(color: KalakarColors.headerText, fontSize: 18.sp),
-            ),
-            SizedBox(
-              height: 4.h,
-            ),
-            Text(
-              KalakarConstants.sigInText,
-              style: TextStyle(color: KalakarColors.textColor, fontSize: 12.sp),
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            commonMobileTextField(
-                controller: authPageController.signInEmailOrMobile,
-                labelText: KalakarConstants.email,
-                obscureText: false,
-                passwordVisibility: false,
-                togglePasswordVisibility: () {}),
-            SizedBox(
-              height: 16.h,
-            ),
-            commonMobileTextField(
-                controller: authPageController.signInPassword,
-                labelText: KalakarConstants.password,
-                obscureText: true,
-                passwordVisibility: authPageController.signInPasswordValue,
-                togglePasswordVisibility: () {
-                  authPageController
-                      .setPasswordVisibility(PasswordType.signInPass);
-                }),
-            SizedBox(
-              height: 16.h,
-            ),
-            Center(
-              child: CustomMobileButtonWidget(
-                text: KalakarConstants.signIn,
-                onTap: () {
-                  authPageController.signInCall();
-                },
-                horizontalPadding: 50.0,
-                verticalPadding: 8.0,
-                fontSize: 20.0,
-                backgroundColor: KalakarColors.buttonBackground,
-                textColor: KalakarColors.headerText,
-                borderRadius: 50.0,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 5.0,
-                  ),
-                ],
+      return GestureDetector(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 16.h,
               ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Center(
+              Text(
+                KalakarConstants.welcomeBack,
+                style:
+                    TextStyle(color: KalakarColors.headerText, fontSize: 18.sp),
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              Text(
+                KalakarConstants.sigInText,
+                style: TextStyle(color: KalakarColors.textColor, fontSize: 12.sp),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              commonMobileTextField(
+                  controller: authPageController.signInEmailOrMobile,
+                  labelText: KalakarConstants.email,
+                  obscureText: false,
+                  passwordVisibility: false,
+                  togglePasswordVisibility: () {}),
+              SizedBox(
+                height: 16.h,
+              ),
+              commonMobileTextField(
+                  controller: authPageController.signInPassword,
+                  labelText: KalakarConstants.password,
+                  obscureText: true,
+                  passwordVisibility: authPageController.signInPasswordValue,
+                  togglePasswordVisibility: () {
+                    authPageController
+                        .setPasswordVisibility(PasswordType.signInPass);
+                  }),
+              SizedBox(
+                height: 16.h,
+              ),
+              Center(
+                child: CustomMobileButtonWidget(
+                  text: KalakarConstants.signIn,
+                  onTap: () {
+                    authPageController.signInCall();
+                  },
+                  horizontalPadding: 50.0,
+                  verticalPadding: 8.0,
+                  fontSize: 20.0,
+                  backgroundColor: KalakarColors.buttonBackground,
+                  textColor: KalakarColors.headerText,
+                  borderRadius: 50.0,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5.0,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Center(
+                  child: Text(
+                KalakarConstants.orSignInWith,
+                style: TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
+              )),
+              SizedBox(
+                height: 20.h,
+              ),
+              Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
+                  decoration: BoxDecoration(
+                      // color: KalakarColors.background,
+                      border: Border.all(color: KalakarColors.border),
+                      borderRadius: BorderRadius.circular(50.r)),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      "G",
+                      style: TextStyle(
+                          fontSize: 25.sp,
+                          color: KalakarColors.textColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 16.w,
+                    ),
+                    Text(
+                      KalakarConstants.continueWithGoogle,
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: KalakarColors.textColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Center(
                 child: Text(
-              KalakarConstants.orSignInWith,
-              style: TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
-            )),
-            SizedBox(
-              height: 20.h,
-            ),
-            Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                    // color: KalakarColors.background,
-                    border: Border.all(color: KalakarColors.border),
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text(
-                    "G",
-                    style: TextStyle(
-                        fontSize: 25.sp,
-                        color: KalakarColors.textColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 16.w,
-                  ),
-                  Text(
-                    KalakarConstants.continueWithGoogle,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: KalakarColors.textColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ]),
+                  KalakarConstants.forgotPassword,
+                  style: TextStyle(
+                      color: KalakarColors.white, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Center(
-              child: Text(
-                KalakarConstants.forgotPassword,
-                style: TextStyle(
-                    color: KalakarColors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 40.h,
-            )
-          ],
+              SizedBox(
+                height: 40.h,
+              )
+            ],
+          ),
         ),
       );
     });

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 
@@ -17,7 +20,7 @@ class KalakarHomePage extends StatelessWidget {
           children: [
             Text(
               KalakarConstants.namskarKalakar,
-              style: TextStyle(color: KalakarColors.white),
+              style: TextStyle(color: KalakarColors.white, fontSize: 14.sp),
             ),
             Text(
               "Rohan Warang",
@@ -30,7 +33,21 @@ class KalakarHomePage extends StatelessWidget {
             Icons.notifications,
             size: 35,
           ),
-          // Image(image: image)
+          SizedBox(
+            width: 8.h,
+          ),
+          ClipOval(
+            // Image radius
+            child: Image.asset(
+              "assets/images/app_bar_logo.png",
+              fit: BoxFit.cover,
+              height: 50.h,
+              width: 50.h,
+            ),
+          ),
+          SizedBox(
+            width: 20.w,
+          )
         ],
         bottom: PreferredSize(
           preferredSize: Size(double.infinity, 70.h),
@@ -76,7 +93,100 @@ class KalakarHomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(child: Text("Kalakar Home")),
+      body: Container(
+        color: KalakarColors.appBarBackground1,
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  KalakarConstants.newOpportunities,
+                  style: TextStyle(fontSize: 16.sp),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Text(
+                    KalakarConstants.seeAll,
+                    style: TextStyle(fontSize: 16.sp),
+                  ),
+                )
+              ],
+            ),
+            Container(
+              height: Get.size.height / 2.8,
+
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.all(8.h),
+                      padding: EdgeInsets.all(8.h),
+                      width: Get.size.width/2,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: KalakarColors.appBarBackground1,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                          ),
+                        ],
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+
+                          children: [
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: Icon(CupertinoIcons.suit_heart)),
+                            ClipOval(
+                              // Image radius
+                              child: Image.asset(
+                                "assets/images/app_bar_logo.png",
+                                fit: BoxFit.cover,
+                                height: 80.h,
+                                width: 80.h,
+                              ),
+                            ),
+                            Text("Company Name"),
+                            Divider(
+                              color: Colors.grey,
+                              height: 20,
+                              thickness: 2,
+                              // indent: 20,
+                              // endIndent: 20,
+                            ),
+                            Container(
+                              color: KalakarColors.white,
+                              padding: EdgeInsets.all(4.h),
+                              child: InkWell(
+                                  child: Container(
+                                margin: EdgeInsets.all(4.h),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 4.h, horizontal: 16.w),
+                                decoration: BoxDecoration(boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 5.0,
+                                  ),
+                                ], color: KalakarColors.white),
+                                child: Text("Good Looking Models"),
+                              )),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
