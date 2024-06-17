@@ -34,8 +34,11 @@ class KalakarConstants {
   static const String kalakaar = "KALAKAAR";
   static const String home = "Home";
   static const String profile = "Profile";
+  static const String profile1 = "PROFILE";
   static const String settings = "Settings";
   static const String opportunities = "Opportunities";
+  static const String opportunitiesText = "1st Step To Prove Yourself";
+  static const String opportunities1 = "OPPORTUNITIES";
   static const String namskarKalakar = "Namskar Kalakaar";
   static const String searchAnything = "Search Anything";
   static const String newOpportunities = "New Opportunities :";

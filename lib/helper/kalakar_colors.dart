@@ -7,6 +7,7 @@ class KalakarColors{
   static const  Color black = Color(0xFF4D4D4D);
   static const  Color white = Color(0xFFFFFFFF);
   static const  Color appBarBackground = Color(0xFF39D2C0);
+  static const  Color lightAppBarBackground = Color(0xFFeafaf8);
   static const  Color appBarBackground1 = Color(0xFFf3f3f3);
 
   static const  Color appBarText = Color(0xFf1e2529);
