@@ -45,4 +45,16 @@ class KalakarConstants {
   static const String seeAll = "See all >>";
   static const String upcomingProjects = "Upcoming Projects :";
   static const String reviews = "REVIEWS :";
+  static const String portfolio = "PORTFOLIO :";
+  static const String experienceLevel = "Experience Level";
+  static const String moreInfo = "More Info";
+  static const String experience = "EXPERIENCE :";
+  static const String age = "Age";
+  static const String height = "Height";
+  static const String weight = "Weight";
+  static const String bio = "Bio :";
+  static const String city = "City";
+  static const String district = "District";
+  static const String state = "State";
+  static const String kalakarId = "Kalakaar ID :";
 }
