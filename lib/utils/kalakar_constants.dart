@@ -1,7 +1,40 @@
 class KalakarConstants {
   //API
-  static const String BASE_URL="";
-  static const String NO_INTERNET_MESSAGE="";
+    //auth apis
+  static const String baseURL="http://ec2-3-111-135-189.ap-south-1.compute.amazonaws.com";
+  static const String getCreateAccountOtp="/Account/CreateAccountGetOTP";
+  static const String createAccountApi="/Account/CreateAccount";
+  static const String getForgotPasswordOtpApi="/Account/ForgotPasswordGetOTP";
+  static const String setNewPasswordApi="/Account/SetForgotPassword";
+  static const String getChangePasswordApi="/Account/ChangePassword";
+  static const String getLoginApi="/Account/AccountLogin";
+  static const String noInternetMessage="No Internet Connection !!!";
+    //artist profile api
+  static const String saveArtistProfileApi = "/SaveArtistProfile";
+  static const String saveArtistProfileEducationApi = "/SaveArtistProfile_Education";
+  static const String saveArtistProfileHobbiesApi = "/SaveArtistProfile_Hobbies";
+  static const String saveArtistProfileInterestsApi = "/SaveArtistProfile_Interest";
+  static const String saveArtistProfileComfortableInApi = "/SaveArtistProfile_ComfortableIn";
+  static const String saveArtistProfileApplyForApi = "/ArtistProfile_ApplyFor";
+  static const String saveArtistProfileDocumentsApi = "/ArtistProfile_ApplyFor";
+  static const String saveArtistProfileExperienceApi = "/SaveArtistProfile_Experience";
+    //company profile apis
+  static const String saveCompanyProfileBasicsApi = "/CompanyProfile/SaveBasicCompanyProfile";
+  static const String sendCompanyProfileForVerificationApi = "/CompanyProfile/SendProfileForVerification";
+  static const String getCompanyProfileContactVerificationOtpApi = "/CompanyProfile/GetOTPVerificationCompanyContacts";
+  static const String verifyCompanyProfileContactsApi = "/CompanyProfile/VerifyCompanyContacts";
+  static const String saveCompanyProfileMoreInfoApi = "/CompanyProfile/VerifyCompanyContacts";
+  static const String getCompanyProfileDetailsApi = "/CompanyProfile/GetCompanyProileDetails";
+  static const String saveCompanyProfileProjectApi = "/CompanyProfile/SaveCompanyProject";
+  static const String deleteCompanyProfileProjectApi = "/CompanyProfile/DeleteCompanyProject";
+  static const String deleteCompanyProfileProjectDocumentApi = "/CompanyProfile/DeleteCompanyProject_Documents";
+  static const String getCompanyProfileProjectsApi = "/CompanyProfile/GetCompanyProjects";
+  static const String getCompanyProfileProjectDocumentsApi = "/CompanyProfile/GetCompanyProjects";
+    //requirement details apis
+  static const String saveRequirementsDetailsApi="/SaveRequirementDetails";
+  static const String deleteRequirementsDetailsApi="/DeleteRequirementDetails";
+  static const String getRequirementsDetailsCompanyApi="/RequirementDetails_Company";
+  static const String searchRequirementsDetailsArtistsApi="/SearchRequirementDetails_Artist";
   //Strings
   static const String usernameHint = "E-mail Id or Contact Number";
   static const String passwordHint = "Password";

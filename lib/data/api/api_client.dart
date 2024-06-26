@@ -14,10 +14,10 @@ abstract class ApiClient extends GetxService {
       var connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult.isEmpty) {
         return Response(
-            statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
       }
       Http.Response _response = await client
-          .get(Uri.parse(KalakarConstants.BASE_URL + uri))
+          .get(Uri.parse(KalakarConstants.baseURL + uri))
           .timeout(Duration(seconds: timeoutInSeconds));
       Response response = Response(
         body: _response.body,
@@ -27,22 +27,22 @@ abstract class ApiClient extends GetxService {
     } catch (ex) {
       print(ex);
       return Response(
-          statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
     }
   }
 
   static Future<dynamic> postData(String uri, dynamic body) async {
     try {
-      // print(KalakarConstants.BASE_URL + uri);
+      // print(KalakarConstants.baseURL + uri);
       // print(body);
       var connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult.isEmpty) {
         return Response(
-            statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
       }
       var _response = await client
           .post(
-            Uri.parse(KalakarConstants.BASE_URL + uri),
+            Uri.parse(KalakarConstants.baseURL + uri),
             body: body,
           )
           .timeout(Duration(seconds: timeoutInSeconds));
@@ -52,21 +52,23 @@ abstract class ApiClient extends GetxService {
     } catch (ex) {
       print(ex);
       return Response(
-          statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
     }
   }
 
+
+
   static Future<dynamic> postListData(String uri, dynamic body) async {
     try {
-      print(KalakarConstants.BASE_URL + uri);
+      print(KalakarConstants.baseURL + uri);
       print(body);
       var connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult.isEmpty) {
         return Response(
-            statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
       }
       var _response = await client.post(
-          Uri.parse(KalakarConstants.BASE_URL + uri),
+          Uri.parse(KalakarConstants.baseURL + uri),
           body: body,
           headers: {
             "Accept": "application/json",
@@ -78,18 +80,18 @@ abstract class ApiClient extends GetxService {
     } catch (ex) {
       print(ex);
       return Response(
-          statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
     }
   }
 
   static postDataToken(String uri, dynamic body, String accessToken) async {
     try {
-      print(KalakarConstants.BASE_URL + uri);
+      print(KalakarConstants.baseURL + uri);
       print(body);
       var connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult.isEmpty) {
         return Response(
-            statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
       }
       Map<String, String> headers = {
         "Accept": "application/json",
@@ -99,7 +101,7 @@ abstract class ApiClient extends GetxService {
 
       var _response = await client
           .post(
-            Uri.parse(KalakarConstants.BASE_URL + uri),
+            Uri.parse(KalakarConstants.baseURL + uri),
             headers: headers,
             body: body,
           )
@@ -111,7 +113,7 @@ abstract class ApiClient extends GetxService {
     } catch (ex) {
       print(ex);
       return Response(
-          statusCode: 1, statusText: KalakarConstants.NO_INTERNET_MESSAGE);
+          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
     }
   }
 }

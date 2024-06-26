@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:kalakar/views/auth/create_account_page.dart';
+import 'package:kalakar/views/auth/forgot_password.dart';
 import 'package:kalakar/views/auth/login_page.dart';
 import 'package:kalakar/views/bottom_navigation/bottom_navigator.dart';
 
@@ -22,7 +22,7 @@ class RouteHelper {
     ),
     GetPage(
       name: createAccount,
-      page: () => CreateAccountPage(),
+      page: () => ForgotPasswordPage(),
     ),
     GetPage(
       name: bottomNavigationPage,

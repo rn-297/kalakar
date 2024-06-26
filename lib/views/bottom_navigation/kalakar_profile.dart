@@ -241,6 +241,13 @@ class KalakarProfilePage extends StatelessWidget {
               height: 16.h,
             ),
             Text(KalakarConstants.portfolio),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 8.w),
+              child: Divider(
+                height: 10.h,
+                thickness: 1.0,
+              ),
+            ),
             SizedBox(
               height: 16.h,
             ),
@@ -248,6 +255,10 @@ class KalakarProfilePage extends StatelessWidget {
               height: 10.h,
               thickness: 3.0,
             ),
+            SizedBox(
+              height: 16.h,
+            ),
+            Text(KalakarConstants.experience),
           ],
         ),
       ),

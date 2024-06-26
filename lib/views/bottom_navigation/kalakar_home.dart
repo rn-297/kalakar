@@ -440,7 +440,7 @@ class KalakarHomePage extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                    child:Image.asset(
-                                    "assets/images/movie.webp",
+                                    "assets/images/movie.png",
                                     fit: BoxFit.fitWidth,
 
                                   ),),
@@ -457,6 +457,65 @@ class KalakarHomePage extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h,),
                 Text(KalakarConstants.reviews),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 5,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: EdgeInsets.all(8.h),
+                        padding: EdgeInsets.all(8.h),
+                        // width: Get.size.width / 2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: KalakarColors.appBarBackground1,
+                          border: Border.all(color: KalakarColors.black),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
+                            ),
+                          ],
+                        ),
+                        child: SingleChildScrollView(
+                          child: Row(
+                            children: [
+
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50.r),
+                                  child:Image.asset(
+                                    "assets/images/movie.png",
+                                    fit: BoxFit.cover,
+height: 80.h,
+width: 80.h,
+                                  ),),
+                              ),
+
+                              Expanded(
+                                flex: 3,
+                                child: Padding(
+                                  padding:  EdgeInsets.symmetric(horizontal:8.h),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Director Name"),
+                                      Text("Movies Names"),
+                                      Container(
+                                        padding: EdgeInsets.all(8.h),
+                                          decoration: BoxDecoration(),
+                                          child: Text("Reviws")),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
@@ -659,7 +718,7 @@ class KalakarHomePage extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                    child:Image.asset(
-                                    "assets/images/movie.webp",
+                                    "assets/images/movie.png",
                                     fit: BoxFit.fitWidth,
 
                                   ),),
@@ -707,15 +766,14 @@ class KalakarHomePage extends StatelessWidget {
             SizedBox(
               width: 8.h,
             ),
-            ClipOval(
-              // Image radius
-              child: Image.asset(
-                "assets/images/app_bar_logo.png",
-                fit: BoxFit.cover,
-                height: 50.h,
-                width: 50.h,
+            Container(decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2,),
+              image: DecorationImage(
+                  image: AssetImage("assets/images/person.png"),
+                  fit: BoxFit.fill
               ),
-            ),
+            ),),
             SizedBox(
               width: 20.w,
             )

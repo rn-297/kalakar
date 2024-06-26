@@ -6,8 +6,8 @@ import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class CreateAccountPage extends StatelessWidget {
-  const CreateAccountPage({super.key});
+class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
