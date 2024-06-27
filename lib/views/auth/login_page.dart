@@ -7,11 +7,13 @@ import 'package:kalakar/controller/auth_page_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/custom_widgets/continue_with_google_widget.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
+import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:otp_input_editor/otp_input_editor.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../custom_widgets/toggle_button.dart';
+import '../../helper/common_widgets.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -165,7 +167,6 @@ class AuthPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Form(
-
               key: authPageController.formGetOtpKey,
               child: Column(
                 children: [
@@ -174,21 +175,21 @@ class AuthPage extends StatelessWidget {
                   ),
                   Text(
                     KalakarConstants.newKalakaarAccount,
-                    style:
-                        TextStyle(color: KalakarColors.headerText, fontSize: 18.sp),
+                    style: TextStyle(
+                        color: KalakarColors.headerText, fontSize: 18.sp),
                   ),
                   SizedBox(
                     height: 4.h,
                   ),
                   Text(
                     KalakarConstants.signupText,
-                    style:
-                        TextStyle(color: KalakarColors.textColor, fontSize: 12.sp),
+                    style: TextStyle(
+                        color: KalakarColors.textColor, fontSize: 12.sp),
                   ),
                   SizedBox(
                     height: 16.h,
                   ),
-                  commonMobileTextField(
+                  CommonWidgets.commonMobileTextField(
                       controller: authPageController.createFirstName,
                       labelText: KalakarConstants.firstName,
                       obscureText: false,
@@ -198,7 +199,7 @@ class AuthPage extends StatelessWidget {
                   SizedBox(
                     height: 14.h,
                   ),
-                  commonMobileTextField(
+                  CommonWidgets.commonMobileTextField(
                       controller: authPageController.createLastName,
                       labelText: KalakarConstants.lastName,
                       obscureText: false,
@@ -208,23 +209,24 @@ class AuthPage extends StatelessWidget {
                   SizedBox(
                     height: 14.h,
                   ),
-                  commonMobileTextField(
+                  CommonWidgets.commonMobileTextField(
                       controller: authPageController.createEmail,
                       labelText: KalakarConstants.email,
                       obscureText: false,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createEmailIdValidator),
+                      validator: authPageController.createEmailValidator),
                   SizedBox(
                     height: 14.h,
                   ),
-                  commonMobileTextField(
+                  CommonWidgets.commonMobileTextField(
                       controller: authPageController.createWhatsappNumber,
                       labelText: KalakarConstants.whatsappNumber,
                       obscureText: false,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createMobileNumberValidator),
+                      validator:
+                          authPageController.createMobileNumberValidator),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -233,9 +235,8 @@ class AuthPage extends StatelessWidget {
             ),
             authPageController.isOtpSent
                 ? Form(
-
-              key: authPageController.formCreateAccountKey,
-                  child: Column(
+                    key: authPageController.formCreateAccountKey,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
@@ -253,7 +254,7 @@ class AuthPage extends StatelessWidget {
                         SizedBox(
                           height: 16.h,
                         ),
-                        commonMobileTextField(
+                        CommonWidgets.commonMobileTextField(
                             controller: authPageController.createPassword,
                             labelText: KalakarConstants.password,
                             obscureText: true,
@@ -268,7 +269,7 @@ class AuthPage extends StatelessWidget {
                         SizedBox(
                           height: 16.h,
                         ),
-                        commonMobileTextField(
+                        CommonWidgets.commonMobileTextField(
                             controller: authPageController.createCnfmPassword,
                             labelText: KalakarConstants.cnfmPassword,
                             obscureText: true,
@@ -345,12 +346,12 @@ class AuthPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                )
+                  )
                 : Center(
                     child: CustomMobileButtonWidget(
                       text: KalakarConstants.getOtp,
                       onTap: () {
-                        authPageController.getOTP();
+                        authPageController.getOTP(OTPType.createAccount);
                       },
                       horizontalPadding: 50.0,
                       verticalPadding: 8.0,
@@ -372,16 +373,14 @@ class AuthPage extends StatelessWidget {
             Center(
                 child: Text(
               KalakarConstants.orSignupWith,
-              style:
-                  TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
+              style: TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
             )),
             SizedBox(
               height: 20.h,
             ),
             Center(
               child: Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
+                padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
                 decoration: BoxDecoration(
                     // color: KalakarColors.background,
                     border: Border.all(color: KalakarColors.border),
@@ -425,7 +424,7 @@ class AuthPage extends StatelessWidget {
         authPageController.setOtpValue(value);
       },
       onInitialization: (OtpInputController otpInputController) {},
-      invalid: false,
+      invalid: true,
       otpTextFieldBackgroundColor: Colors.white,
       cursorHeight: 25,
       boxShadow: const [
@@ -457,127 +456,147 @@ class AuthPage extends StatelessWidget {
     return GetBuilder<AuthPageController>(builder: (authPageController) {
       return GestureDetector(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 16.h,
-              ),
-              Text(
-                KalakarConstants.welcomeBack,
-                style:
-                    TextStyle(color: KalakarColors.headerText, fontSize: 18.sp),
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
-              Text(
-                KalakarConstants.sigInText,
-                style:
-                    TextStyle(color: KalakarColors.textColor, fontSize: 12.sp),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              commonMobileTextField(
-                  controller: authPageController.signInEmailOrMobile,
-                  labelText: KalakarConstants.email,
-                  obscureText: false,
-                  passwordVisibility: false,
-                  togglePasswordVisibility: () {},validator: authPageController
-                  .createEmailValidator),
-              SizedBox(
-                height: 16.h,
-              ),
-              commonMobileTextField(
-                  controller: authPageController.signInPassword,
-                  labelText: KalakarConstants.password,
-                  obscureText: true,
-                  passwordVisibility: authPageController.signInPasswordValue,
-                  togglePasswordVisibility: () {
-                    authPageController
-                        .setPasswordVisibility(PasswordType.signInPass);
-                  },validator: authPageController
-                  .createPasswordValidator),
-              SizedBox(
-                height: 16.h,
-              ),
-              Center(
-                child: CustomMobileButtonWidget(
-                  text: KalakarConstants.signIn,
-                  onTap: () {
-                    authPageController.signInCall();
-                  },
-                  horizontalPadding: 50.0,
-                  verticalPadding: 8.0,
-                  fontSize: 20.0,
-                  backgroundColor: KalakarColors.buttonBackground,
-                  textColor: KalakarColors.headerText,
-                  borderRadius: 50.0,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
-                    ),
+          child: Form(
+            key: authPageController.formSignInKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 16.h,
+                ),
+                Text(
+                  KalakarConstants.welcomeBack,
+                  style: TextStyle(
+                      color: KalakarColors.headerText, fontSize: 18.sp),
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                Text(
+                  KalakarConstants.sigInText,
+                  style: TextStyle(
+                      color: KalakarColors.textColor, fontSize: 12.sp),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: authPageController.signInEmailOrMobile,
+                    labelText: KalakarConstants.email,
+                    obscureText: false,
+                    passwordVisibility: false,
+                    togglePasswordVisibility: () {},
+                    validator: authPageController.createEmailValidator),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: authPageController.signInPassword,
+                    labelText: KalakarConstants.password,
+                    obscureText: true,
+                    passwordVisibility: authPageController.signInPasswordValue,
+                    togglePasswordVisibility: () {
+                      authPageController
+                          .setPasswordVisibility(PasswordType.signInPass);
+                    },
+                    validator: authPageController.createPasswordValidator),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: (){
+                        Get.toNamed(RouteHelper.forgotPassword);
+                      },
+                        child: Text(
+                      KalakarConstants.forgotPassword,
+                      style: TextStyle(color: KalakarColors.headerText),
+                    )),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Center(
+                SizedBox(
+                  height: 16.h,
+                ),
+                Center(
+                  child: CustomMobileButtonWidget(
+                    text: KalakarConstants.signIn,
+                    onTap: () {
+                      authPageController.signInCall();
+                    },
+                    horizontalPadding: 50.0,
+                    verticalPadding: 8.0,
+                    fontSize: 20.0,
+                    backgroundColor: KalakarColors.buttonBackground,
+                    textColor: KalakarColors.headerText,
+                    borderRadius: 50.0,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 5.0,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Center(
+                    child: Text(
+                  KalakarConstants.orSignInWith,
+                  style:
+                      TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
+                )),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Center(
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
+                    decoration: BoxDecoration(
+                        // color: KalakarColors.background,
+                        border: Border.all(color: KalakarColors.border),
+                        borderRadius: BorderRadius.circular(50.r)),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Text(
+                        "G",
+                        style: TextStyle(
+                            fontSize: 25.sp,
+                            color: KalakarColors.textColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 16.w,
+                      ),
+                      Text(
+                        KalakarConstants.continueWithGoogle,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: KalakarColors.textColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ]),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Center(
                   child: Text(
-                KalakarConstants.orSignInWith,
-                style:
-                    TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
-              )),
-              SizedBox(
-                height: 20.h,
-              ),
-              Center(
-                child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
-                  decoration: BoxDecoration(
-                      // color: KalakarColors.background,
-                      border: Border.all(color: KalakarColors.border),
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Text(
-                      "G",
-                      style: TextStyle(
-                          fontSize: 25.sp,
-                          color: KalakarColors.textColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 16.w,
-                    ),
-                    Text(
-                      KalakarConstants.continueWithGoogle,
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: KalakarColors.textColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ]),
+                    KalakarConstants.forgotPassword,
+                    style: TextStyle(
+                        color: KalakarColors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Center(
-                child: Text(
-                  KalakarConstants.forgotPassword,
-                  style: TextStyle(
-                      color: KalakarColors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(
-                height: 40.h,
-              )
-            ],
+                SizedBox(
+                  height: 40.h,
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -609,44 +628,43 @@ class AuthPage extends StatelessWidget {
             SizedBox(
               height: 16.h,
             ),
-            commonMobileTextField(
+            CommonWidgets.commonMobileTextField(
                 controller: authPageController.createFirstName,
                 labelText: KalakarConstants.firstName,
                 obscureText: false,
                 passwordVisibility: false,
-                togglePasswordVisibility: () {},validator: authPageController
-                .createFirstNameValidator),
+                togglePasswordVisibility: () {},
+                validator: authPageController.createFirstNameValidator),
             SizedBox(
               height: 14.h,
             ),
-            commonMobileTextField(
+            CommonWidgets.commonMobileTextField(
                 controller: authPageController.createLastName,
                 labelText: KalakarConstants.lastName,
                 obscureText: false,
                 passwordVisibility: false,
                 togglePasswordVisibility: () {},
-                validator: authPageController
-                    .createLastNameValidator),
+                validator: authPageController.createLastNameValidator),
             SizedBox(
               height: 14.h,
             ),
-            commonMobileTextField(
+            CommonWidgets.commonMobileTextField(
                 controller: authPageController.createEmail,
                 labelText: KalakarConstants.email,
                 obscureText: false,
                 passwordVisibility: false,
-                togglePasswordVisibility: () {},validator: authPageController
-                .createEmailValidator),
+                togglePasswordVisibility: () {},
+                validator: authPageController.createEmailValidator),
             SizedBox(
               height: 14.h,
             ),
-            commonMobileTextField(
+            CommonWidgets.commonMobileTextField(
                 controller: authPageController.createWhatsappNumber,
                 labelText: KalakarConstants.whatsappNumber,
                 obscureText: false,
                 passwordVisibility: false,
-                togglePasswordVisibility: () {},validator: authPageController
-                .createMobileNumberValidator),
+                togglePasswordVisibility: () {},
+                validator: authPageController.createMobileNumberValidator),
             SizedBox(
               height: 14.h,
             ),
@@ -668,7 +686,7 @@ class AuthPage extends StatelessWidget {
                       SizedBox(
                         height: 16.h,
                       ),
-                      commonMobileTextField(
+                      CommonWidgets.commonMobileTextField(
                           controller: authPageController.createPassword,
                           labelText: KalakarConstants.password,
                           obscureText: true,
@@ -677,12 +695,13 @@ class AuthPage extends StatelessWidget {
                           togglePasswordVisibility: () {
                             authPageController
                                 .setPasswordVisibility(PasswordType.createPass);
-                          },validator: authPageController
-                          .createPasswordValidator),
+                          },
+                          validator:
+                              authPageController.createPasswordValidator),
                       SizedBox(
                         height: 16.h,
                       ),
-                      commonMobileTextField(
+                      CommonWidgets.commonMobileTextField(
                           controller: authPageController.createCnfmPassword,
                           labelText: KalakarConstants.cnfmPassword,
                           obscureText: true,
@@ -762,7 +781,7 @@ class AuthPage extends StatelessWidget {
                     child: CustomMobileButtonWidget(
                       text: KalakarConstants.getOtp,
                       onTap: () {
-                        authPageController.getOTP();
+                        authPageController.getOTP(OTPType.createAccount);
                       },
                       horizontalPadding: 10.w,
                       verticalPadding: 4.h,
@@ -841,18 +860,17 @@ class AuthPage extends StatelessWidget {
             SizedBox(
               height: 16.h,
             ),
-            commonMobileTextField(
+            CommonWidgets.commonMobileTextField(
                 controller: authPageController.signInEmailOrMobile,
                 labelText: KalakarConstants.email,
                 obscureText: false,
                 passwordVisibility: false,
                 togglePasswordVisibility: () {},
-                validator: authPageController
-                    .createEmailValidator),
+                validator: authPageController.createEmailValidator),
             SizedBox(
               height: 16.h,
             ),
-            commonMobileTextField(
+            CommonWidgets.commonMobileTextField(
                 controller: authPageController.signInPassword,
                 labelText: KalakarConstants.password,
                 obscureText: true,
@@ -860,8 +878,8 @@ class AuthPage extends StatelessWidget {
                 togglePasswordVisibility: () {
                   authPageController
                       .setPasswordVisibility(PasswordType.signInPass);
-                },validator: authPageController
-                .createPasswordValidator),
+                },
+                validator: authPageController.createPasswordValidator),
             SizedBox(
               height: 16.h,
             ),
@@ -954,53 +972,7 @@ class AuthPage extends StatelessWidget {
         );
   }
 
-  Widget commonMobileTextField({
-    required TextEditingController controller,
-    required String labelText,
-    required bool obscureText,
-    required bool passwordVisibility,
-    required VoidCallback? togglePasswordVisibility,
-    required String? Function(String?)? validator, // Added validator parameter
-    Color textColor = KalakarColors.textColor,
-    Color borderColor = KalakarColors.border,
-    Color focusedBorderColor = KalakarColors.selectedBorder,
-    Color labelColor = KalakarColors.textColor,
-    double borderRadius = 50.0,
-    EdgeInsetsGeometry contentPadding =
-        const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 12),
-  }) {
-    return TextFormField(
-      controller: controller,
-      style: TextStyle(color: textColor),
-      obscureText: passwordVisibility,
-      validator: validator,
-      // Added validator
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        labelText: labelText,
-        labelStyle: TextStyle(color: labelColor),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor, width: 1),
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedBorderColor, width: 1),
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        contentPadding: contentPadding,
-        suffixIcon: obscureText
-            ? InkWell(
-                onTap: togglePasswordVisibility,
-                child: Icon(passwordVisibility
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined),
-              )
-            : null,
-      ),
-    );
-  }
+
 
   Widget commonWebTextField({
     required TextEditingController controller,

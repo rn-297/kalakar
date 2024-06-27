@@ -37,11 +37,22 @@ class AuthPageController extends GetxController {
   TextEditingController signInEmailOrMobile = TextEditingController();
   TextEditingController signInPassword = TextEditingController();
 
+  //sign In
+  TextEditingController forgotPassEmail = TextEditingController();
+  TextEditingController forgotPassMobile = TextEditingController();
+
 
   final _formGetOtpKey = GlobalKey<FormState>();
+  final _formGetForgotOtpKey = GlobalKey<FormState>();
+  final _formSetForgotPassKey = GlobalKey<FormState>();
+  final _formSignInKey = GlobalKey<FormState>();
+
+  get formSignInKey => _formSignInKey;
+  final _formCreateAccountKey = GlobalKey<FormState>();
 
   get formGetOtpKey => _formGetOtpKey;
-  final _formCreateAccountKey = GlobalKey<FormState>();
+  get formGetForgotOtpKey => _formGetForgotOtpKey;
+  get formSetForgotPassKey => _formSetForgotPassKey;
 
   get formCreateAccountKey => _formCreateAccountKey;
 
@@ -53,43 +64,74 @@ class AuthPageController extends GetxController {
   }
   String? createLastNameValidator (String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter First Name';
+      return 'Please Enter Last Name';
     }
     return null;
   }
   String? createEmailValidator (String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter First Name';
+      return 'Please Enter Email';
+    }
+    // Regular expression for email validation
+    String pattern =
+        r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Enter a Valid Email';
     }
     return null;
   }
   String? createMobileNumberValidator (String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter First Name';
+      return 'Please Enter Mobile Number';
+    }
+    // Regular expression for 10-digit number validation
+    String pattern = r'^\d{10}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Enter a valid 10-digit mobile number';
     }
     return null;
   }
-  String? createEmailIdValidator (String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter First Name';
-    }
-    return null;
-  }
+
   String? createPasswordValidator (String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter First Name';
+      return 'Please Enter Password';
+    }
+    bool hasUppercase = value.contains(RegExp(r'[A-Z]'));
+    bool hasLowercase = value.contains(RegExp(r'[a-z]'));
+    bool hasDigits = value.contains(RegExp(r'[0-9]'));
+    bool hasSpecialCharacters = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    bool hasMinLength = value.length >= 8;
+
+    if (!hasUppercase) {
+      return 'Password must contain at least one uppercase letter';
+    }
+    if (!hasLowercase) {
+      return 'Password must contain at least one lowercase letter';
+    }
+    if (!hasDigits) {
+      return 'Password must contain at least one digit';
+    }
+    if (!hasSpecialCharacters) {
+      return 'Password must contain at least one special character';
+    }
+    if (!hasMinLength) {
+      return 'Password must be at least 8 characters long';
     }
     return null;
   }
   String? createConfirmPasswordValidator (String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter First Name';
+      return 'Please Enter Confirm Password';
     }
     return null;
   }
 
 
-  void getStartedCall() {}
+  void getStartedCall() {
+    if(_formGetOtpKey.currentState!.validate()&&_formCreateAccountKey.currentState!.validate()){}
+  }
 
   void setUserType(int index) {
     userType = index;
@@ -112,23 +154,32 @@ class AuthPageController extends GetxController {
     update();
   }
 
-  void getOTP() {
-    if (_formGetOtpKey.currentState!.validate()) {
-      // Process the form data
-
+  void getOTP(OTPType otpType) {
+    if(otpType==OTPType.createAccount){
+      if (_formGetOtpKey.currentState!.validate()) {
+        // Process the form data
+        isOtpSent=true;
+      }
+    }else if(otpType==OTPType.forgotPassword){
+      if (_formGetForgotOtpKey.currentState!.validate()) {
+        // Process the form data
+        isOtpSent=true;
+      }
     }
 
     update();
   }
 
   void signInCall() {
-    Get.offNamed(RouteHelper.bottomNavigationPage);
+    if (_formSignInKey.currentState!.validate()) {
+      Get.offNamed(RouteHelper.bottomNavigationPage);
+    }
   }
 
   void signInWithGoogle() {}
 
   ///API CALLS
-  Future<void> getOtp(OTPType otpType) async {
+  Future<void> getOtpApi(OTPType otpType) async {
     var body = {
       "vcrMobileNumber": createWhatsappNumber.text,
       "vcrEmail": createEmail.text
@@ -178,25 +229,27 @@ class AuthPageController extends GetxController {
   }
 
   Future<void> setForgotPassword() async {
-    var body = {
-      "vcrMobileNumber": "string",
-      "vcrEmail": "string",
-      "otp": "string",
-      "password": "string",
-      "confirmPassword": "string",
-      "userName": "string"
-    };
+    if(_formGetForgotOtpKey.currentState!.validate()&&_formSetForgotPassKey.currentState!.validate()){
+      var body = {
+        "vcrMobileNumber": "string",
+        "vcrEmail": "string",
+        "otp": "string",
+        "password": "string",
+        "confirmPassword": "string",
+        "userName": "string"
+      };
 
-    var response =
-    await ApiClient.postData(KalakarConstants.createAccountApi, body);
-    // print(response.statusCode);
-    // print(response);
+      var response =
+          await ApiClient.postData(KalakarConstants.createAccountApi, body);
+      // print(response.statusCode);
+      // print(response);
 
-    if (response.statusCode == 200) {
-      // print("response successful ${response.body}");
-      // Get.defaultDialog(
-      //   content: Text("response successful ${response.body}"),
-      // );
+      if (response.statusCode == 200) {
+        // print("response successful ${response.body}");
+        // Get.defaultDialog(
+        //   content: Text("response successful ${response.body}"),
+        // );
+      }
     }
   }
 
@@ -237,8 +290,4 @@ class AuthPageController extends GetxController {
     }
   }
 
-  bool validateFields(String type) {
-
-    return true;
-  }
 }
