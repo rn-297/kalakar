@@ -1,7 +1,8 @@
 class KalakarConstants {
   //API
     //auth apis
-  static const String baseURL="http://ec2-3-111-135-189.ap-south-1.compute.amazonaws.com";
+  // static const String baseURL="http://ec2-3-111-135-189.ap-south-1.compute.amazonaws.com";
+  static const String baseURL="http://3.111.135.189";
   static const String getCreateAccountOtp="/Account/CreateAccountGetOTP";
   static const String createAccountApi="/Account/CreateAccount";
   static const String getForgotPasswordOtpApi="/Account/ForgotPasswordGetOTP";

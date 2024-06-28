@@ -33,19 +33,20 @@ abstract class ApiClient extends GetxService {
 
   static Future<dynamic> postData(String uri, dynamic body) async {
     try {
-      // print(KalakarConstants.baseURL + uri);
-      // print(body);
+      print(KalakarConstants.baseURL + uri);
+      print(body);
       var connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult.isEmpty) {
         return Response(
             statusCode: 1, statusText: KalakarConstants.noInternetMessage);
       }
-      var _response = await client
-          .post(
-            Uri.parse(KalakarConstants.baseURL + uri),
-            body: body,
-          )
-          .timeout(Duration(seconds: timeoutInSeconds));
+      var _response = await client.post(
+          Uri.parse(KalakarConstants.baseURL + uri),
+          body: body,
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json"
+          }).timeout(Duration(seconds: timeoutInSeconds));
       // print(_response.);
 
       return _response;
@@ -55,8 +56,6 @@ abstract class ApiClient extends GetxService {
           statusCode: 1, statusText: KalakarConstants.noInternetMessage);
     }
   }
-
-
 
   static Future<dynamic> postListData(String uri, dynamic body) async {
     try {
@@ -72,7 +71,7 @@ abstract class ApiClient extends GetxService {
           body: body,
           headers: {
             "Accept": "application/json",
-            "content-type": "application/x-www-form-urlencoded"
+            "content-type": "application/json; charset=utf-8"
           }).timeout(Duration(seconds: timeoutInSeconds));
       print(_response);
 

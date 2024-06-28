@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -415,43 +416,60 @@ class AuthPage extends StatelessWidget {
     });
   }
 
-  OtpInputEditor _getOtpEditor(AuthPageController authPageController) {
-    return OtpInputEditor(
-      key: const Key("otp-field"),
-      obscureText: false,
-      otpLength: 4,
-      onOtpChanged: (value) {
-        authPageController.setOtpValue(value);
-      },
-      onInitialization: (OtpInputController otpInputController) {},
-      invalid: true,
-      otpTextFieldBackgroundColor: Colors.white,
-      cursorHeight: 25,
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 2.0,
-          spreadRadius: 1.0,
+
+
+  Widget _getOtpEditor(AuthPageController authPageController) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OtpInputEditor(
+          key: const Key("otp-field"),
+          obscureText: false,
+          otpLength: 4,
+          onOtpChanged: (value) {
+            authPageController.setOtpValue(value);
+          },
+          onInitialization: (OtpInputController otpInputController) {},
+          invalid: true,
+          otpTextFieldBackgroundColor: Colors.white,
+          cursorHeight: 25,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 2.0,
+              spreadRadius: 1.0,
+            ),
+          ],
+          fieldWidth: 20.w,
+          fieldHeight: 45.h,
+          cursorWidth: 1.5.w,
+          textInputStyle: TextStyle(
+            fontSize: 20.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          boxDecoration: BoxDecoration(
+            border: Border.all(
+              color: authPageController.otpError ? Colors.red : Colors.grey,
+              width: 1.w,
+            ),
+            borderRadius: BorderRadius.circular(5.r),
+          ),
         ),
+        authPageController.otpError
+            ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 4.h,
+            ),
+            Text("Please Enter Valid OTP",style: TextStyle(color: Colors.red),)
+          ],
+        )
+            : Container(),
       ],
-      fieldWidth: 20.w,
-      fieldHeight: 45.h,
-      cursorWidth: 1.5.w,
-      textInputStyle: TextStyle(
-        fontSize: 20.sp,
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-      ),
-      boxDecoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-          width: 1.w,
-        ),
-        borderRadius: BorderRadius.circular(5.r),
-      ),
     );
   }
-
   mobileSignInPage() {
     return GetBuilder<AuthPageController>(builder: (authPageController) {
       return GestureDetector(

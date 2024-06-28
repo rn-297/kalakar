@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
+import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 
 import '../data/api/api_client.dart';
 
@@ -32,6 +36,7 @@ class AuthPageController extends GetxController {
   bool createCnfmPasswordError = false;
   bool signInEmailOrMobileError = false;
   bool signInPasswordError = false;
+  bool otpError = false;
 
   //sign In
   TextEditingController signInEmailOrMobile = TextEditingController();
@@ -40,7 +45,6 @@ class AuthPageController extends GetxController {
   //sign In
   TextEditingController forgotPassEmail = TextEditingController();
   TextEditingController forgotPassMobile = TextEditingController();
-
 
   final _formGetOtpKey = GlobalKey<FormState>();
   final _formGetForgotOtpKey = GlobalKey<FormState>();
@@ -51,37 +55,41 @@ class AuthPageController extends GetxController {
   final _formCreateAccountKey = GlobalKey<FormState>();
 
   get formGetOtpKey => _formGetOtpKey;
+
   get formGetForgotOtpKey => _formGetForgotOtpKey;
+
   get formSetForgotPassKey => _formSetForgotPassKey;
 
   get formCreateAccountKey => _formCreateAccountKey;
 
-  String? createFirstNameValidator (String? value) {
+  String? createFirstNameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter First Name';
     }
     return null;
   }
-  String? createLastNameValidator (String? value) {
+
+  String? createLastNameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Last Name';
     }
     return null;
   }
-  String? createEmailValidator (String? value) {
+
+  String? createEmailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Email';
     }
     // Regular expression for email validation
-    String pattern =
-        r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    String pattern = r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Enter a Valid Email';
     }
     return null;
   }
-  String? createMobileNumberValidator (String? value) {
+
+  String? createMobileNumberValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Mobile Number';
     }
@@ -94,14 +102,15 @@ class AuthPageController extends GetxController {
     return null;
   }
 
-  String? createPasswordValidator (String? value) {
+  String? createPasswordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Password';
     }
     bool hasUppercase = value.contains(RegExp(r'[A-Z]'));
     bool hasLowercase = value.contains(RegExp(r'[a-z]'));
     bool hasDigits = value.contains(RegExp(r'[0-9]'));
-    bool hasSpecialCharacters = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    bool hasSpecialCharacters =
+        value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     bool hasMinLength = value.length >= 8;
 
     if (!hasUppercase) {
@@ -121,16 +130,20 @@ class AuthPageController extends GetxController {
     }
     return null;
   }
-  String? createConfirmPasswordValidator (String? value) {
+
+  String? createConfirmPasswordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Confirm Password';
     }
     return null;
   }
 
-
   void getStartedCall() {
-    if(_formGetOtpKey.currentState!.validate()&&_formCreateAccountKey.currentState!.validate()){}
+    if (_formGetOtpKey.currentState!.validate() &&
+        validateOtp() &&
+        _formCreateAccountKey.currentState!.validate()) {
+      createAccount();
+    }
   }
 
   void setUserType(int index) {
@@ -155,19 +168,20 @@ class AuthPageController extends GetxController {
   }
 
   void getOTP(OTPType otpType) {
-    if(otpType==OTPType.createAccount){
+    oTP = "";
+    if (otpType == OTPType.createAccount) {
       if (_formGetOtpKey.currentState!.validate()) {
         // Process the form data
-        isOtpSent=true;
+        getOtpApi(OTPType.createAccount);
       }
-    }else if(otpType==OTPType.forgotPassword){
+    } else if (otpType == OTPType.forgotPassword) {
       if (_formGetForgotOtpKey.currentState!.validate()) {
         // Process the form data
-        isOtpSent=true;
+        isOtpSent = true;
       }
     }
 
-    update();
+    // update();
   }
 
   void signInCall() {
@@ -180,6 +194,7 @@ class AuthPageController extends GetxController {
 
   ///API CALLS
   Future<void> getOtpApi(OTPType otpType) async {
+    KalakarDialogs.loadingDialog("Get OTP", "Sending OTP ...");
     var body = {
       "vcrMobileNumber": createWhatsappNumber.text,
       "vcrEmail": createEmail.text
@@ -187,19 +202,23 @@ class AuthPageController extends GetxController {
     String url = otpType == OTPType.createAccount
         ? KalakarConstants.getCreateAccountOtp
         : otpType == OTPType.forgotPassword
-        ? KalakarConstants.getForgotPasswordOtpApi
-        : KalakarConstants.getCreateAccountOtp;
+            ? KalakarConstants.getForgotPasswordOtpApi
+            : KalakarConstants.getCreateAccountOtp;
 
-    var response = await ApiClient.postData(url, body);
-    // print(response.statusCode);
-    // print(response);
+    var response = await ApiClient.postData(url, jsonEncode(body));
+    print(response);
+    Get.back();
 
     if (response.statusCode == 200) {
-      // print("response successful ${response.body}");
-      // Get.defaultDialog(
-      //   content: Text("response successful ${response.body}"),
-      // );
+      final String responseBody = await response.body;
+      print(responseBody);
+      final Map<String, dynamic> responseJSON = jsonDecode(responseBody);
+      ResponseModel generateOtpClass = ResponseModel.fromJson(responseJSON);
+
+      isOtpSent = generateOtpClass.replayStatus ?? false;
     }
+
+    update();
   }
 
   Future<void> createAccount() async {
@@ -207,49 +226,49 @@ class AuthPageController extends GetxController {
       "vcrMobileNumber": createWhatsappNumber.text,
       "vcrEmail": createEmail.text,
       "fistName": createFirstName.text,
-      "lastName": createLastName,
+      "lastName": createLastName.text,
       "otp": oTP,
       "password": createPassword.text,
       "confirmPassword": createCnfmPassword.text,
-      "accountType": userType,
+      "accountType":
+          userType == 0 ? KalakarConstants.artist : KalakarConstants.company,
       "userName": "userName"
     };
 
-    var response =
-    await ApiClient.postData(KalakarConstants.createAccountApi, body);
-    // print(response.statusCode);
+    var response = await ApiClient.postData(
+        KalakarConstants.createAccountApi, jsonEncode(body));
+    print(response.statusCode);
     // print(response);
 
     if (response.statusCode == 200) {
-      // print("response successful ${response.body}");
-      // Get.defaultDialog(
-      //   content: Text("response successful ${response.body}"),
-      // );
+      ResponseModel responseModel =
+          ResponseModel.fromJson(jsonDecode(response.body));
+      if (responseModel.replayStatus!) {
+        KalakarDialogs.successDialog("Account Created", responseModel.message!);
+      } else {
+        KalakarDialogs.successDialog(
+            "Account Creation Failed", responseModel.message!);
+      }
     }
   }
 
   Future<void> setForgotPassword() async {
-    if(_formGetForgotOtpKey.currentState!.validate()&&_formSetForgotPassKey.currentState!.validate()){
+    if (_formGetForgotOtpKey.currentState!.validate() &&
+        validateOtp() &&
+        _formSetForgotPassKey.currentState!.validate()) {
       var body = {
-        "vcrMobileNumber": "string",
-        "vcrEmail": "string",
-        "otp": "string",
-        "password": "string",
-        "confirmPassword": "string",
-        "userName": "string"
+        "vcrMobileNumber": forgotPassMobile.text,
+        "vcrEmail": forgotPassEmail.text,
+        "otp": oTP,
+        "password": createPassword.text,
+        "confirmPassword": createCnfmPassword.text,
+        "userName": "userName"
       };
 
-      var response =
-          await ApiClient.postData(KalakarConstants.createAccountApi, body);
-      // print(response.statusCode);
-      // print(response);
+      var response = await ApiClient.postData(
+          KalakarConstants.setNewPasswordApi, jsonEncode(body));
 
-      if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
-      }
+      if (response.statusCode == 200) {}
     }
   }
 
@@ -262,7 +281,7 @@ class AuthPageController extends GetxController {
     };
 
     var response =
-    await ApiClient.postData(KalakarConstants.createAccountApi, body);
+        await ApiClient.postData(KalakarConstants.createAccountApi, body);
     // print(response.statusCode);
     // print(response);
 
@@ -278,7 +297,7 @@ class AuthPageController extends GetxController {
     var body = {"password": "Rohan@123", "emailOrMobileNumber": "9405099756"};
 
     var response =
-    await ApiClient.postData(KalakarConstants.createAccountApi, body);
+        await ApiClient.postData(KalakarConstants.createAccountApi, body);
     // print(response.statusCode);
     // print(response);
 
@@ -290,4 +309,13 @@ class AuthPageController extends GetxController {
     }
   }
 
+  bool validateOtp() {
+    if (oTP.isEmpty || oTP.length < 4) {
+      otpError = true;
+    } else {
+      otpError = false;
+    }
+    update();
+    return oTP.isNotEmpty;
+  }
 }
