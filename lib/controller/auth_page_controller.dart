@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -45,6 +46,10 @@ class AuthPageController extends GetxController {
   //sign In
   TextEditingController forgotPassEmail = TextEditingController();
   TextEditingController forgotPassMobile = TextEditingController();
+
+  //Timer
+  late Timer timer;
+  int startTime = 90;
 
   final _formGetOtpKey = GlobalKey<FormState>();
   final _formGetForgotOtpKey = GlobalKey<FormState>();
@@ -133,7 +138,10 @@ class AuthPageController extends GetxController {
 
   String? createConfirmPasswordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter Confirm Password';
+      return 'Please enter confirm password';
+    }
+    if (value!=createPassword.text) {
+      return "Password didn't match" ;
     }
     return null;
   }
@@ -177,16 +185,18 @@ class AuthPageController extends GetxController {
     } else if (otpType == OTPType.forgotPassword) {
       if (_formGetForgotOtpKey.currentState!.validate()) {
         // Process the form data
-        isOtpSent = true;
+        getOtpApi(OTPType.forgotPassword);
+        // isOtpSent = true;
       }
     }
 
-    // update();
+    update();
   }
 
   void signInCall() {
     if (_formSignInKey.currentState!.validate()) {
-      Get.offNamed(RouteHelper.bottomNavigationPage);
+
+
     }
   }
 
@@ -194,6 +204,7 @@ class AuthPageController extends GetxController {
 
   ///API CALLS
   Future<void> getOtpApi(OTPType otpType) async {
+    isOtpSent=false;
     KalakarDialogs.loadingDialog("Get OTP", "Sending OTP ...");
     var body = {
       "vcrMobileNumber": createWhatsappNumber.text,
@@ -216,6 +227,7 @@ class AuthPageController extends GetxController {
       ResponseModel generateOtpClass = ResponseModel.fromJson(responseJSON);
 
       isOtpSent = generateOtpClass.replayStatus ?? false;
+      startTimer();
     }
 
     update();
@@ -268,8 +280,22 @@ class AuthPageController extends GetxController {
       var response = await ApiClient.postData(
           KalakarConstants.setNewPasswordApi, jsonEncode(body));
 
-      if (response.statusCode == 200) {}
+      if (response.statusCode == 200) {
+
+      }
     }
+  }
+
+  startTimer() {
+    startTime = 90;
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (startTime <= 0) {
+        timer.cancel();
+      } else {
+        startTime--;
+      }
+      update();
+    });
   }
 
   Future<void> changePassword() async {
@@ -294,7 +320,7 @@ class AuthPageController extends GetxController {
   }
 
   Future<void> accountLogin() async {
-    var body = {"password": "Rohan@123", "emailOrMobileNumber": "9405099756"};
+    var body = {"password": signInPassword.text, "emailOrMobileNumber": signInEmailOrMobile.text};
 
     var response =
         await ApiClient.postData(KalakarConstants.createAccountApi, body);
@@ -306,6 +332,7 @@ class AuthPageController extends GetxController {
       // Get.defaultDialog(
       //   content: Text("response successful ${response.body}"),
       // );
+      Get.offNamed(RouteHelper.bottomNavigationPage);
     }
   }
 

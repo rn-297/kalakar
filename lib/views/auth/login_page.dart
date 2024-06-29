@@ -1,4 +1,3 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -170,6 +169,7 @@ class AuthPage extends StatelessWidget {
             Form(
               key: authPageController.formGetOtpKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 16.h,
@@ -251,6 +251,26 @@ class AuthPage extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: _getOtpEditor(authPageController),
+                        ),
+                        SizedBox(height: 8.h,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            authPageController.startTime <= 0
+                                ? InkWell(
+                                    onTap: () {
+                                      authPageController
+                                          .getOTP(OTPType.createAccount);
+                                    },
+                                    child: Text(
+                                      "Resend OTP",
+                                      style: TextStyle(
+                                          color: KalakarColors.headerText),
+                                    ),
+                                  )
+                                : Text(
+                                    "Resend OTP in ${authPageController.startTime} seconds")
+                          ],
                         ),
                         SizedBox(
                           height: 16.h,
@@ -416,8 +436,6 @@ class AuthPage extends StatelessWidget {
     });
   }
 
-
-
   Widget _getOtpEditor(AuthPageController authPageController) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -458,18 +476,22 @@ class AuthPage extends StatelessWidget {
         ),
         authPageController.otpError
             ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 4.h,
-            ),
-            Text("Please Enter Valid OTP",style: TextStyle(color: Colors.red),)
-          ],
-        )
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    "Please Enter Valid OTP",
+                    style: TextStyle(color: Colors.red),
+                  )
+                ],
+              )
             : Container(),
       ],
     );
   }
+
   mobileSignInPage() {
     return GetBuilder<AuthPageController>(builder: (authPageController) {
       return GestureDetector(
@@ -526,13 +548,13 @@ class AuthPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
-                      onTap: (){
-                        Get.toNamed(RouteHelper.forgotPassword);
-                      },
+                        onTap: () {
+                          Get.toNamed(RouteHelper.forgotPassword);
+                        },
                         child: Text(
-                      KalakarConstants.forgotPassword,
-                      style: TextStyle(color: KalakarColors.headerText),
-                    )),
+                          KalakarConstants.forgotPassword,
+                          style: TextStyle(color: KalakarColors.headerText),
+                        )),
                   ],
                 ),
                 SizedBox(
@@ -989,8 +1011,6 @@ class AuthPage extends StatelessWidget {
         // child: Center(child: Image.asset("assets/images/app_bar_logo.png")),
         );
   }
-
-
 
   Widget commonWebTextField({
     required TextEditingController controller,

@@ -92,7 +92,28 @@ class ForgotPasswordPage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: _getOtpEditor(authPageController),
                       ),
-
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          authPageController.startTime <= 0
+                              ? InkWell(
+                                  onTap: () {
+                                    authPageController
+                                        .getOTP(OTPType.createAccount);
+                                  },
+                                  child: Text(
+                                    "Resend OTP",
+                                    style: TextStyle(
+                                        color: KalakarColors.headerText),
+                                  ),
+                                )
+                              : Text(
+                                  "Resend OTP in ${authPageController.startTime} seconds")
+                        ],
+                      ),
                       SizedBox(
                         height: 16.h,
                       ),
@@ -630,14 +651,17 @@ class ForgotPasswordPage extends StatelessWidget {
         ),
         authPageController.otpError
             ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 4.h,
-            ),
-            Text("Please Enter Valid OTP",style: TextStyle(color: Colors.red),)
-          ],
-        )
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    "Please Enter Valid OTP",
+                    style: TextStyle(color: Colors.red),
+                  )
+                ],
+              )
             : Container(),
       ],
     );
