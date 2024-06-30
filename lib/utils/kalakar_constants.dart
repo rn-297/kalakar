@@ -54,6 +54,7 @@ class KalakarConstants {
   static const String userName = "User Name";
   static const String referralCode = "Referral Code";
   static const String getStarted = "Sign Up";
+  static const String resetPass = "Reset Password";
   static const String userType = "User Type";
   static const String enterOtp = "Enter OTP";
   static const String getOtp= "Get Otp";

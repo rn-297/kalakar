@@ -9,6 +9,7 @@ class CommonWidgets {
     required bool obscureText,
     required bool passwordVisibility,
     required VoidCallback? togglePasswordVisibility,
+    required TextInputType? textInputType,
     required String? Function(String?)? validator, // Added validator parameter
     Color textColor = KalakarColors.textColor,
     Color borderColor = KalakarColors.border,
@@ -23,6 +24,7 @@ class CommonWidgets {
       style: TextStyle(color: textColor),
       obscureText: passwordVisibility,
       validator: validator,
+      keyboardType: textInputType,
       // Added validator
       decoration: InputDecoration(
         border: OutlineInputBorder(

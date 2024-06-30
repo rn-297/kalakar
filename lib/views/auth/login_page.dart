@@ -41,8 +41,8 @@ class AuthPage extends StatelessWidget {
             SizedBox(
               height: Get.size.height / 1.4,
               child: ScreenTypeLayout.builder(
-                mobile: (BuildContext context) => tabBarMobileView(),
-                tablet: (BuildContext context) => tabBarWebView(),
+                mobile: (BuildContext context) => tabBarMobileView(context),
+                tablet: (BuildContext context) => tabBarWebView(context),
               ),
             ),
             SizedBox(
@@ -54,7 +54,7 @@ class AuthPage extends StatelessWidget {
     ));
   }
 
-  tabBarMobileView() {
+  tabBarMobileView(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -76,6 +76,7 @@ class AuthPage extends StatelessWidget {
               backgroundColor: Colors.transparent,
               toolbarHeight: 10.h,
               bottom: TabBar(
+                  onTap: (index) {},
                   dividerHeight: 0.0,
                   labelStyle: TextStyle(
                       color: KalakarColors.textColor,
@@ -102,7 +103,7 @@ class AuthPage extends StatelessWidget {
     );
   }
 
-  tabBarWebView() {
+  tabBarWebView(BuildContext context) {
     return Row(
       children: [
         Expanded(child: Image.asset("assets/images/app_bar_logo.png")),
@@ -146,6 +147,7 @@ class AuthPage extends StatelessWidget {
                         ]),
                   ),
                   body: TabBarView(
+                    controller: DefaultTabController.of(context),
                     children: [
                       webSignInPage(),
                       webSignUpPage(),
@@ -194,6 +196,7 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createFirstName,
                       labelText: KalakarConstants.firstName,
                       obscureText: false,
+                      textInputType: TextInputType.text,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
                       validator: authPageController.createFirstNameValidator),
@@ -204,6 +207,7 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createLastName,
                       labelText: KalakarConstants.lastName,
                       obscureText: false,
+                      textInputType: TextInputType.text,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
                       validator: authPageController.createLastNameValidator),
@@ -214,6 +218,7 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createEmail,
                       labelText: KalakarConstants.email,
                       obscureText: false,
+                      textInputType: TextInputType.emailAddress,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
                       validator: authPageController.createEmailValidator),
@@ -225,6 +230,7 @@ class AuthPage extends StatelessWidget {
                       labelText: KalakarConstants.whatsappNumber,
                       obscureText: false,
                       passwordVisibility: false,
+                      textInputType: TextInputType.number,
                       togglePasswordVisibility: () {},
                       validator:
                           authPageController.createMobileNumberValidator),
@@ -252,7 +258,9 @@ class AuthPage extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: _getOtpEditor(authPageController),
                         ),
-                        SizedBox(height: 8.h,),
+                        SizedBox(
+                          height: 8.h,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -279,6 +287,7 @@ class AuthPage extends StatelessWidget {
                             controller: authPageController.createPassword,
                             labelText: KalakarConstants.password,
                             obscureText: true,
+                            textInputType: TextInputType.visiblePassword,
                             passwordVisibility:
                                 authPageController.createPasswordValue,
                             togglePasswordVisibility: () {
@@ -293,6 +302,7 @@ class AuthPage extends StatelessWidget {
                         CommonWidgets.commonMobileTextField(
                             controller: authPageController.createCnfmPassword,
                             labelText: KalakarConstants.cnfmPassword,
+                            textInputType: TextInputType.visiblePassword,
                             obscureText: true,
                             passwordVisibility:
                                 authPageController.createShowCnfmPassword,
@@ -525,6 +535,7 @@ class AuthPage extends StatelessWidget {
                     controller: authPageController.signInEmailOrMobile,
                     labelText: KalakarConstants.email,
                     obscureText: false,
+                    textInputType: TextInputType.emailAddress,
                     passwordVisibility: false,
                     togglePasswordVisibility: () {},
                     validator: authPageController.createEmailValidator),
@@ -535,6 +546,7 @@ class AuthPage extends StatelessWidget {
                     controller: authPageController.signInPassword,
                     labelText: KalakarConstants.password,
                     obscureText: true,
+                    textInputType: TextInputType.visiblePassword,
                     passwordVisibility: authPageController.signInPasswordValue,
                     togglePasswordVisibility: () {
                       authPageController
@@ -672,6 +684,7 @@ class AuthPage extends StatelessWidget {
                 controller: authPageController.createFirstName,
                 labelText: KalakarConstants.firstName,
                 obscureText: false,
+                textInputType: TextInputType.text,
                 passwordVisibility: false,
                 togglePasswordVisibility: () {},
                 validator: authPageController.createFirstNameValidator),
@@ -683,6 +696,7 @@ class AuthPage extends StatelessWidget {
                 labelText: KalakarConstants.lastName,
                 obscureText: false,
                 passwordVisibility: false,
+                textInputType: TextInputType.text,
                 togglePasswordVisibility: () {},
                 validator: authPageController.createLastNameValidator),
             SizedBox(
@@ -692,6 +706,7 @@ class AuthPage extends StatelessWidget {
                 controller: authPageController.createEmail,
                 labelText: KalakarConstants.email,
                 obscureText: false,
+                textInputType: TextInputType.emailAddress,
                 passwordVisibility: false,
                 togglePasswordVisibility: () {},
                 validator: authPageController.createEmailValidator),
@@ -702,6 +717,7 @@ class AuthPage extends StatelessWidget {
                 controller: authPageController.createWhatsappNumber,
                 labelText: KalakarConstants.whatsappNumber,
                 obscureText: false,
+                textInputType: TextInputType.number,
                 passwordVisibility: false,
                 togglePasswordVisibility: () {},
                 validator: authPageController.createMobileNumberValidator),
@@ -730,6 +746,7 @@ class AuthPage extends StatelessWidget {
                           controller: authPageController.createPassword,
                           labelText: KalakarConstants.password,
                           obscureText: true,
+                          textInputType: TextInputType.visiblePassword,
                           passwordVisibility:
                               authPageController.createPasswordValue,
                           togglePasswordVisibility: () {
@@ -745,6 +762,7 @@ class AuthPage extends StatelessWidget {
                           controller: authPageController.createCnfmPassword,
                           labelText: KalakarConstants.cnfmPassword,
                           obscureText: true,
+                          textInputType: TextInputType.visiblePassword,
                           passwordVisibility:
                               authPageController.createShowCnfmPassword,
                           togglePasswordVisibility: () {
@@ -904,6 +922,7 @@ class AuthPage extends StatelessWidget {
                 controller: authPageController.signInEmailOrMobile,
                 labelText: KalakarConstants.email,
                 obscureText: false,
+                textInputType: TextInputType.emailAddress,
                 passwordVisibility: false,
                 togglePasswordVisibility: () {},
                 validator: authPageController.createEmailValidator),
@@ -914,6 +933,7 @@ class AuthPage extends StatelessWidget {
                 controller: authPageController.signInPassword,
                 labelText: KalakarConstants.password,
                 obscureText: true,
+                textInputType: TextInputType.visiblePassword,
                 passwordVisibility: authPageController.signInPasswordValue,
                 togglePasswordVisibility: () {
                   authPageController

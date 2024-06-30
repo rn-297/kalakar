@@ -1,7 +1,7 @@
 class ResponseModel {
   bool? replayStatus;
   String? message;
-  dynamic? data;
+  dynamic data;
 
   ResponseModel({this.replayStatus, this.message, this.data});
 

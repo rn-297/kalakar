@@ -12,7 +12,7 @@ class BottomNavigatorPage extends StatelessWidget {
     return GetBuilder<BottomNavigationController>(
       builder: (navigationController) {
         return SafeArea(child: Scaffold(bottomNavigationBar: BottomNavigationBar(
-          currentIndex: navigationController.getSelectedIndex(),
+          currentIndex: navigationController.getSelectedArtistIndex(),
           showSelectedLabels: false,
           showUnselectedLabels: false,
           items: [
@@ -22,9 +22,9 @@ class BottomNavigatorPage extends StatelessWidget {
             bottomNavigatorIcon(KalakarConstants.settings, Icons.settings)
           ],
           onTap: (index) {
-            navigationController.setSelectedIndex(index);
+            navigationController.setSelectedArtistIndex(index);
           },
-        ),body: navigationController.getSelectedPage(),));
+        ),body: navigationController.getSelectedArtistPage(),));
       }
     );
   }

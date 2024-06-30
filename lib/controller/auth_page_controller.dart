@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/data/local_database/hive_service.dart';
+import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
+import 'package:kalakar/data/models/login_data_model.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
@@ -15,6 +18,9 @@ enum PasswordType { createPass, createCnfmPass, signInPass }
 enum OTPType { createAccount, forgotPassword }
 
 class AuthPageController extends GetxController {
+  //tabbar
+  RxInt tabIndex = 0.obs;
+
 //create account
   TextEditingController createFirstName = TextEditingController();
   TextEditingController createLastName = TextEditingController();
@@ -140,8 +146,8 @@ class AuthPageController extends GetxController {
     if (value == null || value.isEmpty) {
       return 'Please enter confirm password';
     }
-    if (value!=createPassword.text) {
-      return "Password didn't match" ;
+    if (value != createPassword.text) {
+      return "Password didn't match";
     }
     return null;
   }
@@ -194,22 +200,24 @@ class AuthPageController extends GetxController {
   }
 
   void signInCall() {
-    if (_formSignInKey.currentState!.validate()) {
-
-
-    }
+    if (_formSignInKey.currentState!.validate()) {}
   }
 
   void signInWithGoogle() {}
 
   ///API CALLS
   Future<void> getOtpApi(OTPType otpType) async {
-    isOtpSent=false;
+    isOtpSent = false;
     KalakarDialogs.loadingDialog("Get OTP", "Sending OTP ...");
-    var body = {
-      "vcrMobileNumber": createWhatsappNumber.text,
-      "vcrEmail": createEmail.text
-    };
+    var body = otpType == OTPType.createAccount
+        ? {
+            "vcrMobileNumber": createWhatsappNumber.text,
+            "vcrEmail": createEmail.text
+          }
+        : {
+            "vcrMobileNumber": forgotPassMobile.text,
+            "vcrEmail": forgotPassEmail.text
+          };
     String url = otpType == OTPType.createAccount
         ? KalakarConstants.getCreateAccountOtp
         : otpType == OTPType.forgotPassword
@@ -218,7 +226,9 @@ class AuthPageController extends GetxController {
 
     var response = await ApiClient.postData(url, jsonEncode(body));
     print(response);
-    Get.back();
+    if (Get.isDialogOpen!) {
+      Get.back();
+    }
 
     if (response.statusCode == 200) {
       final String responseBody = await response.body;
@@ -227,10 +237,27 @@ class AuthPageController extends GetxController {
       ResponseModel generateOtpClass = ResponseModel.fromJson(responseJSON);
 
       isOtpSent = generateOtpClass.replayStatus ?? false;
+      if (isOtpSent) {
+        KalakarDialogs.successDialog("OTP Success", generateOtpClass.message!);
+      } else {
+        KalakarDialogs.successDialog("OTP Failed", generateOtpClass.message!);
+      }
       startTimer();
+    } else {
+      KalakarDialogs.successDialog(
+          "Something Went Wrong", "Something Went Wrong !!!");
     }
 
     update();
+  }
+
+  void changeTabIndex(int index) {
+    tabIndex.value = index;
+  }
+
+  void animateToTab(int index, BuildContext context) {
+    tabIndex.value = index;
+    DefaultTabController.of(context).animateTo(index);
   }
 
   Future<void> createAccount() async {
@@ -257,6 +284,7 @@ class AuthPageController extends GetxController {
           ResponseModel.fromJson(jsonDecode(response.body));
       if (responseModel.replayStatus!) {
         KalakarDialogs.successDialog("Account Created", responseModel.message!);
+        clearCreateAccountPage();
       } else {
         KalakarDialogs.successDialog(
             "Account Creation Failed", responseModel.message!);
@@ -268,6 +296,8 @@ class AuthPageController extends GetxController {
     if (_formGetForgotOtpKey.currentState!.validate() &&
         validateOtp() &&
         _formSetForgotPassKey.currentState!.validate()) {
+      KalakarDialogs.loadingDialog("Reset Password", "Resetting Password");
+
       var body = {
         "vcrMobileNumber": forgotPassMobile.text,
         "vcrEmail": forgotPassEmail.text,
@@ -279,9 +309,24 @@ class AuthPageController extends GetxController {
 
       var response = await ApiClient.postData(
           KalakarConstants.setNewPasswordApi, jsonEncode(body));
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus!) {
+          KalakarDialogs.successGoLoginDialog(
+              "Password Reset Success", responseModel.message!);
 
+        } else {
+          KalakarDialogs.successDialog(
+              "Password Reset Failed", responseModel.message!);
+        }
+      } else {
+        KalakarDialogs.successDialog(
+            "Password Reset Failed", "Something Went Wrong");
       }
     }
   }
@@ -320,7 +365,10 @@ class AuthPageController extends GetxController {
   }
 
   Future<void> accountLogin() async {
-    var body = {"password": signInPassword.text, "emailOrMobileNumber": signInEmailOrMobile.text};
+    var body = {
+      "password": signInPassword.text,
+      "emailOrMobileNumber": signInEmailOrMobile.text
+    };
 
     var response =
         await ApiClient.postData(KalakarConstants.createAccountApi, body);
@@ -332,7 +380,24 @@ class AuthPageController extends GetxController {
       // Get.defaultDialog(
       //   content: Text("response successful ${response.body}"),
       // );
-      Get.offNamed(RouteHelper.bottomNavigationPage);
+      LoginDataClass loginDataClass =
+          LoginDataClass.fromJson(jsonDecode(response.body));
+      if (loginDataClass.replayStatus!) {
+        LoginTable loginTable = LoginTable(
+            loginDataClass.accountID ?? "",
+            loginDataClass.email ?? "",
+            loginDataClass.mobileNumber ?? "",
+            loginDataClass.accountType ?? "",
+            loginDataClass.fistName ?? "",
+            loginDataClass.lastName ?? "",
+            loginDataClass.token ?? "",
+            loginDataClass.userID ?? "",
+            loginDataClass.verificationStatus ?? "",
+            loginDataClass.verificationStatusID ?? 0,
+            loginDataClass.isverifiedContacts ?? false);
+        HiveService.saveLoginData(loginTable);
+        Get.offNamed(RouteHelper.bottomNavigationPage);
+      }
     }
   }
 
@@ -344,5 +409,15 @@ class AuthPageController extends GetxController {
     }
     update();
     return oTP.isNotEmpty;
+  }
+
+  void clearCreateAccountPage() {
+    createFirstName.clear();
+    createLastName.clear();
+    createEmail.clear();
+    createWhatsappNumber.clear();
+    createWhatsappNumber.clear();
+    createWhatsappNumber.clear();
+    oTP = "";
   }
 }
