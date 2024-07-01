@@ -7,6 +7,7 @@ import '../views/splash/splash_screen.dart';
 
 class RouteHelper {
   static const String initial = '/';
+  static const String splash = '/kalakar_splash';
   static const String login = '/kalakar_login';
   static const String forgotPassword = '/kalakar_forgot_password';
   static const String bottomNavigationPage = '/kalakar_bottom_navigation';

@@ -76,6 +76,7 @@ class KalakarConstants {
   static const String opportunities1 = "OPPORTUNITIES";
   static const String namskarKalakar = "Namskar Kalakaar";
   static const String searchAnything = "Search Anything";
+  static const String searchArtist = "SEARCH ARTIST";
   static const String newOpportunities = "New Opportunities :";
   static const String seeAll = "See all >>";
   static const String upcomingProjects = "Upcoming Projects :";
@@ -92,4 +93,12 @@ class KalakarConstants {
   static const String district = "District";
   static const String state = "State";
   static const String kalakarId = "Kalakaar ID :";
+  static const String openOpportunities = "Open Opportunities";
+  static const String appliedArtist = "Applied Artist";
+  static const String createNewOpportunity = "CREATE NEW OPPORTUNITY";
+  static const String completedOpportunities = "CREATE NEW OPPORTUNITY";
+  static const String draft = "Draft";
+  static const String completed = "Completed";
+  static const String edit = "Edit";
+
 }

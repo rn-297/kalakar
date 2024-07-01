@@ -44,6 +44,7 @@ abstract class ApiClient extends GetxService {
           Uri.parse(KalakarConstants.baseURL + uri),
           body: body,
           headers: {
+
             "accept": "*/*",
             "Content-Type": "application/json"
           }).timeout(Duration(seconds: timeoutInSeconds));

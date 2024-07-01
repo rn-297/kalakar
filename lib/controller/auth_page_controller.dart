@@ -62,6 +62,8 @@ class AuthPageController extends GetxController {
   final _formSetForgotPassKey = GlobalKey<FormState>();
   final _formSignInKey = GlobalKey<FormState>();
 
+   String accountType = "Artist";
+
   get formSignInKey => _formSignInKey;
   final _formCreateAccountKey = GlobalKey<FormState>();
 
@@ -200,7 +202,9 @@ class AuthPageController extends GetxController {
   }
 
   void signInCall() {
-    if (_formSignInKey.currentState!.validate()) {}
+    if (_formSignInKey.currentState!.validate()) {
+      accountLogin();
+    }
   }
 
   void signInWithGoogle() {}
@@ -225,7 +229,7 @@ class AuthPageController extends GetxController {
             : KalakarConstants.getCreateAccountOtp;
 
     var response = await ApiClient.postData(url, jsonEncode(body));
-    print(response);
+    print(response.statusCode);
     if (Get.isDialogOpen!) {
       Get.back();
     }
@@ -245,7 +249,7 @@ class AuthPageController extends GetxController {
       startTimer();
     } else {
       KalakarDialogs.successDialog(
-          "Something Went Wrong", "Something Went Wrong !!!");
+          "OTP Sent Failed", "Something Went Wrong !!!");
     }
 
     update();
@@ -261,6 +265,8 @@ class AuthPageController extends GetxController {
   }
 
   Future<void> createAccount() async {
+    KalakarDialogs.loadingDialog("Reset Password", "Creating Account");
+
     var body = {
       "vcrMobileNumber": createWhatsappNumber.text,
       "vcrEmail": createEmail.text,
@@ -278,6 +284,9 @@ class AuthPageController extends GetxController {
         KalakarConstants.createAccountApi, jsonEncode(body));
     print(response.statusCode);
     // print(response);
+    if (Get.isDialogOpen!) {
+      Get.back();
+    }
 
     if (response.statusCode == 200) {
       ResponseModel responseModel =
@@ -289,6 +298,9 @@ class AuthPageController extends GetxController {
         KalakarDialogs.successDialog(
             "Account Creation Failed", responseModel.message!);
       }
+    } else {
+      KalakarDialogs.successDialog(
+          "Account Creation Failed", "Something Went Wrong");
     }
   }
 
@@ -319,7 +331,6 @@ class AuthPageController extends GetxController {
         if (responseModel.replayStatus!) {
           KalakarDialogs.successGoLoginDialog(
               "Password Reset Success", responseModel.message!);
-
         } else {
           KalakarDialogs.successDialog(
               "Password Reset Failed", responseModel.message!);
@@ -365,15 +376,19 @@ class AuthPageController extends GetxController {
   }
 
   Future<void> accountLogin() async {
+    KalakarDialogs.loadingDialog("Logging", "Signing In");
     var body = {
       "password": signInPassword.text,
       "emailOrMobileNumber": signInEmailOrMobile.text
     };
 
-    var response =
-        await ApiClient.postData(KalakarConstants.createAccountApi, body);
-    // print(response.statusCode);
-    // print(response);
+    var response = await ApiClient.postData(
+        KalakarConstants.getLoginApi, jsonEncode(body));
+    print(response.statusCode);
+    print(response.body);
+    if (Get.isDialogOpen!) {
+      Get.back();
+    }
 
     if (response.statusCode == 200) {
       // print("response successful ${response.body}");
@@ -396,8 +411,13 @@ class AuthPageController extends GetxController {
             loginDataClass.verificationStatusID ?? 0,
             loginDataClass.isverifiedContacts ?? false);
         HiveService.saveLoginData(loginTable);
-        Get.offNamed(RouteHelper.bottomNavigationPage);
+        KalakarDialogs.goHomePage("Login Success", loginDataClass.message!,
+            loginDataClass.accountType!);
+      } else {
+        KalakarDialogs.successDialog("Login Failed", loginDataClass.message!);
       }
+    } else {
+      KalakarDialogs.successDialog("Login Failed", "Something Went Wrong !!!");
     }
   }
 
@@ -419,5 +439,23 @@ class AuthPageController extends GetxController {
     createWhatsappNumber.clear();
     createWhatsappNumber.clear();
     oTP = "";
+  }
+
+  Future<void> splashScreenTask(AuthPageController authPageController) async {
+    Future.delayed(Duration(seconds: 2), () async {
+      LoginTable? loginTable = await HiveService.getLoginData();
+
+      if (loginTable != null) {
+        print(loginTable!.userID);
+        if (loginTable.accountType == KalakarConstants.artist) {
+          Get.offNamed(RouteHelper.bottomNavigationPage);
+        } else if (loginTable.accountType == KalakarConstants.company) {
+          Get.offNamed(RouteHelper.bottomNavigationPage);
+        }
+        authPageController.accountType = loginTable.accountType;
+      } else {
+        Get.offNamed(RouteHelper.login);
+      }
+    });
   }
 }
