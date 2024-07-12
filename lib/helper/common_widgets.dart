@@ -15,9 +15,11 @@ class CommonWidgets {
     Color borderColor = KalakarColors.border,
     Color focusedBorderColor = KalakarColors.selectedBorder,
     Color labelColor = KalakarColors.textColor,
+    bool editable = true,
+    int  maxLines =1,
     double borderRadius = 50.0,
     EdgeInsetsGeometry contentPadding =
-    const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 12),
+        const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 12),
   }) {
     return TextFormField(
       controller: controller,
@@ -25,6 +27,8 @@ class CommonWidgets {
       obscureText: passwordVisibility,
       validator: validator,
       keyboardType: textInputType,
+      enabled: editable,
+      maxLines: maxLines,
       // Added validator
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -36,6 +40,7 @@ class CommonWidgets {
           borderSide: BorderSide(color: borderColor, width: 1),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
+        alignLabelWithHint: true,
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: focusedBorderColor, width: 1),
           borderRadius: BorderRadius.circular(borderRadius),
@@ -43,11 +48,11 @@ class CommonWidgets {
         contentPadding: contentPadding,
         suffixIcon: obscureText
             ? InkWell(
-          onTap: togglePasswordVisibility,
-          child: Icon(passwordVisibility
-              ? Icons.visibility_off_outlined
-              : Icons.visibility_outlined),
-        )
+                onTap: togglePasswordVisibility,
+                child: Icon(passwordVisibility
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined),
+              )
             : null,
       ),
     );
