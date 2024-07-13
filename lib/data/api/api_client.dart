@@ -37,23 +37,23 @@ abstract class ApiClient extends GetxService {
       print(body);
       var connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult.isEmpty) {
-        return Response(
+        return const Response(
             statusCode: 1, statusText: KalakarConstants.noInternetMessage);
       }
-      var _response = await client.post(
+      var response = await client.post(
           Uri.parse(KalakarConstants.baseURL + uri),
           body: body,
           headers: {
 
             "accept": "*/*",
             "Content-Type": "application/json"
-          }).timeout(Duration(seconds: timeoutInSeconds));
+          }).timeout(const Duration(seconds: timeoutInSeconds));
       // print(_response.);
 
-      return _response;
+      return response;
     } catch (ex) {
       print(ex);
-      return Response(
+      return const Response(
           statusCode: 1, statusText: KalakarConstants.noInternetMessage);
     }
   }

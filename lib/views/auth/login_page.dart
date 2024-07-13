@@ -8,6 +8,7 @@ import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/custom_widgets/continue_with_google_widget.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/helper/route_helper.dart';
+import 'package:kalakar/helper/write_log.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:otp_input_editor/otp_input_editor.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -562,6 +563,7 @@ class AuthPage extends StatelessWidget {
                     onTap: () {
                       authPageController.signInCall();
                     },
+
                     horizontalPadding: 50.0,
                     verticalPadding: 8.0,
                     fontSize: 20.0,
@@ -624,6 +626,9 @@ class AuthPage extends StatelessWidget {
                   child: InkWell(
                     onTap: (){
                       Get.toNamed(RouteHelper.forgotPassword);
+                    },
+                    onDoubleTap: (){
+                      WriteLogFile.shareLogFile();
                     },
                     child: Text(
                       KalakarConstants.forgotPassword,
