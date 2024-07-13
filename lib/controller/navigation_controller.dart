@@ -13,7 +13,7 @@ import 'package:kalakar/views/settings/settings_page.dart';
 class BottomNavigationController extends GetxController {
   int selectedIndex = 0;
   String accountType = "Company";
-   List<Widget> navigatorArtistPages = <Widget>[
+  List<Widget> navigatorArtistPages = <Widget>[
     KalakarHomePage(),
     OpportunityPage(),
     KalakarProfilePage(),
@@ -23,7 +23,7 @@ class BottomNavigationController extends GetxController {
   @override
   onInit() {
     super.onInit();
-    getLogiData();
+    getLoginData();
   }
 
   getSelectedArtistIndex() {
@@ -38,17 +38,28 @@ class BottomNavigationController extends GetxController {
   Widget getSelectedArtistPage() {
     List<Widget> tempList = [];
     if (accountType == KalakarConstants.artist) {
-      tempList.add(KalakarHomePage());
+      tempList.addAll([
+        KalakarHomePage(),
+        OpportunityPage(),
+        KalakarProfilePage(),
+        SettingsPage()
+      ]);
     } else if (accountType == KalakarConstants.company) {
-      tempList.add(CompanyProfilePage());
+      tempList.addAll([
+        CompanyHomePage(),
+        OpportunityPage(),
+        CompanyProfilePage(),
+        SettingsPage()
+      ]);
     }
-    tempList.addAll([OpportunityPage(), KalakarProfilePage(), SettingsPage()]);
-    navigatorArtistPages=tempList;
+    tempList.addAll([]);
+    navigatorArtistPages = tempList;
     return navigatorArtistPages.elementAt(selectedIndex);
   }
 
-  void getLogiData() async {
+  void getLoginData() async {
     LoginTable? loginTable = await HiveService.getLoginData();
-    print(loginTable!.accountID!);
+    print(loginTable!.accountType!);
+    accountType = loginTable!.accountType;
   }
 }

@@ -100,5 +100,19 @@ class KalakarConstants {
   static const String draft = "Draft";
   static const String completed = "Completed";
   static const String edit = "Edit";
+  //settings
+  static const String myProfile = "My Profile";
+  static const String myApplications = "My Applications";
+  static const String myFavourites = "My Favourites";
+  static const String aboutUs = "About Us";
+  static const String help = "Help";
+  static const String privacyPolicy = "Privacy Policy";
+  static const String termsNConditions = "Terms & Conditions";
+  static const String referralCode1 = "REFERRAL CODE";
+  static const String followUsOn = "Follow us on";
+  static const String appVersion = "App Version";
+  static const String logout = "Log Out";
+
+
 
 }
