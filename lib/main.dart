@@ -12,6 +12,9 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(LoginTableAdapter());
+  await Hive.openBox<LoginTable>("loginBox");
   // final appDocumentDir = await getApplicationDocumentsDirectory();
   Get.lazyPut(() => SettingsController());
   Get.lazyPut(() => AuthPageController());
@@ -20,9 +23,7 @@ void main() async {
   Get.put(AuthPageController());
   Get.put(ProfileController());
 
-  await Hive.initFlutter();
-   Hive.registerAdapter(LoginTableAdapter());
-  await Hive.openBox<LoginTable>("loginBox");
+
   Get.lazyPut(() => RequirementController());
 
   runApp(const MyApp());

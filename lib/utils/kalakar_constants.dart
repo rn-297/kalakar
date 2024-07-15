@@ -125,6 +125,7 @@ class KalakarConstants {
   static const String draft = "Draft";
   static const String completed = "Completed";
   static const String edit = "Edit";
+
   //settings
   static const String myProfile = "My Profile";
   static const String myApplications = "My Applications";
@@ -137,8 +138,6 @@ class KalakarConstants {
   static const String followUsOn = "Follow us on";
   static const String appVersion = "App Version";
   static const String logout = "Log Out";
-
-
 
   //requirements
   static const String requirement = "REQUIREMENT";
@@ -170,9 +169,15 @@ class KalakarConstants {
   static const String publish = "Publish";
 
   //Profile
-static const String companyName="Company Name / Production House";
-static const String authoriseAdminName="Authorise Admin Name";
-static const String address="Address";
-static const String pinCode="Postal Code / PIN Code";
-static const String whatsappLink="WhatsApp Link";
+  static const String companyName = "Company Name / Production House";
+  static const String authoriseAdminName = "Authorise Admin Name";
+  static const String address = "Address";
+  static const String pinCode = "Postal Code / PIN Code";
+  static const String whatsappLink = "WhatsApp Link";
+  static const String sendProfileForVerification =
+      "Send Profile For Verification";
+  static const String mobileNumber = "Mobile Number";
+  static const String saveProfile="Save Profile";
+
+  static const String profileVerification="Profile Verification";
 }
