@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 
 import '../../helper/route_helper.dart';
@@ -56,6 +57,8 @@ class KalakarDialogs {
         Get.offNamed(RouteHelper.bottomNavigationPage);
       } else if (accountType == KalakarConstants.company) {
         Get.offNamed(RouteHelper.bottomNavigationPage);
+        ProfileController profileController=Get.put(ProfileController());
+        profileController.getProfileData();
       }
     });
     Get.defaultDialog(

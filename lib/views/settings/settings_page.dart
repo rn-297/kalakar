@@ -121,7 +121,7 @@ class SettingsPage extends StatelessWidget {
               }),
         ),
         SizedBox(
-          height: 50.h,
+          height: 20.h,
         ),
         Text(
           KalakarConstants.appVersion,

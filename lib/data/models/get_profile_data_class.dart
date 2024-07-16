@@ -25,7 +25,7 @@ class ProfileGetDataClass {
   String? addressProofofCompanyDOC;
   String? selfieuploadDOC;
   String? fKVerificationStatusID;
-  String? isverifiedContacts;
+  String? isVerifiedContacts;
   String? verificationSend;
   String? verificationApproveDate;
   String? verificationStatus;
@@ -59,7 +59,7 @@ class ProfileGetDataClass {
       this.addressProofofCompanyDOC,
       this.selfieuploadDOC,
       this.fKVerificationStatusID,
-      this.isverifiedContacts,
+      this.isVerifiedContacts,
       this.verificationSend,
       this.verificationApproveDate,
       this.verificationStatus,
@@ -93,7 +93,7 @@ class ProfileGetDataClass {
     addressProofofCompanyDOC = json['addressProofofCompany_DOC'] ?? "NA";
     selfieuploadDOC = json['selfieupload_DOC'] ?? "NA";
     fKVerificationStatusID = json['fK_VerificationStatusID'] ?? "NA";
-    isverifiedContacts = json['isverifiedContacts'] ?? "NA";
+    isVerifiedContacts = json['isverifiedContacts'] ?? "NA";
     verificationSend = json['verificationSend'] ?? "NA";
     verificationApproveDate = json['verificationApproveDate'] ?? "NA";
     verificationStatus = json['verificationStatus'] ?? "NA";
@@ -129,7 +129,7 @@ class ProfileGetDataClass {
     data['addressProofofCompany_DOC'] = this.addressProofofCompanyDOC;
     data['selfieupload_DOC'] = this.selfieuploadDOC;
     data['fK_VerificationStatusID'] = this.fKVerificationStatusID;
-    data['isverifiedContacts'] = this.isverifiedContacts;
+    data['isverifiedContacts'] = this.isVerifiedContacts;
     data['verificationSend'] = this.verificationSend;
     data['verificationApproveDate'] = this.verificationApproveDate;
     data['verificationStatus'] = this.verificationStatus;
