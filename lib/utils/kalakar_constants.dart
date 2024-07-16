@@ -177,7 +177,22 @@ class KalakarConstants {
   static const String sendProfileForVerification =
       "Send Profile For Verification";
   static const String mobileNumber = "Mobile Number";
-  static const String saveProfile="Save Profile";
+  static const String saveProfile = "Save Profile";
+  static const String profileVerification = "Profile Verification";
+  static const String otp = "OTP";
+  static const String adminCeo = "Admin/CEO";
+  static const String filmCorporationCard = "Film Corporation Card";
+  static const String adminAadharCard = "Admin Aadhar Card";
+  static const String selfieUpload = "Selfie Upload";
+  static const String addressProofOfCompany = "Address Proof of Company";
+  static const String verifyContact = "Verify Contact";
+  static const String saveChanges = "Save Changes";
+  static const String viewAll = "View All";
+  static const String createProject = "Create Project";
+  static const String projectCover = "Project Cover";
+  static const String projectTitle = "Project Title";
+  static const String projectDescription = "Project Description";
+  static const String projectStatus = "Project Status";
+  static const String addPhotosAndVideos = "Add Photos And Videos";
 
-  static const String profileVerification="Profile Verification";
 }

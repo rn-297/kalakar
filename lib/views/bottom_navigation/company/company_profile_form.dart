@@ -222,7 +222,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                 height: 16.h,
               ),
               CommonWidgets.commonMobileTextField(
-                  controller: controller.emailTEController,
+                  controller: controller.emailLinkTEController,
                   labelText: KalakarConstants.emailLink,
                   obscureText: false,
                   textInputType: TextInputType.text,

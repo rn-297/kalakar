@@ -108,6 +108,7 @@ abstract class ApiClient extends GetxService {
           .timeout(Duration(seconds: timeoutInSeconds));
       print(_response.request);
       print(_response.headers);
+      print(_response.body);
 
       return _response;
     } catch (ex) {

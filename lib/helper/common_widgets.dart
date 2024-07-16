@@ -16,7 +16,9 @@ class CommonWidgets {
     Color focusedBorderColor = KalakarColors.selectedBorder,
     Color labelColor = KalakarColors.textColor,
     bool editable = true,
-    int  maxLines =1,
+    bool isSuffixIcon = false,
+    IconData suffixIcon = Icons.upload_file_outlined,
+    int maxLines = 1,
     double borderRadius = 50.0,
     EdgeInsetsGeometry contentPadding =
         const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 12),
@@ -53,7 +55,9 @@ class CommonWidgets {
                     ? Icons.visibility_off_outlined
                     : Icons.visibility_outlined),
               )
-            : null,
+            : isSuffixIcon
+                ? Icon(suffixIcon)
+                : null,
       ),
     );
   }

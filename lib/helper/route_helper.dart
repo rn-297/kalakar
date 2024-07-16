@@ -3,7 +3,8 @@ import 'package:kalakar/views/auth/forgot_password.dart';
 import 'package:kalakar/views/auth/login_page.dart';
 import 'package:kalakar/views/bottom_navigation/bottom_navigator.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_profile_form.dart';
-import 'package:kalakar/views/bottom_navigation/company/company_profile_verification_form.dart';
+import 'package:kalakar/views/bottom_navigation/company/company_more_info.dart';
+import 'package:kalakar/views/bottom_navigation/company/new_project_form.dart';
 import 'package:kalakar/views/requirement/requirement_form.dart';
 
 import '../views/splash/splash_screen.dart';
@@ -16,7 +17,8 @@ class RouteHelper {
   static const String bottomNavigationPage = '/kalakar_bottom_navigation';
   static const String requirementFormPage = '/kalakar_requirement_form';
   static const String companyProfileFormPage = '/kalakar_company_form';
-  static const String companyProfileVerificationFormPage = '/kalakar_company_profile_verification_form';
+  static const String companyMoreInfoFormPage = '/kalakar_company_more_info_form';
+  static const String newProjectFormPage = '/kalakar_new_project_form';
 
   static List<GetPage> routes = [
     GetPage(
@@ -44,8 +46,12 @@ class RouteHelper {
       page: () => CompanyProfileFormPage(),
     ),
     GetPage(
-      name: companyProfileVerificationFormPage,
-      page: () => CompanyProfileVerificationFormPage(),
+      name: companyMoreInfoFormPage,
+      page: () => CompanyMoreInfoFormPage(),
+    ),
+    GetPage(
+      name: newProjectFormPage,
+      page: () => NewProjectFormPage(),
     ),
   ];
 
