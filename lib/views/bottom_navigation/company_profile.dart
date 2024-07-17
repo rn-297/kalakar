@@ -71,7 +71,6 @@ class CompanyProfilePage extends StatelessWidget {
                                 image:
                                     NetworkImage(profileDta.companyLogo ?? "")),
                           ),
-                          child: Image.network(profileDta.companyLogo ?? "NA"),
                         ),
                         Text(
                           "${KalakarConstants.kalakarId} ${profileDta!.userID}",

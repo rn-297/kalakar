@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
+import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,12 +40,18 @@ class ProfileController extends GetxController {
       TextEditingController();
   TextEditingController projectStatusTEController = TextEditingController();
 
+  File companyLogo = File("");
+
   ProfileGetDataClass? profileData = ProfileGetDataClass();
   bool isProfileLoading = false;
   String oTP = "";
   bool otpError = false;
   bool isOtpSent = false;
   int startTime = 90;
+
+  final _formProfileKey = GlobalKey<FormState>();
+
+  get formProfileKey => _formProfileKey;
 
   void setOtpValue(String value) {
     oTP = value;
@@ -227,4 +236,13 @@ class ProfileController extends GetxController {
   void saveCompanyMoreInfo() {}
 
   void addPhotosAndVideos() {}
+
+  Future<void> getImageFromCamera(BuildContext context) async {
+    File? file = await PickerHelper.pickImageFromCamera(context);
+    if (file != null) {
+      companyLogo = file;
+      update();
+    }
+    Get.back();
+  }
 }
