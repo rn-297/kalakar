@@ -1,17 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
 import 'package:kalakar/helper/picker_helper.dart';
+import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../data/models/csv_model_class.dart';
 
 class ProfileController extends GetxController {
   TextEditingController companyNameTEController = TextEditingController();
@@ -40,7 +44,8 @@ class ProfileController extends GetxController {
       TextEditingController();
   TextEditingController projectStatusTEController = TextEditingController();
 
-  File companyLogo = File("");
+  String companyLogo = "";
+  bool isNetworkCompanyLogo = true;
 
   ProfileGetDataClass? profileData = ProfileGetDataClass();
   bool isProfileLoading = false;
@@ -53,6 +58,11 @@ class ProfileController extends GetxController {
 
   get formProfileKey => _formProfileKey;
 
+  List<CSVData> stateCityPinCodeList = [];
+  List<String> stateList = [];
+  List<String> cityList = [];
+  List<String> pinCodeList = [];
+
   void setOtpValue(String value) {
     oTP = value;
   }
@@ -62,6 +72,7 @@ class ProfileController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getProfileData();
+    getStateData();
   }
 
   void getProfileData() async {
@@ -119,7 +130,7 @@ class ProfileController extends GetxController {
 
   String? postalCodeValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter Postal Code';
+      return 'Please Select Postal Code / Pin Code';
     }
     return null;
   }
@@ -231,6 +242,20 @@ class ProfileController extends GetxController {
     update();
   }
 
+  setProfileFormData() {
+    isNetworkCompanyLogo = true;
+    companyLogo = profileData!.companyLogo ?? "";
+    companyNameTEController.text =
+        profileData!.companyNameProductionhouse ?? "";
+    adminNameTEController.text = profileData!.authoriseAdminName ?? "";
+    addressTEController.text = profileData!.address ?? "";
+    pinCodeTEController.text = profileData!.postalcode ?? "";
+    districtTEController.text = profileData!.district ?? "";
+    stateTEController.text = profileData!.state ?? "";
+    bioTEController.text = profileData!.bio ?? "";
+    update();
+  }
+
   void verifyContact() {}
 
   void saveCompanyMoreInfo() {}
@@ -240,9 +265,64 @@ class ProfileController extends GetxController {
   Future<void> getImageFromCamera(BuildContext context) async {
     File? file = await PickerHelper.pickImageFromCamera(context);
     if (file != null) {
-      companyLogo = file;
+      isNetworkCompanyLogo = false;
+      companyLogo = file.path;
       update();
     }
     Get.back();
+  }
+
+  void validateProfileFormData() {
+    if (_formProfileKey.currentState!.validate()) {
+      saveProfileData();
+    }
+  }
+
+  getStateData() async {
+    stateCityPinCodeList = await StateCityPinCodeHelper.getCsvData();
+    stateList =
+        await StateCityPinCodeHelper.getFilteredState(stateCityPinCodeList);
+
+    update();
+  }
+
+  Future<void> getCitiesData(String selectedItem) async {
+    print(stateCityPinCodeList.length);
+    stateTEController.text = selectedItem;
+    cityList = await StateCityPinCodeHelper.getFilteredCities(
+        stateCityPinCodeList, selectedItem);
+    print(cityList);
+    districtTEController.text = "";
+    pinCodeTEController.text = "";
+    update();
+  }
+
+  Future<void> getPinCodesData(String selectedItem) async {
+    districtTEController.text = selectedItem;
+    pinCodeList = await StateCityPinCodeHelper.getFilteredPinCodes(
+        stateCityPinCodeList, stateTEController.text, selectedItem);
+    pinCodeTEController.text = "";
+    update();
+  }
+
+  Future<void> setPinCodeData(String selectedItem) async {
+    pinCodeTEController.text = selectedItem;
+    update();
+  }
+
+  Future<void> saveProfileData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    // Example fields (if any)
+    Map<String, String> fields = {
+      'field1': 'value1',
+      'field2': 'value2',
+    };
+
+    // Example files (if any)
+    Map<String, File> files = {
+      'file1': File('/path/to/your/file1.txt'),
+
+    };
   }
 }

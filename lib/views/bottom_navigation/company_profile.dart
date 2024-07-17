@@ -540,6 +540,8 @@ class CompanyProfilePage extends StatelessWidget {
       actions: [
         InkWell(
           onTap: () {
+            ProfileController profileController = Get.put(ProfileController());
+            profileController.setProfileFormData();
             Get.toNamed(RouteHelper.companyProfileFormPage);
           },
           child: Icon(

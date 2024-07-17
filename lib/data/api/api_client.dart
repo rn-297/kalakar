@@ -117,4 +117,52 @@ abstract class ApiClient extends GetxService {
           statusCode: 1, statusText: KalakarConstants.noInternetMessage);
     }
   }
+  static postFormDataToken(String uri, Map<String, String>? fields,
+      Map<String, File>? files, String accessToken) async {
+    try {
+      print(KalakarConstants.baseURL + uri);
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
+        return Response(
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+      }
+
+      var request = Http.MultipartRequest('POST', Uri.parse(KalakarConstants.baseURL + uri));
+      request.headers.addAll({
+        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+      });
+
+      // Add fields
+      if (fields != null) {
+        fields.forEach((key, value) {
+          request.fields[key] = value;
+        });
+      }
+
+      // Add files
+      if (files != null) {
+        files.forEach((key, file) async {
+          var stream = Http.ByteStream(file.openRead());
+          var length = await file.length();
+          var multipartFile = Http.MultipartFile('files', stream, length,
+              filename: file.path.split("/").last);
+          request.files.add(multipartFile);
+        });
+      }
+
+      var streamedResponse = await request.send();
+      var response = await Http.Response.fromStream(streamedResponse);
+
+      print(response.request);
+      print(response.headers);
+      print(response.body);
+
+      return response;
+    } catch (ex) {
+      print(ex);
+      return Response(
+          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+    }
+    }
+
 }

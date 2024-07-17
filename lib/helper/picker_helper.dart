@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kalakar/helper/kalakar_colors.dart';
 
 class PickerHelper {
   static final ImagePicker _imagePicker = ImagePicker();
@@ -17,7 +18,7 @@ class PickerHelper {
     if (file != null) {
       croppedImage = await cropMyImage(file, context) ?? "";
     }
-    return File(croppedImage) ;
+    return File(croppedImage);
   }
 
   static Future<File?> pickImageFromCamera(BuildContext context) async {
@@ -34,14 +35,12 @@ class PickerHelper {
       XFile imageFile, BuildContext context) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imageFile.path,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Crop',
-          toolbarColor: RenderErrorBox.backgroundColor,
+          toolbarColor: KalakarColors.appBarBackground,
           toolbarWidgetColor: Colors.white,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-          ],
         ),
         IOSUiSettings(
           title: 'Cropper',
