@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
+import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
 import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
@@ -93,6 +94,7 @@ class ProfileController extends GetxController {
             ProfileGetDataClass.fromJson(jsonDecode(response.body));
         if (profileGetDataClass.replayStatus ?? false) {
           profileData = profileGetDataClass;
+          setProfileFormData();
         } else {}
       }
     } else {}
@@ -313,16 +315,45 @@ class ProfileController extends GetxController {
   Future<void> saveProfileData() async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
-    // Example fields (if any)
-    Map<String, String> fields = {
-      'field1': 'value1',
-      'field2': 'value2',
-    };
+    if (loginTable != null) {
+      // Example fields (if any)
+      Map<String, String> fields = {
+        'FK_AccountID': loginTable.accountID,
+        'CompanyLogo': companyLogo.split("/").last,
+        'CompanyNameProductionhouse': companyNameTEController.text,
+        'AuthoriseAdminName': adminNameTEController.text,
+        'Address': addressTEController.text,
+        'District': districtTEController.text,
+        'State': stateTEController.text,
+        'Postalcode': pinCodeTEController.text,
+        'Bio': bioTEController.text,
+        'FBLink': fbLinkTEController.text,
+        'WPLink': wpLinkTEController.text,
+        'YTLink': ytLinkTEController.text,
+        'Instalink': instaLinkTEController.text,
+        'EmailLink': emailLinkTEController.text,
+        'WebsiteLink': websiteTEController.text,
+      };
 
-    // Example files (if any)
-    Map<String, File> files = {
-      'file1': File('/path/to/your/file1.txt'),
+      // Example files (if any)
+      Map<String, File> files = {
+        'CompanyLogo_Doc': isNetworkCompanyLogo?File(""):File(companyLogo),
+      };
 
-    };
+      var response = await ApiClient.postFormDataToken(
+          KalakarConstants.saveCompanyProfileBasicsApi,
+          fields,
+          files,
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+        } else {}
+      }
+    } else {}
   }
 }

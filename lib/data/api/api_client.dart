@@ -142,11 +142,13 @@ abstract class ApiClient extends GetxService {
       // Add files
       if (files != null) {
         files.forEach((key, file) async {
-          var stream = Http.ByteStream(file.openRead());
-          var length = await file.length();
-          var multipartFile = Http.MultipartFile('files', stream, length,
-              filename: file.path.split("/").last);
-          request.files.add(multipartFile);
+          if(file.path.isNotEmpty){
+            var stream = Http.ByteStream(file.openRead());
+            var length = await file.length();
+            var multipartFile = Http.MultipartFile('files', stream, length,
+                filename: file.path.split("/").last);
+            request.files.add(multipartFile);
+          }
         });
       }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/profile_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../helper/kalakar_colors.dart';
@@ -26,88 +27,92 @@ class CompanyHomePage extends StatelessWidget {
   }
 
   appbarMobileView() {
-    return AppBar(
-      toolbarHeight: 70.h,
-      backgroundColor: KalakarColors.lightAppBarBackground,
-      title: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 60.h,
-            width: 60.h,
-            decoration: BoxDecoration(
-                image: DecorationImage(image: NetworkImage("")),
-                border: Border.all(color: KalakarColors.headerText),
-                borderRadius: BorderRadius.circular(50.r)),
+    return GetBuilder<ProfileController>(
+      builder: (controller) {
+        return AppBar(
+          toolbarHeight: 70.h,
+          backgroundColor: KalakarColors.lightAppBarBackground,
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 60.h,
+                width: 60.h,
+                decoration: BoxDecoration(
+                    image: DecorationImage(image: NetworkImage(controller.companyLogo)),
+                    border: Border.all(color: KalakarColors.headerText),
+                    borderRadius: BorderRadius.circular(50.r)),
+              ),
+              SizedBox(
+                width: 8.w,
+              ),
+              Text(
+                controller.profileData!.name??"",
+                style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+              ),
+            ],
           ),
-          SizedBox(
-            width: 8.w,
-          ),
-          Text(
-            "RN FILM INDUSTRY",
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
-          ),
-        ],
-      ),
-      actions: [
-        Icon(
-          Icons.notifications,
-          size: 35,
-        ),
-        SizedBox(
-          width: 20.w,
-        )
-      ],
-      bottom: PreferredSize(
-        preferredSize: Size(double.infinity, 70.h),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
-          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 5.0,
+          actions: [
+            Icon(
+              Icons.notifications,
+              size: 35,
             ),
-          ], borderRadius: BorderRadius.circular(50.r)),
-          child: TextField(
-            //controller: controller,
-            style: TextStyle(color: KalakarColors.textColor),
-            // obscureText: passwordVisibility,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.r),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.r),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.r),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.r),
-                borderSide: BorderSide(color: Colors.white),
-              ),
+            SizedBox(
+              width: 20.w,
+            )
+          ],
+          bottom: PreferredSize(
+            preferredSize: Size(double.infinity, 70.h),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 5.0,
+                ),
+              ], borderRadius: BorderRadius.circular(50.r)),
+              child: TextField(
+                //controller: controller,
+                style: TextStyle(color: KalakarColors.textColor),
+                // obscureText: passwordVisibility,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.r),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.r),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.r),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.r),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
 
-              // labelText: KalakarConstants.searchAnything,
-              // labelStyle: TextStyle(color: labelColor),
-              hintText: KalakarConstants.searchArtist,
-              fillColor: KalakarColors.white,
-              filled: true,
-              contentPadding: EdgeInsetsDirectional.symmetric(
-                horizontal: 24,
-                vertical: 12,
-              ),
-              prefixIcon: Icon(
-                Icons.search_rounded,
-                color: KalakarColors.buttonText,
+                  // labelText: KalakarConstants.searchAnything,
+                  // labelStyle: TextStyle(color: labelColor),
+                  hintText: KalakarConstants.searchArtist,
+                  fillColor: KalakarColors.white,
+                  filled: true,
+                  contentPadding: EdgeInsetsDirectional.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    color: KalakarColors.buttonText,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 
