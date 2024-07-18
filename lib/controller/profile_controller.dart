@@ -17,6 +17,7 @@ import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../data/models/csv_model_class.dart';
+import '../views/dialogs/kalakar_dialogs.dart';
 
 class ProfileController extends GetxController {
   TextEditingController companyNameTEController = TextEditingController();
@@ -45,24 +46,44 @@ class ProfileController extends GetxController {
       TextEditingController();
   TextEditingController projectStatusTEController = TextEditingController();
 
-  String companyLogo = "";
-  bool isNetworkCompanyLogo = true;
-
-  ProfileGetDataClass? profileData = ProfileGetDataClass();
-  bool isProfileLoading = false;
   String oTP = "";
-  bool otpError = false;
-  bool isOtpSent = false;
+  String companyLogo = "";
+  String documentType = "";
+  String filmCorporationCardPath = "";
+  String adminAadharCardPath = "";
+  String addressProofCompanyPath = "";
+  String selfieUploadedPath = "";
+
   int startTime = 90;
 
-  final _formProfileKey = GlobalKey<FormState>();
-
-  get formProfileKey => _formProfileKey;
+  bool isNetworkCompanyLogo = true;
+  bool isProfileLoading = false;
+  bool otpError = false;
+  bool isOtpSent = false;
+  bool isContactVerified = false;
+  bool isLoading = false;
+  bool mobileNumberEditable = true;
+  bool emailEditable = true;
 
   List<CSVData> stateCityPinCodeList = [];
   List<String> stateList = [];
   List<String> cityList = [];
   List<String> pinCodeList = [];
+
+  ProfileGetDataClass? profileData = ProfileGetDataClass();
+
+  final _formProfileKey = GlobalKey<FormState>();
+
+  get formProfileKey => _formProfileKey;
+
+  final _formCompanyProfileMoreInfoOtpKey = GlobalKey<FormState>();
+
+  get formCompanyProfileMoreInfoOtpKey => _formCompanyProfileMoreInfoOtpKey;
+
+  final _formCompanyProfileMoreInfoDocumentsKey = GlobalKey<FormState>();
+
+  get formCompanyProfileMoreInfoDocumentsKey =>
+      _formCompanyProfileMoreInfoDocumentsKey;
 
   void setOtpValue(String value) {
     oTP = value;
@@ -111,7 +132,26 @@ class ProfileController extends GetxController {
 
   String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please Enter Valid Email';
+      return 'Please Enter Email';
+    }
+    // Regular expression for email validation
+    String pattern = r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Enter a Valid Email';
+    }
+    return null;
+  }
+
+  String? mobileNumberValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Mobile Number';
+    }
+    // Regular expression for 10-digit number validation
+    String pattern = r'^\d{10}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Enter a valid 10-digit mobile number';
     }
     return null;
   }
@@ -238,9 +278,58 @@ class ProfileController extends GetxController {
     });
   }
 
-  void getOTP() {
-    isOtpSent = true;
-    startTimer();
+  bool validateOtp() {
+    if (oTP.isEmpty || oTP.length < 4) {
+      otpError = true;
+    } else {
+      otpError = false;
+    }
+    update();
+    return oTP.isNotEmpty;
+  }
+
+  void getContactVerificationOTP() async {
+    if (_formCompanyProfileMoreInfoOtpKey.currentState!.validate()) {
+      KalakarDialogs.loadingDialog("Get OTP", "Sending OTP ...");
+      LoginTable? loginTable = await HiveService.getLoginData();
+
+      if (loginTable != null) {
+        var body = {
+          "mobileNo": mobileNumberTEController.text,
+          "email": emailTEController.text,
+          "fK_AccountID": loginTable.accountID
+        };
+
+        var response = await ApiClient.postDataToken(
+            KalakarConstants.getCompanyProfileContactVerificationOtpApi,
+            jsonEncode(body),
+            loginTable.token);
+
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
+        if (response.statusCode == 200) {
+          ResponseModel responseModel =
+              ResponseModel.fromJson(jsonDecode(response.body));
+
+          if (responseModel.replayStatus ?? false) {
+            KalakarDialogs.successDialog(
+                "Send OTP Success", responseModel.message!);
+            isOtpSent = true;
+            startTimer();
+          } else {
+            KalakarDialogs.successDialog(
+                "Send OTP Failed", responseModel.message!);
+          }
+        }
+      } else {
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
+        KalakarDialogs.successDialog(
+            "Send Otp Failed", "Unable To Get Logged Details");
+      }
+    }
     update();
   }
 
@@ -255,20 +344,145 @@ class ProfileController extends GetxController {
     districtTEController.text = profileData!.district ?? "";
     stateTEController.text = profileData!.state ?? "";
     bioTEController.text = profileData!.bio ?? "";
+    isContactVerified = profileData!.isVerifiedContacts == "True";
     update();
   }
 
-  void verifyContact() {}
+  void verifyContact() async {
+    if (_formCompanyProfileMoreInfoOtpKey.currentState!.validate()) {
+      KalakarDialogs.loadingDialog(
+          "Contact Verification", "Verifying Contact ...");
+      LoginTable? loginTable = await HiveService.getLoginData();
 
-  void saveCompanyMoreInfo() {}
+      if (loginTable != null) {
+        var body = {
+          "mobileNo": mobileNumberTEController.text,
+          "email": emailTEController.text,
+          "fK_AccountID": loginTable.accountID,
+          "vcrOTP": oTP
+        };
+
+        var response = await ApiClient.postDataToken(
+            KalakarConstants.verifyCompanyProfileContactsApi,
+            jsonEncode(body),
+            loginTable.token);
+
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
+        if (response.statusCode == 200) {
+          ResponseModel responseModel =
+              ResponseModel.fromJson(jsonDecode(response.body));
+
+          if (responseModel.replayStatus ?? false) {
+            KalakarDialogs.successDialog(
+                "Contact Verification Success", responseModel.message!);
+            isOtpSent = false;
+            isContactVerified = true;
+            // startTimer();
+          } else {
+            KalakarDialogs.successDialog(
+                "Contact Verification Failed", responseModel.message!);
+          }
+        }
+      } else {
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
+        KalakarDialogs.successDialog(
+            "Contact Verification Failed", "Unable To Get Logged Details");
+      }
+    }
+  }
+
+  Future<void> saveCompanyMoreInfo() async {
+    if(_formCompanyProfileMoreInfoOtpKey.currentState!.validate()&&_formCompanyProfileMoreInfoDocumentsKey.currentState!.validate()){
+      print("all data");
+      KalakarDialogs.loadingDialog(
+          "Company More Data", "Saving Company More Info");
+      LoginTable? loginTable = await HiveService.getLoginData();
+
+      if (loginTable != null) {
+        // Example fields (if any)
+        Map<String, String> fields = {
+          'FK_AccountID': loginTable.accountID,
+          'Email': emailTEController.text,
+          'MobileNumber':mobileNumberTEController.text,
+          'Name': "",
+          'UserID': loginTable.userID,
+          'Admin_Ower_CEO': "",
+        };
+        print(fields);
+
+        // Example files (if any)
+        Map<String, File> files = {
+          'FilmCorpprationCard_DOC': File(filmCorporationCardPath),
+          'AdminAdharCard_DOC': File(adminAadharCardPath),
+          'AddressProofofCompany_DOC': File(addressProofCompanyPath),
+          'Selfieupload_DOC': File(selfieUploadedPath),
+        };
+
+        var response = await ApiClient.postFormDataToken(
+            KalakarConstants.saveCompanyProfileMoreInfoApi,
+            fields,
+            files,
+            loginTable.token);
+        print(response.statusCode);
+        print(response.body);
+        isLoading = false;
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
+        if (response.statusCode == 200) {
+          ResponseModel responseModel =
+          ResponseModel.fromJson(jsonDecode(response.body));
+
+          if (responseModel.replayStatus ?? false) {
+            KalakarDialogs.successDialog("Profile More Info Saved", responseModel.message!);
+            getProfileData();
+          } else {
+            KalakarDialogs.successDialog(
+                "Profile More Info Save Failed", responseModel.message!);
+          }
+        }else{
+
+        }
+      } else {
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
+        KalakarDialogs.successDialog(
+            "Profile More Info Save Failed", "Unable To Get Logged Data");
+      }
+    }
+  }
 
   void addPhotosAndVideos() {}
 
   Future<void> getImageFromCamera(BuildContext context) async {
     File? file = await PickerHelper.pickImageFromCamera(context);
     if (file != null) {
-      isNetworkCompanyLogo = false;
-      companyLogo = file.path;
+      if (documentType == KalakarConstants.selfieUpload) {
+        selfieUploadedPath = file.path;
+        selfieUploadTEController.text = file.path.split("/").last;
+      } else if (documentType == KalakarConstants.companyLogo) {
+        isNetworkCompanyLogo = false;
+        companyLogo = file.path;
+      }
+    }
+    Get.back();
+  }
+
+  Future<void> getImageFromGallery(BuildContext context) async {
+    File? file = await PickerHelper.pickImageFromGallery(context);
+    if (file != null) {
+      if (documentType == KalakarConstants.selfieUpload) {
+        selfieUploadedPath = file.path;
+        selfieUploadTEController.text = file.path.split("/").last;
+      } else if (documentType == KalakarConstants.companyLogo) {
+        isNetworkCompanyLogo = false;
+        companyLogo = file.path;
+      }
       update();
     }
     Get.back();
@@ -313,13 +527,16 @@ class ProfileController extends GetxController {
   }
 
   Future<void> saveProfileData() async {
+    isLoading = true;
+    KalakarDialogs.loadingDialog(
+        "Uploading Profile Data", "Saving Profile Data");
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       // Example fields (if any)
       Map<String, String> fields = {
         'FK_AccountID': loginTable.accountID,
-        'CompanyLogo': companyLogo.split("/").last,
+        'CompanyLogo': "${companyLogo.split("/").last}",
         'CompanyNameProductionhouse': companyNameTEController.text,
         'AuthoriseAdminName': adminNameTEController.text,
         'Address': addressTEController.text,
@@ -334,10 +551,11 @@ class ProfileController extends GetxController {
         'EmailLink': emailLinkTEController.text,
         'WebsiteLink': websiteTEController.text,
       };
+      print(fields);
 
       // Example files (if any)
       Map<String, File> files = {
-        'CompanyLogo_Doc': isNetworkCompanyLogo?File(""):File(companyLogo),
+        'CompanyLogo_Doc': File(companyLogo),
       };
 
       var response = await ApiClient.postFormDataToken(
@@ -347,13 +565,63 @@ class ProfileController extends GetxController {
           loginTable.token);
       print(response.statusCode);
       print(response.body);
-
+      isLoading = false;
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
       if (response.statusCode == 200) {
         ResponseModel responseModel =
             ResponseModel.fromJson(jsonDecode(response.body));
+
         if (responseModel.replayStatus ?? false) {
-        } else {}
+          KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
+          getProfileData();
+        } else {
+          KalakarDialogs.successDialog(
+              "Profile Save Failed", responseModel.message!);
+        }
       }
-    } else {}
+    } else {
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      KalakarDialogs.successDialog(
+          "Profile Save Failed", "Unable To Get Logged Data");
+    }
+  }
+
+  Future<void> pickDocument(
+      String documentType, BuildContext context, controller) async {
+    print(documentType);
+    switch (documentType) {
+      case KalakarConstants.filmCorporationCard:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          filmCorporationCardPath = file.path;
+          filmCorporationCardTEController.text = file.path.split("/").last;
+          update();
+        }
+        break;
+      case KalakarConstants.adminAadharCard:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          adminAadharCardPath = file.path;
+          adminAadharCardTEController.text = file.path.split("/").last;
+          update();
+        }
+        break;
+      case KalakarConstants.addressProofOfCompany:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          addressProofCompanyPath = file.path;
+          addressProofOfCompanyTEController.text = file.path.split("/").last;
+          update();
+        }
+        break;
+      case KalakarConstants.selfieUpload:
+        this.documentType = documentType;
+        PickerHelper.showBottomSheet(context, controller);
+        break;
+    }
   }
 }

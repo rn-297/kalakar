@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,6 +30,17 @@ class PickerHelper {
       croppedImage = await cropMyImage(file, context) ?? "";
     }
     return File(croppedImage);
+  }
+
+  static Future<File?> pickPdfFromGallery() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      allowCompression: true,
+      allowedExtensions: [ 'pdf'],
+    );
+
+    return result!=null?File(result.paths[0]!):null;
   }
 
   static Future<String?> cropMyImage(
@@ -87,7 +99,7 @@ class PickerHelper {
               Divider(),
               InkWell(
                 onTap: () {
-                  controller.getImageFromGallery();
+                  controller.getImageFromGallery(context);
                 },
                 child: Container(
                     padding: EdgeInsets.all(8.h),

@@ -36,7 +36,7 @@ class KalakarConstants {
   static const String verifyCompanyProfileContactsApi =
       "/CompanyProfile/VerifyCompanyContacts";
   static const String saveCompanyProfileMoreInfoApi =
-      "/CompanyProfile/VerifyCompanyContacts";
+      "/CompanyProfile/SaveMoreInfoCompanyProfile";
   static const String getCompanyProfileDetailsApi =
       "/CompanyProfile/GetCompanyProileDetails";
   static const String saveCompanyProfileProjectApi =
@@ -170,6 +170,7 @@ class KalakarConstants {
 
   //Profile
   static const String companyName = "Company Name / Production House";
+  static const String companyLogo = "Company Logo";
   static const String authoriseAdminName = "Authorise Admin Name";
   static const String address = "Address";
   static const String pinCode = "Postal Code / PIN Code";

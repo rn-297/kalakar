@@ -91,6 +91,8 @@ class CompanyProfileFormPage extends StatelessWidget {
                           right: 0,
                           child: InkWell(
                               onTap: () {
+                                controller.documentType =
+                                    KalakarConstants.companyLogo;
                                 PickerHelper.showBottomSheet(
                                     context, controller);
                               },
@@ -173,7 +175,8 @@ class CompanyProfileFormPage extends StatelessWidget {
                 ),*/
                 SizedBox(
                   height: 16.h,
-                ),/*
+                ),
+                /*
                 CommonWidgets.commonMobileTextField(
                     controller: controller.districtTEController,
                     labelText: KalakarConstants.district,
@@ -197,7 +200,8 @@ class CompanyProfileFormPage extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 16.h,
-                ),/*
+                ),
+                /*
                 CommonWidgets.commonMobileTextField(
                     controller: controller.stateTEController,
                     labelText: KalakarConstants.state,

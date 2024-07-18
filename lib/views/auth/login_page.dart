@@ -218,6 +218,7 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createEmail,
                       labelText: KalakarConstants.email,
                       obscureText: false,
+                      editable: authPageController.createEmailEditable,
                       textInputType: TextInputType.emailAddress,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
@@ -229,6 +230,7 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createWhatsappNumber,
                       labelText: KalakarConstants.whatsappNumber,
                       obscureText: false,
+                      editable: authPageController.createMobileNumberEditable,
                       passwordVisibility: false,
                       textInputType: TextInputType.number,
                       togglePasswordVisibility: () {},
@@ -936,6 +938,7 @@ class AuthPage extends StatelessWidget {
                   controller: authPageController.signInEmailOrMobile,
                   labelText: KalakarConstants.email,
                   obscureText: false,
+
                   textInputType: TextInputType.emailAddress,
                   passwordVisibility: false,
                   togglePasswordVisibility: () {},

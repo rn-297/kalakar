@@ -36,6 +36,9 @@ class AuthPageController extends GetxController {
   bool isOtpSent = false;
   String oTP = "";
 
+  bool createMobileNumberEditable = true;
+  bool createEmailEditable = true;
+
   bool createFirstNameError = false;
   bool createLastNameError = false;
   bool createWhatsappNumberError = false;
@@ -63,7 +66,7 @@ class AuthPageController extends GetxController {
   final _formSetForgotPassKey = GlobalKey<FormState>();
   final _formSignInKey = GlobalKey<FormState>();
 
-   String accountType = "Artist";
+  String accountType = "Artist";
 
   get formSignInKey => _formSignInKey;
   final _formCreateAccountKey = GlobalKey<FormState>();
@@ -236,7 +239,6 @@ class AuthPageController extends GetxController {
     }
 
     if (response.statusCode == 200) {
-
       final String responseBody = await response.body;
       print(responseBody);
       final Map<String, dynamic> responseJSON = jsonDecode(responseBody);
@@ -245,16 +247,19 @@ class AuthPageController extends GetxController {
       isOtpSent = generateOtpClass.replayStatus ?? false;
       if (isOtpSent) {
         KalakarDialogs.successDialog("OTP Success", generateOtpClass.message!);
+        createMobileNumberEditable = false;
+        createEmailEditable = false;
       } else {
         KalakarDialogs.successDialog("OTP Failed", generateOtpClass.message!);
       }
       startTimer();
     } else {
-      await WriteLogFile.writeLog("URL : ${KalakarConstants.baseURL+url}");
+      await WriteLogFile.writeLog("URL : ${KalakarConstants.baseURL + url}");
       await WriteLogFile.writeLog("body : ${body}");
       await WriteLogFile.writeLog("statusCode : ${response.statusCode}");
       await WriteLogFile.writeLog("responseBody : ${response.body}");
-      await WriteLogFile.writeLog("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
+      await WriteLogFile.writeLog(
+          "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
       KalakarDialogs.successDialog(
           "OTP Sent Failed", "Something Went Wrong !!!");
     }
@@ -306,11 +311,13 @@ class AuthPageController extends GetxController {
             "Account Creation Failed", responseModel.message!);
       }
     } else {
-      await WriteLogFile.writeLog("URL : ${KalakarConstants.baseURL+KalakarConstants.createAccountApi}");
+      await WriteLogFile.writeLog(
+          "URL : ${KalakarConstants.baseURL + KalakarConstants.createAccountApi}");
       await WriteLogFile.writeLog("body : ${body}");
       await WriteLogFile.writeLog("statusCode : ${response.statusCode}");
       await WriteLogFile.writeLog("responseBody : ${response.body}");
-      await WriteLogFile.writeLog("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
+      await WriteLogFile.writeLog(
+          "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
 
       KalakarDialogs.successDialog(
           "Account Creation Failed", "Something Went Wrong");
@@ -349,12 +356,13 @@ class AuthPageController extends GetxController {
               "Password Reset Failed", responseModel.message!);
         }
       } else {
-
-        await WriteLogFile.writeLog("URL : ${KalakarConstants.baseURL+KalakarConstants.createAccountApi}");
+        await WriteLogFile.writeLog(
+            "URL : ${KalakarConstants.baseURL + KalakarConstants.createAccountApi}");
         await WriteLogFile.writeLog("body : ${body}");
         await WriteLogFile.writeLog("statusCode : ${response.statusCode}");
         await WriteLogFile.writeLog("responseBody : ${response.body}");
-        await WriteLogFile.writeLog("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
+        await WriteLogFile.writeLog(
+            "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
 
         KalakarDialogs.successDialog(
             "Password Reset Failed", "Something Went Wrong");
@@ -437,12 +445,13 @@ class AuthPageController extends GetxController {
         KalakarDialogs.successDialog("Login Failed", loginDataClass.message!);
       }
     } else {
-
-      await WriteLogFile.writeLog("URL : ${KalakarConstants.baseURL+KalakarConstants.createAccountApi}");
+      await WriteLogFile.writeLog(
+          "URL : ${KalakarConstants.baseURL + KalakarConstants.createAccountApi}");
       await WriteLogFile.writeLog("body : ${body}");
       await WriteLogFile.writeLog("statusCode : ${response.statusCode}");
       await WriteLogFile.writeLog("responseBody : ${response.body}");
-      await WriteLogFile.writeLog("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
+      await WriteLogFile.writeLog(
+          "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
 
       KalakarDialogs.successDialog("Login Failed", "Something Went Wrong !!!");
     }
