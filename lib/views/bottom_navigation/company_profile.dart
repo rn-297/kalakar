@@ -128,58 +128,53 @@ class CompanyProfilePage extends StatelessWidget {
                         SizedBox(
                           height: 16.h,
                         ),
-                        IntrinsicHeight(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      KalakarConstants.bio,
-                                      style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: KalakarColors.headerText),
-                                    ),
-                                    Text(profileDta.bio ?? "NA"),
-                                  ],
-                                ),
-                              ),
-                              DashedDottedDivider(
-                                isHorizontal: false,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(),
-                                        Text(
-                                          "${KalakarConstants.moreInfo} :",
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.bold,
-                                              color: KalakarColors.headerText),
-                                        ),
-                                        InkWell(
-                                            onTap: () {
-                                              Get.toNamed(RouteHelper
-                                                  .companyMoreInfoFormPage);
-                                            },
-                                            child: Icon(Icons.edit))
-                                      ],
-                                    ),
-                                    Text(
-                                        "${KalakarConstants.mobileNumber} : ${profileDta.mobileNumber}"),
-                                    Text(
-                                        "${KalakarConstants.email} : ${profileDta.email}"),
-                                  ],
-                                ),
-                              ),
-                            ],
+                        Column(
+                          children: [
+                            Text(
+                              KalakarConstants.bio,
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: KalakarColors.headerText),
+                            ),
+                            Text(profileDta.bio ?? "NA"),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 32.h,
+                          width: Get.size.width/2,
+                          child: DashedDottedDivider(
+                            isHorizontal: true,
                           ),
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(),
+                                Text(
+                                  "${KalakarConstants.moreInfo} :",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: KalakarColors.headerText),
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      controller.setProfileFormData();
+                                      Get.toNamed(RouteHelper
+                                          .companyMoreInfoFormPage);
+                                    },
+                                    child: Icon(Icons.edit,size: 20,))
+                              ],
+                            ),
+                            Text(
+                                "${KalakarConstants.mobileNumber} : ${profileDta.mobileNumber}"),
+                            Text(
+                                "${KalakarConstants.email} : ${profileDta.email}"),
+                          ],
                         ),
                         SizedBox(
                           height: 16.h,

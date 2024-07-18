@@ -181,6 +181,7 @@ class KalakarConstants {
   static const String saveProfile = "Save Profile";
   static const String profileVerification = "Profile Verification";
   static const String otp = "OTP";
+  static const String name = "Name";
   static const String adminCeo = "Admin/CEO";
   static const String filmCorporationCard = "Film Corporation Card";
   static const String adminAadharCard = "Admin Aadhar Card";

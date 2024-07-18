@@ -35,6 +35,8 @@ class ProfileController extends GetxController {
   TextEditingController websiteTEController = TextEditingController();
   TextEditingController emailTEController = TextEditingController();
   TextEditingController mobileNumberTEController = TextEditingController();
+  TextEditingController nameTEController = TextEditingController();
+  TextEditingController ownerCeoNameTEController = TextEditingController();
   TextEditingController filmCorporationCardTEController =
       TextEditingController();
   TextEditingController adminAadharCardTEController = TextEditingController();
@@ -159,6 +161,20 @@ class ProfileController extends GetxController {
   String? authorizeAdminNameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Authorize Admin Name';
+    }
+    return null;
+  }
+
+  String? nameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Name';
+    }
+    return null;
+  }
+
+  String? ownerCeoNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Admin Owner CEO';
     }
     return null;
   }
@@ -295,8 +311,8 @@ class ProfileController extends GetxController {
 
       if (loginTable != null) {
         var body = {
-          "mobileNo": mobileNumberTEController.text,
-          "email": emailTEController.text,
+          "mobileNo": mobileNumberTEController.text.trim(),
+          "email": emailTEController.text.trim(),
           "fK_AccountID": loginTable.accountID
         };
 
@@ -344,6 +360,30 @@ class ProfileController extends GetxController {
     districtTEController.text = profileData!.district ?? "";
     stateTEController.text = profileData!.state ?? "";
     bioTEController.text = profileData!.bio ?? "";
+    mobileNumberTEController.text = profileData!.mobileNumber ?? "";
+    emailTEController.text = profileData!.email ?? "";
+    nameTEController.text = profileData!.name ?? "";
+    ownerCeoNameTEController.text = profileData!.adminOwerCEO ?? "";
+    filmCorporationCardTEController.text =
+        (profileData!.filmCorpprationCardDOC ?? "").isNotEmpty
+            ? profileData!.filmCorpprationCardDOC.toString().split("\\").last
+            : "";
+    filmCorporationCardPath = profileData!.filmCorpprationCardDOC ?? "";
+    adminAadharCardTEController.text =
+        (profileData!.adminAdharCardDOC ?? "").isNotEmpty
+            ? profileData!.adminAdharCardDOC.toString().split("\\").last
+            : "";
+    adminAadharCardPath = profileData!.adminAdharCardDOC ?? "";
+    addressProofOfCompanyTEController.text =
+        (profileData!.addressProofofCompanyDOC ?? "").isNotEmpty
+            ? profileData!.addressProofofCompanyDOC.toString().split("\\").last
+            : "";
+    addressProofCompanyPath = profileData!.addressProofofCompanyDOC ?? "";
+    selfieUploadTEController.text =
+        (profileData!.selfieuploadDOC ?? "").isNotEmpty
+            ? profileData!.selfieuploadDOC.toString().split("\\").last
+            : "";
+    selfieUploadedPath = profileData!.selfieuploadDOC ?? "";
     isContactVerified = profileData!.isVerifiedContacts == "True";
     update();
   }
@@ -356,8 +396,8 @@ class ProfileController extends GetxController {
 
       if (loginTable != null) {
         var body = {
-          "mobileNo": mobileNumberTEController.text,
-          "email": emailTEController.text,
+          "mobileNo": mobileNumberTEController.text.trim(),
+          "email": emailTEController.text.trim(),
           "fK_AccountID": loginTable.accountID,
           "vcrOTP": oTP
         };
@@ -396,7 +436,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> saveCompanyMoreInfo() async {
-    if(_formCompanyProfileMoreInfoOtpKey.currentState!.validate()&&_formCompanyProfileMoreInfoDocumentsKey.currentState!.validate()){
+    if (_formCompanyProfileMoreInfoOtpKey.currentState!.validate() &&
+        _formCompanyProfileMoreInfoDocumentsKey.currentState!.validate()) {
       print("all data");
       KalakarDialogs.loadingDialog(
           "Company More Data", "Saving Company More Info");
@@ -406,11 +447,11 @@ class ProfileController extends GetxController {
         // Example fields (if any)
         Map<String, String> fields = {
           'FK_AccountID': loginTable.accountID,
-          'Email': emailTEController.text,
-          'MobileNumber':mobileNumberTEController.text,
-          'Name': "",
+          'Email': emailTEController.text.trim(),
+          'MobileNumber': mobileNumberTEController.text.trim(),
+          'Name': nameTEController.text.trim(),
           'UserID': loginTable.userID,
-          'Admin_Ower_CEO': "",
+          'Admin_Ower_CEO': ownerCeoNameTEController.text.trim(),
         };
         print(fields);
 
@@ -435,18 +476,17 @@ class ProfileController extends GetxController {
         }
         if (response.statusCode == 200) {
           ResponseModel responseModel =
-          ResponseModel.fromJson(jsonDecode(response.body));
+              ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
-            KalakarDialogs.successDialog("Profile More Info Saved", responseModel.message!);
+            KalakarDialogs.successDialog(
+                "Profile More Info Saved", responseModel.message!);
             getProfileData();
           } else {
             KalakarDialogs.successDialog(
                 "Profile More Info Save Failed", responseModel.message!);
           }
-        }else{
-
-        }
+        } else {}
       } else {
         if (Get.isDialogOpen!) {
           Get.back();
@@ -537,19 +577,19 @@ class ProfileController extends GetxController {
       Map<String, String> fields = {
         'FK_AccountID': loginTable.accountID,
         'CompanyLogo': "${companyLogo.split("/").last}",
-        'CompanyNameProductionhouse': companyNameTEController.text,
-        'AuthoriseAdminName': adminNameTEController.text,
-        'Address': addressTEController.text,
-        'District': districtTEController.text,
-        'State': stateTEController.text,
-        'Postalcode': pinCodeTEController.text,
-        'Bio': bioTEController.text,
-        'FBLink': fbLinkTEController.text,
-        'WPLink': wpLinkTEController.text,
-        'YTLink': ytLinkTEController.text,
-        'Instalink': instaLinkTEController.text,
-        'EmailLink': emailLinkTEController.text,
-        'WebsiteLink': websiteTEController.text,
+        'CompanyNameProductionhouse': companyNameTEController.text.trim(),
+        'AuthoriseAdminName': adminNameTEController.text.trim(),
+        'Address': addressTEController.text.trim(),
+        'District': districtTEController.text.trim(),
+        'State': stateTEController.text.trim(),
+        'Postalcode': pinCodeTEController.text.trim(),
+        'Bio': bioTEController.text.trim(),
+        'FBLink': fbLinkTEController.text.trim(),
+        'WPLink': wpLinkTEController.text.trim(),
+        'YTLink': ytLinkTEController.text.trim(),
+        'Instalink': instaLinkTEController.text.trim(),
+        'EmailLink': emailLinkTEController.text.trim(),
+        'WebsiteLink': websiteTEController.text.trim(),
       };
       print(fields);
 

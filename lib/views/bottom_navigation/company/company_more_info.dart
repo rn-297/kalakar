@@ -72,76 +72,101 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                 ),
               ),
               controller.isOtpSent
-                  ?
-                       Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(KalakarConstants.otp),
+                          _getOtpEditor(controller),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(KalakarConstants.otp),
-                              _getOtpEditor(controller),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  controller.startTime <= 0
-                                      ? InkWell(
-                                          onTap: () {
-                                            controller
-                                                .getContactVerificationOTP();
-                                          },
-                                          child: Text(
-                                            "Resend OTP",
-                                            style: TextStyle(
-                                                color:
-                                                    KalakarColors.headerText),
-                                          ),
-                                        )
-                                      : Text(
-                                          "Resend OTP in ${controller.startTime} seconds")
-                                ],
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              CustomMobileButtonWidget(
-                                onTap: () {
-                                  controller.verifyContact();
-                                },
-                                borderRadius: 50.r,
-                                fontSize: 14.sp,
-                                text: KalakarConstants.verifyContact,
-                                horizontalPadding: 20.w,
-                                verticalPadding: 8.h,
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
+                              controller.startTime <= 0
+                                  ? InkWell(
+                                      onTap: () {
+                                        controller.getContactVerificationOTP();
+                                      },
+                                      child: Text(
+                                        "Resend OTP",
+                                        style: TextStyle(
+                                            color: KalakarColors.headerText),
+                                      ),
+                                    )
+                                  : Text(
+                                      "Resend OTP in ${controller.startTime} seconds")
                             ],
                           ),
-                        )
-                  : controller.isContactVerified
-                  ? Container():Column(
-                    children: [
-                      CustomMobileButtonWidget(
-                          onTap: () {
-                            controller.getContactVerificationOTP();
-                          },
-                          borderRadius: 50.r,
-                          fontSize: 14.sp,
-                          text: KalakarConstants.getOtp,
-                          horizontalPadding: 20.w,
-                          verticalPadding: 8.h,
-                        ),
-                      SizedBox(
-                        height: 16.h,
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                          CustomMobileButtonWidget(
+                            onTap: () {
+                              controller.verifyContact();
+                            },
+                            borderRadius: 50.r,
+                            fontSize: 14.sp,
+                            text: KalakarConstants.verifyContact,
+                            horizontalPadding: 20.w,
+                            verticalPadding: 8.h,
+                          ),
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-
+                    )
+                  : controller.isContactVerified
+                      ? Container()
+                      : Column(
+                          children: [
+                            CustomMobileButtonWidget(
+                              onTap: () {
+                                controller.getContactVerificationOTP();
+                              },
+                              borderRadius: 50.r,
+                              fontSize: 14.sp,
+                              text: KalakarConstants.getOtp,
+                              horizontalPadding: 20.w,
+                              verticalPadding: 8.h,
+                            ),
+                            SizedBox(
+                              height: 16.h,
+                            ),
+                          ],
+                        ),
               Form(
                 key: controller.formCompanyProfileMoreInfoDocumentsKey,
                 child: Column(
                   children: [
+                    CommonWidgets.commonMobileTextField(
+                        controller: controller.nameTEController,
+                        labelText: KalakarConstants.name,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        // isSuffixIcon: true,
+                        // editable: true,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: controller.nameValidator),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    CommonWidgets.commonMobileTextField(
+                        controller: controller.ownerCeoNameTEController,
+                        labelText: KalakarConstants.adminCeo,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        // isSuffixIcon: true,
+                        editable: true,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: controller.ownerCeoNameValidator),
+                    SizedBox(
+                      height: 16.h,
+                    ),
                     InkWell(
                       onTap: () {
                         controller.pickDocument(
