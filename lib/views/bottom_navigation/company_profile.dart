@@ -39,7 +39,7 @@ class CompanyProfilePage extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: GetBuilder<ProfileController>(builder: (controller) {
         var profileDta = controller.profileData;
-        print(profileDta!.verificationStatus);
+        // print(profileDta!.verificationStatus);
         return controller.isProfileLoading
             ? Center(child: CircularProgressIndicator())
             : profileDta == null
@@ -142,39 +142,75 @@ class CompanyProfilePage extends StatelessWidget {
                         ),
                         SizedBox(
                           height: 32.h,
-                          width: Get.size.width/2,
+                          width: Get.size.width / 2,
                           child: DashedDottedDivider(
                             isHorizontal: true,
                           ),
                         ),
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(),
-                                Text(
-                                  "${KalakarConstants.moreInfo} :",
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: KalakarColors.headerText),
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      controller.setProfileFormData();
-                                      Get.toNamed(RouteHelper
-                                          .companyMoreInfoFormPage);
-                                    },
-                                    child: Icon(Icons.edit,size: 20,))
-                              ],
-                            ),
-                            Text(
-                                "${KalakarConstants.mobileNumber} : ${profileDta.mobileNumber}"),
-                            Text(
-                                "${KalakarConstants.email} : ${profileDta.email}"),
-                          ],
+                        Container(
+                          padding: EdgeInsets.all(16.h),
+                          margin: EdgeInsets.all(8.h),
+                          decoration: BoxDecoration(
+                            color: KalakarColors.lightAppBarBackground,
+                            borderRadius: BorderRadius.circular(8.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "${KalakarConstants.moreInfo} :",
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: KalakarColors.headerText),
+                                    ),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        controller.setProfileFormData();
+                                        Get.toNamed(RouteHelper
+                                            .companyMoreInfoFormPage);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 20,
+                                      ))
+                                ],
+                              ),
+                              SizedBox(height: 16.h,),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                        "${KalakarConstants.mobileNumber}"),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(": ${profileDta.mobileNumber}"),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text("${KalakarConstants.email}"),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(": ${profileDta.email}"),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 16.h,

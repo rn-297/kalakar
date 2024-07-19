@@ -260,8 +260,7 @@ class AuthPageController extends GetxController {
       await WriteLogFile.writeLog("responseBody : ${response.body}");
       await WriteLogFile.writeLog(
           "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
-      KalakarDialogs.successDialog(
-          "OTP Sent Failed", "Something Went Wrong !!!");
+      KalakarDialogs.successDialog("OTP Sent Failed", response.statusText);
     }
 
     update();

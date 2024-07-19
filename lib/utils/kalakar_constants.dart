@@ -10,6 +10,7 @@ class KalakarConstants {
   static const String getChangePasswordApi = "/Account/ChangePassword";
   static const String getLoginApi = "/Account/AccountLogin";
   static const String noInternetMessage = "No Internet Connection !!!";
+  static const String somethingWentWrongMsg = "Something Went Wrong";
 
   //artist profile api
   static const String saveArtistProfileApi = "/SaveArtistProfile";

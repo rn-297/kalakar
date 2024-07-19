@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as Http;
-import 'package:http_parser/http_parser.dart' as mime;
 
 import 'package:kalakar/utils/kalakar_constants.dart';
 
@@ -29,7 +28,7 @@ abstract class ApiClient extends GetxService {
     } catch (ex) {
       print(ex);
       return Response(
-          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+          statusCode: 1, statusText: ex.toString());
     }
   }
 
@@ -54,8 +53,7 @@ abstract class ApiClient extends GetxService {
       return response;
     } catch (ex) {
       print(ex);
-      return const Response(
-          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+      return Response(statusCode: 1, statusText: ex.toString());
     }
   }
 
@@ -80,8 +78,7 @@ abstract class ApiClient extends GetxService {
       return _response;
     } catch (ex) {
       print(ex);
-      return Response(
-          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+      return Response(statusCode: 1, statusText: ex.toString());
     }
   }
 
@@ -115,7 +112,7 @@ abstract class ApiClient extends GetxService {
     } catch (ex) {
       print(ex);
       return Response(
-          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+          statusCode: 1, statusText: ex.toString());
     }
   }
 
@@ -149,7 +146,8 @@ abstract class ApiClient extends GetxService {
               ? await Http.MultipartFile.fromPath(key, file.path,
                   filename: file.path.split("/").last,
                   contentType: mime.MediaType("document", "pdf"))
-              :*/ await Http.MultipartFile.fromPath(key, file.path,
+              :*/
+              await Http.MultipartFile.fromPath(key, file.path,
                   filename: file.path.split("/").last);
           request.files.add(multipartFile);
         });
@@ -166,7 +164,7 @@ abstract class ApiClient extends GetxService {
     } catch (ex) {
       print(ex);
       return Response(
-          statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+          statusCode: 1, statusText: ex.toString());
     }
   }
 }
