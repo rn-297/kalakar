@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/data/api/api_client.dart';
@@ -11,6 +9,7 @@ import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
+import 'package:kalakar/data/models/project_status_list_class.dart';
 import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
@@ -55,7 +54,8 @@ class ProfileController extends GetxController {
   String adminAadharCardPath = "";
   String addressProofCompanyPath = "";
   String selfieUploadedPath = "";
-
+  String projectCoverPath = "";
+  List<String> projectDocuments = [];
   int startTime = 90;
 
   bool isNetworkCompanyLogo = true;
@@ -71,12 +71,18 @@ class ProfileController extends GetxController {
   List<String> stateList = [];
   List<String> cityList = [];
   List<String> pinCodeList = [];
+  List<GetProjectStatusMasterlist> projectStatusList = [];
+  List<String> projectStatusStringList = [];
 
   ProfileGetDataClass? profileData = ProfileGetDataClass();
 
   final _formProfileKey = GlobalKey<FormState>();
 
   get formProfileKey => _formProfileKey;
+
+  final _formNewProjectKey = GlobalKey<FormState>();
+
+  get formNewProjectKey => _formNewProjectKey;
 
   final _formCompanyProfileMoreInfoOtpKey = GlobalKey<FormState>();
 
@@ -97,6 +103,7 @@ class ProfileController extends GetxController {
     super.onInit();
     getProfileData();
     getStateData();
+    getProjectStatusData();
   }
 
   void getProfileData() async {
@@ -229,7 +236,7 @@ class ProfileController extends GetxController {
   }
 
   String? projectStatusValidator(String? value) {
-    if (value == null || value.isEmpty) {
+    if (value == null) {
       return 'Please Enter Bio';
     }
     return null;
@@ -238,45 +245,49 @@ class ProfileController extends GetxController {
   Future<void> openSocialMedia(int index) async {
     switch (index) {
       case 0:
-        if (await canLaunchUrl(Uri.parse(profileData!.fbLink!))) {
+        try {
           launchUrl(Uri.parse(profileData!.fbLink!));
-        } else {
-          print("url not available");
+        } catch (e) {
+          print(e);
         }
+
         break;
       case 1:
-        if (await canLaunchUrl(Uri.parse(profileData!.instalink!))) {
+        try {
           launchUrl(Uri.parse(profileData!.instalink!));
-        } else {
-          print("url not available");
+        } catch (e) {
+          print(e);
         }
+
         break;
       case 2:
-        if (await canLaunchUrl(Uri.parse(profileData!.wpLink!))) {
+        try {
           launchUrl(Uri.parse(profileData!.wpLink!));
-        } else {
-          print("url not available");
+        } catch (e) {
+          print(e);
         }
+
         break;
       case 3:
-        if (await canLaunchUrl(Uri.parse(profileData!.ytLink!))) {
+        try {
           launchUrl(Uri.parse(profileData!.ytLink!));
-        } else {
-          print("url not available");
+        } catch (e) {
+          print(e);
         }
+
         break;
       case 4:
-        if (await canLaunchUrl(Uri.parse(profileData!.emailLink!))) {
+        try {
           launchUrl(Uri.parse(profileData!.emailLink!));
-        } else {
-          print("url not available");
+        } catch (e) {
+          print(e);
         }
         break;
       case 5:
-        if (await canLaunchUrl(Uri.parse(profileData!.websiteLink!))) {
+        try {
           launchUrl(Uri.parse(profileData!.websiteLink!));
-        } else {
-          print("url not available");
+        } catch (e) {
+          print(e);
         }
         break;
     }
@@ -505,6 +516,9 @@ class ProfileController extends GetxController {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
         selfieUploadTEController.text = file.path.split("/").last;
+      } else if (documentType == KalakarConstants.projectCover) {
+        projectCoverPath = file.path;
+        // selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.companyLogo) {
         isNetworkCompanyLogo = false;
         companyLogo = file.path;
@@ -519,6 +533,37 @@ class ProfileController extends GetxController {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
         selfieUploadTEController.text = file.path.split("/").last;
+      } else if (documentType == KalakarConstants.projectCover) {
+        projectCoverPath = file.path;
+        // selfieUploadTEController.text = file.path.split("/").last;
+      } else if (documentType == KalakarConstants.companyLogo) {
+        isNetworkCompanyLogo = false;
+        companyLogo = file.path;
+      }
+      update();
+    }
+    Get.back();
+  }
+
+  Future<void> getVideoFromCamera(BuildContext context) async {
+    File? file = await PickerHelper.pickVideoFromCamera(context);
+    if (file != null) {
+      if (documentType == KalakarConstants.projectDocuments) {
+        projectDocuments.add(file.path);
+      }
+    }
+    Get.back();
+  }
+
+  Future<void> getVideoFromGallery(BuildContext context) async {
+    File? file = await PickerHelper.pickVideoFromGallery(context);
+    if (file != null) {
+      if (documentType == KalakarConstants.selfieUpload) {
+        selfieUploadedPath = file.path;
+        selfieUploadTEController.text = file.path.split("/").last;
+      } else if (documentType == KalakarConstants.projectCover) {
+        projectCoverPath = file.path;
+        // selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.companyLogo) {
         isNetworkCompanyLogo = false;
         companyLogo = file.path;
@@ -660,8 +705,32 @@ class ProfileController extends GetxController {
         break;
       case KalakarConstants.selfieUpload:
         this.documentType = documentType;
-        PickerHelper.showBottomSheet(context, controller);
+        PickerHelper.showImageBottomSheet(context, controller);
         break;
     }
   }
+
+  void sendProfileForVerification() {}
+
+  Future<void> getProjectStatusData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {"fK_AccountID": loginTable.accountID};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getProjectStatus,
+          jsonEncode(body),
+          loginTable.token);
+
+      if (response.statusCode == 200) {
+        ProjectStatusListClass projectStatusListClass =
+            ProjectStatusListClass.fromJson(jsonDecode(response.body));
+        projectStatusList = projectStatusListClass.getProjectStatusMasterlist!;
+        projectStatusStringList =
+            projectStatusList.map((item) => item.projectStatus!).toList();
+      }
+    }
+  }
+
+  void setProjectStatus(String selectedItem) {}
 }

@@ -50,6 +50,8 @@ class KalakarConstants {
       "/CompanyProfile/GetCompanyProjects";
   static const String getCompanyProfileProjectDocumentsApi =
       "/CompanyProfile/GetCompanyProjects";
+  static const String getProjectStatus =
+      "/CompanyProfile/GetProjectStatus";
 
   //requirement details apis
   static const String saveRequirementsDetailsApi = "/SaveRequirementDetails";
@@ -197,8 +199,10 @@ class KalakarConstants {
   static const String projectDescription = "Project Description";
   static const String projectStatus = "Project Status";
   static const String addPhotosAndVideos = "Add Photos And Videos";
+  static const String saveNewProject = "Save Project";
   static const String selectState = "Select State";
   static const String selectDistrict = "Select District";
   static const String selectPinCode = "Select Pin Code";
+  static const String projectDocuments = "Project Documents";
 
 }

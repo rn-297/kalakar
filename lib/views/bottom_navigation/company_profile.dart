@@ -78,13 +78,34 @@ class CompanyProfilePage extends StatelessWidget {
                               color: KalakarColors.headerText,
                               fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          controller.profileData!.companyNameProductionhouse ??
-                              "NA",
-                          style: TextStyle(
-                              fontSize: 25.sp,
-                              color: KalakarColors.buttonText,
-                              fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.edit,
+                              color: Colors.transparent,
+                              size: 35,
+                            ),
+                            Text(
+                              controller.profileData!.companyNameProductionhouse ??
+                                  "NA",
+                              style: TextStyle(
+                                  fontSize: 25.sp,
+                                  color: KalakarColors.buttonText,
+                                  fontWeight: FontWeight.bold),
+                            ),
+
+                                InkWell(
+                                    onTap: () {
+
+                                      controller.setProfileFormData();
+                                      Get.toNamed(RouteHelper.companyProfileFormPage);
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 25,
+                                    ))
+                          ],
                         ),
                         SizedBox(
                           height: 4.h,
@@ -100,7 +121,9 @@ class CompanyProfilePage extends StatelessWidget {
                                   CustomMobileButtonWidget(
                                     text: KalakarConstants
                                         .sendProfileForVerification,
-                                    onTap: () {},
+                                    onTap: () {
+                                      controller.sendProfileForVerification();
+                                    },
                                     horizontalPadding: 20.w,
                                     verticalPadding: 8.h,
                                     fontSize: 14.sp,
@@ -140,25 +163,25 @@ class CompanyProfilePage extends StatelessWidget {
                             Text(profileDta.bio ?? "NA"),
                           ],
                         ),
-                        SizedBox(
-                          height: 32.h,
-                          width: Get.size.width / 2,
-                          child: DashedDottedDivider(
-                            isHorizontal: true,
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 32.h,
+                        //   width: Get.size.width / 2,
+                        //   child: DashedDottedDivider(
+                        //     isHorizontal: true,
+                        //   ),
+                        // ),
                         Container(
                           padding: EdgeInsets.all(16.h),
-                          margin: EdgeInsets.all(8.h),
+                          margin: EdgeInsets.all(4.h),
                           decoration: BoxDecoration(
-                            color: KalakarColors.lightAppBarBackground,
+                            color: KalakarColors.backgroundGrey,
                             borderRadius: BorderRadius.circular(8.r),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 5.0,
-                              ),
-                            ],
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.grey,
+                            //     blurRadius: 4.0,
+                            //   ),
+                            // ],
                           ),
                           child: Column(
                             children: [
@@ -568,22 +591,22 @@ class CompanyProfilePage extends StatelessWidget {
         KalakarConstants.profile1,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
-      actions: [
-        InkWell(
-          onTap: () {
-            ProfileController profileController = Get.put(ProfileController());
-            profileController.setProfileFormData();
-            Get.toNamed(RouteHelper.companyProfileFormPage);
-          },
-          child: Icon(
-            Icons.edit,
-            size: 30.h,
-          ),
-        ),
-        SizedBox(
-          width: 16.h,
-        )
-      ],
+      // actions: [
+      //   InkWell(
+      //     onTap: () {
+      //       ProfileController profileController = Get.put(ProfileController());
+      //       profileController.setProfileFormData();
+      //       Get.toNamed(RouteHelper.companyProfileFormPage);
+      //     },
+      //     child: Icon(
+      //       Icons.edit,
+      //       size: 30.h,
+      //     ),
+      //   ),
+      //   SizedBox(
+      //     width: 16.h,
+      //   )
+      // ],
     );
   }
 

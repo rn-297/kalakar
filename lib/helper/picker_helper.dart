@@ -23,6 +23,26 @@ class PickerHelper {
   }
 
   static Future<File?> pickImageFromCamera(BuildContext context) async {
+    XFile? file = await _imagePicker.pickVideo(
+        source: ImageSource.camera);
+    String? croppedImage = "";
+    if (file != null) {
+      croppedImage = await cropMyImage(file, context) ?? "";
+    }
+    return File(croppedImage);
+  }
+
+  static Future<File?> pickVideoFromGallery(BuildContext context) async {
+    XFile? file = await _imagePicker.pickVideo(
+        source: ImageSource.gallery);
+    String? croppedImage = "";
+    if (file != null) {
+      croppedImage = await cropMyImage(file, context) ?? "";
+    }
+    return File(croppedImage);
+  }
+
+  static Future<File?> pickVideoFromCamera(BuildContext context) async {
     XFile? file = await _imagePicker.pickImage(
         source: ImageSource.camera, maxWidth: 600, maxHeight: 600);
     String? croppedImage = "";
@@ -39,7 +59,6 @@ class PickerHelper {
       allowCompression: true,
       allowedExtensions: [ 'pdf'],
     );
-
     return result!=null?File(result.paths[0]!):null;
   }
 
@@ -68,7 +87,7 @@ class PickerHelper {
     return croppedFile?.path;
   }
 
-  static void showBottomSheet(BuildContext context, controller) {
+  static void showImageBottomSheet(BuildContext context, controller) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -104,6 +123,100 @@ class PickerHelper {
                 child: Container(
                     padding: EdgeInsets.all(8.h),
                     child: Text("Gallery",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ))),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  static void showVideoBottomSheet(BuildContext context, controller) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: Get.size.width,
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Add Video",
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              Divider(
+                thickness: 2.h,
+              ),
+              InkWell(
+                onTap: () {
+                  controller.getVideoFromCamera(context);
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.h),
+                    child: Text("Camera",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ))),
+              ),
+              Divider(),
+              InkWell(
+                onTap: () {
+                  controller.getVideoFromGallery(context);
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.h),
+                    child: Text("Gallery",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ))),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  static void showImageVideoBottomSheet(BuildContext context, controller) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: Get.size.width,
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Add Photos And Videos",
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              Divider(
+                thickness: 2.h,
+              ),
+              InkWell(
+                onTap: () {
+                  showImageBottomSheet(context, controller);
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.h),
+                    child: Text("Add Photo",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ))),
+              ),
+              Divider(),
+              InkWell(
+                onTap: () {
+                  showVideoBottomSheet(context,controller);
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.h),
+                    child: Text("Add Video",
                         style: TextStyle(
                           fontSize: 16.sp,
                         ))),

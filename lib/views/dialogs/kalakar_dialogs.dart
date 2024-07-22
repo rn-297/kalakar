@@ -61,7 +61,8 @@ class KalakarDialogs {
         ProfileController profileController=Get.put(ProfileController());
         profileController.getProfileData();
       }
-      Get.put(SettingsController());
+      SettingsController settingsController=Get.put(SettingsController());
+      settingsController.onInit();
     });
     Get.defaultDialog(
       title: title,

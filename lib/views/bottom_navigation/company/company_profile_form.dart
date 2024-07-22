@@ -93,7 +93,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                               onTap: () {
                                 controller.documentType =
                                     KalakarConstants.companyLogo;
-                                PickerHelper.showBottomSheet(
+                                PickerHelper.showImageBottomSheet(
                                     context, controller);
                               },
                               child: Icon(Icons.camera_alt_outlined)))
