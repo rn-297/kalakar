@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
+import 'package:kalakar/data/models/file_data_model.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
 import 'package:kalakar/data/models/project_status_list_class.dart';
@@ -37,14 +39,14 @@ class ProfileController extends GetxController {
   TextEditingController nameTEController = TextEditingController();
   TextEditingController ownerCeoNameTEController = TextEditingController();
   TextEditingController filmCorporationCardTEController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController adminAadharCardTEController = TextEditingController();
   TextEditingController addressProofOfCompanyTEController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController selfieUploadTEController = TextEditingController();
   TextEditingController projectTitleTEController = TextEditingController();
   TextEditingController projectDescriptionTEController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController projectStatusTEController = TextEditingController();
 
   String oTP = "";
@@ -55,7 +57,7 @@ class ProfileController extends GetxController {
   String addressProofCompanyPath = "";
   String selfieUploadedPath = "";
   String projectCoverPath = "";
-  List<String> projectDocuments = [];
+  List<FileData> projectDocuments = [FileData(path: "", type: "Add", imageData: null)];
   int startTime = 90;
 
   bool isNetworkCompanyLogo = true;
@@ -121,7 +123,7 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ProfileGetDataClass profileGetDataClass =
-            ProfileGetDataClass.fromJson(jsonDecode(response.body));
+        ProfileGetDataClass.fromJson(jsonDecode(response.body));
         if (profileGetDataClass.replayStatus ?? false) {
           profileData = profileGetDataClass;
           setProfileFormData();
@@ -337,7 +339,7 @@ class ProfileController extends GetxController {
         }
         if (response.statusCode == 200) {
           ResponseModel responseModel =
-              ResponseModel.fromJson(jsonDecode(response.body));
+          ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
             KalakarDialogs.successDialog(
@@ -376,24 +378,40 @@ class ProfileController extends GetxController {
     nameTEController.text = profileData!.name ?? "";
     ownerCeoNameTEController.text = profileData!.adminOwerCEO ?? "";
     filmCorporationCardTEController.text =
-        (profileData!.filmCorpprationCardDOC ?? "").isNotEmpty
-            ? profileData!.filmCorpprationCardDOC.toString().split("\\").last
-            : "";
+    (profileData!.filmCorpprationCardDOC ?? "").isNotEmpty
+        ? profileData!
+        .filmCorpprationCardDOC
+        .toString()
+        .split("\\")
+        .last
+        : "";
     filmCorporationCardPath = profileData!.filmCorpprationCardDOC ?? "";
     adminAadharCardTEController.text =
-        (profileData!.adminAdharCardDOC ?? "").isNotEmpty
-            ? profileData!.adminAdharCardDOC.toString().split("\\").last
-            : "";
+    (profileData!.adminAdharCardDOC ?? "").isNotEmpty
+        ? profileData!
+        .adminAdharCardDOC
+        .toString()
+        .split("\\")
+        .last
+        : "";
     adminAadharCardPath = profileData!.adminAdharCardDOC ?? "";
     addressProofOfCompanyTEController.text =
-        (profileData!.addressProofofCompanyDOC ?? "").isNotEmpty
-            ? profileData!.addressProofofCompanyDOC.toString().split("\\").last
-            : "";
+    (profileData!.addressProofofCompanyDOC ?? "").isNotEmpty
+        ? profileData!
+        .addressProofofCompanyDOC
+        .toString()
+        .split("\\")
+        .last
+        : "";
     addressProofCompanyPath = profileData!.addressProofofCompanyDOC ?? "";
     selfieUploadTEController.text =
-        (profileData!.selfieuploadDOC ?? "").isNotEmpty
-            ? profileData!.selfieuploadDOC.toString().split("\\").last
-            : "";
+    (profileData!.selfieuploadDOC ?? "").isNotEmpty
+        ? profileData!
+        .selfieuploadDOC
+        .toString()
+        .split("\\")
+        .last
+        : "";
     selfieUploadedPath = profileData!.selfieuploadDOC ?? "";
     isContactVerified = profileData!.isVerifiedContacts == "True";
     update();
@@ -423,7 +441,7 @@ class ProfileController extends GetxController {
         }
         if (response.statusCode == 200) {
           ResponseModel responseModel =
-              ResponseModel.fromJson(jsonDecode(response.body));
+          ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
             KalakarDialogs.successDialog(
@@ -487,7 +505,7 @@ class ProfileController extends GetxController {
         }
         if (response.statusCode == 200) {
           ResponseModel responseModel =
-              ResponseModel.fromJson(jsonDecode(response.body));
+          ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
             KalakarDialogs.successDialog(
@@ -508,21 +526,32 @@ class ProfileController extends GetxController {
     }
   }
 
-  void addPhotosAndVideos() {}
+  void addPhotosAndVideos(BuildContext context, ProfileController controller) {
+    documentType = KalakarConstants.projectDocuments;
+    PickerHelper.showImageVideoBottomSheet(context, controller);
+  }
 
   Future<void> getImageFromCamera(BuildContext context) async {
     File? file = await PickerHelper.pickImageFromCamera(context);
     if (file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
-        selfieUploadTEController.text = file.path.split("/").last;
+        selfieUploadTEController.text = file.path
+            .split("/")
+            .last;
       } else if (documentType == KalakarConstants.projectCover) {
         projectCoverPath = file.path;
         // selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.companyLogo) {
         isNetworkCompanyLogo = false;
         companyLogo = file.path;
+      } else if (documentType == KalakarConstants.projectDocuments) {
+        Uint8List imageData = await File(file.path).readAsBytesSync();
+        FileData fileData = FileData(
+            path: file.path, type: "IMAGE", imageData: imageData);
+        projectDocuments.add(fileData);
       }
+      update();
     }
     Get.back();
   }
@@ -532,13 +561,20 @@ class ProfileController extends GetxController {
     if (file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
-        selfieUploadTEController.text = file.path.split("/").last;
+        selfieUploadTEController.text = file.path
+            .split("/")
+            .last;
       } else if (documentType == KalakarConstants.projectCover) {
         projectCoverPath = file.path;
         // selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.companyLogo) {
         isNetworkCompanyLogo = false;
         companyLogo = file.path;
+      } else if (documentType == KalakarConstants.projectDocuments) {
+        Uint8List imageData = await File(file.path).readAsBytesSync();
+        FileData fileData = FileData(
+            path: file.path, type: "IMAGE", imageData: imageData);
+        projectDocuments.add(fileData);
       }
       update();
     }
@@ -549,7 +585,10 @@ class ProfileController extends GetxController {
     File? file = await PickerHelper.pickVideoFromCamera(context);
     if (file != null) {
       if (documentType == KalakarConstants.projectDocuments) {
-        projectDocuments.add(file.path);
+        Uint8List imageData = await File(file.path).readAsBytesSync();
+        FileData fileData = FileData(
+            path: file.path, type: "VIDEO", imageData: imageData);
+        projectDocuments.add(fileData);
       }
     }
     Get.back();
@@ -560,7 +599,9 @@ class ProfileController extends GetxController {
     if (file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
-        selfieUploadTEController.text = file.path.split("/").last;
+        selfieUploadTEController.text = file.path
+            .split("/")
+            .last;
       } else if (documentType == KalakarConstants.projectCover) {
         projectCoverPath = file.path;
         // selfieUploadTEController.text = file.path.split("/").last;
@@ -582,7 +623,7 @@ class ProfileController extends GetxController {
   getStateData() async {
     stateCityPinCodeList = await StateCityPinCodeHelper.getCsvData();
     stateList =
-        await StateCityPinCodeHelper.getFilteredState(stateCityPinCodeList);
+    await StateCityPinCodeHelper.getFilteredState(stateCityPinCodeList);
 
     update();
   }
@@ -621,7 +662,9 @@ class ProfileController extends GetxController {
       // Example fields (if any)
       Map<String, String> fields = {
         'FK_AccountID': loginTable.accountID,
-        'CompanyLogo': "${companyLogo.split("/").last}",
+        'CompanyLogo': "${companyLogo
+            .split("/")
+            .last}",
         'CompanyNameProductionhouse': companyNameTEController.text.trim(),
         'AuthoriseAdminName': adminNameTEController.text.trim(),
         'Address': addressTEController.text.trim(),
@@ -656,7 +699,7 @@ class ProfileController extends GetxController {
       }
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-            ResponseModel.fromJson(jsonDecode(response.body));
+        ResponseModel.fromJson(jsonDecode(response.body));
 
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
@@ -675,15 +718,17 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> pickDocument(
-      String documentType, BuildContext context, controller) async {
+  Future<void> pickDocument(String documentType, BuildContext context,
+      controller) async {
     print(documentType);
     switch (documentType) {
       case KalakarConstants.filmCorporationCard:
         File? file = await PickerHelper.pickPdfFromGallery();
         if (file != null) {
           filmCorporationCardPath = file.path;
-          filmCorporationCardTEController.text = file.path.split("/").last;
+          filmCorporationCardTEController.text = file.path
+              .split("/")
+              .last;
           update();
         }
         break;
@@ -691,7 +736,9 @@ class ProfileController extends GetxController {
         File? file = await PickerHelper.pickPdfFromGallery();
         if (file != null) {
           adminAadharCardPath = file.path;
-          adminAadharCardTEController.text = file.path.split("/").last;
+          adminAadharCardTEController.text = file.path
+              .split("/")
+              .last;
           update();
         }
         break;
@@ -699,7 +746,9 @@ class ProfileController extends GetxController {
         File? file = await PickerHelper.pickPdfFromGallery();
         if (file != null) {
           addressProofCompanyPath = file.path;
-          addressProofOfCompanyTEController.text = file.path.split("/").last;
+          addressProofOfCompanyTEController.text = file.path
+              .split("/")
+              .last;
           update();
         }
         break;
@@ -724,7 +773,7 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ProjectStatusListClass projectStatusListClass =
-            ProjectStatusListClass.fromJson(jsonDecode(response.body));
+        ProjectStatusListClass.fromJson(jsonDecode(response.body));
         projectStatusList = projectStatusListClass.getProjectStatusMasterlist!;
         projectStatusStringList =
             projectStatusList.map((item) => item.projectStatus!).toList();
@@ -733,4 +782,8 @@ class ProfileController extends GetxController {
   }
 
   void setProjectStatus(String selectedItem) {}
+
+  void saveNewProject() {
+
+  }
 }

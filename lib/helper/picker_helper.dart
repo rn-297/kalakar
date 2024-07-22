@@ -23,8 +23,8 @@ class PickerHelper {
   }
 
   static Future<File?> pickImageFromCamera(BuildContext context) async {
-    XFile? file = await _imagePicker.pickVideo(
-        source: ImageSource.camera);
+    XFile? file = await _imagePicker.pickImage(
+        source: ImageSource.camera, maxWidth: 800, maxHeight: 800);
     String? croppedImage = "";
     if (file != null) {
       croppedImage = await cropMyImage(file, context) ?? "";
@@ -200,6 +200,7 @@ class PickerHelper {
               ),
               InkWell(
                 onTap: () {
+                    Get.back();
                   showImageBottomSheet(context, controller);
                 },
                 child: Container(
@@ -212,6 +213,7 @@ class PickerHelper {
               Divider(),
               InkWell(
                 onTap: () {
+                    Get.back();
                   showVideoBottomSheet(context,controller);
                 },
                 child: Container(

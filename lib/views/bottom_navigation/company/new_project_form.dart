@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
@@ -39,6 +42,7 @@ class NewProjectFormPage extends StatelessWidget {
         padding: EdgeInsets.all(16.h),
         child: GetBuilder<ProfileController>(builder: (controller) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
                 child: Stack(
@@ -62,7 +66,8 @@ class NewProjectFormPage extends StatelessWidget {
                           onTap: () {
                             controller.documentType =
                                 KalakarConstants.projectCover;
-                            PickerHelper.showImageBottomSheet(context, controller);
+                            PickerHelper.showImageBottomSheet(
+                                context, controller);
                           },
                           child: Icon(
                             Icons.camera_alt_outlined,
@@ -74,9 +79,12 @@ class NewProjectFormPage extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              Text(
-                KalakarConstants.projectCover,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.sp),
+              Center(
+                child: Text(
+                  KalakarConstants.projectCover,
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 15.sp),
+                ),
               ),
               SizedBox(
                 height: 16.h,
@@ -127,22 +135,118 @@ class NewProjectFormPage extends StatelessWidget {
                   ],
                 ),
               ),
-              CustomMobileButtonWidget(
+              /*CustomMobileButtonWidget(
                 onTap: () {
-                  controller.addPhotosAndVideos();
+                  controller.addPhotosAndVideos(context, controller);
                 },
                 borderRadius: 50.r,
                 fontSize: 14.sp,
                 text: KalakarConstants.addPhotosAndVideos,
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
+              ),*/
+
+              Container(
+                decoration: BoxDecoration(
+                    color: KalakarColors.backgroundGrey,
+                    borderRadius: BorderRadius.circular(8.r)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 18.w),
+                        child: Text(
+                          KalakarConstants.addPhotosAndVideos,
+                          style: TextStyle(fontSize: 14.sp),
+                        )),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10.h),
+                      height: 190.h,
+                      width: double.infinity,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.projectDocuments.length,
+                          itemBuilder: (context, index) {
+                            return controller.projectDocuments[index].type ==
+                                    "Add"
+                                ? InkWell(
+                                    onTap: () {
+                                      controller.addPhotosAndVideos(
+                                          context, controller);
+                                    },
+                                    child: Container(
+                                      height: 180.h,
+                                      width: 125.h,
+                                      margin: EdgeInsets.only(right: 15.w),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        border: Border.all(),
+                                      ),
+                                      child: Center(
+                                          child: Icon(
+                                        Icons.add,
+                                        size: 35,
+                                      )),
+                                    ),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(right: 15.w),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 180.h,
+                                          width: 125.h,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
+                                            image: DecorationImage(
+                                                image: MemoryImage(
+                                                  controller
+                                                      .projectDocuments[index]
+                                                      .imageData!,
+                                                ),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: InkWell(
+                                            onTap: () {},
+                                            child: Container(
+                                                padding: EdgeInsets.all(4.h),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50.r),
+                                                    color: KalakarColors.white
+                                                        .withOpacity(.5)),
+                                                child: Icon(Icons.delete)),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ); //Container();
+                          }),
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: 32.h,
               ),
               CustomMobileButtonWidget(
                 onTap: () {
-                  controller.addPhotosAndVideos();
+                  controller.saveNewProject();
                 },
                 borderRadius: 50.r,
                 fontSize: 14.sp,
