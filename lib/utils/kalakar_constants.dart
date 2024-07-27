@@ -12,6 +12,11 @@ class KalakarConstants {
   static const String noInternetMessage = "No Internet Connection !!!";
   static const String somethingWentWrongMsg = "Something Went Wrong";
 
+
+  //file paths
+
+  static const String profilePath="kalaakar/profile_docs/";
+
   //artist profile api
   static const String saveArtistProfileApi = "/SaveArtistProfile";
   static const String saveArtistProfileEducationApi =

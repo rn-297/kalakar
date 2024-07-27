@@ -5,6 +5,7 @@ import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/helper/file_viewer/file_controller.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:video_player/video_player.dart';
 import '../../helper/route_helper.dart';
@@ -100,12 +101,12 @@ class _ViewFilePageState extends State<ViewFilePage> {
     );
   }
 
-  Future<void> setVideoData() async {
+  Future<void> setVideoData(String filePath) async {
     print("object");
     final String _localFilePath = "";
     final File _localFile = File(_localFilePath);
     try {
-      videoController = await VideoPlayerController.file(_localFile)
+      videoController = await VideoPlayerController.contentUri(Uri.parse(filePath))
         ..initialize().then((value) => {
           setState(() {}),
         });
@@ -127,13 +128,14 @@ class _ViewFilePageState extends State<ViewFilePage> {
   }
 
   Future<void> checkFileType() async {
+    FileController fileController= Get.put(FileController());
     fileType.value = "";
 
     // print("set pdf image video");
 
     fileType.refresh();
 
-    fileType.value = "folderController.fileViewPath"
+    fileType.value = fileController.filePath
         .toString()
         .split("/")
         .last
@@ -149,13 +151,13 @@ class _ViewFilePageState extends State<ViewFilePage> {
         if (count == 0) {
           pdfController = PdfControllerPinch(
               document:
-              PdfDocument.openFile("folderController.fileViewPath.path"));
+              PdfDocument.openFile(fileController.filePath));
 
           count++;
         } else {
           // await pdfController.document.then((value) => value.close());
           pdfController.loadDocument(
-              PdfDocument.openFile("folderController.fileViewPath.path"));
+              PdfDocument.openFile(fileController.filePath));
         }
         Timer(const Duration(milliseconds: 100), () {
           setState(() {
@@ -165,7 +167,7 @@ class _ViewFilePageState extends State<ViewFilePage> {
         // pdfController.document =
         //     PdfDocument.openFile(folderController.fileViewPath.path);
       } else if (fileType.value == 'mp4') {
-        setVideoData();
+        setVideoData(fileController.filePath);
       } else {}
     } catch (e) {
       // print(e);

@@ -12,6 +12,7 @@ import 'package:kalakar/data/models/file_data_model.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
 import 'package:kalakar/data/models/project_status_list_class.dart';
+import 'package:kalakar/helper/file_viewer/file_controller.dart';
 import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
@@ -39,14 +40,14 @@ class ProfileController extends GetxController {
   TextEditingController nameTEController = TextEditingController();
   TextEditingController ownerCeoNameTEController = TextEditingController();
   TextEditingController filmCorporationCardTEController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController adminAadharCardTEController = TextEditingController();
   TextEditingController addressProofOfCompanyTEController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController selfieUploadTEController = TextEditingController();
   TextEditingController projectTitleTEController = TextEditingController();
   TextEditingController projectDescriptionTEController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController projectStatusTEController = TextEditingController();
 
   String oTP = "";
@@ -57,7 +58,10 @@ class ProfileController extends GetxController {
   String addressProofCompanyPath = "";
   String selfieUploadedPath = "";
   String projectCoverPath = "";
-  List<FileData> projectDocuments = [FileData(path: "", type: "Add", imageData: null)];
+  String projectStatusId = "";
+  List<FileData> projectDocuments = [
+    FileData(path: "", type: "Add", imageData: null)
+  ];
   int startTime = 90;
 
   bool isNetworkCompanyLogo = true;
@@ -123,7 +127,7 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ProfileGetDataClass profileGetDataClass =
-        ProfileGetDataClass.fromJson(jsonDecode(response.body));
+            ProfileGetDataClass.fromJson(jsonDecode(response.body));
         if (profileGetDataClass.replayStatus ?? false) {
           profileData = profileGetDataClass;
           setProfileFormData();
@@ -339,7 +343,7 @@ class ProfileController extends GetxController {
         }
         if (response.statusCode == 200) {
           ResponseModel responseModel =
-          ResponseModel.fromJson(jsonDecode(response.body));
+              ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
             KalakarDialogs.successDialog(
@@ -363,6 +367,7 @@ class ProfileController extends GetxController {
   }
 
   setProfileFormData() {
+    print(profileData!.verificationStatus);
     isNetworkCompanyLogo = true;
     companyLogo = profileData!.companyLogo ?? "";
     companyNameTEController.text =
@@ -378,42 +383,42 @@ class ProfileController extends GetxController {
     nameTEController.text = profileData!.name ?? "";
     ownerCeoNameTEController.text = profileData!.adminOwerCEO ?? "";
     filmCorporationCardTEController.text =
-    (profileData!.filmCorpprationCardDOC ?? "").isNotEmpty
-        ? profileData!
-        .filmCorpprationCardDOC
-        .toString()
-        .split("\\")
-        .last
-        : "";
+        (profileData!.filmCorpprationCardDOC ?? "").isNotEmpty
+            ? profileData!.filmCorpprationCardDOC.toString().split("\\").last
+            : "";
     filmCorporationCardPath = profileData!.filmCorpprationCardDOC ?? "";
     adminAadharCardTEController.text =
-    (profileData!.adminAdharCardDOC ?? "").isNotEmpty
-        ? profileData!
-        .adminAdharCardDOC
-        .toString()
-        .split("\\")
-        .last
-        : "";
+        (profileData!.adminAdharCardDOC ?? "").isNotEmpty
+            ? profileData!.adminAdharCardDOC.toString().split("\\").last
+            : "";
     adminAadharCardPath = profileData!.adminAdharCardDOC ?? "";
     addressProofOfCompanyTEController.text =
-    (profileData!.addressProofofCompanyDOC ?? "").isNotEmpty
-        ? profileData!
-        .addressProofofCompanyDOC
-        .toString()
-        .split("\\")
-        .last
-        : "";
+        (profileData!.addressProofofCompanyDOC ?? "").isNotEmpty
+            ? profileData!.addressProofofCompanyDOC.toString().split("\\").last
+            : "";
     addressProofCompanyPath = profileData!.addressProofofCompanyDOC ?? "";
     selfieUploadTEController.text =
-    (profileData!.selfieuploadDOC ?? "").isNotEmpty
-        ? profileData!
-        .selfieuploadDOC
-        .toString()
-        .split("\\")
-        .last
-        : "";
+        (profileData!.selfieuploadDOC ?? "").isNotEmpty
+            ? profileData!.selfieuploadDOC.toString().split("\\").last
+            : "";
     selfieUploadedPath = profileData!.selfieuploadDOC ?? "";
     isContactVerified = profileData!.isVerifiedContacts == "True";
+    mobileNumberEditable = !(profileData!.isVerifiedContacts == "True");
+    emailEditable = !(profileData!.isVerifiedContacts == "True");
+    FileController fileController = Get.put(FileController());
+    if (filmCorporationCardPath.isNotEmpty) {
+      fileController.downloadFile(
+          KalakarConstants.profilePath, filmCorporationCardPath);
+    }
+    if (adminAadharCardPath.isNotEmpty) {
+      fileController.downloadFile(
+          KalakarConstants.profilePath, adminAadharCardPath);
+    }
+    if (addressProofCompanyPath.isNotEmpty) {
+      fileController.downloadFile(
+          KalakarConstants.profilePath, addressProofCompanyPath);
+    }
+
     update();
   }
 
@@ -441,7 +446,7 @@ class ProfileController extends GetxController {
         }
         if (response.statusCode == 200) {
           ResponseModel responseModel =
-          ResponseModel.fromJson(jsonDecode(response.body));
+              ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
             KalakarDialogs.successDialog(
@@ -505,7 +510,7 @@ class ProfileController extends GetxController {
         }
         if (response.statusCode == 200) {
           ResponseModel responseModel =
-          ResponseModel.fromJson(jsonDecode(response.body));
+              ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
             KalakarDialogs.successDialog(
@@ -536,9 +541,7 @@ class ProfileController extends GetxController {
     if (file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
-        selfieUploadTEController.text = file.path
-            .split("/")
-            .last;
+        selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.projectCover) {
         projectCoverPath = file.path;
         // selfieUploadTEController.text = file.path.split("/").last;
@@ -547,8 +550,8 @@ class ProfileController extends GetxController {
         companyLogo = file.path;
       } else if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
-        FileData fileData = FileData(
-            path: file.path, type: "IMAGE", imageData: imageData);
+        FileData fileData =
+            FileData(path: file.path, type: "IMAGE", imageData: imageData);
         projectDocuments.add(fileData);
       }
       update();
@@ -561,9 +564,7 @@ class ProfileController extends GetxController {
     if (file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
-        selfieUploadTEController.text = file.path
-            .split("/")
-            .last;
+        selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.projectCover) {
         projectCoverPath = file.path;
         // selfieUploadTEController.text = file.path.split("/").last;
@@ -572,8 +573,8 @@ class ProfileController extends GetxController {
         companyLogo = file.path;
       } else if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
-        FileData fileData = FileData(
-            path: file.path, type: "IMAGE", imageData: imageData);
+        FileData fileData =
+            FileData(path: file.path, type: "IMAGE", imageData: imageData);
         projectDocuments.add(fileData);
       }
       update();
@@ -586,8 +587,8 @@ class ProfileController extends GetxController {
     if (file != null) {
       if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
-        FileData fileData = FileData(
-            path: file.path, type: "VIDEO", imageData: imageData);
+        FileData fileData =
+            FileData(path: file.path, type: "VIDEO", imageData: imageData);
         projectDocuments.add(fileData);
       }
     }
@@ -599,9 +600,7 @@ class ProfileController extends GetxController {
     if (file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
-        selfieUploadTEController.text = file.path
-            .split("/")
-            .last;
+        selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.projectCover) {
         projectCoverPath = file.path;
         // selfieUploadTEController.text = file.path.split("/").last;
@@ -623,7 +622,7 @@ class ProfileController extends GetxController {
   getStateData() async {
     stateCityPinCodeList = await StateCityPinCodeHelper.getCsvData();
     stateList =
-    await StateCityPinCodeHelper.getFilteredState(stateCityPinCodeList);
+        await StateCityPinCodeHelper.getFilteredState(stateCityPinCodeList);
 
     update();
   }
@@ -662,9 +661,7 @@ class ProfileController extends GetxController {
       // Example fields (if any)
       Map<String, String> fields = {
         'FK_AccountID': loginTable.accountID,
-        'CompanyLogo': "${companyLogo
-            .split("/")
-            .last}",
+        'CompanyLogo': "${companyLogo.split("/").last}",
         'CompanyNameProductionhouse': companyNameTEController.text.trim(),
         'AuthoriseAdminName': adminNameTEController.text.trim(),
         'Address': addressTEController.text.trim(),
@@ -699,7 +696,7 @@ class ProfileController extends GetxController {
       }
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-        ResponseModel.fromJson(jsonDecode(response.body));
+            ResponseModel.fromJson(jsonDecode(response.body));
 
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
@@ -718,17 +715,15 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> pickDocument(String documentType, BuildContext context,
-      controller) async {
+  Future<void> pickDocument(
+      String documentType, BuildContext context, controller) async {
     print(documentType);
     switch (documentType) {
       case KalakarConstants.filmCorporationCard:
         File? file = await PickerHelper.pickPdfFromGallery();
         if (file != null) {
           filmCorporationCardPath = file.path;
-          filmCorporationCardTEController.text = file.path
-              .split("/")
-              .last;
+          filmCorporationCardTEController.text = file.path.split("/").last;
           update();
         }
         break;
@@ -736,9 +731,7 @@ class ProfileController extends GetxController {
         File? file = await PickerHelper.pickPdfFromGallery();
         if (file != null) {
           adminAadharCardPath = file.path;
-          adminAadharCardTEController.text = file.path
-              .split("/")
-              .last;
+          adminAadharCardTEController.text = file.path.split("/").last;
           update();
         }
         break;
@@ -746,9 +739,7 @@ class ProfileController extends GetxController {
         File? file = await PickerHelper.pickPdfFromGallery();
         if (file != null) {
           addressProofCompanyPath = file.path;
-          addressProofOfCompanyTEController.text = file.path
-              .split("/")
-              .last;
+          addressProofOfCompanyTEController.text = file.path.split("/").last;
           update();
         }
         break;
@@ -759,7 +750,49 @@ class ProfileController extends GetxController {
     }
   }
 
-  void sendProfileForVerification() {}
+  Future<void> sendProfileForVerification() async {
+    isLoading = true;
+    KalakarDialogs.loadingDialog(
+        "Profile Verification", "Sending Profile for Verification");
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      // Example fields (if any)
+      var body = {"fK_AccountID": "${loginTable.accountID}"};
+      print(body);
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.sendCompanyProfileForVerificationApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+      isLoading = false;
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog(
+              "Profile For Verification", responseModel.message!);
+          getProfileData();
+        } else {
+          KalakarDialogs.successDialog(
+              "Sending Profile For Verification Failed",
+              responseModel.message!);
+        }
+      }
+    } else {
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      KalakarDialogs.successDialog(
+          "Profile Save Failed", "Unable To Get Logged Data");
+    }
+  }
 
   Future<void> getProjectStatusData() async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -773,7 +806,7 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ProjectStatusListClass projectStatusListClass =
-        ProjectStatusListClass.fromJson(jsonDecode(response.body));
+            ProjectStatusListClass.fromJson(jsonDecode(response.body));
         projectStatusList = projectStatusListClass.getProjectStatusMasterlist!;
         projectStatusStringList =
             projectStatusList.map((item) => item.projectStatus!).toList();
@@ -781,9 +814,74 @@ class ProfileController extends GetxController {
     }
   }
 
-  void setProjectStatus(String selectedItem) {}
+  void setProjectStatus(String selectedItem) {
+    projectStatusId = projectStatusList
+        .where((element) => element.projectStatus == selectedItem)
+        .first
+        .projectStatusID
+        .toString();
+  }
 
-  void saveNewProject() {
+  Future<void> saveNewProject() async {
+    isLoading = true;
+    KalakarDialogs.loadingDialog(
+        "Uploading New Project", "Uploading New Project");
+    LoginTable? loginTable = await HiveService.getLoginData();
 
+    if (loginTable != null) {
+      // Example fields (if any)
+      Map<String, String> fields = {
+        'UserID': loginTable.userID,
+        'CompanyProjectID': "0",
+        'FK_AccountID': loginTable.accountID,
+        'FK_CompanyProfileID': "0",
+        'ProjectDescription': projectDescriptionTEController.text.trim(),
+        'ProjectStatusID': projectStatusId,
+        'ProjectTitle': projectTitleTEController.text.trim(),
+      };
+      print(fields);
+
+      // Example files (if any)
+      Map<String, File> files = {
+        'ProjectCoverDoc': File(projectCoverPath),
+      };
+
+      // Example files (if any)
+      Map<String, List<FileData>> files1 = {
+        'ProjectDocuments':
+            projectDocuments.where((element) => element.path != "").toList(),
+      };
+
+      var response = await ApiClient.postFormDataToken1(
+          KalakarConstants.saveCompanyProfileProjectApi,
+          fields,
+          files,
+          files1,
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+      isLoading = false;
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
+          getProfileData();
+        } else {
+          KalakarDialogs.successDialog(
+              "Profile Save Failed", responseModel.message!);
+        }
+      }
+    } else {
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      KalakarDialogs.successDialog(
+          "Profile Save Failed", "Unable To Get Logged Data");
+    }
   }
 }

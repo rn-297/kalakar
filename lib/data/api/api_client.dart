@@ -6,6 +6,8 @@ import 'package:http/http.dart' as Http;
 
 import 'package:kalakar/utils/kalakar_constants.dart';
 
+import '../models/file_data_model.dart';
+
 abstract class ApiClient extends GetxService {
   static const int timeoutInSeconds = 30;
   static var client = Http.Client();
@@ -27,8 +29,7 @@ abstract class ApiClient extends GetxService {
       return response;
     } catch (ex) {
       print(ex);
-      return Response(
-          statusCode: 1, statusText: ex.toString());
+      return Response(statusCode: 1, statusText: ex.toString());
     }
   }
 
@@ -111,8 +112,7 @@ abstract class ApiClient extends GetxService {
       return _response;
     } catch (ex) {
       print(ex);
-      return Response(
-          statusCode: 1, statusText: ex.toString());
+      return Response(statusCode: 1, statusText: ex.toString());
     }
   }
 
@@ -163,14 +163,16 @@ abstract class ApiClient extends GetxService {
       return response;
     } catch (ex) {
       print(ex);
-      return Response(
-          statusCode: 1, statusText: ex.toString());
+      return Response(statusCode: 1, statusText: ex.toString());
     }
   }
 
-
-  static postFormDataToken1(String uri, Map<String, String>? fields,
-      Map<String, File>? files,Map<String, List<File>>? files1, String accessToken) async {
+  static postFormDataToken1(
+      String uri,
+      Map<String, String>? fields,
+      Map<String, File>? files,
+      Map<String, List<FileData>>? files1,
+      String accessToken) async {
     try {
       print(KalakarConstants.baseURL + uri);
       var connectivityResult = await Connectivity().checkConnectivity();
@@ -205,6 +207,22 @@ abstract class ApiClient extends GetxService {
           request.files.add(multipartFile);
         });
       }
+      // Add files
+      if (files1 != null) {
+        files1.forEach((key, file) async {
+          /*file.path.split("").last.contains("pdf")
+              ? await Http.MultipartFile.fromPath(key, file.path,
+                  filename: file.path.split("/").last,
+                  contentType: mime.MediaType("document", "pdf"))
+              :*/
+          file.forEach((file1) async {
+            var multipartFile = await Http.MultipartFile.fromPath(
+                key, file1.path,
+                filename: file1.path.split("/").last);
+            request.files.add(multipartFile);
+          });
+        });
+      }
 
       var streamedResponse = await request.send();
       var response = await Http.Response.fromStream(streamedResponse);
@@ -216,8 +234,7 @@ abstract class ApiClient extends GetxService {
       return response;
     } catch (ex) {
       print(ex);
-      return Response(
-          statusCode: 1, statusText: ex.toString());
+      return Response(statusCode: 1, statusText: ex.toString());
     }
   }
 }
