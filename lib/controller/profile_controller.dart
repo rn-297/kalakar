@@ -12,7 +12,7 @@ import 'package:kalakar/data/models/file_data_model.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
 import 'package:kalakar/data/models/project_status_list_class.dart';
-import 'package:kalakar/helper/file_viewer/file_controller.dart';
+import 'package:kalakar/controller/file_controller.dart';
 import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
@@ -407,6 +407,7 @@ class ProfileController extends GetxController {
     emailEditable = !(profileData!.isVerifiedContacts == "True");
     FileController fileController = Get.put(FileController());
     if (filmCorporationCardPath.isNotEmpty) {
+      print("here");
       fileController.downloadFile(
           KalakarConstants.profilePath, filmCorporationCardPath);
     }
@@ -715,6 +716,65 @@ class ProfileController extends GetxController {
     }
   }
 
+  pickOrShowDocument(String documentType, BuildContext context, controller) {
+    switch (documentType) {
+      case KalakarConstants.filmCorporationCard:
+        if (filmCorporationCardPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.adminAadharCard:
+        if (adminAadharCardPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.addressProofOfCompany:
+        if (addressProofCompanyPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.selfieUpload:
+        if (selfieUploadedPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showImageBottomSheet(context, controller);
+        }
+        break;
+    }
+  }
+
+  showDocument(String documentType) {
+    FileController fileController = Get.put(FileController());
+    switch (documentType) {
+      case KalakarConstants.filmCorporationCard:
+        fileController.viewFile(KalakarConstants.profilePath,
+            filmCorporationCardTEController.text.trim(),documentType);
+        break;
+      case KalakarConstants.adminAadharCard:
+        fileController.viewFile(KalakarConstants.profilePath,
+            adminAadharCardTEController.text.trim(),documentType);
+        break;
+      case KalakarConstants.addressProofOfCompany:
+        fileController.viewFile(KalakarConstants.profilePath,
+            addressProofOfCompanyTEController.text.trim(),documentType);
+        break;
+      case KalakarConstants.selfieUpload:
+        fileController.viewFile1(
+            selfieUploadedPath,documentType);
+        break;
+    }
+  }
+
   Future<void> pickDocument(
       String documentType, BuildContext context, controller) async {
     print(documentType);
@@ -834,7 +894,7 @@ class ProfileController extends GetxController {
         'UserID': loginTable.userID,
         'CompanyProjectID': "0",
         'FK_AccountID': loginTable.accountID,
-        'FK_CompanyProfileID': "0",
+        'FK_CompanyProfileID': profileData!.companyProfileID!.toString(),
         'ProjectDescription': projectDescriptionTEController.text.trim(),
         'ProjectStatusID': projectStatusId,
         'ProjectTitle': projectTitleTEController.text.trim(),

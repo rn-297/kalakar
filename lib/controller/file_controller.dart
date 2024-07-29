@@ -7,18 +7,31 @@ import 'package:http/http.dart' as http;
 
 class FileController extends GetxController {
   String filePath = "";
+  String appBarName="";
 
   downloadFile(String folderPath, String url) async {
-    String targetPath = await getTargetPath(folderPath, url.split("/").last);
+    print("here 1");
+    String targetPath = await getTargetPath(folderPath, url.split("\\").last);
+    print("targetPath $targetPath");
     if (!File(targetPath).existsSync()) {
       var bytes = await http.readBytes(Uri.parse(url));
-      File(targetPath).writeAsBytesSync(bytes);
+       File(targetPath).writeAsBytesSync(bytes);
+       print("done");
     }
   }
 
-  viewFile(String folderPath, String filename) async {
+  viewFile(String folderPath, String filename,String appbarName) async {
     String targetPath = await getTargetPath(folderPath, filename);
     filePath = targetPath;
+    appBarName = appbarName;
+    print(filePath);
+    Get.toNamed(RouteHelper.fileViewer);
+  }
+
+  viewFile1(String filename,String appbarName){
+    filePath = filename;
+    appBarName = appbarName;
+    print(filePath);
     Get.toNamed(RouteHelper.fileViewer);
   }
 

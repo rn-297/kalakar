@@ -169,7 +169,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickDocument(
+                        controller.pickOrShowDocument(
                             KalakarConstants.filmCorporationCard,
                             context,
                             controller);
@@ -192,7 +192,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickDocument(
+                        controller.pickOrShowDocument(
                             KalakarConstants.adminAadharCard,
                             context,
                             controller);
@@ -214,7 +214,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickDocument(
+                        controller.pickOrShowDocument(
                             KalakarConstants.addressProofOfCompany,
                             context,
                             controller);
@@ -237,7 +237,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickDocument(
+                        controller.pickOrShowDocument(
                             KalakarConstants.selfieUpload, context, controller);
                       },
                       child: CommonWidgets.commonMobileTextField(

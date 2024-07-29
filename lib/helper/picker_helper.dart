@@ -134,6 +134,53 @@ class PickerHelper {
     );
   }
 
+  static void showOrPickDocBottomSheet(String documentType, BuildContext context, controller) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: Get.size.width,
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "$documentType Document",
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              Divider(
+                thickness: 2.h,
+              ),
+              InkWell(
+                onTap: () {
+                  controller.pickDocument(documentType,context,controller);
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.h),
+                    child: Text("Change Document",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ))),
+              ),
+              Divider(),
+              InkWell(
+                onTap: () {
+                  controller.showDocument(documentType);
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.h),
+                    child: Text("Show Document",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ))),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   static void showVideoBottomSheet(BuildContext context, controller) {
     showModalBottomSheet(
       context: context,
