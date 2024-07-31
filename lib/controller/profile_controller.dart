@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
+import 'package:kalakar/data/models/company_projects_class.dart';
 import 'package:kalakar/data/models/file_data_model.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
@@ -79,6 +80,8 @@ class ProfileController extends GetxController {
   List<String> pinCodeList = [];
   List<GetProjectStatusMasterlist> projectStatusList = [];
   List<String> projectStatusStringList = [];
+  List<CompanyProjectsList> companyAllProjects = [];
+  CompanyProjectsList selectedCompanyProject = CompanyProjectsList();
 
   ProfileGetDataClass? profileData = ProfileGetDataClass();
 
@@ -110,6 +113,7 @@ class ProfileController extends GetxController {
     getProfileData();
     getStateData();
     getProjectStatusData();
+    getCompanyProjects("0");
   }
 
   void getProfileData() async {
@@ -423,6 +427,37 @@ class ProfileController extends GetxController {
     update();
   }
 
+  void getCompanyProjects(String projectId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {
+        "fK_AccountID": loginTable.accountID,
+        "companyProjectID": projectId
+      };
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getCompanyProfileProjectsApi,
+          jsonEncode(body),
+          loginTable.token);
+
+
+      if (response.statusCode == 200) {
+        CompanyProjectClass responseModel =
+            CompanyProjectClass.fromJson(jsonDecode(response.body));
+
+        if (responseModel.replayStatus ?? false) {
+          if (projectId == '0') {
+            companyAllProjects = responseModel.lResponseCompanyProjects!;
+          } else {
+            selectedCompanyProject = responseModel.lResponseCompanyProjects![0];
+          }
+        } else {}
+      }
+    }
+    update();
+  }
+
   void verifyContact() async {
     if (_formCompanyProfileMoreInfoOtpKey.currentState!.validate()) {
       KalakarDialogs.loadingDialog(
@@ -680,8 +715,8 @@ class ProfileController extends GetxController {
       print(fields);
 
       // Example files (if any)
-      Map<String, File> files = {
-        'CompanyLogo_Doc': File(companyLogo),
+      Map<String, File?> files = {
+        'CompanyLogo_Doc': companyLogo.startsWith("http")?null:File(companyLogo),
       };
 
       var response = await ApiClient.postFormDataToken(
@@ -758,19 +793,18 @@ class ProfileController extends GetxController {
     switch (documentType) {
       case KalakarConstants.filmCorporationCard:
         fileController.viewFile(KalakarConstants.profilePath,
-            filmCorporationCardTEController.text.trim(),documentType);
+            filmCorporationCardTEController.text.trim(), documentType);
         break;
       case KalakarConstants.adminAadharCard:
         fileController.viewFile(KalakarConstants.profilePath,
-            adminAadharCardTEController.text.trim(),documentType);
+            adminAadharCardTEController.text.trim(), documentType);
         break;
       case KalakarConstants.addressProofOfCompany:
         fileController.viewFile(KalakarConstants.profilePath,
-            addressProofOfCompanyTEController.text.trim(),documentType);
+            addressProofOfCompanyTEController.text.trim(), documentType);
         break;
       case KalakarConstants.selfieUpload:
-        fileController.viewFile1(
-            selfieUploadedPath,documentType);
+        fileController.viewFile1(selfieUploadedPath, documentType);
         break;
     }
   }

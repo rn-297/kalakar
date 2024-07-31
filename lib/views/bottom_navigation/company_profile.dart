@@ -87,24 +87,24 @@ class CompanyProfilePage extends StatelessWidget {
                               size: 35,
                             ),
                             Text(
-                              controller.profileData!.companyNameProductionhouse ??
+                              controller.profileData!
+                                      .companyNameProductionhouse ??
                                   "NA",
                               style: TextStyle(
                                   fontSize: 25.sp,
                                   color: KalakarColors.buttonText,
                                   fontWeight: FontWeight.bold),
                             ),
-
-                                InkWell(
-                                    onTap: () {
-
-                                      controller.setProfileFormData();
-                                      Get.toNamed(RouteHelper.companyProfileFormPage);
-                                    },
-                                    child: Icon(
-                                      Icons.edit,
-                                      size: 25,
-                                    ))
+                            InkWell(
+                                onTap: () {
+                                  controller.setProfileFormData();
+                                  Get.toNamed(
+                                      RouteHelper.companyProfileFormPage);
+                                },
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 25,
+                                ))
                           ],
                         ),
                         SizedBox(
@@ -208,7 +208,9 @@ class CompanyProfilePage extends StatelessWidget {
                                       ))
                                 ],
                               ),
-                              SizedBox(height: 16.h,),
+                              SizedBox(
+                                height: 16.h,
+                              ),
                               Row(
                                 children: [
                                   Expanded(
@@ -272,6 +274,48 @@ class CompanyProfilePage extends StatelessWidget {
                             Text(KalakarConstants.viewAll),
                             Icon(Icons.double_arrow_rounded)
                           ],
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+
+                          height: 250.h,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.companyAllProjects.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  padding: EdgeInsets.all(16.h),
+                                  width: 200.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      color: KalakarColors.backgroundGrey),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 120.h,
+                                        width: 120.h,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(60.h),
+                                            image: DecorationImage(
+                                                image: NetworkImage(controller
+                                                    .companyAllProjects[index]
+                                                    .projectCoverDoc!))),
+                                      ),
+                                      SizedBox(height: 16.h,),
+                                      Text(
+                                        controller.companyAllProjects[index]
+                                            .projectTitle!,
+                                        style: TextStyle(
+                                            fontSize: 20.sp,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }),
                         ),
                         SizedBox(
                           height: 16.h,
