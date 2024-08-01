@@ -1,5 +1,5 @@
 class CompanyProjectClass {
-  List<CompanyProjectsList>? lResponseCompanyProjects;
+  List<CompanyProjectsData>? lResponseCompanyProjects;
   bool? replayStatus;
   String? message;
 
@@ -11,9 +11,9 @@ class CompanyProjectClass {
 
   CompanyProjectClass.fromJson(Map<String, dynamic> json) {
     if (json['_ResponseCompanyProjects'] != null) {
-      lResponseCompanyProjects = <CompanyProjectsList>[];
+      lResponseCompanyProjects = <CompanyProjectsData>[];
       json['_ResponseCompanyProjects'].forEach((v) {
-        lResponseCompanyProjects!.add(new CompanyProjectsList.fromJson(v));
+        lResponseCompanyProjects!.add(new CompanyProjectsData.fromJson(v));
       });
     }
     replayStatus = json['replayStatus'];
@@ -32,7 +32,7 @@ class CompanyProjectClass {
   }
 }
 
-class CompanyProjectsList {
+class CompanyProjectsData {
   int? companyProjectID;
   String? projectDescription;
   String? projectStatus;
@@ -40,7 +40,7 @@ class CompanyProjectsList {
   String? projectTitle;
   String? projectCoverDoc;
 
-  CompanyProjectsList(
+  CompanyProjectsData(
       {this.companyProjectID,
         this.projectDescription,
         this.projectStatus,
@@ -48,7 +48,7 @@ class CompanyProjectsList {
         this.projectTitle,
         this.projectCoverDoc});
 
-  CompanyProjectsList.fromJson(Map<String, dynamic> json) {
+  CompanyProjectsData.fromJson(Map<String, dynamic> json) {
     companyProjectID = json['companyProjectID'];
     projectDescription = json['projectDescription'];
     projectStatus = json['projectStatus'];

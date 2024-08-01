@@ -253,7 +253,8 @@ class CompanyProfilePage extends StatelessWidget {
                         CustomMobileButtonWidget(
                           text: KalakarConstants.createProject,
                           onTap: () {
-                            Get.toNamed(RouteHelper.newProjectFormPage);
+                            controller.createNewProject();
+
                           },
                           horizontalPadding: 20.w,
                           verticalPadding: 8.h,
@@ -271,7 +272,11 @@ class CompanyProfilePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(KalakarConstants.viewAll),
+                            InkWell(
+                                onTap: (){
+                                  Get.toNamed(RouteHelper.allProjects);
+                                },
+                                child: Text(KalakarConstants.viewAll)),
                             Icon(Icons.double_arrow_rounded)
                           ],
                         ),
@@ -285,34 +290,40 @@ class CompanyProfilePage extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: controller.companyAllProjects.length,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  padding: EdgeInsets.all(16.h),
-                                  width: 200.h,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.r),
-                                      color: KalakarColors.backgroundGrey),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 120.h,
-                                        width: 120.h,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(60.h),
-                                            image: DecorationImage(
-                                                image: NetworkImage(controller
-                                                    .companyAllProjects[index]
-                                                    .projectCoverDoc!))),
-                                      ),
-                                      SizedBox(height: 16.h,),
-                                      Text(
-                                        controller.companyAllProjects[index]
-                                            .projectTitle!,
-                                        style: TextStyle(
-                                            fontSize: 20.sp,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
+                                return InkWell(
+                                  onTap: (){
+                                    controller.openProjectDetails(controller
+                                        .companyAllProjects[index]);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(16.h),
+                                    width: 200.h,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8.r),
+                                        color: KalakarColors.backgroundGrey),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 120.h,
+                                          width: 120.h,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(60.h),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(controller
+                                                      .companyAllProjects[index]
+                                                      .projectCoverDoc!))),
+                                        ),
+                                        SizedBox(height: 16.h,),
+                                        Text(
+                                          controller.companyAllProjects[index]
+                                              .projectTitle!,
+                                          style: TextStyle(
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                               }),

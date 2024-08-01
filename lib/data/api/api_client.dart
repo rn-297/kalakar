@@ -9,7 +9,7 @@ import 'package:kalakar/utils/kalakar_constants.dart';
 import '../models/file_data_model.dart';
 
 abstract class ApiClient extends GetxService {
-  static const int timeoutInSeconds = 30;
+  static const int timeoutInSeconds = 60;
   static var client = Http.Client();
 
   static Future<Response> getData(String uri) async {

@@ -47,7 +47,7 @@ class KalakarConstants {
       "/CompanyProfile/GetCompanyProileDetails";
   static const String saveCompanyProfileProjectApi =
       "/CompanyProfile/SaveCompanyProject";
-  static const String deleteCompanyProfileProjectApi =
+  static const String deleteCompanyProjectApi =
       "/CompanyProfile/DeleteCompanyProject";
   static const String deleteCompanyProfileProjectDocumentApi =
       "/CompanyProfile/DeleteCompanyProject_Documents";
@@ -199,12 +199,14 @@ class KalakarConstants {
   static const String saveChanges = "Save Changes";
   static const String viewAll = "View All";
   static const String createProject = "Create Project";
+  static const String projects = "Projects";
   static const String projectCover = "Project Cover";
   static const String projectTitle = "Project Title";
   static const String projectDescription = "Project Description";
   static const String projectStatus = "Project Status";
   static const String addPhotosAndVideos = "Add Photos And Videos";
   static const String saveNewProject = "Save Project";
+  static const String deleteProject = "Delete Project";
   static const String selectState = "Select State";
   static const String selectDistrict = "Select District";
   static const String selectPinCode = "Select Pin Code";

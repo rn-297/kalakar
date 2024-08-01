@@ -20,6 +20,7 @@ import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../data/models/csv_model_class.dart';
+import '../helper/route_helper.dart';
 import '../views/dialogs/kalakar_dialogs.dart';
 
 class ProfileController extends GetxController {
@@ -59,7 +60,8 @@ class ProfileController extends GetxController {
   String addressProofCompanyPath = "";
   String selfieUploadedPath = "";
   String projectCoverPath = "";
-  String projectStatusId = "";
+  String selectedProjectStatusId = "";
+  String? selectedProjectStatus = null;
   List<FileData> projectDocuments = [
     FileData(path: "", type: "Add", imageData: null)
   ];
@@ -73,6 +75,7 @@ class ProfileController extends GetxController {
   bool isLoading = false;
   bool mobileNumberEditable = true;
   bool emailEditable = true;
+  bool isDocumentLoading = false;
 
   List<CSVData> stateCityPinCodeList = [];
   List<String> stateList = [];
@@ -80,8 +83,8 @@ class ProfileController extends GetxController {
   List<String> pinCodeList = [];
   List<GetProjectStatusMasterlist> projectStatusList = [];
   List<String> projectStatusStringList = [];
-  List<CompanyProjectsList> companyAllProjects = [];
-  CompanyProjectsList selectedCompanyProject = CompanyProjectsList();
+  List<CompanyProjectsData> companyAllProjects = [];
+  CompanyProjectsData? selectedCompanyProject = CompanyProjectsData();
 
   ProfileGetDataClass? profileData = ProfileGetDataClass();
 
@@ -441,7 +444,6 @@ class ProfileController extends GetxController {
           jsonEncode(body),
           loginTable.token);
 
-
       if (response.statusCode == 200) {
         CompanyProjectClass responseModel =
             CompanyProjectClass.fromJson(jsonDecode(response.body));
@@ -716,7 +718,8 @@ class ProfileController extends GetxController {
 
       // Example files (if any)
       Map<String, File?> files = {
-        'CompanyLogo_Doc': companyLogo.startsWith("http")?null:File(companyLogo),
+        'CompanyLogo_Doc':
+            companyLogo.startsWith("http") ? null : File(companyLogo),
       };
 
       var response = await ApiClient.postFormDataToken(
@@ -909,7 +912,7 @@ class ProfileController extends GetxController {
   }
 
   void setProjectStatus(String selectedItem) {
-    projectStatusId = projectStatusList
+    selectedProjectStatusId = projectStatusList
         .where((element) => element.projectStatus == selectedItem)
         .first
         .projectStatusID
@@ -930,7 +933,7 @@ class ProfileController extends GetxController {
         'FK_AccountID': loginTable.accountID,
         'FK_CompanyProfileID': profileData!.companyProfileID!.toString(),
         'ProjectDescription': projectDescriptionTEController.text.trim(),
-        'ProjectStatusID': projectStatusId,
+        'ProjectStatusID': selectedProjectStatusId,
         'ProjectTitle': projectTitleTEController.text.trim(),
       };
       print(fields);
@@ -976,6 +979,116 @@ class ProfileController extends GetxController {
       }
       KalakarDialogs.successDialog(
           "Profile Save Failed", "Unable To Get Logged Data");
+    }
+  }
+
+  void openProjectDetails(CompanyProjectsData companyProject) {
+    selectedCompanyProject=companyProject;
+    projectCoverPath = companyProject.projectCoverDoc!;
+    projectTitleTEController.text = companyProject.projectTitle!;
+    projectDescriptionTEController.text = companyProject.projectDescription!;
+    selectedProjectStatus = getProjectStatus(companyProject.projectStatusID);
+    print(selectedProjectStatus);
+    getProjectDocuments(companyProject.companyProjectID);
+    Get.toNamed(RouteHelper.newProjectFormPage);
+  }
+
+  String? getProjectStatus(String? projectStatusID) {
+    return projectStatusList
+        .where((project) => project.projectStatusID.toString() == projectStatusID)
+        .first
+        .projectStatus;
+  }
+
+  void createNewProject() {
+    projectCoverPath = "";
+    projectTitleTEController.text = "";
+    projectDescriptionTEController.text = "";
+    selectedProjectStatus = null;
+    selectedCompanyProject=null;
+    Get.toNamed(RouteHelper.newProjectFormPage);
+  }
+
+  Future<void> getProjectDocuments(int? companyProjectID) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      // Example fields (if any)
+      Map<String, String> fields = {
+        'companyProjectID': "$companyProjectID",
+        'fK_AccountID': loginTable.accountID,
+      };
+
+
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.saveCompanyProfileProjectApi,
+          fields,
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+
+      }
+    } else {
+
+    }
+  }
+
+
+  Future<void> deleteProjectDocuments(int? companyProjectID,int? documentId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      // Example fields (if any)
+      Map<String, String> fields = {
+        'companyProjectID': "$companyProjectID",
+        'fK_AccountID': loginTable.accountID,
+        'companyProjectDocumentID': loginTable.accountID,
+      };
+
+
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.deleteCompanyProfileProjectDocumentApi,
+          fields,
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+
+      }
+    } else {
+
+    }
+  }
+
+  Future<void> deleteProject() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      // Example fields (if any)
+      Map<String, String> fields = {
+        'companyProjectID': "${selectedCompanyProject!.companyProjectID!}",
+        'fK_AccountID': loginTable.accountID,
+      };
+
+
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.deleteCompanyProjectApi,
+          fields,
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+
+      }
+    } else {
+
     }
   }
 }
