@@ -41,8 +41,7 @@ class NewProjectFormPage extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(16.h),
         child: GetBuilder<ProfileController>(builder: (controller) {
-          return Column
-            (
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
@@ -214,19 +213,32 @@ class NewProjectFormPage extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(8.r),
                                             image: DecorationImage(
-                                                image: MemoryImage(
-                                                  controller
-                                                      .projectDocuments[index]
-                                                      .imageData!,
-                                                ),
+                                                image: controller
+                                                        .projectDocuments[index]
+                                                        .path
+                                                        .startsWith("http")
+                                                    ? NetworkImage(controller
+                                                        .projectDocuments[index]
+                                                        .path)
+                                                    : FileImage(File(controller
+                                                        .projectDocuments[index]
+                                                        .path)) as ImageProvider,
                                                 fit: BoxFit.cover),
                                           ),
                                         ),
                                         Positioned(
-                                          right: 0,
-                                          top: 0,
+                                          right: 2,
+                                          top: 2,
                                           child: InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              controller.deleteProjectDocuments(
+                                                  controller
+                                                      .selectedCompanyProject!
+                                                      .companyProjectID!,
+                                                  controller
+                                                      .projectDocuments[index]
+                                                      .documentId);
+                                            },
                                             child: Container(
                                                 padding: EdgeInsets.all(4.h),
                                                 decoration: BoxDecoration(
@@ -259,20 +271,23 @@ class NewProjectFormPage extends StatelessWidget {
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
               ),
-              SizedBox(height: 24.h,),
-
-             controller.selectedCompanyProject!=null? CustomMobileButtonWidget(
-                onTap: () {
-                  controller.deleteProject();
-                },
-                borderRadius: 50.r,
-                fontSize: 14.sp,
-                backgroundColor: Colors.red,
-                textColor: KalakarColors.white,
-                text: KalakarConstants.deleteProject,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-              ):Container(),
+              SizedBox(
+                height: 24.h,
+              ),
+              controller.selectedCompanyProject != null
+                  ? CustomMobileButtonWidget(
+                      onTap: () {
+                        controller.deleteProject();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      backgroundColor: Colors.red,
+                      textColor: KalakarColors.white,
+                      text: KalakarConstants.deleteProject,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                    )
+                  : Container(),
             ],
           );
         }),

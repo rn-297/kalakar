@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
@@ -12,6 +13,7 @@ import 'package:kalakar/data/models/company_projects_class.dart';
 import 'package:kalakar/data/models/file_data_model.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/get_profile_data_class.dart';
+import 'package:kalakar/data/models/project_details_documents_class.dart';
 import 'package:kalakar/data/models/project_status_list_class.dart';
 import 'package:kalakar/controller/file_controller.dart';
 import 'package:kalakar/helper/picker_helper.dart';
@@ -63,7 +65,7 @@ class ProfileController extends GetxController {
   String selectedProjectStatusId = "";
   String? selectedProjectStatus = null;
   List<FileData> projectDocuments = [
-    FileData(path: "", type: "Add", imageData: null)
+    FileData(path: "", type: "Add")
   ];
   int startTime = 90;
 
@@ -589,7 +591,7 @@ class ProfileController extends GetxController {
       } else if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
         FileData fileData =
-            FileData(path: file.path, type: "IMAGE", imageData: imageData);
+            FileData(path: file.path, type: "IMAGE");
         projectDocuments.add(fileData);
       }
       update();
@@ -612,7 +614,7 @@ class ProfileController extends GetxController {
       } else if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
         FileData fileData =
-            FileData(path: file.path, type: "IMAGE", imageData: imageData);
+            FileData(path: file.path, type: "IMAGE");
         projectDocuments.add(fileData);
       }
       update();
@@ -626,7 +628,7 @@ class ProfileController extends GetxController {
       if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
         FileData fileData =
-            FileData(path: file.path, type: "VIDEO", imageData: imageData);
+            FileData(path: file.path, type: "VIDEO");
         projectDocuments.add(fileData);
       }
     }
@@ -983,7 +985,7 @@ class ProfileController extends GetxController {
   }
 
   void openProjectDetails(CompanyProjectsData companyProject) {
-    selectedCompanyProject=companyProject;
+    selectedCompanyProject = companyProject;
     projectCoverPath = companyProject.projectCoverDoc!;
     projectTitleTEController.text = companyProject.projectTitle!;
     projectDescriptionTEController.text = companyProject.projectDescription!;
@@ -995,7 +997,8 @@ class ProfileController extends GetxController {
 
   String? getProjectStatus(String? projectStatusID) {
     return projectStatusList
-        .where((project) => project.projectStatusID.toString() == projectStatusID)
+        .where(
+            (project) => project.projectStatusID.toString() == projectStatusID)
         .first
         .projectStatus;
   }
@@ -1005,7 +1008,7 @@ class ProfileController extends GetxController {
     projectTitleTEController.text = "";
     projectDescriptionTEController.text = "";
     selectedProjectStatus = null;
-    selectedCompanyProject=null;
+    selectedCompanyProject = null;
     Get.toNamed(RouteHelper.newProjectFormPage);
   }
 
@@ -1014,81 +1017,106 @@ class ProfileController extends GetxController {
 
     if (loginTable != null) {
       // Example fields (if any)
-      Map<String, String> fields = {
+      var fields = {
         'companyProjectID': "$companyProjectID",
         'fK_AccountID': loginTable.accountID,
       };
 
-
-
       var response = await ApiClient.postDataToken(
-          KalakarConstants.saveCompanyProfileProjectApi,
-          fields,
+          KalakarConstants.getCompanyProfileProjectDocumentsApi,
+          jsonEncode(fields),
           loginTable.token);
       print(response.statusCode);
       print(response.body);
 
       if (response.statusCode == 200) {
+        ProjectDetailAndDocuments projectDetailAndDocuments =
+            ProjectDetailAndDocuments.fromJson(jsonDecode(response.body));
+        // projectDocuments.clear();
+        projectDocuments = [FileData(path: "", type: "Add")];
+        if (projectDetailAndDocuments.projectDocuments!.isNotEmpty) {
+          for (int i = 0;
+              i < projectDetailAndDocuments.projectDocuments!.length;
+              i++) {
+            String path = projectDetailAndDocuments
+                .projectDocuments![i].projectDocuments!;
+            int documentId = projectDetailAndDocuments
+                .projectDocuments![i].companyProjectDocumentID!;
+            String type =
+                path.toLowerCase().endsWith(".mp4") ? "VIDEO" : "IMAGE";
 
+            projectDocuments.add(FileData(
+                path: path,
+                type: type,
+
+                documentId: documentId));
+          }
+        }
+        update();
       }
-    } else {
-
-    }
+    } else {}
   }
 
-
-  Future<void> deleteProjectDocuments(int? companyProjectID,int? documentId) async {
+  Future<void> deleteProjectDocuments(
+      int? companyProjectID, int? documentId) async {
+    KalakarDialogs.loadingDialog("Delete Document", "Deleting Document ");
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       // Example fields (if any)
-      Map<String, String> fields = {
+      var fields = {
         'companyProjectID': "$companyProjectID",
         'fK_AccountID': loginTable.accountID,
-        'companyProjectDocumentID': loginTable.accountID,
+        'companyProjectDocumentID': documentId,
       };
-
-
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.deleteCompanyProfileProjectDocumentApi,
-          fields,
+          jsonEncode(fields),
           loginTable.token);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
       print(response.statusCode);
       print(response.body);
 
       if (response.statusCode == 200) {
-
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus!) {
+          KalakarDialogs.successDialog("Delete Document", responseModel.message!);
+        }
       }
-    } else {
-
-    }
+    } else {}
   }
 
   Future<void> deleteProject() async {
+
+    KalakarDialogs.loadingDialog("Delete Project", "Deleting Project ");
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       // Example fields (if any)
-      Map<String, String> fields = {
+      var fields = {
         'companyProjectID': "${selectedCompanyProject!.companyProjectID!}",
         'fK_AccountID': loginTable.accountID,
       };
 
-
-
       var response = await ApiClient.postDataToken(
-          KalakarConstants.deleteCompanyProjectApi,
-          fields,
-          loginTable.token);
+          KalakarConstants.deleteCompanyProjectApi, jsonEncode(fields), loginTable.token);
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
       print(response.statusCode);
       print(response.body);
 
       if (response.statusCode == 200) {
-
+        ResponseModel responseModel =
+        ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus!) {
+          KalakarDialogs.successDialog("Delete Project", responseModel.message!);
+        }
       }
-    } else {
-
-    }
+    } else {}
   }
 }

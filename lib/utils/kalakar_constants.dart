@@ -54,7 +54,7 @@ class KalakarConstants {
   static const String getCompanyProfileProjectsApi =
       "/CompanyProfile/GetCompanyProjects";
   static const String getCompanyProfileProjectDocumentsApi =
-      "/CompanyProfile/GetCompanyProjects";
+      "/CompanyProfile/GetCompanyProjects_Documents";
   static const String getProjectStatus =
       "/CompanyProfile/GetProjectStatus";
 
