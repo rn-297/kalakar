@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:html' as html;
 
 import '../data/models/csv_model_class.dart';
 import '../helper/route_helper.dart';
@@ -797,19 +799,35 @@ class ProfileController extends GetxController {
     FileController fileController = Get.put(FileController());
     switch (documentType) {
       case KalakarConstants.filmCorporationCard:
-        fileController.viewFile(KalakarConstants.profilePath,
-            filmCorporationCardTEController.text.trim(), documentType);
+        if (kIsWeb) {
+          html.window.open(filmCorporationCardPath, '_blank');
+        } else {
+          fileController.viewFile(KalakarConstants.profilePath,
+              filmCorporationCardTEController.text.trim(), documentType);
+        }
         break;
       case KalakarConstants.adminAadharCard:
-        fileController.viewFile(KalakarConstants.profilePath,
-            adminAadharCardTEController.text.trim(), documentType);
+        if (kIsWeb) {
+          html.window.open(adminAadharCardPath, '_blank');
+        } else {
+          fileController.viewFile(KalakarConstants.profilePath,
+              adminAadharCardTEController.text.trim(), documentType);
+        }
         break;
       case KalakarConstants.addressProofOfCompany:
-        fileController.viewFile(KalakarConstants.profilePath,
-            addressProofOfCompanyTEController.text.trim(), documentType);
+        if (kIsWeb) {
+          html.window.open(addressProofCompanyPath, '_blank');
+        } else{
+          fileController.viewFile(KalakarConstants.profilePath,
+              addressProofOfCompanyTEController.text.trim(), documentType);
+        }
         break;
       case KalakarConstants.selfieUpload:
-        fileController.viewFile1(selfieUploadedPath, documentType);
+        if (kIsWeb) {
+          html.window.open(selfieUploadedPath, '_blank');
+        } else{
+          fileController.viewFile1(selfieUploadedPath, documentType);
+        }
         break;
     }
   }
@@ -1115,6 +1133,8 @@ class ProfileController extends GetxController {
         ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus!) {
           KalakarDialogs.successDialog("Delete Project", responseModel.message!);
+          getProfileData();
+          Get.back();
         }
       }
     } else {}

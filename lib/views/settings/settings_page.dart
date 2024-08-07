@@ -23,7 +23,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => settingsMobileView(),
-        tablet: (BuildContext context) => settingsWebView(),
+        tablet: (BuildContext context) => settingsWebView(context),
       ),
     );
   }
@@ -64,7 +64,41 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  appbarWebView() {}
+  appbarWebView() {
+    return AppBar(
+      toolbarHeight: 60.h,
+      backgroundColor: KalakarColors.appBarBackground,
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Container(
+          //   height: 60.h,
+          //   width: 60.h,
+          //   decoration: BoxDecoration(
+          //       image: DecorationImage(image: NetworkImage("")),
+          //       border: Border.all(color: KalakarColors.headerText),
+          //       borderRadius: BorderRadius.circular(50.r)),
+          // ),
+          SizedBox(
+            width: 8.w,
+          ),
+          Text(
+            KalakarConstants.settings,
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 10.sp),
+          ),
+        ],
+      ),
+      actions: [
+        Icon(
+          Icons.notifications,
+          size: 25,
+        ),
+        SizedBox(
+          width: 20.w,
+        )
+      ],
+    );
+  }
 
   settingsMobileView() {
     return GetBuilder<SettingsController>(builder: (controller) {
@@ -150,5 +184,95 @@ class SettingsPage extends StatelessWidget {
     });
   }
 
-  settingsWebView() {}
+  settingsWebView(BuildContext context) {
+    return GetBuilder<SettingsController>(builder: (controller) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical:16.h,horizontal: 72.w
+        ),
+        child: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+
+          child: SingleChildScrollView(
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.settingsList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(vertical: 10.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              controller.settingsList[index],
+                              style: TextStyle(
+                                fontSize: 8.sp,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 14,
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(KalakarConstants.followUsOn),
+                Container(
+                  height: 60.h,
+                  child: ListView.builder(
+                      itemCount: 4,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: EdgeInsets.all(8.h),
+                          margin: EdgeInsets.all(8.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: Border.all(color: KalakarColors.textColor)),
+                          child: Icon(
+                            Icons.connected_tv_sharp,
+                            size: 20,
+                          ),
+                        );
+                      }),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Text(
+                  KalakarConstants.appVersion,
+                  style: TextStyle(fontSize: 10.sp),
+                ),
+                Text(
+                  "1.0.0",
+                  style: TextStyle(fontSize: 8.sp),
+                ),
+                Center(
+                    child: InkWell(
+                      onTap: (){
+                        HiveService.deleteLoginData();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: KalakarColors.textColor),
+                            borderRadius: BorderRadius.circular(50.r)),
+                        child: Text(KalakarConstants.logout),
+                      ),
+                    ))
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
 }

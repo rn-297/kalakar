@@ -254,7 +254,6 @@ class CompanyProfilePage extends StatelessWidget {
                           text: KalakarConstants.createProject,
                           onTap: () {
                             controller.createNewProject();
-
                           },
                           horizontalPadding: 20.w,
                           verticalPadding: 8.h,
@@ -273,7 +272,7 @@ class CompanyProfilePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             InkWell(
-                                onTap: (){
+                                onTap: () {
                                   Get.toNamed(RouteHelper.allProjects);
                                 },
                                 child: Text(KalakarConstants.viewAll)),
@@ -282,24 +281,24 @@ class CompanyProfilePage extends StatelessWidget {
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-
                           height: 250.h,
                           child: ListView.builder(
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemCount: controller.companyAllProjects.length,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: (){
-                                    controller.openProjectDetails(controller
-                                        .companyAllProjects[index]);
+                                  onTap: () {
+                                    controller.openProjectDetails(
+                                        controller.companyAllProjects[index]);
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(16.h),
+                                    margin: EdgeInsets.only(right: 16.h),
                                     width: 200.h,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8.r),
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
                                         color: KalakarColors.backgroundGrey),
                                     child: Column(
                                       children: [
@@ -314,7 +313,9 @@ class CompanyProfilePage extends StatelessWidget {
                                                       .companyAllProjects[index]
                                                       .projectCoverDoc!))),
                                         ),
-                                        SizedBox(height: 16.h,),
+                                        SizedBox(
+                                          height: 16.h,
+                                        ),
                                         Text(
                                           controller.companyAllProjects[index]
                                               .projectTitle!,
@@ -410,231 +411,374 @@ class CompanyProfilePage extends StatelessWidget {
   profileWebView() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    child: Column(
-                  children: [
-                    ClipOval(
-                        child: Image.asset(
-                      "assets/images/app_bar_logo.png",
-                      height: 100.h,
-                      width: 100.h,
-                      fit: BoxFit.cover,
-                    )),
-                    Text(
-                      "${KalakarConstants.kalakarId} : MHS001",
-                      style: TextStyle(color: KalakarColors.headerText),
-                    ),
-                    Text(
-                      "Rohan Warang",
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: KalakarColors.buttonText,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                )),
-                Expanded(
-                  child: IntrinsicHeight(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    KalakarConstants.age,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(" : data"),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    KalakarConstants.height,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(" : data"),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    KalakarConstants.weight,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(" : data"),
-                                ],
-                              ),
-                            ],
-                          ),
-                          DashedDottedDivider(
-                            isHorizontal: false,
-                            color: Colors.blue,
-                            dashWidth: 5.0,
-                            dotDiameter: 3.0,
-                            space: 3.0,
-                            thickness: 2.0,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    KalakarConstants.city,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(" : Thane"),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    KalakarConstants.district,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(" : Thane"),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    KalakarConstants.state,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(" : Maharashtra"),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+      child: GetBuilder<ProfileController>(builder: (controller) {
+        var profileDta = controller.profileData;
+        // print(profileDta!.verificationStatus);
+        return controller.isProfileLoading
+            ? Center(child: CircularProgressIndicator())
+            : profileDta == null
+            ? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Unable To Load Data"),
+              InkWell(
+                onTap: () {
+                  controller.getProfileData();
+                },
+                child: Text("Refresh Data"),
+              )
+            ],
+          ),
+        )
+            : SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 150.h,
+                width: 150.h,
+                margin: EdgeInsets.all(20.h),
+                decoration: BoxDecoration(
+                  border: Border.all(color: KalakarColors.headerText),
+                  borderRadius: BorderRadius.circular(75.r),
+                  image: DecorationImage(
+                      image:
+                      NetworkImage(profileDta.companyLogo ?? "")),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          KalakarConstants.bio,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: KalakarColors.headerText),
-                        ),
-                        ListView.builder(
-                            itemCount: 2,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    size: 15.h,
-                                  ),
-                                  Text("Hobbie $index")
-                                ],
-                              );
-                            })
-                      ],
-                    ),
+              ),
+              Text(
+                "${KalakarConstants.kalakarId} ${profileDta!.userID}",
+                style: TextStyle(
+                    color: KalakarColors.headerText,
+                    fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.edit,
+                    color: Colors.transparent,
+                    size: 35,
                   ),
-                ),
-                Expanded(
-                    child: IntrinsicWidth(
-                  child: Column(
-                    children: [
-                      InkWell(
-                        child: CustomMobileButtonWidget(
-                          onTap: () {},
-                          borderRadius: 50.r,
-                          fontSize: 8.sp,
-                          text: KalakarConstants.experienceLevel,
-                          horizontalPadding: 8.w,
-                          verticalPadding: 8.h,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      InkWell(
-                        child: CustomMobileButtonWidget(
-                          onTap: () {},
-                          borderRadius: 50.r,
-                          fontSize: 8.sp,
-                          text: KalakarConstants.moreInfo,
-                          horizontalPadding: 8.w,
-                          verticalPadding: 8.h,
-                        ),
+                  Text(
+                    controller.profileData!
+                        .companyNameProductionhouse ??
+                        "NA",
+                    style: TextStyle(
+                        fontSize: 15.sp,
+                        color: KalakarColors.buttonText,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  InkWell(
+                      onTap: () {
+                        controller.setProfileFormData();
+                        Get.toNamed(
+                            RouteHelper.companyProfileFormPage);
+                      },
+                      child: Icon(
+                        Icons.edit,
+                        size: 25,
+                      ))
+                ],
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              Text(
+                  "${profileDta.address}, ${profileDta.district}, ${profileDta.state}, ${profileDta.postalcode}."),
+              SizedBox(
+                height: 24.h,
+              ),
+              profileDta.verificationStatus == "Not verified"
+                  ? Column(
+                children: [
+                  CustomMobileButtonWidget(
+                    text: KalakarConstants
+                        .sendProfileForVerification,
+                    onTap: () {
+                      controller.sendProfileForVerification();
+                    },
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+                    fontSize: 14.sp,
+                    backgroundColor:
+                    KalakarColors.buttonBackground,
+                    textColor: KalakarColors.headerText,
+                    borderRadius: 50.0,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 5.0,
                       ),
                     ],
                   ),
-                ))
-              ],
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Icon(Icons.whatshot),
-                Icon(Icons.whatshot),
-                Icon(Icons.whatshot),
-                Icon(Icons.whatshot),
-                Icon(Icons.whatshot),
-              ],
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            Divider(
-              thickness: 3.0,
-              height: 10.h,
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            Text(KalakarConstants.portfolio),
-            SizedBox(
-              height: 16.h,
-            ),
-            Divider(
-              height: 10.h,
-              thickness: 3.0,
-            ),
-          ],
-        ),
-      ),
+                  SizedBox(
+                    height: 16.h,
+                  )
+                ],
+              )
+                  : Container(),
+              Divider(
+                thickness: 3.0,
+                height: 10.h,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Column(
+                children: [
+                  Text(
+                    KalakarConstants.bio,
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        color: KalakarColors.headerText),
+                  ),
+                  Text(profileDta.bio ?? "NA"),
+                ],
+              ),
+              // SizedBox(
+              //   height: 32.h,
+              //   width: Get.size.width / 2,
+              //   child: DashedDottedDivider(
+              //     isHorizontal: true,
+              //   ),
+              // ),
+              Container(
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.backgroundGrey,
+                  borderRadius: BorderRadius.circular(8.r),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.grey,
+                  //     blurRadius: 4.0,
+                  //   ),
+                  // ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "${KalakarConstants.moreInfo} :",
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                                color: KalakarColors.headerText),
+                          ),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              controller.setProfileFormData();
+                              Get.toNamed(RouteHelper
+                                  .companyMoreInfoFormPage);
+                            },
+                            child: Icon(
+                              Icons.edit,
+                              size: 20,
+                            ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                              "${KalakarConstants.mobileNumber}"),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(": ${profileDta.mobileNumber}"),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text("${KalakarConstants.email}"),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(": ${profileDta.email}"),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Divider(
+                  height: 10.h,
+                  thickness: 1.0,
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              CustomMobileButtonWidget(
+                text: KalakarConstants.createProject,
+                onTap: () {
+                  controller.createNewProject();
+                },
+                horizontalPadding: 20.w,
+                verticalPadding: 8.h,
+                fontSize: 10.sp,
+                backgroundColor: KalakarColors.buttonBackground,
+                textColor: KalakarColors.headerText,
+                borderRadius: 50.0,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5.0,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        Get.toNamed(RouteHelper.allProjects);
+                      },
+                      child: Text(KalakarConstants.viewAll)),
+                  Icon(Icons.double_arrow_rounded)
+                ],
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                height: 250.h,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.companyAllProjects.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          controller.openProjectDetails(
+                              controller.companyAllProjects[index]);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16.h),
+                          margin: EdgeInsets.only(right: 16.h),
+                          width: 200.h,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(8.r),
+                              color: KalakarColors.backgroundGrey),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 120.h,
+                                width: 120.h,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(60.h),
+                                    image: DecorationImage(
+                                        image: NetworkImage(controller
+                                            .companyAllProjects[index]
+                                            .projectCoverDoc!))),
+                              ),
+                              SizedBox(
+                                height: 16.h,
+                              ),
+                              Text(
+                                controller.companyAllProjects[index]
+                                    .projectTitle!,
+                                style: TextStyle(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Divider(
+                height: 10.h,
+                thickness: 3.0,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      controller.openSocialMedia(0);
+                    },
+                    child: SvgPicture.asset(
+                      "assets/svg/facebook.svg",
+                      height: 30.h,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.openSocialMedia(1);
+                    },
+                    child: SvgPicture.asset(
+                      "assets/svg/instagram.svg",
+                      height: 30.h,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.openSocialMedia(2);
+                    },
+                    child: SvgPicture.asset(
+                      "assets/svg/whatsapp.svg",
+                      height: 30.h,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.openSocialMedia(3);
+                    },
+                    child: SvgPicture.asset(
+                      "assets/svg/youtube.svg",
+                      height: 30.h,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.openSocialMedia(4);
+                    },
+                    child: SvgPicture.asset(
+                      "assets/svg/email.svg",
+                      height: 30.h,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.openSocialMedia(5);
+                    },
+                    child: SvgPicture.asset(
+                      "assets/svg/website.svg",
+                      height: 30.h,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 

@@ -31,7 +31,7 @@ class NewProjectFormPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: ((BuildContext context) => newProjectFormMobileView(context)),
-        tablet: ((BuildContext context) => newProjectFormWebView()),
+        tablet: ((BuildContext context) => newProjectFormWebView(context)),
       ),
     );
   }
@@ -295,7 +295,264 @@ class NewProjectFormPage extends StatelessWidget {
     );
   }
 
-  newProjectFormWebView() {}
+  newProjectFormWebView(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(16.h),
+        child: GetBuilder<ProfileController>(builder: (controller) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 150.h,
+                      width: 150.h,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: KalakarColors.textColor),
+                        borderRadius: BorderRadius.circular(75.r),
+                        image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: controller.projectCoverPath
+                                .startsWith("http")
+                                ? NetworkImage(controller.projectCoverPath)
+                                : FileImage(File(controller.projectCoverPath))
+                            as ImageProvider),
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                          onTap: () {
+                            controller.documentType =
+                                KalakarConstants.projectCover;
+                            PickerHelper.showImageBottomSheet(
+                                context, controller);
+                          },
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Center(
+                child: Text(
+                  KalakarConstants.projectCover,
+                  style:
+                  TextStyle(fontWeight: FontWeight.bold, fontSize: 15.sp),
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Form(
+                key: controller.formNewProjectKey,
+                child: Column(
+                  children: [
+                    CommonWidgets.commonMobileTextField(
+                        controller: controller.projectTitleTEController,
+                        labelText: KalakarConstants.projectTitle,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: controller.projectTitleValidator),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    CommonWidgets.commonMobileTextField(
+                        controller: controller.projectDescriptionTEController,
+                        labelText: KalakarConstants.projectDescription,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: controller.projectDescriptionValidator),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    CustomDropdownSearch(
+                      validator: controller.projectStatusValidator,
+                      items: controller.projectStatusStringList,
+                      titleText: KalakarConstants.projectStatus,
+                      // selectedItem: controller.stateTEController.text.isEmpty
+                      //     ? null
+                      //     : controller.stateTEController.text,
+                      labelText: KalakarConstants.projectStatus,
+                      selectedItem: controller.selectedProjectStatus,
+                      onItemSelected: (selectedItem) {
+                        controller.setProjectStatus(selectedItem);
+                      },
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                  ],
+                ),
+              ),
+              /*CustomMobileButtonWidget(
+                onTap: () {
+                  controller.addPhotosAndVideos(context, controller);
+                },
+                borderRadius: 50.r,
+                fontSize: 14.sp,
+                text: KalakarConstants.addPhotosAndVideos,
+                horizontalPadding: 20.w,
+                verticalPadding: 8.h,
+              ),*/
+
+              Container(
+                decoration: BoxDecoration(
+                    color: KalakarColors.backgroundGrey,
+                    borderRadius: BorderRadius.circular(8.r)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 18.w),
+                        child: Text(
+                          KalakarConstants.addPhotosAndVideos,
+                          style: TextStyle(fontSize: 6.sp),
+                        )),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10.h),
+                      height: 190.h,
+                      width: double.infinity,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.projectDocuments.length,
+                          itemBuilder: (context, index) {
+                            return controller.projectDocuments[index].type ==
+                                "Add"
+                                ? InkWell(
+                              onTap: () {
+                                controller.addPhotosAndVideos(
+                                    context, controller);
+                              },
+                              child: Container(
+                                height: 180.h,
+                                width: 125.h,
+                                margin: EdgeInsets.only(right: 15.w),
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(8.r),
+                                  border: Border.all(),
+                                ),
+                                child: Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 35,
+                                    )),
+                              ),
+                            )
+                                : Container(
+                              margin: EdgeInsets.only(right: 15.w),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 180.h,
+                                    width: 125.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(8.r),
+                                      image: DecorationImage(
+                                          image: controller
+                                              .projectDocuments[index]
+                                              .path
+                                              .startsWith("http")
+                                              ? NetworkImage(controller
+                                              .projectDocuments[index]
+                                              .path)
+                                              : FileImage(File(controller
+                                              .projectDocuments[index]
+                                              .path)) as ImageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 2,
+                                    top: 2,
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.deleteProjectDocuments(
+                                            controller
+                                                .selectedCompanyProject!
+                                                .companyProjectID!,
+                                            controller
+                                                .projectDocuments[index]
+                                                .documentId);
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.all(4.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  50.r),
+                                              color: KalakarColors.white
+                                                  .withOpacity(.5)),
+                                          child: Icon(Icons.delete)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ); //Container();
+                          }),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 32.h,
+              ),
+              CustomMobileButtonWidget(
+                onTap: () {
+                  controller.saveNewProject();
+                },
+                borderRadius: 50.r,
+                fontSize: 8.sp,
+                text: KalakarConstants.saveNewProject,
+                horizontalPadding: 20.w,
+                verticalPadding: 8.h,
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+              controller.selectedCompanyProject != null
+                  ? CustomMobileButtonWidget(
+                onTap: () {
+                  controller.deleteProject();
+                },
+                borderRadius: 50.r,
+                fontSize: 8.sp,
+                backgroundColor: Colors.red,
+                textColor: KalakarColors.white,
+                text: KalakarConstants.deleteProject,
+                horizontalPadding: 20.w,
+                verticalPadding: 8.h,
+              )
+                  : Container(),
+            ],
+          );
+        }),
+      ),
+    );
+  }
 
   appBarMobileView() {
     return AppBar(
@@ -322,5 +579,26 @@ class NewProjectFormPage extends StatelessWidget {
     );
   }
 
-  appBarWebView() {}
+  appBarWebView() {return AppBar(
+    backgroundColor: KalakarColors.appBarBackground,
+    surfaceTintColor: KalakarColors.appBarBackground,
+    title: Text(
+      KalakarConstants.createProject,
+      style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+    ),
+    /*actions: [
+        InkWell(
+          onTap: () {
+            Get.toNamed(RouteHelper.companyProfileFormPage);
+          },
+          child: Icon(
+            Icons.edit,
+            size: 30.h,
+          ),
+        ),
+        SizedBox(
+          width: 16.h,
+        )
+      ],*/
+  );}
 }

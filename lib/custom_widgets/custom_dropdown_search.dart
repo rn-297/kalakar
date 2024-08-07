@@ -39,7 +39,7 @@ class CustomDropdownSearch extends StatelessWidget {
       items: items,
       selectedItem: selectedItem,
       dropdownDecoratorProps: DropDownDecoratorProps(
-        baseStyle: TextStyle(color: KalakarColors.textColor,fontSize: 14.sp),
+        baseStyle: TextStyle(color: KalakarColors.textColor,),
           dropdownSearchDecoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
@@ -61,7 +61,7 @@ class CustomDropdownSearch extends StatelessWidget {
           ),
           child: Text(
             titleText,
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            style: TextStyle( fontWeight: FontWeight.bold),
           ),
         ),
         itemBuilder: _customPopupItemBuilderExample2,
