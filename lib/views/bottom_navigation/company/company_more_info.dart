@@ -645,7 +645,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                   controller.saveCompanyMoreInfo();
                 },
                 borderRadius: 50.r,
-                fontSize: 14.sp,
+                fontSize: 8.sp,
                 text: KalakarConstants.saveChanges,
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,

@@ -327,7 +327,7 @@ class CompanyHomePage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.all(8.h),
-                      width: Get.size.width/1.8,
+                      width: Get.size.width/3,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(

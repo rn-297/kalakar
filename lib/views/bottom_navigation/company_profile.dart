@@ -530,7 +530,7 @@ class CompanyProfilePage extends StatelessWidget {
                   Text(
                     KalakarConstants.bio,
                     style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 8.sp,
                         fontWeight: FontWeight.bold,
                         color: KalakarColors.headerText),
                   ),
@@ -565,7 +565,7 @@ class CompanyProfilePage extends StatelessWidget {
                           child: Text(
                             "${KalakarConstants.moreInfo} :",
                             style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: 8.sp,
                                 fontWeight: FontWeight.bold,
                                 color: KalakarColors.headerText),
                           ),
@@ -631,7 +631,7 @@ class CompanyProfilePage extends StatelessWidget {
                 },
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
-                fontSize: 10.sp,
+                fontSize: 8.sp,
                 backgroundColor: KalakarColors.buttonBackground,
                 textColor: KalakarColors.headerText,
                 borderRadius: 50.0,

@@ -74,13 +74,16 @@ class PickerHelper {
           toolbarWidgetColor: Colors.white,
         ),
         IOSUiSettings(
-          title: 'Cropper',
+          title: 'Crop',
           aspectRatioPresets: [
             CropAspectRatioPreset.square,
           ],
         ),
         WebUiSettings(
+
           context: context,
+          presentStyle: WebPresentStyle.page,
+
         ),
       ],
     );
