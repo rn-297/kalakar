@@ -418,7 +418,9 @@ class CompanyProfileFormPage extends StatelessWidget {
                           togglePasswordVisibility: () {},
                           validator: controller.addressValidator),
                     ),
-                    SizedBox(width: 16.h,),
+                    SizedBox(
+                      width: 16.h,
+                    ),
                     Expanded(
                       child: Column(
                         children: [
@@ -426,15 +428,15 @@ class CompanyProfileFormPage extends StatelessWidget {
                             validator: controller.stateValidator,
                             items: controller.stateList,
                             titleText: KalakarConstants.selectState,
-                            selectedItem: controller.stateTEController.text.isEmpty
-                                ? null
-                                : controller.stateTEController.text,
+                            selectedItem:
+                                controller.stateTEController.text.isEmpty
+                                    ? null
+                                    : controller.stateTEController.text,
                             labelText: KalakarConstants.state,
                             onItemSelected: (selectedItem) {
                               controller.getCitiesData(selectedItem);
                             },
                           ),
-
                           SizedBox(
                             height: 16.h,
                           ),
@@ -442,9 +444,10 @@ class CompanyProfileFormPage extends StatelessWidget {
                             validator: controller.districtValidator,
                             items: controller.cityList,
                             titleText: KalakarConstants.selectDistrict,
-                            selectedItem: controller.districtTEController.text.isEmpty
-                                ? null
-                                : controller.districtTEController.text,
+                            selectedItem:
+                                controller.districtTEController.text.isEmpty
+                                    ? null
+                                    : controller.districtTEController.text,
                             labelText: KalakarConstants.district,
                             onItemSelected: (selectedItem) {
                               controller.getPinCodesData(selectedItem);
@@ -457,9 +460,10 @@ class CompanyProfileFormPage extends StatelessWidget {
                             validator: controller.postalCodeValidator,
                             items: controller.pinCodeList,
                             titleText: KalakarConstants.selectPinCode,
-                            selectedItem: controller.pinCodeTEController.text.isEmpty
-                                ? null
-                                : controller.pinCodeTEController.text,
+                            selectedItem:
+                                controller.pinCodeTEController.text.isEmpty
+                                    ? null
+                                    : controller.pinCodeTEController.text,
                             labelText: KalakarConstants.pinCode,
                             onItemSelected: (selectedItem) {
                               controller.setPinCodeData(selectedItem);

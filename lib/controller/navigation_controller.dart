@@ -6,7 +6,7 @@ import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:kalakar/views/bottom_navigation/company_home.dart';
 import 'package:kalakar/views/bottom_navigation/company_profile.dart';
 import 'package:kalakar/views/bottom_navigation/kalakar_home.dart';
-import 'package:kalakar/views/bottom_navigation/kalakar_profile.dart';
+import 'package:kalakar/views/bottom_navigation/artist/kalakar_profile.dart';
 import 'package:kalakar/views/bottom_navigation/opportunity_page.dart';
 import 'package:kalakar/views/settings/settings_page.dart';
 

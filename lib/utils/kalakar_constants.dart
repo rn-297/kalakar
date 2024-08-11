@@ -18,19 +18,32 @@ class KalakarConstants {
   static const String profilePath="kalaakar/profile_docs/";
 
   //artist profile api
-  static const String saveArtistProfileApi = "/SaveArtistProfile";
+  static const String saveArtistProfileApi = "/ArtistProfile/SaveArtistProfile";
+  static const String saveArtistProfileMasterApi = "/ArtistProfile/ArtistProfile_Master";
   static const String saveArtistProfileEducationApi =
-      "/SaveArtistProfile_Education";
+      "/ArtistProfile/SaveArtistProfile_Education";
   static const String saveArtistProfileHobbiesApi =
-      "/SaveArtistProfile_Hobbies";
+      "/ArtistProfile/SaveArtistProfile_Hobbies";
   static const String saveArtistProfileInterestsApi =
-      "/SaveArtistProfile_Interest";
+      "/ArtistProfile/SaveArtistProfile_Interest";
   static const String saveArtistProfileComfortableInApi =
-      "/SaveArtistProfile_ComfortableIn";
-  static const String saveArtistProfileApplyForApi = "/ArtistProfile_ApplyFor";
-  static const String saveArtistProfileDocumentsApi = "/ArtistProfile_ApplyFor";
+      "/ArtistProfile/SaveArtistProfile_ComfortableIn";
+  static const String saveArtistProfileApplyForApi = "/ArtistProfile/ArtistProfile_ApplyFor";
+  static const String saveArtistProfileDocumentsApi = "/ArtistProfile/ArtistProfile_Documents";
   static const String saveArtistProfileExperienceApi =
-      "/SaveArtistProfile_Experience";
+      "/ArtistProfile/SaveArtistProfile_Experience";
+  static const String getArtistProfileBasicApi =
+      "/ArtistProfile/GetArtistProfile_Basic";
+  static const String getArtistProfileEducationApi =
+      "/ArtistProfile/GetArtistProfile_Education";
+  static const String getArtistProfileHobbiesApi =
+      "/ArtistProfile/GetArtistProfile_Hobbies";
+  static const String getArtistProfileInterestApi =
+      "/ArtistProfile/GetArtistProfile_Interest";
+  static const String getArtistProfileComfortableInApi =
+      "/ArtistProfile/GetArtistProfile_ComfortableIn";
+  static const String getArtistProfileApplyForApi =
+      "/ArtistProfile/GetArtistProfile_ApplyFor";
 
   //company profile apis
   static const String saveCompanyProfileBasicsApi =
@@ -59,13 +72,23 @@ class KalakarConstants {
       "/CompanyProfile/GetProjectStatus";
 
   //requirement details apis
-  static const String saveRequirementsDetailsApi = "/SaveRequirementDetails";
+  static const String saveRequirementsDetailsApi = "/RequirementDetails/SaveRequirementDetails";
   static const String deleteRequirementsDetailsApi =
-      "/DeleteRequirementDetails";
+      "/RequirementDetails/DeleteRequirementDetails";
   static const String getRequirementsDetailsCompanyApi =
-      "/RequirementDetails_Company";
+      "/RequirementDetails/RequirementDetails_Company";
   static const String searchRequirementsDetailsArtistsApi =
-      "/SearchRequirementDetails_Artist";
+      "/RequirementDetails/SearchRequirementDetails_Artist";
+  static const String saveAppliedToRequirementApi =
+      "/RequirementDetails/SaveAppliedToRequirement";
+  static const String saveChangesAppliedRequirementStatusApi =
+      "/RequirementDetails/SaveChangesAppliedRequirementStatus";
+  static const String addRequirementInFavoritesApi =
+      "/RequirementDetails/AddRequirementInFavorites";
+  static const String getAppliedForRequirementArtistApi =
+      "/RequirementDetails/GetAppliedForRequirement_Artist";
+  static const String getAppliedForRequirementCompany =
+      "/RequirementDetails/GetAppliedForRequirement_Company";
 
   //Strings
   static const String usernameHint = "E-mail Id or Contact Number";
@@ -211,5 +234,34 @@ class KalakarConstants {
   static const String selectDistrict = "Select District";
   static const String selectPinCode = "Select Pin Code";
   static const String projectDocuments = "Project Documents";
+
+  //artist
+  static const String middleName = "Middle Name";
+  static const String address1 = "Address Line 1";
+  static const String address2 = "Address Line 2";
+  static const String dob = "DOB";
+  static const String roleAge = "Role Age";
+  static const String alternateMobileNumber = "Alternate Mobile Number";
+  static const String languageKnown = "Language Known";
+  static const String maritalStatus = "Marital Status";
+  static const String travelThrIndia = "Travel Through India";
+  static const String educationType = "Education Type";
+  static const String universityOrInstitute = "University Or Institute";
+  static const String course = "Course";
+  static const String specialization = "Specialization";
+  static const String courseType = "Course Type";
+  static const String courseStartDate = "Course Start Date";
+  static const String courseEndDate = "Course End Date";
+  static const String score = "Score";
+  static const String hobby = "Hobby";
+  static const String passport = "Passport";
+  static const String aadharCard = "Aadhar Card";
+  static const String roleName = "Role Name";
+  static const String skillsUsed = "Skill Used";
+  static const String roleProfile = "roleProfile";
+  static const String fileType = "File Type";
+  // static const String roleProfile = "roleProfile";
+
+
 
 }

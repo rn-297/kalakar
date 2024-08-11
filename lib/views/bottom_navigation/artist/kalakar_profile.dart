@@ -8,8 +8,8 @@ import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/custom_widgets/custom_divider/custom_dashed_divider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import '../../helper/kalakar_colors.dart';
-import '../../utils/kalakar_constants.dart';
+import '../../../helper/kalakar_colors.dart';
+import '../../../utils/kalakar_constants.dart';
 
 class KalakarProfilePage extends StatelessWidget {
   const KalakarProfilePage({super.key});
