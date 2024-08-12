@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:kalakar/helper/file_viewer/file_viewer.dart';
 import 'package:kalakar/views/auth/forgot_password.dart';
 import 'package:kalakar/views/auth/login_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_profile_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/bottom_navigator.dart';
 import 'package:kalakar/views/bottom_navigation/company/all_projects_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_profile_form.dart';
@@ -23,6 +24,7 @@ class RouteHelper {
   static const String newProjectFormPage = '/kalakar_new_project_form';
   static const String fileViewer = '/kalakar_file_viewer';
   static const String allProjects = '/kalakar_all_projects';
+  static const String artistProfileForm = '/kalakar_artist_profile_form';
 
   static List<GetPage> routes = [
     GetPage(
@@ -64,6 +66,10 @@ class RouteHelper {
     GetPage(
       name: allProjects,
       page: () => AllProjectsPage(),
+    ),
+    GetPage(
+      name: artistProfileForm,
+      page: () => ArtistProfileFormPage(),
     ),
   ];
 

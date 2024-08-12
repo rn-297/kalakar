@@ -21,8 +21,7 @@ import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:html' as html;
-
+import 'package:kalakar/utils/web_utils.dart' as utils;
 import '../data/models/csv_model_class.dart';
 import '../helper/route_helper.dart';
 import '../views/dialogs/kalakar_dialogs.dart';
@@ -800,7 +799,7 @@ class ProfileController extends GetxController {
     switch (documentType) {
       case KalakarConstants.filmCorporationCard:
         if (kIsWeb) {
-          html.window.open(filmCorporationCardPath, '_blank');
+          utils.openLink(filmCorporationCardPath);
         } else {
           fileController.viewFile(KalakarConstants.profilePath,
               filmCorporationCardTEController.text.trim(), documentType);
@@ -808,7 +807,7 @@ class ProfileController extends GetxController {
         break;
       case KalakarConstants.adminAadharCard:
         if (kIsWeb) {
-          html.window.open(adminAadharCardPath, '_blank');
+          utils.openLink(adminAadharCardPath);
         } else {
           fileController.viewFile(KalakarConstants.profilePath,
               adminAadharCardTEController.text.trim(), documentType);
@@ -816,7 +815,7 @@ class ProfileController extends GetxController {
         break;
       case KalakarConstants.addressProofOfCompany:
         if (kIsWeb) {
-          html.window.open(addressProofCompanyPath, '_blank');
+          utils.openLink(addressProofCompanyPath);
         } else{
           fileController.viewFile(KalakarConstants.profilePath,
               addressProofOfCompanyTEController.text.trim(), documentType);
@@ -824,7 +823,7 @@ class ProfileController extends GetxController {
         break;
       case KalakarConstants.selfieUpload:
         if (kIsWeb) {
-          html.window.open(selfieUploadedPath, '_blank');
+          utils.openLink(selfieUploadedPath);
         } else{
           fileController.viewFile1(selfieUploadedPath, documentType);
         }

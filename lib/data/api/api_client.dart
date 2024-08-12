@@ -149,7 +149,7 @@ abstract class ApiClient extends GetxService {
                               contentType: mime.MediaType("document", "pdf"))
                           :*/
                 await Http.MultipartFile.fromPath(key, file.path,
-                    filename: file.path.split("/").last);
+                    filename: "image.jpg");
             request.files.add(multipartFile);
           } else {
             request.fields[key] = "";

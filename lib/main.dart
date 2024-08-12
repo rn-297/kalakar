@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/auth_page_controller.dart';
 import 'package:kalakar/controller/file_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
@@ -22,6 +23,8 @@ void main() async {
   Get.lazyPut(() => ProfileController());
   Get.lazyPut(() => FileController());
   Get.put(SettingsController());
+  Get.lazyPut(() => ArtistProfileController());
+  Get.put(ArtistProfileController());
   Get.put(AuthPageController());
   Get.put(ProfileController());
   Get.put(FileController());

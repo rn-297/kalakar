@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/custom_widgets/custom_divider/custom_dashed_divider.dart';
+import 'package:kalakar/helper/route_helper.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../helper/kalakar_colors.dart';
@@ -505,7 +506,9 @@ class KalakarProfilePage extends StatelessWidget {
       ),
       actions: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(RouteHelper.artistProfileForm);
+          },
           child: Icon(
             Icons.settings,
             size: 30.h,
