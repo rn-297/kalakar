@@ -190,6 +190,13 @@ class ArtistProfileController extends GetxController {
     return null;
   }
 
+  String? address2Validator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Last Name';
+    }
+    return null;
+  }
+
   String? alternateMobileNumberValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Last Name';
@@ -244,6 +251,13 @@ class ArtistProfileController extends GetxController {
       return 'Please Enter Last Name';
     }
     return null;
+  }
+
+  @override
+  onInit(){
+    super.onInit();
+  getArtistProfileBasic();
+
   }
 
   Future<void> saveArtistProfile() async {
@@ -652,7 +666,7 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> getArtistProfileApplyForApi() async {
+  Future<void> getArtistProfileApplyFor() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {"userID": "string", "fK_AccountID": 0, "recordID": 0};

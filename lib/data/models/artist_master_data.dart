@@ -4,15 +4,13 @@ class ArtistMasterData {
   List<InterestedListMaster>? interestedListMaster;
   bool? replayStatus;
   String? message;
-  Null? data;
 
   ArtistMasterData(
       {this.comfortableListMaster,
         this.applyListMaster,
         this.interestedListMaster,
         this.replayStatus,
-        this.message,
-        this.data});
+        this.message});
 
   ArtistMasterData.fromJson(Map<String, dynamic> json) {
     if (json['comfortableListMaster'] != null) {
@@ -35,7 +33,6 @@ class ArtistMasterData {
     }
     replayStatus = json['replayStatus'];
     message = json['message'];
-    data = json['data'];
   }
 
   Map<String, dynamic> toJson() {
@@ -54,7 +51,6 @@ class ArtistMasterData {
     }
     data['replayStatus'] = this.replayStatus;
     data['message'] = this.message;
-    data['data'] = this.data;
     return data;
   }
 }

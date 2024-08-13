@@ -54,6 +54,7 @@ class BottomNavigationController extends GetxController {
     }
     tempList.addAll([]);
     navigatorArtistPages = tempList;
+    update();
     return navigatorArtistPages.elementAt(selectedIndex);
   }
 
@@ -61,5 +62,6 @@ class BottomNavigationController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     print(loginTable!.accountType!);
     accountType = loginTable!.accountType;
+    update();
   }
 }
