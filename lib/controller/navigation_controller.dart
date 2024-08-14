@@ -14,10 +14,7 @@ class BottomNavigationController extends GetxController {
   int selectedIndex = 0;
   String accountType = "Company";
   List<Widget> navigatorArtistPages = <Widget>[
-    KalakarHomePage(),
-    OpportunityPage(),
-    KalakarProfilePage(),
-    SettingsPage()
+
   ];
 
   @override

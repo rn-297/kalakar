@@ -2,7 +2,7 @@ class ArtistProfileDetailsClass {
   int? artistProfileID;
   int? fKAccountID;
   String? profilePic;
-  Null? profilePicName;
+  String? profilePicName;
   String? firstName;
   String? middleName;
   String? lastName;

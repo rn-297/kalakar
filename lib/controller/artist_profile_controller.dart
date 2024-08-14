@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
@@ -564,20 +565,25 @@ class ArtistProfileController extends GetxController {
   Future<void> getArtistProfileBasic() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"userID": "string", "fK_AccountID": 0};
+      final body = {"userID": loginTable.userID, "fK_AccountID": loginTable.accountID};
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileBasicApi,
           jsonEncode(body),
           loginTable.token);
-      // print(response.statusCode);
-      // print(response);
+      print(response.statusCode);
+      print(response.body);
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ArtistProfileDetailsClass artistProfileDetailsClass =
+        ArtistProfileDetailsClass.fromJson(jsonDecode(response.body));
+
+        if (artistProfileDetailsClass.replayStatus ?? false) {
+          // getProfileData();
+
+        } else {
+
+        }
       }
     }
   }
