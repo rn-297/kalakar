@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/artist_profile_controller.dart';
+import 'package:kalakar/helper/textfield_validators.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../helper/common_widgets.dart';
+import '../../../helper/date_picker_helper.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/picker_helper.dart';
 import '../../../utils/kalakar_constants.dart';
@@ -99,7 +101,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                           child: InkWell(
                               onTap: () {
                                 controller.documentType =
-                                    KalakarConstants.companyLogo;
+                                    KalakarConstants.profilePhoto;
                                 PickerHelper.showImageBottomSheet(
                                     context, controller);
                               },
@@ -118,7 +120,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.firstNameValidator),
+                    validator: Validator.validateFirstName),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -130,7 +132,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.middleNameValidator),
+                    validator: Validator.validateMiddleName),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -142,19 +144,28 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.lastNameValidator),
+                    validator: Validator.validateLastName),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.dobTEController,
-                    labelText: KalakarConstants.dob,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: controller.dobValidator),
+                InkWell(
+                  onTap: () async {
+                    final date = await DatePickerHelper.selectDate(context);
+                    if (date != null) {
+                      controller.setDate(KalakarConstants.startDate, date);
+                    }
+                  },
+                  child: CommonWidgets.commonMobileTextField(
+                      controller: controller.dobTEController,
+                      labelText: KalakarConstants.dob,
+                      obscureText: false,
+                      textInputType: TextInputType.text,
+                      passwordVisibility: false,
+                      editable: false,
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: Validator.validateDob),
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -162,11 +173,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                     controller: controller.emailTEController,
                     labelText: KalakarConstants.email,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.emailAddress,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.emailValidator),
+                    validator: Validator.validateEmail),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -174,11 +185,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                     controller: controller.mobileNumberTEController,
                     labelText: KalakarConstants.mobileNumber,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.mobileNumberValidator),
+                    validator: Validator.validateMobileNumber),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -186,11 +197,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                     controller: controller.ageTEController,
                     labelText: KalakarConstants.age,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.ageValidator),
+                    validator: Validator.validateAge),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -198,11 +209,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                     controller: controller.roleAgeTEController,
                     labelText: KalakarConstants.roleAge,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.roleAgeValidator),
+                    validator: Validator.validateRoleAge),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -210,11 +221,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                     controller: controller.heightTEController,
                     labelText: KalakarConstants.height,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.heightValidator),
+                    validator: Validator.validateHeight),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -222,28 +233,40 @@ class ArtistProfileFormPage extends StatelessWidget {
                     controller: controller.weightTEController,
                     labelText: KalakarConstants.weight,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.weightValidator),
+                    validator: Validator.validateWeight),
                 SizedBox(
                   height: 16.h,
                 ),
                 CommonWidgets.commonMobileTextField(
-                    controller: controller.weightTEController,
-                    labelText: KalakarConstants.weight,
+                    controller: controller.address1TEController,
+                    labelText: KalakarConstants.address1,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.weightValidator),
+                    validator: Validator.validateAddressLine1),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: controller.address2TEController,
+                    labelText: KalakarConstants.address2,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateAddressLine2),
                 SizedBox(
                   height: 16.h,
                 ),
                 CustomDropdownSearch(
-                  validator: controller.stateValidator,
+                  validator: Validator.validateState,
                   items: controller.stateList,
                   titleText: KalakarConstants.selectState,
                   selectedItem: controller.stateTEController.text.isEmpty
@@ -289,7 +312,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: controller.districtValidator),*/
                 CustomDropdownSearch(
-                  validator: controller.districtValidator,
+                  validator: Validator.validateDistrict,
                   items: controller.cityList,
                   titleText: KalakarConstants.selectDistrict,
                   selectedItem: controller.districtTEController.text.isEmpty
@@ -314,7 +337,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: controller.stateValidator),*/
                 CustomDropdownSearch(
-                  validator: controller.postalCodeValidator,
+                  validator: Validator.validatePostalCode,
                   items: controller.pinCodeList,
                   titleText: KalakarConstants.selectPinCode,
                   selectedItem: controller.postalCodeTEController.text.isEmpty
@@ -337,7 +360,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.bioValidator),
+                    validator: Validator.validateBio),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -449,12 +472,12 @@ class ArtistProfileFormPage extends StatelessWidget {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: controller.artistProfileImage
-                                    .startsWith("http")
+                                        .startsWith("http")
                                     ? NetworkImage(
-                                    controller.artistProfileImage)
+                                        controller.artistProfileImage)
                                     : FileImage(
-                                  File(controller.artistProfileImage),
-                                ) as ImageProvider,
+                                        File(controller.artistProfileImage),
+                                      ) as ImageProvider,
                                 fit: BoxFit.fill),
                             border: Border.all(color: KalakarColors.textColor),
                             borderRadius: BorderRadius.circular(50.r)),
@@ -484,7 +507,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.firstNameValidator),
+                    validator: Validator.validateFirstName),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -496,7 +519,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.middleNameValidator),
+                    validator: Validator.validateMiddleName),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -508,7 +531,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.lastNameValidator),
+                    validator: Validator.validateLastName),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -520,7 +543,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.dobValidator),
+                    validator: Validator.validateDob),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -532,7 +555,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.emailValidator),
+                    validator: Validator.validateEmail),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -544,7 +567,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.mobileNumberValidator),
+                    validator: Validator.validateMobileNumber),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -556,7 +579,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.ageValidator),
+                    validator: Validator.validateAge),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -568,7 +591,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.roleAgeValidator),
+                    validator: Validator.validateRoleAge),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -580,7 +603,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.heightValidator),
+                    validator: Validator.validateHeight),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -592,7 +615,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.weightValidator),
+                    validator: Validator.validateWeight),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -604,7 +627,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.address1Validator),
+                    validator: Validator.validateAddressLine1),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -616,12 +639,12 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.address2Validator),
+                    validator: Validator.validateAddressLine2),
                 SizedBox(
                   height: 16.h,
                 ),
                 CustomDropdownSearch(
-                  validator: controller.stateValidator,
+                  validator: Validator.validateState,
                   items: controller.stateList,
                   titleText: KalakarConstants.selectState,
                   selectedItem: controller.stateTEController.text.isEmpty
@@ -667,7 +690,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: controller.districtValidator),*/
                 CustomDropdownSearch(
-                  validator: controller.districtValidator,
+                  validator: Validator.validateDistrict,
                   items: controller.cityList,
                   titleText: KalakarConstants.selectDistrict,
                   selectedItem: controller.districtTEController.text.isEmpty
@@ -692,7 +715,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: controller.stateValidator),*/
                 CustomDropdownSearch(
-                  validator: controller.postalCodeValidator,
+                  validator: Validator.validatePostalCode,
                   items: controller.pinCodeList,
                   titleText: KalakarConstants.selectPinCode,
                   selectedItem: controller.postalCodeTEController.text.isEmpty
@@ -715,7 +738,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.bioValidator),
+                    validator: Validator.validateBio),
                 SizedBox(
                   height: 16.h,
                 ),

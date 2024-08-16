@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:kalakar/controller/auth_page_controller.dart';
 import 'package:kalakar/helper/common_widgets.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
+import 'package:kalakar/helper/textfield_validators.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:otp_input_editor/otp_input_editor.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -58,7 +59,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       textInputType: TextInputType.number,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createMobileNumberValidator),
+                      validator: Validator.validateMobileNumber),
                   SizedBox(
                     height: 24.h,
                   ),
@@ -69,7 +70,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       textInputType: TextInputType.emailAddress,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createEmailValidator),
+                      validator: Validator.validateEmail),
                   SizedBox(
                     height: 24.h,
                   ),
@@ -127,11 +128,10 @@ class ForgotPasswordPage extends StatelessWidget {
                             passwordVisibility:
                                 authPageController.createPasswordValue,
                             togglePasswordVisibility: () {
-                              authPageController
-                                  .setPasswordVisibility(PasswordType.createPass);
+                              authPageController.setPasswordVisibility(
+                                  PasswordType.createPass);
                             },
-                            validator:
-                                authPageController.createPasswordValidator),
+                            validator: Validator.validatePassword),
                         SizedBox(
                           height: 16.h,
                         ),
@@ -146,8 +146,10 @@ class ForgotPasswordPage extends StatelessWidget {
                               authPageController.setPasswordVisibility(
                                   PasswordType.createCnfmPass);
                             },
-                            validator: authPageController
-                                .createConfirmPasswordValidator),
+                            validator: (val) {
+                              return Validator.validateConfirmPassword(
+                                  val, authPageController.createPassword.text);
+                            }),
                         SizedBox(
                           height: 16.h,
                         ),
@@ -198,7 +200,7 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 
-  webForgotPassPage(AuthPageController authPageController)  {
+  webForgotPassPage(AuthPageController authPageController) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: SingleChildScrollView(
@@ -218,7 +220,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       textInputType: TextInputType.number,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createMobileNumberValidator),
+                      validator: Validator.validateMobileNumber),
                   SizedBox(
                     height: 24.h,
                   ),
@@ -229,7 +231,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       textInputType: TextInputType.emailAddress,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createEmailValidator),
+                      validator: Validator.validateEmail),
                   SizedBox(
                     height: 24.h,
                   ),
@@ -238,120 +240,121 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             authPageController.isOtpSent
                 ? Form(
-              key: authPageController.formSetForgotPassKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 28.h),
-                      child: Text(
-                        KalakarConstants.enterOtp,
-                        style: TextStyle(
-                            color: KalakarColors.textColor,
-                            fontSize: 14.sp),
-                      )),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: _getOtpEditor(authPageController),
-                  ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      authPageController.startTime <= 0
-                          ? InkWell(
-                        onTap: () {
-                          authPageController
-                              .getOTP(OTPType.createAccount);
-                        },
-                        child: Text(
-                          "Resend OTP",
-                          style: TextStyle(
-                              color: KalakarColors.headerText),
+                    key: authPageController.formSetForgotPassKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 28.h),
+                            child: Text(
+                              KalakarConstants.enterOtp,
+                              style: TextStyle(
+                                  color: KalakarColors.textColor,
+                                  fontSize: 14.sp),
+                            )),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: _getOtpEditor(authPageController),
                         ),
-                      )
-                          : Text(
-                          "Resend OTP in ${authPageController.startTime} seconds")
-                    ],
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  CommonWidgets.commonMobileTextField(
-                      controller: authPageController.createPassword,
-                      labelText: KalakarConstants.password,
-                      obscureText: true,
-                      textInputType: TextInputType.visiblePassword,
-                      passwordVisibility:
-                      authPageController.createPasswordValue,
-                      togglePasswordVisibility: () {
-                        authPageController
-                            .setPasswordVisibility(PasswordType.createPass);
-                      },
-                      validator:
-                      authPageController.createPasswordValidator),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  CommonWidgets.commonMobileTextField(
-                      controller: authPageController.createCnfmPassword,
-                      labelText: KalakarConstants.cnfmPassword,
-                      obscureText: true,
-                      textInputType: TextInputType.visiblePassword,
-                      passwordVisibility:
-                      authPageController.createShowCnfmPassword,
-                      togglePasswordVisibility: () {
-                        authPageController.setPasswordVisibility(
-                            PasswordType.createCnfmPass);
-                      },
-                      validator: authPageController
-                          .createConfirmPasswordValidator),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  Center(
-                    child: CustomMobileButtonWidget(
-                      text: KalakarConstants.resetPass,
-                      onTap: () {
-                        authPageController.setForgotPassword();
-                      },
-                      horizontalPadding: 50.0,
-                      verticalPadding: 8.0,
-                      fontSize: 20.0,
-                      backgroundColor: KalakarColors.buttonBackground,
-                      textColor: KalakarColors.headerText,
-                      borderRadius: 50.0,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 5.0,
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            authPageController.startTime <= 0
+                                ? InkWell(
+                                    onTap: () {
+                                      authPageController
+                                          .getOTP(OTPType.createAccount);
+                                    },
+                                    child: Text(
+                                      "Resend OTP",
+                                      style: TextStyle(
+                                          color: KalakarColors.headerText),
+                                    ),
+                                  )
+                                : Text(
+                                    "Resend OTP in ${authPageController.startTime} seconds")
+                          ],
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        CommonWidgets.commonMobileTextField(
+                            controller: authPageController.createPassword,
+                            labelText: KalakarConstants.password,
+                            obscureText: true,
+                            textInputType: TextInputType.visiblePassword,
+                            passwordVisibility:
+                                authPageController.createPasswordValue,
+                            togglePasswordVisibility: () {
+                              authPageController.setPasswordVisibility(
+                                  PasswordType.createPass);
+                            },
+                            validator: Validator.validatePassword),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        CommonWidgets.commonMobileTextField(
+                            controller: authPageController.createCnfmPassword,
+                            labelText: KalakarConstants.cnfmPassword,
+                            obscureText: true,
+                            textInputType: TextInputType.visiblePassword,
+                            passwordVisibility:
+                                authPageController.createShowCnfmPassword,
+                            togglePasswordVisibility: () {
+                              authPageController.setPasswordVisibility(
+                                  PasswordType.createCnfmPass);
+                            },
+                            validator: (val) {
+                              return Validator.validateConfirmPassword(
+                                  val, authPageController.createPassword.text);
+                            }),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Center(
+                          child: CustomMobileButtonWidget(
+                            text: KalakarConstants.resetPass,
+                            onTap: () {
+                              authPageController.setForgotPassword();
+                            },
+                            horizontalPadding: 50.0,
+                            verticalPadding: 8.0,
+                            fontSize: 20.0,
+                            backgroundColor: KalakarColors.buttonBackground,
+                            textColor: KalakarColors.headerText,
+                            borderRadius: 50.0,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            )
+                  )
                 : CustomMobileButtonWidget(
-              text: KalakarConstants.getOtp,
-              onTap: () {
-                authPageController.getOTP(OTPType.forgotPassword);
-              },
-              horizontalPadding: 50.0,
-              verticalPadding: 8.0,
-              fontSize: 20.0,
-              backgroundColor: KalakarColors.buttonBackground,
-              textColor: KalakarColors.headerText,
-              borderRadius: 50.0,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 5.0,
-                ),
-              ],
-            ),
+                    text: KalakarConstants.getOtp,
+                    onTap: () {
+                      authPageController.getOTP(OTPType.forgotPassword);
+                    },
+                    horizontalPadding: 50.0,
+                    verticalPadding: 8.0,
+                    fontSize: 20.0,
+                    backgroundColor: KalakarColors.buttonBackground,
+                    textColor: KalakarColors.headerText,
+                    borderRadius: 50.0,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 5.0,
+                      ),
+                    ],
+                  ),
           ],
         ),
       ),

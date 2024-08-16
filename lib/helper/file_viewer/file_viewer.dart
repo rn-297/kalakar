@@ -27,6 +27,7 @@ class _ViewFilePageState extends State<ViewFilePage> {
   int count = 0;
   late PdfControllerPinch pdfController;
   late VideoPlayerController videoController;
+
   // late CustomVideoPlayerController customVideoPlayerController;
 
   @override
@@ -94,7 +95,9 @@ class _ViewFilePageState extends State<ViewFilePage> {
                             : Center(
                                 child: AspectRatio(
                                     aspectRatio: 10 / 16,
-                                    child: Image.network(filePath.value)),
+                                    child: filePath.value.startsWith("http")
+                                        ? Image.network(filePath.value)
+                                        : Image.file(File(filePath.value))),
                               ),
                   )
                 : Container()),

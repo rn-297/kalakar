@@ -2,14 +2,20 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
 import '../data/models/csv_model_class.dart';
+import '../helper/picker_helper.dart';
 import '../utils/kalakar_constants.dart';
+import 'file_controller.dart';
+import 'package:kalakar/utils/web_utils.dart' as utils;
 
 class ArtistProfileController extends GetxController {
   //text editing Controllers
@@ -70,12 +76,28 @@ class ArtistProfileController extends GetxController {
 
   //Strings
   String artistProfileImage = "";
+  String passportImage = "";
+  String filmCorporationCardImage = "";
+  String adharCardImage = "";
   String documentType = "";
+  String dobText = "";
+  String courseStartDateText = "";
+  String courseEndDateText = "";
+
+  //artist profile details
+  ArtistProfileDetailsClass artistProfileDetails = ArtistProfileDetailsClass();
 
 //form keys
   final _formProfileKey = GlobalKey<FormState>();
 
   get formProfileKey => _formProfileKey;
+  final _formEducationKey = GlobalKey<FormState>();
+
+  get formEducationKey => _formEducationKey;
+
+  final _formDocumentKey = GlobalKey<FormState>();
+
+  get formDocumentKey => _formDocumentKey;
 
   //Lists
 
@@ -84,180 +106,25 @@ class ArtistProfileController extends GetxController {
   List<String> cityList = [];
   List<String> pinCodeList = [];
 
-  //validators
-
-  String? firstNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter First Name';
-    }
-    return null;
-  }
-
-  String? middleNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Middle Name';
-    }
-    return null;
-  }
-
-  String? lastNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? dobValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? emailValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? mobileNumberValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? heightValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? weightValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? ageValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? roleAgeValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? bioValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? stateValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? districtValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? postalCodeValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? address1Validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? address2Validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? alternateMobileNumberValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? languageKnownValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? eyeColorValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? hairColorValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? bodyTypeValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? maritalStatusValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? vehicleValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
-  String? travelThrIndiaValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Last Name';
-    }
-    return null;
-  }
-
   @override
   onInit() {
     super.onInit();
     getArtistProfileBasic();
+  }
+
+  setDate(String type, DateTime date) {
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    switch (type) {
+      case KalakarConstants.dob:
+        dobText = formatter.format(date);
+        dobTEController.text = dobText!;
+      case KalakarConstants.courseStartDate:
+        courseStartDateText = formatter.format(date);
+        courseStartDateTEController.text = courseStartDateText!;
+      case KalakarConstants.courseEndDate:
+        courseEndDateText = formatter.format(date);
+        courseEndDateTEController.text = courseEndDateText!;
+    }
   }
 
   Future<void> saveArtistProfile() async {
@@ -581,38 +448,177 @@ class ArtistProfileController extends GetxController {
             ArtistProfileDetailsClass.fromJson(jsonDecode(response.body));
 
         if (responseModel.replayStatus ?? false) {
-          setArtistProfileData(responseModel);
+          artistProfileDetails = responseModel;
+
+          setArtistProfileData();
         }
       }
     }
   }
 
-  setArtistProfileData(ArtistProfileDetailsClass responseModel) {
-    artistProfileImage = responseModel.profilePic!;
-    firstNameTEController.text = responseModel.firstName!;
-    middleNameTEController.text = responseModel.middleName!;
-    lastNameTEController.text = responseModel.lastName!;
-    dobTEController.text = responseModel.dateOfBirth!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
-    firstNameTEController.text = responseModel.firstName!;
+  setArtistProfileData() {
+    if (artistProfileDetails != null) {
+      artistProfileImage = artistProfileDetails.profilePic!;
+      firstNameTEController.text = artistProfileDetails.firstName!;
+      middleNameTEController.text = artistProfileDetails.middleName!;
+      lastNameTEController.text = artistProfileDetails.lastName!;
+      dobTEController.text = artistProfileDetails.dateOfBirth!;
+      emailTEController.text = artistProfileDetails.email!;
+      mobileNumberTEController.text = artistProfileDetails.mobileNumber!;
+      ageTEController.text = artistProfileDetails.age!.toString();
+      roleAgeTEController.text = artistProfileDetails.roleAge.toString()!;
+      heightTEController.text = artistProfileDetails.height!.toString();
+      weightTEController.text = artistProfileDetails.weight!.toString();
+      address1TEController.text = artistProfileDetails.address1!;
+      address2TEController.text = artistProfileDetails.address2!;
+      stateTEController.text = artistProfileDetails.state!;
+      districtTEController.text = artistProfileDetails.district!;
+      postalCodeTEController.text = artistProfileDetails.postalcode!;
+      bioTEController.text = artistProfileDetails.bio!;
+      fbLinkTEController.text = artistProfileDetails.fbLink!;
+      wpLinkTEController.text = artistProfileDetails.wpLink!;
+      ytLinkTEController.text = artistProfileDetails.ytLink!;
+      emailLinkTEController.text = artistProfileDetails.emailLink!;
+      websiteLinkTEController.text = artistProfileDetails.websiteLink!;
+      // firstNameTEController.text = artistProfileDetails.firstName!;
+      // firstNameTEController.text = artistProfileDetails.firstName!;
+      // firstNameTEController.text = artistProfileDetails.firstName!;
+      update();
+    }
+  }
+
+  pickOrShowDocument(String documentType, BuildContext context, controller) {
+    switch (documentType) {
+      case KalakarConstants.profilePhoto:
+        if (artistProfileImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.passport:
+        if (passportImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.filmCorporationCard:
+        if (filmCorporationCardImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.aadharCard:
+        if (adharCardImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showImageBottomSheet(context, controller);
+        }
+        break;
+    }
+  }
+
+  Future<void> pickDocument(
+      String documentType, BuildContext context, controller) async {
+    print(documentType);
+    this.documentType = documentType;
+    PickerHelper.showImageBottomSheet(context, controller);
+    /*switch (documentType) {
+      case KalakarConstants.profilePhoto:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          artistProfileImage = file.path;
+          update();
+        }
+        break;
+      case KalakarConstants.passport:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          passportImage = file.path;
+          passportTEController.text = file.path.split("/").last;
+          update();
+        }
+        break;
+      case KalakarConstants.filmCorporationCard:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          fileCorporationCardImage = file.path;
+          filmCorporationCrdTEController.text = file.path.split("/").last;
+          update();
+        }
+        break;
+      case KalakarConstants.aadharCard:
+        this.documentType = documentType;
+        PickerHelper.showImageBottomSheet(context, controller);
+        break;
+    }*/
+  }
+
+  showDocument(String documentType) {
+    FileController fileController = Get.put(FileController());
+    switch (documentType) {
+      case KalakarConstants.passport:
+        if (kIsWeb) {
+          utils.openLink(passportImage);
+        } else {
+          fileController.viewFile1(passportImage, documentType);
+        }
+        break;
+      case KalakarConstants.filmCorporationCard:
+        if (kIsWeb) {
+          utils.openLink(filmCorporationCardImage);
+        } else {
+          fileController.viewFile1(filmCorporationCardImage, documentType);
+        }
+        break;
+      case KalakarConstants.aadharCard:
+        if (kIsWeb) {
+          utils.openLink(adharCardImage);
+        } else {
+          fileController.viewFile1(adharCardImage, documentType);
+        }
+        break;
+      /*case KalakarConstants.selfieUpload:
+        if (kIsWeb) {
+          utils.openLink(selfieUploadedPath);
+        } else {
+          fileController.viewFile1(selfieUploadedPath, documentType);
+        }
+        break;*/
+    }
+  }
+
+  Future<void> getImageFromCamera(BuildContext context, String type) async {
+    File? file;
+    if (type == KalakarConstants.camera) {
+      file = await PickerHelper.pickImageFromCamera(context);
+    } else if (type == KalakarConstants.gallery) {
+      file = await PickerHelper.pickImageFromGallery(context);
+    }
+    if (file != null) {
+      print("here ${file.path}");
+      if (documentType == KalakarConstants.profilePhoto) {
+        artistProfileImage = file.path;
+      } else if (documentType == KalakarConstants.passport) {
+        passportImage = file.path;
+        passportTEController.text = passportImage.split("/").last;
+      } else if (documentType == KalakarConstants.filmCorporationCard) {
+        filmCorporationCardImage = file.path;
+        filmCorporationCrdTEController.text =
+            filmCorporationCardImage.split("/").last;
+      } else if (documentType == KalakarConstants.aadharCard) {
+        adharCardImage = file.path;
+        adharCardTEController.text = adharCardImage.split("/").last;
+      }
+      update();
+    }
+    Get.back();
   }
 
   Future<void> getArtistProfileEducation() async {
@@ -726,5 +732,66 @@ class ArtistProfileController extends GetxController {
 
   void setPinCodeData(String selectedItem) {}
 
-  void validateProfileFormData() {}
+  void validateProfileFormData() {
+    if (_formProfileKey.currentState!.validate()) {}
+  }
+
+  Future<void> openSocialMedia(int index) async {
+    switch (index) {
+      case 0:
+        try {
+          launchUrl(Uri.parse(artistProfileDetails!.fbLink!));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 1:
+        try {
+          launchUrl(Uri.parse(artistProfileDetails!.instalink!));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 2:
+        try {
+          launchUrl(Uri.parse(artistProfileDetails!.wpLink!));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 3:
+        try {
+          launchUrl(Uri.parse(artistProfileDetails!.ytLink!));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 4:
+        try {
+          launchUrl(Uri.parse(artistProfileDetails!.emailLink!));
+        } catch (e) {
+          print(e);
+        }
+        break;
+      case 5:
+        try {
+          launchUrl(Uri.parse(artistProfileDetails!.websiteLink!));
+        } catch (e) {
+          print(e);
+        }
+        break;
+    }
+  }
+
+  void validateEducationForm() {
+    if (_formEducationKey.currentState!.validate()) {}
+  }
+
+  void validateDocumentsForm() {
+    if (_formDocumentKey.currentState!.validate()) {}
+  }
 }

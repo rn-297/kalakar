@@ -465,23 +465,17 @@ class RequirementController extends GetxController {
     }
   }
 
-  Future<void> getImageFromCamera(BuildContext context) async {
-    File? file = await PickerHelper.pickImageFromCamera(context);
+  Future<void> getImageFromCamera(BuildContext context, String type) async {
+    File? file = null;
+    if (type == KalakarConstants.camera) {
+      file = await PickerHelper.pickImageFromCamera(context);
+    } else if (type == KalakarConstants.gallery) {
+      file = await PickerHelper.pickImageFromGallery(context);
+    }
     if (file != null) {
       requirementPhoto = file.path;
       update();
     }
-    Get.back();
-  }
-
-
-
-  Future<void> getImageFromGallery(BuildContext context) async {
-    File? file = await PickerHelper.pickImageFromGallery(context);
-    if (file != null) {
-      requirementPhoto = file.path;
-      update();
-  }
     Get.back();
   }
 }

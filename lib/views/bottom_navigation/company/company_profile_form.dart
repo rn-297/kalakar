@@ -8,6 +8,7 @@ import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/custom_widgets/custom_dropdown_search.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/helper/picker_helper.dart';
+import 'package:kalakar/helper/textfield_validators.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -113,7 +114,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.companyNameValidator),
+                    validator: Validator.validateCompanyName),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -125,7 +126,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.authorizeAdminNameValidator),
+                    validator: Validator.validateAuthorizeAdminName),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -138,12 +139,12 @@ class CompanyProfileFormPage extends StatelessWidget {
                     maxLines: 3,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.addressValidator),
+                    validator: Validator.validateAddress),
                 SizedBox(
                   height: 16.h,
                 ),
                 CustomDropdownSearch(
-                  validator: controller.stateValidator,
+                  validator: Validator.validateState,
                   items: controller.stateList,
                   titleText: KalakarConstants.selectState,
                   selectedItem: controller.stateTEController.text.isEmpty
@@ -189,7 +190,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: controller.districtValidator),*/
                 CustomDropdownSearch(
-                  validator: controller.districtValidator,
+                  validator: Validator.validateDistrict,
                   items: controller.cityList,
                   titleText: KalakarConstants.selectDistrict,
                   selectedItem: controller.districtTEController.text.isEmpty
@@ -214,7 +215,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: controller.stateValidator),*/
                 CustomDropdownSearch(
-                  validator: controller.postalCodeValidator,
+                  validator: Validator.validatePostalCode,
                   items: controller.pinCodeList,
                   titleText: KalakarConstants.selectPinCode,
                   selectedItem: controller.pinCodeTEController.text.isEmpty
@@ -237,7 +238,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.bioValidator),
+                    validator: Validator.validateBio),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -382,7 +383,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                           passwordVisibility: false,
                           borderRadius: 12.r,
                           togglePasswordVisibility: () {},
-                          validator: controller.companyNameValidator),
+                          validator: Validator.validateCompanyName),
                     ),
                     SizedBox(
                       width: 16.h,
@@ -396,7 +397,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                           passwordVisibility: false,
                           borderRadius: 12.r,
                           togglePasswordVisibility: () {},
-                          validator: controller.authorizeAdminNameValidator),
+                          validator: Validator.validateAuthorizeAdminName),
                     ),
                   ],
                 ),
@@ -416,7 +417,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                           maxLines: 6,
                           borderRadius: 12.r,
                           togglePasswordVisibility: () {},
-                          validator: controller.addressValidator),
+                          validator: Validator.validateAddress),
                     ),
                     SizedBox(
                       width: 16.h,
@@ -425,7 +426,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomDropdownSearch(
-                            validator: controller.stateValidator,
+                            validator: Validator.validateState,
                             items: controller.stateList,
                             titleText: KalakarConstants.selectState,
                             selectedItem:
@@ -441,7 +442,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                             height: 16.h,
                           ),
                           CustomDropdownSearch(
-                            validator: controller.districtValidator,
+                            validator: Validator.validateDistrict,
                             items: controller.cityList,
                             titleText: KalakarConstants.selectDistrict,
                             selectedItem:
@@ -457,7 +458,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                             height: 16.h,
                           ),
                           CustomDropdownSearch(
-                            validator: controller.postalCodeValidator,
+                            validator: Validator.validatePostalCode,
                             items: controller.pinCodeList,
                             titleText: KalakarConstants.selectPinCode,
                             selectedItem:
@@ -486,7 +487,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.bioValidator),
+                    validator: Validator.validateBio),
                 SizedBox(
                   height: 16.h,
                 ),

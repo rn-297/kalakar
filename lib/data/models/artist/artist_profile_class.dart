@@ -10,10 +10,10 @@ class ArtistProfileDetailsClass {
   String? email;
   String? mobileNumber;
   String? gender;
-  int? age;
-  int? roleAge;
+  double? age;
+  double? roleAge;
   double? height;
-  int? weight;
+  double? weight;
   String? bio;
   String? fbLink;
   String? wpLink;
@@ -39,42 +39,42 @@ class ArtistProfileDetailsClass {
 
   ArtistProfileDetailsClass(
       {this.artistProfileID,
-        this.fKAccountID,
-        this.profilePic,
-        this.profilePicName,
-        this.firstName,
-        this.middleName,
-        this.lastName,
-        this.dateOfBirth,
-        this.email,
-        this.mobileNumber,
-        this.gender,
-        this.age,
-        this.roleAge,
-        this.height,
-        this.weight,
-        this.bio,
-        this.fbLink,
-        this.wpLink,
-        this.ytLink,
-        this.instalink,
-        this.emailLink,
-        this.websiteLink,
-        this.address1,
-        this.address2,
-        this.district,
-        this.state,
-        this.postalcode,
-        this.alternateMobileNumber,
-        this.languageKnown,
-        this.eyeColor,
-        this.hairColor,
-        this.bodyType,
-        this.maritalStatus,
-        this.vehicle,
-        this.travelThrIndia,
-        this.replayStatus,
-        this.message});
+      this.fKAccountID,
+      this.profilePic,
+      this.profilePicName,
+      this.firstName,
+      this.middleName,
+      this.lastName,
+      this.dateOfBirth,
+      this.email,
+      this.mobileNumber,
+      this.gender,
+      this.age,
+      this.roleAge,
+      this.height,
+      this.weight,
+      this.bio,
+      this.fbLink,
+      this.wpLink,
+      this.ytLink,
+      this.instalink,
+      this.emailLink,
+      this.websiteLink,
+      this.address1,
+      this.address2,
+      this.district,
+      this.state,
+      this.postalcode,
+      this.alternateMobileNumber,
+      this.languageKnown,
+      this.eyeColor,
+      this.hairColor,
+      this.bodyType,
+      this.maritalStatus,
+      this.vehicle,
+      this.travelThrIndia,
+      this.replayStatus,
+      this.message});
 
   ArtistProfileDetailsClass.fromJson(Map<String, dynamic> json) {
     artistProfileID = json['artistProfileID'];

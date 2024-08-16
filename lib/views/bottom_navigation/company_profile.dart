@@ -73,7 +73,7 @@ class CompanyProfilePage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${KalakarConstants.kalakarId} ${profileDta!.userID}",
+                          "${KalakarConstants.kalakarId} ${profileDta.userID}",
                           style: TextStyle(
                               color: KalakarColors.headerText,
                               fontWeight: FontWeight.bold),

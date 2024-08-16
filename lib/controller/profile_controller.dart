@@ -10,18 +10,18 @@ import 'package:get/get.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
-import 'package:kalakar/data/models/company_projects_class.dart';
+import 'package:kalakar/data/models/company/company_projects_class.dart';
 import 'package:kalakar/data/models/file_data_model.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
-import 'package:kalakar/data/models/get_profile_data_class.dart';
-import 'package:kalakar/data/models/project_details_documents_class.dart';
-import 'package:kalakar/data/models/project_status_list_class.dart';
+import 'package:kalakar/data/models/company/project_details_documents_class.dart';
+import 'package:kalakar/data/models/company/project_status_list_class.dart';
 import 'package:kalakar/controller/file_controller.dart';
 import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kalakar/utils/web_utils.dart' as utils;
+import '../data/models/company/get_profile_data_class.dart';
 import '../data/models/csv_model_class.dart';
 import '../helper/route_helper.dart';
 import '../views/dialogs/kalakar_dialogs.dart';
@@ -65,9 +65,7 @@ class ProfileController extends GetxController {
   String projectCoverPath = "";
   String selectedProjectStatusId = "";
   String? selectedProjectStatus = null;
-  List<FileData> projectDocuments = [
-    FileData(path: "", type: "Add")
-  ];
+  List<FileData> projectDocuments = [FileData(path: "", type: "Add")];
   int startTime = 90;
 
   bool isNetworkCompanyLogo = true;
@@ -116,10 +114,18 @@ class ProfileController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getProfileData();
-    getStateData();
-    getProjectStatusData();
-    getCompanyProjects("0");
+    getRequireData();
+  }
+
+  getRequireData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null &&
+        loginTable.accountType == KalakarConstants.company) {
+      getProfileData();
+      getStateData();
+      getProjectStatusData();
+      getCompanyProjects("0");
+    }
   }
 
   void getProfileData() async {
@@ -146,116 +152,6 @@ class ProfileController extends GetxController {
     } else {}
     isProfileLoading = false;
     update();
-  }
-
-  String? companyNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Company Name/Production House';
-    }
-    return null;
-  }
-
-  String? emailValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Email';
-    }
-    // Regular expression for email validation
-    String pattern = r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
-    RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      return 'Enter a Valid Email';
-    }
-    return null;
-  }
-
-  String? mobileNumberValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Mobile Number';
-    }
-    // Regular expression for 10-digit number validation
-    String pattern = r'^\d{10}$';
-    RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      return 'Enter a valid 10-digit mobile number';
-    }
-    return null;
-  }
-
-  String? authorizeAdminNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Authorize Admin Name';
-    }
-    return null;
-  }
-
-  String? nameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Name';
-    }
-    return null;
-  }
-
-  String? ownerCeoNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Admin Owner CEO';
-    }
-    return null;
-  }
-
-  String? addressValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Address';
-    }
-    return null;
-  }
-
-  String? postalCodeValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Select Postal Code / Pin Code';
-    }
-    return null;
-  }
-
-  String? districtValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Select District';
-    }
-    return null;
-  }
-
-  String? stateValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Select State';
-    }
-    return null;
-  }
-
-  String? bioValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Bio';
-    }
-    return null;
-  }
-
-  String? projectTitleValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Project Title';
-    }
-    return null;
-  }
-
-  String? projectDescriptionValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Project Description';
-    }
-    return null;
-  }
-
-  String? projectStatusValidator(String? value) {
-    if (value == null) {
-      return 'Please Enter Bio';
-    }
-    return null;
   }
 
   Future<void> openSocialMedia(int index) async {
@@ -577,31 +473,13 @@ class ProfileController extends GetxController {
     PickerHelper.showImageVideoBottomSheet(context, controller);
   }
 
-  Future<void> getImageFromCamera(BuildContext context) async {
-    File? file = await PickerHelper.pickImageFromCamera(context);
-    if (file != null) {
-      if (documentType == KalakarConstants.selfieUpload) {
-        selfieUploadedPath = file.path;
-        selfieUploadTEController.text = file.path.split("/").last;
-      } else if (documentType == KalakarConstants.projectCover) {
-        projectCoverPath = file.path;
-        // selfieUploadTEController.text = file.path.split("/").last;
-      } else if (documentType == KalakarConstants.companyLogo) {
-        isNetworkCompanyLogo = false;
-        companyLogo = file.path;
-      } else if (documentType == KalakarConstants.projectDocuments) {
-        Uint8List imageData = await File(file.path).readAsBytesSync();
-        FileData fileData =
-            FileData(path: file.path, type: "IMAGE");
-        projectDocuments.add(fileData);
-      }
-      update();
+  Future<void> getImageFromCamera(BuildContext context, String type) async {
+    File? file = null;
+    if (type == KalakarConstants.camera) {
+      file = await PickerHelper.pickImageFromCamera(context);
+    } else if (type == KalakarConstants.gallery) {
+      file = await PickerHelper.pickImageFromGallery(context);
     }
-    Get.back();
-  }
-
-  Future<void> getImageFromGallery(BuildContext context) async {
-    File? file = await PickerHelper.pickImageFromGallery(context);
     if (file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
@@ -614,8 +492,7 @@ class ProfileController extends GetxController {
         companyLogo = file.path;
       } else if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
-        FileData fileData =
-            FileData(path: file.path, type: "IMAGE");
+        FileData fileData = FileData(path: file.path, type: "IMAGE");
         projectDocuments.add(fileData);
       }
       update();
@@ -628,8 +505,7 @@ class ProfileController extends GetxController {
     if (file != null) {
       if (documentType == KalakarConstants.projectDocuments) {
         Uint8List imageData = await File(file.path).readAsBytesSync();
-        FileData fileData =
-            FileData(path: file.path, type: "VIDEO");
+        FileData fileData = FileData(path: file.path, type: "VIDEO");
         projectDocuments.add(fileData);
       }
     }
@@ -816,7 +692,7 @@ class ProfileController extends GetxController {
       case KalakarConstants.addressProofOfCompany:
         if (kIsWeb) {
           utils.openLink(addressProofCompanyPath);
-        } else{
+        } else {
           fileController.viewFile(KalakarConstants.profilePath,
               addressProofOfCompanyTEController.text.trim(), documentType);
         }
@@ -824,7 +700,7 @@ class ProfileController extends GetxController {
       case KalakarConstants.selfieUpload:
         if (kIsWeb) {
           utils.openLink(selfieUploadedPath);
-        } else{
+        } else {
           fileController.viewFile1(selfieUploadedPath, documentType);
         }
         break;
@@ -1062,11 +938,8 @@ class ProfileController extends GetxController {
             String type =
                 path.toLowerCase().endsWith(".mp4") ? "VIDEO" : "IMAGE";
 
-            projectDocuments.add(FileData(
-                path: path,
-                type: type,
-
-                documentId: documentId));
+            projectDocuments
+                .add(FileData(path: path, type: type, documentId: documentId));
           }
         }
         update();
@@ -1101,14 +974,14 @@ class ProfileController extends GetxController {
         ResponseModel responseModel =
             ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus!) {
-          KalakarDialogs.successDialog("Delete Document", responseModel.message!);
+          KalakarDialogs.successDialog(
+              "Delete Document", responseModel.message!);
         }
       }
     } else {}
   }
 
   Future<void> deleteProject() async {
-
     KalakarDialogs.loadingDialog("Delete Project", "Deleting Project ");
     LoginTable? loginTable = await HiveService.getLoginData();
 
@@ -1120,8 +993,10 @@ class ProfileController extends GetxController {
       };
 
       var response = await ApiClient.postDataToken(
-          KalakarConstants.deleteCompanyProjectApi, jsonEncode(fields), loginTable.token);
-      if(Get.isDialogOpen!){
+          KalakarConstants.deleteCompanyProjectApi,
+          jsonEncode(fields),
+          loginTable.token);
+      if (Get.isDialogOpen!) {
         Get.back();
       }
       print(response.statusCode);
@@ -1129,9 +1004,10 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-        ResponseModel.fromJson(jsonDecode(response.body));
+            ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus!) {
-          KalakarDialogs.successDialog("Delete Project", responseModel.message!);
+          KalakarDialogs.successDialog(
+              "Delete Project", responseModel.message!);
           getProfileData();
           Get.back();
         }

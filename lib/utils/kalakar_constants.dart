@@ -12,14 +12,14 @@ class KalakarConstants {
   static const String noInternetMessage = "No Internet Connection !!!";
   static const String somethingWentWrongMsg = "Something Went Wrong";
 
-
   //file paths
 
-  static const String profilePath="kalaakar/profile_docs/";
+  static const String profilePath = "kalaakar/profile_docs/";
 
   //artist profile api
   static const String saveArtistProfileApi = "/ArtistProfile/SaveArtistProfile";
-  static const String saveArtistProfileMasterApi = "/ArtistProfile/ArtistProfile_Master";
+  static const String saveArtistProfileMasterApi =
+      "/ArtistProfile/ArtistProfile_Master";
   static const String saveArtistProfileEducationApi =
       "/ArtistProfile/SaveArtistProfile_Education";
   static const String saveArtistProfileHobbiesApi =
@@ -28,8 +28,10 @@ class KalakarConstants {
       "/ArtistProfile/SaveArtistProfile_Interest";
   static const String saveArtistProfileComfortableInApi =
       "/ArtistProfile/SaveArtistProfile_ComfortableIn";
-  static const String saveArtistProfileApplyForApi = "/ArtistProfile/ArtistProfile_ApplyFor";
-  static const String saveArtistProfileDocumentsApi = "/ArtistProfile/ArtistProfile_Documents";
+  static const String saveArtistProfileApplyForApi =
+      "/ArtistProfile/ArtistProfile_ApplyFor";
+  static const String saveArtistProfileDocumentsApi =
+      "/ArtistProfile/ArtistProfile_Documents";
   static const String saveArtistProfileExperienceApi =
       "/ArtistProfile/SaveArtistProfile_Experience";
   static const String getArtistProfileBasicApi =
@@ -68,11 +70,11 @@ class KalakarConstants {
       "/CompanyProfile/GetCompanyProjects";
   static const String getCompanyProfileProjectDocumentsApi =
       "/CompanyProfile/GetCompanyProjects_Documents";
-  static const String getProjectStatus =
-      "/CompanyProfile/GetProjectStatus";
+  static const String getProjectStatus = "/CompanyProfile/GetProjectStatus";
 
   //requirement details apis
-  static const String saveRequirementsDetailsApi = "/RequirementDetails/SaveRequirementDetails";
+  static const String saveRequirementsDetailsApi =
+      "/RequirementDetails/SaveRequirementDetails";
   static const String deleteRequirementsDetailsApi =
       "/RequirementDetails/DeleteRequirementDetails";
   static const String getRequirementsDetailsCompanyApi =
@@ -101,6 +103,7 @@ class KalakarConstants {
   static const String lastName = "Last Name";
   static const String whatsappNumber = "WhatsApp Number";
   static const String email = "Email";
+  static const String emailOrMobile = "Email Or Mobile Number";
   static const String artist = "Artist";
   static const String company = "Company";
   static const String password = "Password";
@@ -125,6 +128,7 @@ class KalakarConstants {
   static const String kalakaar = "KALAKAAR";
   static const String home = "Home";
   static const String profile = "Profile";
+  static const String artistProfile = "Artist Profile";
   static const String profile1 = "PROFILE";
   static const String settings = "Settings";
   static const String opportunities = "Opportunities";
@@ -214,6 +218,7 @@ class KalakarConstants {
       "Send Profile For Verification";
   static const String mobileNumber = "Mobile Number";
   static const String saveProfile = "Save Profile";
+  static const String saveEducation = "Save Education";
   static const String profileVerification = "Profile Verification";
   static const String otp = "OTP";
   static const String name = "Name";
@@ -238,6 +243,7 @@ class KalakarConstants {
   static const String selectDistrict = "Select District";
   static const String selectPinCode = "Select Pin Code";
   static const String projectDocuments = "Project Documents";
+  static const String artistDocuments = "Artist Documents";
 
   //artist
   static const String middleName = "Middle Name";
@@ -249,6 +255,7 @@ class KalakarConstants {
   static const String languageKnown = "Language Known";
   static const String maritalStatus = "Marital Status";
   static const String travelThrIndia = "Travel Through India";
+  static const String education = "Education";
   static const String educationType = "Education Type";
   static const String universityOrInstitute = "University Or Institute";
   static const String course = "Course";
@@ -258,14 +265,16 @@ class KalakarConstants {
   static const String courseEndDate = "Course End Date";
   static const String score = "Score";
   static const String hobby = "Hobby";
+  static const String interestIn = "Interest In";
   static const String passport = "Passport";
   static const String aadharCard = "Aadhar Card";
   static const String roleName = "Role Name";
   static const String skillsUsed = "Skill Used";
   static const String roleProfile = "roleProfile";
   static const String fileType = "File Type";
-  // static const String roleProfile = "roleProfile";
-
-
-
+  static const String profilePhoto = "Profile Photo";
+  static const String camera = "Camera";
+  static const String gallery = "Gallery";
+  static const String saveDocuments = "Save Documents";
+// static const String roleProfile = "roleProfile";
 }

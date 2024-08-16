@@ -15,6 +15,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../custom_widgets/toggle_button.dart';
 import '../../helper/common_widgets.dart';
+import '../../helper/textfield_validators.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -199,7 +200,7 @@ class AuthPage extends StatelessWidget {
                       textInputType: TextInputType.text,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createFirstNameValidator),
+                      validator: Validator.validateFirstName),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -210,7 +211,7 @@ class AuthPage extends StatelessWidget {
                       textInputType: TextInputType.text,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createLastNameValidator),
+                      validator: Validator.validateLastName),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -222,7 +223,7 @@ class AuthPage extends StatelessWidget {
                       textInputType: TextInputType.emailAddress,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createEmailValidator),
+                      validator: Validator.validateEmail),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -234,8 +235,7 @@ class AuthPage extends StatelessWidget {
                       passwordVisibility: false,
                       textInputType: TextInputType.number,
                       togglePasswordVisibility: () {},
-                      validator:
-                          authPageController.createMobileNumberValidator),
+                      validator: Validator.validateMobileNumber),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -296,8 +296,7 @@ class AuthPage extends StatelessWidget {
                               authPageController.setPasswordVisibility(
                                   PasswordType.createPass);
                             },
-                            validator:
-                                authPageController.createPasswordValidator),
+                            validator: Validator.validatePassword),
                         SizedBox(
                           height: 16.h,
                         ),
@@ -312,8 +311,10 @@ class AuthPage extends StatelessWidget {
                               authPageController.setPasswordVisibility(
                                   PasswordType.createCnfmPass);
                             },
-                            validator: authPageController
-                                .createConfirmPasswordValidator),
+                            validator: (val) {
+                              return Validator.validateConfirmPassword(
+                                  val, authPageController.createPassword.text);
+                            }),
                         SizedBox(
                           height: 16.h,
                         ),
@@ -535,12 +536,12 @@ class AuthPage extends StatelessWidget {
                 ),
                 CommonWidgets.commonMobileTextField(
                     controller: authPageController.signInEmailOrMobile,
-                    labelText: KalakarConstants.email,
+                    labelText: KalakarConstants.emailOrMobile,
                     obscureText: false,
                     textInputType: TextInputType.emailAddress,
                     passwordVisibility: false,
                     togglePasswordVisibility: () {},
-                    validator: authPageController.createEmailValidator),
+                    validator: Validator.validateContact),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -554,8 +555,7 @@ class AuthPage extends StatelessWidget {
                       authPageController
                           .setPasswordVisibility(PasswordType.signInPass);
                     },
-                    validator: authPageController.createPasswordValidator),
-
+                    validator: Validator.validatePassword),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -565,7 +565,6 @@ class AuthPage extends StatelessWidget {
                     onTap: () {
                       authPageController.signInCall();
                     },
-
                     horizontalPadding: 50.0,
                     verticalPadding: 8.0,
                     fontSize: 20.0,
@@ -626,10 +625,10 @@ class AuthPage extends StatelessWidget {
                 ),
                 Center(
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       Get.toNamed(RouteHelper.forgotPassword);
                     },
-                    onDoubleTap: (){
+                    onDoubleTap: () {
                       WriteLogFile.shareLogFile();
                     },
                     child: Text(
@@ -690,7 +689,7 @@ class AuthPage extends StatelessWidget {
                       textInputType: TextInputType.text,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createFirstNameValidator),
+                      validator: Validator.validateFirstName),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -701,7 +700,7 @@ class AuthPage extends StatelessWidget {
                       passwordVisibility: false,
                       textInputType: TextInputType.text,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createLastNameValidator),
+                      validator: Validator.validateLastName),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -712,7 +711,7 @@ class AuthPage extends StatelessWidget {
                       textInputType: TextInputType.emailAddress,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: authPageController.createEmailValidator),
+                      validator: Validator.validateMobileNumber),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -723,8 +722,7 @@ class AuthPage extends StatelessWidget {
                       textInputType: TextInputType.number,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator:
-                          authPageController.createMobileNumberValidator),
+                      validator: Validator.validateMobileNumber),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -763,8 +761,7 @@ class AuthPage extends StatelessWidget {
                               authPageController.setPasswordVisibility(
                                   PasswordType.createPass);
                             },
-                            validator:
-                                authPageController.createPasswordValidator),
+                            validator: Validator.validatePassword),
                         SizedBox(
                           height: 16.h,
                         ),
@@ -779,8 +776,10 @@ class AuthPage extends StatelessWidget {
                               authPageController.setPasswordVisibility(
                                   PasswordType.createCnfmPass);
                             },
-                            validator: authPageController
-                                .createConfirmPasswordValidator),
+                            validator: (val) {
+                              return Validator.validateConfirmPassword(
+                                  val, authPageController.createPassword.text);
+                            }),
                         SizedBox(
                           height: 16.h,
                         ),
@@ -936,13 +935,12 @@ class AuthPage extends StatelessWidget {
               ),
               CommonWidgets.commonMobileTextField(
                   controller: authPageController.signInEmailOrMobile,
-                  labelText: KalakarConstants.email,
+                  labelText: KalakarConstants.emailOrMobile,
                   obscureText: false,
-
                   textInputType: TextInputType.emailAddress,
                   passwordVisibility: false,
                   togglePasswordVisibility: () {},
-                  validator: authPageController.createEmailValidator),
+                  validator: Validator.validateContact),
               SizedBox(
                 height: 16.h,
               ),
@@ -956,7 +954,7 @@ class AuthPage extends StatelessWidget {
                     authPageController
                         .setPasswordVisibility(PasswordType.signInPass);
                   },
-                  validator: authPageController.createPasswordValidator),
+                  validator: Validator.validatePassword),
               SizedBox(
                 height: 16.h,
               ),
@@ -1014,13 +1012,14 @@ class AuthPage extends StatelessWidget {
               ),
               Center(
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     Get.toNamed(RouteHelper.forgotPassword);
                   },
                   child: Text(
                     KalakarConstants.forgotPassword,
                     style: TextStyle(
-                        color: KalakarColors.black, fontWeight: FontWeight.bold),
+                        color: KalakarColors.black,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

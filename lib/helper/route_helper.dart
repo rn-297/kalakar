@@ -2,6 +2,13 @@ import 'package:get/get.dart';
 import 'package:kalakar/helper/file_viewer/file_viewer.dart';
 import 'package:kalakar/views/auth/forgot_password.dart';
 import 'package:kalakar/views/auth/login_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_comfortable_in_form_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_documents_form_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_education_form.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_experience_form_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_hobbies_form_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_interest_form_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_portfolio_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_profile_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/bottom_navigator.dart';
 import 'package:kalakar/views/bottom_navigation/company/all_projects_page.dart';
@@ -20,11 +27,20 @@ class RouteHelper {
   static const String bottomNavigationPage = '/kalakar_bottom_navigation';
   static const String requirementFormPage = '/kalakar_requirement_form';
   static const String companyProfileFormPage = '/kalakar_company_form';
-  static const String companyMoreInfoFormPage = '/kalakar_company_more_info_form';
+  static const String companyMoreInfoFormPage =
+      '/kalakar_company_more_info_form';
   static const String newProjectFormPage = '/kalakar_new_project_form';
   static const String fileViewer = '/kalakar_file_viewer';
   static const String allProjects = '/kalakar_all_projects';
   static const String artistProfileForm = '/kalakar_artist_profile_form';
+  static const String artistComfortableInForm =
+      '/kalakar_artist_comfortable_in_form';
+  static const String artistDocumentForm = '/kalakar_artist_document_form';
+  static const String artistEducationForm = '/kalakar_artist_Education_form';
+  static const String artistExperienceForm = '/kalakar_artist_experience_form';
+  static const String artistInterestForm = '/kalakar_artist_interest_form';
+  static const String artistPortfolio = '/kalakar_artist_portfolio_form';
+  static const String artistHobbiesFrom = '/kalakar_artist_Hobbies_form';
 
   static List<GetPage> routes = [
     GetPage(
@@ -71,6 +87,33 @@ class RouteHelper {
       name: artistProfileForm,
       page: () => ArtistProfileFormPage(),
     ),
+    GetPage(
+      name: artistComfortableInForm,
+      page: () => ArtistComfortableInFormPage(),
+    ),
+    GetPage(
+      name: artistDocumentForm,
+      page: () => ArtistDocumentsFormPage(),
+    ),
+    GetPage(
+      name: artistEducationForm,
+      page: () => ArtistEducationFormPage(),
+    ),
+    GetPage(
+      name: artistExperienceForm,
+      page: () => ArtistExperienceFormPage(),
+    ),
+    GetPage(
+      name: artistHobbiesFrom,
+      page: () => ArtistHobbiesFormPage(),
+    ),
+    GetPage(
+      name: artistInterestForm,
+      page: () => ArtistInterestFormPage(),
+    ),
+    GetPage(
+      name: artistPortfolio,
+      page: () => ArtistPortfolioFormPage(),
+    ),
   ];
-
 }

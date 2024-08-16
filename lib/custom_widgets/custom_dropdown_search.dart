@@ -1,7 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kalakar/data/models/project_status_list_class.dart';
+import 'package:kalakar/data/models/company/project_status_list_class.dart';
 
 import '../helper/kalakar_colors.dart';
 

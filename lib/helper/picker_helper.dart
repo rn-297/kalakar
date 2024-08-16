@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
+import 'package:kalakar/utils/kalakar_constants.dart';
 
 class PickerHelper {
   static final ImagePicker _imagePicker = ImagePicker();
@@ -33,8 +34,7 @@ class PickerHelper {
   }
 
   static Future<File?> pickVideoFromGallery(BuildContext context) async {
-    XFile? file = await _imagePicker.pickVideo(
-        source: ImageSource.gallery);
+    XFile? file = await _imagePicker.pickVideo(source: ImageSource.gallery);
     String? croppedImage = "";
     if (file != null) {
       croppedImage = await cropMyImage(file, context) ?? "";
@@ -57,9 +57,9 @@ class PickerHelper {
       type: FileType.custom,
       allowMultiple: false,
       allowCompression: true,
-      allowedExtensions: [ 'pdf'],
+      allowedExtensions: ['pdf'],
     );
-    return result!=null?File(result.paths[0]!):null;
+    return result != null ? File(result.paths[0]!) : null;
   }
 
   static Future<String?> cropMyImage(
@@ -80,10 +80,8 @@ class PickerHelper {
           ],
         ),
         WebUiSettings(
-
           context: context,
           presentStyle: WebPresentStyle.page,
-
         ),
       ],
     );
@@ -109,11 +107,12 @@ class PickerHelper {
               ),
               InkWell(
                 onTap: () {
-                  controller.getImageFromCamera(context);
+                  controller.getImageFromCamera(
+                      context, KalakarConstants.camera);
                 },
                 child: Container(
                     padding: EdgeInsets.all(8.h),
-                    child: Text("Camera",
+                    child: Text(KalakarConstants.camera,
                         style: TextStyle(
                           fontSize: 16.sp,
                         ))),
@@ -121,11 +120,12 @@ class PickerHelper {
               Divider(),
               InkWell(
                 onTap: () {
-                  controller.getImageFromGallery(context);
+                  controller.getImageFromCamera(
+                      context, KalakarConstants.gallery);
                 },
                 child: Container(
                     padding: EdgeInsets.all(8.h),
-                    child: Text("Gallery",
+                    child: Text(KalakarConstants.gallery,
                         style: TextStyle(
                           fontSize: 16.sp,
                         ))),
@@ -137,7 +137,8 @@ class PickerHelper {
     );
   }
 
-  static void showOrPickDocBottomSheet(String documentType, BuildContext context, controller) {
+  static void showOrPickDocBottomSheet(
+      String documentType, BuildContext context, controller) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -156,7 +157,7 @@ class PickerHelper {
               ),
               InkWell(
                 onTap: () {
-                  controller.pickDocument(documentType,context,controller);
+                  controller.pickDocument(documentType, context, controller);
                 },
                 child: Container(
                     padding: EdgeInsets.all(8.h),
@@ -250,7 +251,7 @@ class PickerHelper {
               ),
               InkWell(
                 onTap: () {
-                    Get.back();
+                  Get.back();
                   showImageBottomSheet(context, controller);
                 },
                 child: Container(
@@ -263,8 +264,8 @@ class PickerHelper {
               Divider(),
               InkWell(
                 onTap: () {
-                    Get.back();
-                  showVideoBottomSheet(context,controller);
+                  Get.back();
+                  showVideoBottomSheet(context, controller);
                 },
                 child: Container(
                     padding: EdgeInsets.all(8.h),
