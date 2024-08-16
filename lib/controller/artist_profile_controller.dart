@@ -69,8 +69,8 @@ class ArtistProfileController extends GetxController {
   TextEditingController filePathTEController = TextEditingController();
 
   //Strings
-  String artistProfileImage="";
-  String documentType="";
+  String artistProfileImage = "";
+  String documentType = "";
 
 //form keys
   final _formProfileKey = GlobalKey<FormState>();
@@ -255,10 +255,9 @@ class ArtistProfileController extends GetxController {
   }
 
   @override
-  onInit(){
+  onInit() {
     super.onInit();
-  getArtistProfileBasic();
-
+    getArtistProfileBasic();
   }
 
   Future<void> saveArtistProfile() async {
@@ -565,27 +564,55 @@ class ArtistProfileController extends GetxController {
   Future<void> getArtistProfileBasic() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"userID": loginTable.userID, "fK_AccountID": loginTable.accountID};
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID
+      };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileBasicApi,
           jsonEncode(body),
           loginTable.token);
       print(response.statusCode);
-      print(response.body);
+      print(response);
 
       if (response.statusCode == 200) {
-        ArtistProfileDetailsClass artistProfileDetailsClass =
-        ArtistProfileDetailsClass.fromJson(jsonDecode(response.body));
+        ArtistProfileDetailsClass responseModel =
+            ArtistProfileDetailsClass.fromJson(jsonDecode(response.body));
 
-        if (artistProfileDetailsClass.replayStatus ?? false) {
-          // getProfileData();
-
-        } else {
-
+        if (responseModel.replayStatus ?? false) {
+          setArtistProfileData(responseModel);
         }
       }
     }
+  }
+
+  setArtistProfileData(ArtistProfileDetailsClass responseModel) {
+    artistProfileImage = responseModel.profilePic!;
+    firstNameTEController.text = responseModel.firstName!;
+    middleNameTEController.text = responseModel.middleName!;
+    lastNameTEController.text = responseModel.lastName!;
+    dobTEController.text = responseModel.dateOfBirth!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
+    firstNameTEController.text = responseModel.firstName!;
   }
 
   Future<void> getArtistProfileEducation() async {
@@ -693,12 +720,9 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  void getCitiesData(String selectedItem) {
+  void getCitiesData(String selectedItem) {}
 
-  }
-
-  void getPinCodesData(String selectedItem
-      ) {}
+  void getPinCodesData(String selectedItem) {}
 
   void setPinCodeData(String selectedItem) {}
 

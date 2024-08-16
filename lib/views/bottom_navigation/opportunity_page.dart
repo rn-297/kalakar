@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
+import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -34,8 +37,17 @@ class OpportunityPage extends StatelessWidget {
           children: [
             Text(KalakarConstants.opportunitiesText),
             SizedBox(
-              height: 16.h,
+              height: 24.h,
             ),
+            CustomMobileButtonWidget(
+                text: KalakarConstants.createRequirement,
+                onTap: () {
+                  Get.toNamed(RouteHelper.requirementFormPage);
+                },
+                horizontalPadding: 20.w,
+                verticalPadding: 8.h,
+                fontSize: 16.sp,
+                borderRadius: 50.r),
             ListView.builder(
                 itemCount: 10,
                 shrinkWrap: true,

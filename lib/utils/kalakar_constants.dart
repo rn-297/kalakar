@@ -195,9 +195,13 @@ class KalakarConstants {
   static const String instaLink = "Insta Link";
   static const String emailLink = "Email Link";
   static const String websiteLink = "Website Link";
+  static const String salary = "Salary";
+  static const String salaryType = "Salary Type";
   static const String uploadRefPhoto = "Upload Ref Photo";
   static const String saveAsDraft = "Save as Draft";
   static const String publish = "Publish";
+  static const String createRequirement = "Create Requirement";
+  static const String saveRequirement = "Save Requirement";
 
   //Profile
   static const String companyName = "Company Name / Production House";
