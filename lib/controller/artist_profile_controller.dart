@@ -73,6 +73,12 @@ class ArtistProfileController extends GetxController {
   TextEditingController roleProfileTEController = TextEditingController();
   TextEditingController fileTypeTEController = TextEditingController();
   TextEditingController filePathTEController = TextEditingController();
+  TextEditingController comfortableInTEController = TextEditingController();
+  TextEditingController expStartDateTEController = TextEditingController();
+  TextEditingController expEndDateTEController = TextEditingController();
+  TextEditingController roleImageTEController = TextEditingController();
+  TextEditingController roleVideoTEController = TextEditingController();
+  TextEditingController interestedInTEController = TextEditingController();
 
   //Strings
   String artistProfileImage = "";
@@ -98,6 +104,21 @@ class ArtistProfileController extends GetxController {
   final _formDocumentKey = GlobalKey<FormState>();
 
   get formDocumentKey => _formDocumentKey;
+  final _formExperienceKey = GlobalKey<FormState>();
+
+  get formExperienceKey => _formExperienceKey;
+  final _formHobbiesKey = GlobalKey<FormState>();
+
+  get formHobbiesKey => _formHobbiesKey;
+  final _formInterestedInKey = GlobalKey<FormState>();
+
+  get formInterestedInKey => _formInterestedInKey;
+  final _formComfortableInKey = GlobalKey<FormState>();
+
+  get formComfortableInKey => _formComfortableInKey;
+  final _formPortFolioKey = GlobalKey<FormState>();
+
+  get formPortFolioKey => _formPortFolioKey;
 
   //Lists
 
@@ -793,5 +814,21 @@ class ArtistProfileController extends GetxController {
 
   void validateDocumentsForm() {
     if (_formDocumentKey.currentState!.validate()) {}
+  }
+
+  void validateExperienceForm() {
+    if (_formExperienceKey.currentState!.validate()) {}
+  }
+
+  void validateInterestedInForm() {
+    if (_formInterestedInKey.currentState!.validate()) {}
+  }
+
+  void validatePortfolioForm() {
+    if (_formPortFolioKey.currentState!.validate()) {}
+  }
+
+  void validateHobbiesForm() {
+    if (_formHobbiesKey.currentState!.validate()) {}
   }
 }

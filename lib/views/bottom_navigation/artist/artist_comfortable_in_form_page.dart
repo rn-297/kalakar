@@ -36,10 +36,10 @@ class ArtistComfortableInFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.artistDocuments,
+        KalakarConstants.comfortableIn,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
-     /* actions: [
+      /* actions: [
         InkWell(
           onTap: () {
             Get.toNamed(RouteHelper.artistProfileForm);
@@ -61,7 +61,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.education,
+        KalakarConstants.comfortableIn,
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
@@ -82,85 +82,40 @@ class ArtistComfortableInFormPage extends StatelessWidget {
   educationFormMobileView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
-          return Padding(
-              padding: EdgeInsets.all(24.h),
-              child: Form(
-                key: controller.formDocumentKey,
-                child: Column(children: [
-                  InkWell(
-                    onTap: () {
-                      controller.documentType = KalakarConstants.passport;
-                      controller.pickOrShowDocument(
-                          KalakarConstants.passport, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField(
-                        controller: controller.passportTEController,
-                        labelText: KalakarConstants.passport,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validatePassport),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.documentType =
-                          KalakarConstants.filmCorporationCard;
-                      controller.pickOrShowDocument(
-                          KalakarConstants.filmCorporationCard, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField(
-                        controller: controller.filmCorporationCrdTEController,
-                        labelText: KalakarConstants.filmCorporationCard,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateFilmCorporationCard),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.documentType = KalakarConstants.aadharCard;
-                      controller.pickOrShowDocument(
-                          KalakarConstants.aadharCard, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField(
-                        controller: controller.adharCardTEController,
-                        labelText: KalakarConstants.aadharCard,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateAdharCard),
-                  ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  CustomMobileButtonWidget(
-                    onTap: () {
-                      controller.validateDocumentsForm();
-                    },
-                    borderRadius: 50.r,
-                    fontSize: 14.sp,
-                    text: KalakarConstants.saveDocuments,
-                    horizontalPadding: 20.w,
-                    verticalPadding: 8.h,
-                  ),
-                ]),
-              ));
-        }));
+      return Padding(
+          padding: EdgeInsets.all(24.h),
+          child: Form(
+            key: controller.formComfortableInKey,
+            child: Column(children: [
+              InkWell(
+                // onTap: () {},
+                child: CommonWidgets.commonMobileTextField(
+                    controller: controller.comfortableInTEController,
+                    labelText: KalakarConstants.comfortableIn,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    editable: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateComfortableIn),
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+              CustomMobileButtonWidget(
+                onTap: () {
+                  controller.validateDocumentsForm();
+                },
+                borderRadius: 50.r,
+                fontSize: 14.sp,
+                text: KalakarConstants.saveDocuments,
+                horizontalPadding: 20.w,
+                verticalPadding: 8.h,
+              ),
+            ]),
+          ));
+    }));
   }
 
   educationFormWebView() {}

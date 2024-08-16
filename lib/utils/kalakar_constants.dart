@@ -251,6 +251,8 @@ class KalakarConstants {
   static const String address2 = "Address Line 2";
   static const String dob = "DOB";
   static const String roleAge = "Role Age";
+  static const String roleImage = "Role Image";
+  static const String roleVideo = "Role Video";
   static const String alternateMobileNumber = "Alternate Mobile Number";
   static const String languageKnown = "Language Known";
   static const String maritalStatus = "Marital Status";
@@ -272,9 +274,13 @@ class KalakarConstants {
   static const String skillsUsed = "Skill Used";
   static const String roleProfile = "roleProfile";
   static const String fileType = "File Type";
+  static const String filePath = "File Path";
   static const String profilePhoto = "Profile Photo";
   static const String camera = "Camera";
   static const String gallery = "Gallery";
   static const String saveDocuments = "Save Documents";
+  static const String saveExperience = "Save Experience";
+  static const String saveHobby = "Save Hobby";
+  static const String saveInterestedIn = "Save Interested In";
 // static const String roleProfile = "roleProfile";
 }

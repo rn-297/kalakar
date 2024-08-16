@@ -428,13 +428,15 @@ class Validator {
     }
     return null;
   }
+
 //validate passport
-  static String? validatePassport (String? value) {
+  static String? validatePassport(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Select Passport';
     }
     return null;
   }
+
   //validate adhar card
   static String? validateAdharCard(String? value) {
     if (value == null || value.isEmpty) {
@@ -442,50 +444,97 @@ class Validator {
     }
     return null;
   }
+
+  //validate Comfortable
+  static String? validateComfortableIn(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Comfortable In';
+    }
+    return null;
+  }
+
+  //validate Role Name
+  static String? validateRoleName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Role Name';
+    }
+    return null;
+  }
+
+  //validate Start Date
+  static String? validateStartDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Start Date';
+    }
+    return null;
+  }
+
+  //validate End date
+  static String? validateEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select End Date';
+    }
+    return null;
+  }
+
+  //validate Skills Used
+  static String? validateSkillsUsed(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Skills Used';
+    }
+    return null;
+  }
+
+  //validate role profile
+  static String? validateRoleProfile(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Role Profile';
+    }
+    return null;
+  }
+
+  //validate Education Type
+  static String? validateHobby(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Hobby';
+    }
+    return null;
+  }
+
+  //validate Education Type
+  static String? validateInterestedIn(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Interested In';
+    }
+    return null;
+  }
+
+  //validate File Type
+  static String? validateFileType(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select File Type';
+    }
+    return null;
+  } //validate Education Type
+
+  static String? validateFilePath(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select File Path';
+    }
+    return null;
+  }
 /*
-  //validate Education Type
+    //validate Education Type
   static String? validateEducationType(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Education Type';
     }
-    return null;
-  }
-  //validate Education Type
+    return null; }//validate Education Type
   static String? validateEducationType(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Education Type';
     }
-    return null;
-  }
-  //validate Education Type
-  static String? validateEducationType(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Education Type';
-    }
-    return null;
-  }
-  //validate Education Type
-  static String? validateEducationType(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Education Type';
-    }
-    return null;
-  }
-  //validate Education Type
-  static String? validateEducationType(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Education Type';
-    }
-    return null;
-  }
-  //validate Education Type
-  static String? validateEducationType(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Education Type';
-    }
-    return null;
-  }
-  //validate Education Type
+    return null; }//validate Education Type
   static String? validateEducationType(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Education Type';
