@@ -1,20 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
+import 'package:kalakar/helper/date_picker_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../custom_widgets/button_mobile_widget.dart';
 import '../../helper/common_widgets.dart';
 import '../../helper/kalakar_colors.dart';
+import '../../helper/picker_helper.dart';
+import '../../helper/route_helper.dart';
 
 class RequirementFormPage extends StatelessWidget {
   const RequirementFormPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(RequirementController());
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 60.h),
@@ -24,7 +31,7 @@ class RequirementFormPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => requirementFormMobileView(),
+        mobile: (BuildContext context) => requirementFormMobileView(context),
         tablet: (BuildContext context) => requirementFormWebView(),
       ),
     );
@@ -56,7 +63,7 @@ class RequirementFormPage extends StatelessWidget {
 
   appBarWebView() {}
 
-  requirementFormMobileView() {
+  requirementFormMobileView(BuildContext context) {
     return GetBuilder<RequirementController>(builder: (controller) {
       return SingleChildScrollView(
         child: Padding(
@@ -65,6 +72,39 @@ class RequirementFormPage extends StatelessWidget {
             key: controller.formRequirementKey,
             child: Column(
               children: [
+                Center(
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: 100.h,
+                        width: 100.h,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: controller.requirementPhoto
+                                        .startsWith("http")
+                                    ? NetworkImage(controller.requirementPhoto)
+                                    : FileImage(
+                                        File(controller.requirementPhoto),
+                                      ) as ImageProvider,
+                                fit: BoxFit.fill),
+                            border: Border.all(color: KalakarColors.textColor),
+                            borderRadius: BorderRadius.circular(50.r)),
+                      ),
+                      Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: InkWell(
+                              onTap: () {
+                                PickerHelper.showImageBottomSheet(
+                                    context, controller);
+                              },
+                              child: Icon(Icons.camera_alt_outlined)))
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
                 CommonWidgets.commonMobileTextField(
                     controller: controller.requirementTitleTEController,
                     labelText: KalakarConstants.requirementTitle,
@@ -209,29 +249,50 @@ class RequirementFormPage extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CommonWidgets.commonMobileTextField(
-                          controller: controller.startDateTEController,
-                          labelText: KalakarConstants.startDate,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: controller.startDateValidator),
+                      child: InkWell(
+                        onTap: () async {
+                          final date =
+                              await DatePickerHelper.selectDate(context);
+                          if (date != null) {
+                            controller.setDate(
+                                KalakarConstants.startDate, date);
+                          }
+                        },
+                        child: CommonWidgets.commonMobileTextField(
+                            controller: controller.startDateTEController,
+                            labelText: KalakarConstants.startDate,
+                            obscureText: false,
+                            textInputType: TextInputType.text,
+                            passwordVisibility: false,
+                            editable: false,
+                            borderRadius: 12.r,
+                            togglePasswordVisibility: () {},
+                            validator: controller.startDateValidator),
+                      ),
                     ),
                     SizedBox(
                       width: 16.w,
                     ),
                     Expanded(
-                      child: CommonWidgets.commonMobileTextField(
-                          controller: controller.endDateTEController,
-                          labelText: KalakarConstants.endDate,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: controller.endDateValidator),
+                      child: InkWell(
+                        onTap: () async {
+                          final date =
+                              await DatePickerHelper.selectDate(context);
+                          if (date != null) {
+                            controller.setDate(KalakarConstants.endDate, date);
+                          }
+                        },
+                        child: CommonWidgets.commonMobileTextField(
+                            controller: controller.endDateTEController,
+                            labelText: KalakarConstants.endDate,
+                            obscureText: false,
+                            textInputType: TextInputType.text,
+                            passwordVisibility: false,
+                            editable: false,
+                            borderRadius: 12.r,
+                            togglePasswordVisibility: () {},
+                            validator: controller.endDateValidator),
+                      ),
                     ),
                   ],
                 ),
@@ -284,6 +345,28 @@ class RequirementFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: controller.scriptForAuditionValidator),
+                SizedBox(
+                  height: 16.h,
+                ),
+                InkWell(
+                  onTap: () async {
+                    final date = await DatePickerHelper.selectDate(context);
+                    if (date != null) {
+                      controller.setDate(
+                          KalakarConstants.requirementEndDate, date);
+                    }
+                  },
+                  child: CommonWidgets.commonMobileTextField(
+                      controller: controller.requirementEndDateTEController,
+                      labelText: KalakarConstants.requirementEndDate,
+                      obscureText: false,
+                      editable: false,
+                      textInputType: TextInputType.text,
+                      passwordVisibility: false,
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: controller.requirementEndDateValidator),
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -357,8 +440,39 @@ class RequirementFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: controller.websiteLinkValidator),
                 SizedBox(
-                  height: 16.h,
+                  height: 24.h,
                 ),
+                CommonWidgets.commonMobileTextField(
+                    controller: controller.salaryTEController,
+                    labelText: KalakarConstants.salary,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: null),
+                SizedBox(
+                  height: 24.h,
+                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: controller.salaryTypeTEController,
+                    labelText: KalakarConstants.salaryType,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: null),
+                SizedBox(
+                  height: 24.h,
+                ),
+                CustomMobileButtonWidget(
+                    text: KalakarConstants.saveRequirement,
+                    onTap: () {},
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+                    fontSize: 16.sp,
+                    borderRadius: 50.r),
               ],
             ),
           ),

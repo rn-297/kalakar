@@ -1,5 +1,8 @@
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
+import 'package:kalakar/helper/route_helper.dart';
+import 'package:kalakar/views/splash/splash_screen.dart';
 
 class HiveService {
   static const String _boxName = 'loginBox';
@@ -17,5 +20,6 @@ class HiveService {
   static Future<void> deleteLoginData() async {
     final box = await Hive.openBox<LoginTable>(_boxName);
     await box.delete('loginData');
+    Get.offAll(SplashScreenPage());
   }
 }
