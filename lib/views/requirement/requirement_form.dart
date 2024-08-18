@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
@@ -151,6 +149,60 @@ class RequirementFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: controller.noOfOpeningValidator),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 16.w),
+                      child: Text(KalakarConstants.gender),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ListTile(
+                            title: const Text(KalakarConstants.male),
+                            leading: Radio<int>(
+                              value: 1,
+                              groupValue: controller.genderValue,
+                              activeColor: KalakarColors.headerText,
+                              // Change the active radio button color here
+                              fillColor: MaterialStateProperty.all(
+                                  KalakarColors.headerText),
+                              // Change the fill color when selected
+                              splashRadius: 20,
+                              // Change the splash radius when clicked
+                              onChanged: (int? value) {
+                                controller.setGenderValue(value);
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListTile(
+                            title: const Text(KalakarConstants.female),
+                            leading: Radio<int>(
+                              value: 2,
+                              groupValue: controller.genderValue,
+                              activeColor: KalakarColors.headerText,
+                              // Change the active radio button color here
+                              fillColor: MaterialStateProperty.all(
+                                  KalakarColors.headerText),
+                              // Change the fill color when selected
+                              splashRadius: 20,
+                              // Change the splash radius when clicked
+                              onChanged: (int? value) {
+                                controller.setGenderValue(value);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -378,7 +430,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.fbLinkValidator),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -390,7 +442,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.wpLinkTitleValidator),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -402,7 +454,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.ytLinkValidator),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -414,7 +466,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.instaLinkValidator),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -426,7 +478,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.emailLinkValidator),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -438,7 +490,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.websiteLinkValidator),
+                    validator: null),
                 SizedBox(
                   height: 24.h,
                 ),
@@ -468,7 +520,9 @@ class RequirementFormPage extends StatelessWidget {
                 ),
                 CustomMobileButtonWidget(
                     text: KalakarConstants.saveRequirement,
-                    onTap: () {},
+                    onTap: () {
+                      controller.saveRequirementsDetails();
+                    },
                     horizontalPadding: 20.w,
                     verticalPadding: 8.h,
                     fontSize: 16.sp,

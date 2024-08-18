@@ -206,6 +206,9 @@ class KalakarConstants {
   static const String publish = "Publish";
   static const String createRequirement = "Create Requirement";
   static const String saveRequirement = "Save Requirement";
+  static const String male = "Male";
+  static const String female = "Female";
+
 
   //Profile
   static const String companyName = "Company Name / Production House";

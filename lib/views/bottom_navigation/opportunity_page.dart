@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
+import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
@@ -28,101 +30,118 @@ class OpportunityPage extends StatelessWidget {
   }
 
   opportunitiesMobileView() {
+    Get.put(RequirementController());
     return Padding(
       padding: EdgeInsets.all(16.h),
       child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(KalakarConstants.opportunitiesText),
-            SizedBox(
-              height: 24.h,
-            ),
-            CustomMobileButtonWidget(
-                text: KalakarConstants.createRequirement,
-                onTap: () {
-                  Get.toNamed(RouteHelper.requirementFormPage);
-                },
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-                fontSize: 16.sp,
-                borderRadius: 50.r),
-            ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.h),
-                    decoration: BoxDecoration(
-                      color: KalakarColors.lightAppBarBackground,
-                      borderRadius: BorderRadius.circular(
-                        8.h,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 5.0,
+        child: GetBuilder<RequirementController>(builder: (controller) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Text(KalakarConstants.opportunitiesText),
+              SizedBox(
+                height: 16.h,
+              ),
+              CustomMobileButtonWidget(
+                  text: KalakarConstants.createRequirement,
+                  onTap: () {
+                    Get.toNamed(RouteHelper.requirementFormPage);
+                  },
+                  horizontalPadding: 20.w,
+                  verticalPadding: 8.h,
+                  fontSize: 16.sp,
+                  borderRadius: 50.r),
+              SizedBox(height: 24.h,),
+              ListView.builder(
+                  itemCount: controller.requirementDetailsList.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    ObjResponesRequirementDetailsList requirementData =
+                        controller.requirementDetailsList[index];
+                    return Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.h),
+                      decoration: BoxDecoration(
+                        color: KalakarColors.lightAppBarBackground,
+                        borderRadius: BorderRadius.circular(
+                          8.h,
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: 1,
-                            child: Image.asset(
-                              "assets/images/app_bar_logo.png",
-                              fit: BoxFit.cover,
-                            )),
-                        Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: EdgeInsets.all(8.h),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                          ),
+                        ],
+                      ),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: requirementData.companyLogo == null
+                                    ? Image.asset(
+                                        "assets/images/movie.png",
+                                        fit: BoxFit.fill,
+                                      )
+                                    : Image.network(
+                                        requirementData.companyLogo ?? "",
+                                        fit: BoxFit.fill,
+                                      )),
+                            Expanded(
+                                flex: 3,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.h),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Oppotunity Name",
-                                        style: TextStyle(
-                                            fontSize: 20.sp,
-                                            color: KalakarColors.headerText,
-                                            fontWeight: FontWeight.bold),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            requirementData.requirementTitle!,
+                                            style: TextStyle(
+                                                fontSize: 20.sp,
+                                                color: KalakarColors.headerText,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Icon(Icons.arrow_forward_ios)
+                                        ],
                                       ),
-                                      Icon(Icons.arrow_forward_ios)
+                                      Text(requirementData
+                                              .requirementDescription! ??
+                                          ""),
+                                      SizedBox(height: 8.h,),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(requirementData.shootingLocation!),
+                                          Text(
+                                              requirementData.shootingStartDate!),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(requirementData.gender!),
+                                          Text(requirementData.age!),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                  Text("Opportunity Post"),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Location"),
-                                      Text("Time"),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Gender"),
-                                      Text("Age"),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )),
-                      ],
-                    ),
-                  );
-                })
-          ],
-        ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    );
+                  })
+            ],
+          );
+        }),
       ),
     );
   }

@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
+import 'package:kalakar/data/models/generate_otp_model.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
@@ -55,6 +57,12 @@ class RequirementController extends GetxController {
   DateTime shootingEndDate = DateTime.now();
   DateTime requirementEndDate = DateTime.now();
 
+  //lists
+  List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
+
+  //integers
+  int? genderValue = 1;
+
   setDate(String type, DateTime date) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     switch (type) {
@@ -74,8 +82,9 @@ class RequirementController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    print("date time : ${DateTime(2024, DateTime.august, 15)}");
-    print("date time : ${DateTime(2024, DateTime.august, 20)}");
+    // print("date time : ${DateTime(2024, DateTime.august, 15)}");
+    // print("date time : ${DateTime(2024, DateTime.august, 20)}");
+    getRequirementDetailsCompany("0");
   }
 
   //global keys
@@ -260,74 +269,84 @@ class RequirementController extends GetxController {
   }
 
   saveRequirementsDetails() async {
-    LoginTable? loginTable = await HiveService.getLoginData();
-    ProfileController profileController = Get.put(ProfileController());
-    int? profileId = profileController.profileData!.companyProfileID;
+    if (_formRequirementKey.currentState!.validate()) {
+      LoginTable? loginTable = await HiveService.getLoginData();
+      ProfileController profileController = Get.put(ProfileController());
+      int? profileId = profileController.profileData!.companyProfileID;
 
-    if (loginTable != null) {
-      Map<String, String> fields = {
-        'UserID': loginTable.userID,
-        'RequirementDetailsID': requirementId,
-        'FK_AccountID': loginTable.accountID,
-        'FK_CompanyProfileID': "$profileId",
-        'FK_RequirementStatusMasterID': "$requirementStatusId",
-        'RequirementTitle': requirementTitleTEController.text.trim(),
-        'RequirementDescription': descriptionTEController.text.trim(),
-        'LookingFor': lookingForTEController.text.trim(),
-        'NUmberOfOpenings': noOfOpeningsTEController.text.trim(),
-        'Gender': "",
-        'Age': ageTEController.text.trim(),
-        'Language': languageTEController.text.trim(),
-        'Height': heightTEController.text.trim(),
-        'Weight': weightTEController.text.trim(),
-        'HairColor': hairColorTEController.text.trim(),
-        'BodyType': bodyTypeTEController.text.trim(),
-        'Experiences': experienceTEController.text.trim(),
-        'ShootingStartDate': startDateTEController.text.trim(),
-        'ShootingEndDate': endDateTEController.text.trim(),
-        'ShootingLocation': shootingLocationTEController.text.trim(),
-        'DefineRole': defineRoleTEController.text.trim(),
-        'SpecialSkillRequired': splSkillRequiredTEController.text.trim(),
-        'ComfortableIn': comfortableInTEController.text.trim(),
-        'ScriptForAuditions': scriptForAuditionTEController.text.trim(),
-        'RequirementEndDate': requirementEndDateTEController.text.trim(),
-        'FBLink': fbLinkTEController.text.trim(),
-        'WPLink': wpLinkTEController.text.trim(),
-        'YTLink': ytLinkTEController.text.trim(),
-        'Instalink': instaLinkTEController.text.trim(),
-        'EmailLink': emailLinkTEController.text.trim(),
-        'WebsiteLink': websiteLinkTEController.text.trim(),
-        'RefPhotoName': "image",
-        'Salary': salaryTEController.text.trim(),
-        'SalaryType': salaryTypeTEController.text.trim(),
-      };
-      print(fields);
+      if (loginTable != null) {
+        Map<String, String> fields = {
+          'UserID': loginTable.userID,
+          'RequirementDetailsID': requirementId,
+          'FK_AccountID': loginTable.accountID,
+          'FK_CompanyProfileID': "$profileId",
+          'FK_RequirementStatusMasterID': "$requirementStatusId",
+          'RequirementTitle': requirementTitleTEController.text.trim(),
+          'RequirementDescription': descriptionTEController.text.trim(),
+          'LookingFor': lookingForTEController.text.trim(),
+          'NUmberOfOpenings': noOfOpeningsTEController.text.trim(),
+          'Gender': genderValue == 1 ? "Male" : "Female",
+          'Age': ageTEController.text.trim(),
+          'Language': languageTEController.text.trim(),
+          'Height': heightTEController.text.trim(),
+          'Weight': weightTEController.text.trim(),
+          'HairColor': hairColorTEController.text.trim(),
+          'BodyType': bodyTypeTEController.text.trim(),
+          'Experiences': experienceTEController.text.trim(),
+          'ShootingStartDate': startDateTEController.text.trim(),
+          'ShootingEndDate': endDateTEController.text.trim(),
+          'ShootingLocation': shootingLocationTEController.text.trim(),
+          'DefineRole': defineRoleTEController.text.trim(),
+          'SpecialSkillRequired': splSkillRequiredTEController.text.trim(),
+          'ComfortableIn': comfortableInTEController.text.trim(),
+          'ScriptForAuditions': scriptForAuditionTEController.text.trim(),
+          'RequirementEndDate': requirementEndDateTEController.text.trim(),
+          'FBLink': fbLinkTEController.text.trim(),
+          'WPLink': wpLinkTEController.text.trim(),
+          'YTLink': ytLinkTEController.text.trim(),
+          'Instalink': instaLinkTEController.text.trim(),
+          'EmailLink': emailLinkTEController.text.trim(),
+          'WebsiteLink': websiteLinkTEController.text.trim(),
+          'RefPhotoName': "image",
+          'Salary': salaryTEController.text.trim(),
+          'SalaryType': salaryTypeTEController.text.trim(),
+        };
+        print(fields);
 
-      // Example files (if any)
-      Map<String, File> files = {
-        'RefPhoto_Doc': File(requirementPhoto),
-      };
+        // Example files (if any)
+        Map<String, File> files = {
+          'RefPhoto_Doc': File(requirementPhoto),
+        };
 
-      var response = await ApiClient.postFormDataToken(
-          KalakarConstants.saveRequirementsDetailsApi,
-          fields,
-          files,
-          loginTable.token);
+        var response = await ApiClient.postFormDataToken(
+            KalakarConstants.saveRequirementsDetailsApi,
+            fields,
+            files,
+            loginTable.token);
 
-      if (response.statusCode == 200) {
-      } else {}
+        if (response.statusCode == 200) {
+          ResponseModel responseModel =
+              ResponseModel.fromJson(jsonDecode(response.body));
+          if (responseModel.replayStatus ?? false) {
+            Get.defaultDialog(
+              content: Text("response successful ${responseModel.message}"),
+            );
+          }
+        } else {}
+      }
     }
   }
 
-  deleteRequirement() async {
+  deleteRequirement(String requirementDetailsID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
-
+    ProfileController profileController = Get.put(ProfileController());
+    int? profileId = profileController.profileData!.companyProfileID;
     if (loginTable != null) {
       var fields = {
         'userID': loginTable.userID,
-        "requirementDetailsID": "0",
-        "fK_AccountID": "0",
-        "fK_CompanyProfileID": "0"
+        "requirementDetailsID": requirementDetailsID,
+        "fK_AccountID": loginTable.accountID,
+        "fK_CompanyProfileID": "$profileId"
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.deleteRequirementsDetailsApi,
@@ -338,21 +357,30 @@ class RequirementController extends GetxController {
     }
   }
 
-  getRequirementDetailsCompany() async {
+  getRequirementDetailsCompany(String requirementDetailsID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
+    ProfileController profileController = Get.put(ProfileController());
+    int? profileId = profileController.profileData!.companyProfileID;
     if (loginTable != null) {
       var fields = {
-        "userID": "string",
-        "requirementDetailsID": "0",
-        "fK_AccountID": "0",
-        "fK_CompanyProfileID": "0"
+        "userID": loginTable.userID,
+        "requirementDetailsID": requirementDetailsID,
+        "fK_AccountID": loginTable.accountID,
+        "fK_CompanyProfileID": "$profileId"
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getRequirementsDetailsCompanyApi,
           jsonEncode(fields),
           loginTable.token);
       if (response.statusCode == 200) {
+        CompanyRequirementListClass companyRequirementListClass =
+            CompanyRequirementListClass.fromJson(jsonDecode(response.body));
+        if (companyRequirementListClass.replayStatus ?? false) {
+          requirementDetailsList =
+              companyRequirementListClass.objResponesRequirementDetailsList!;
+          update();
+        }
       } else {}
     }
   }
@@ -477,5 +505,9 @@ class RequirementController extends GetxController {
       update();
     }
     Get.back();
+  }
+
+  void setGenderValue(int? value) {
+    genderValue = value;
   }
 }

@@ -287,12 +287,12 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> saveArtistProfileComfortableIn() async {
+  Future<void> saveArtistProfileComfortableIn(int comfortableInId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {
-        "artistProfile_ComfortableInID": 0,
-        "fK_AccountID": 0,
+        "artistProfile_ComfortableInID": comfortableInId,
+        "fK_AccountID": loginTable.accountID,
         "fK_ComfortableListMasterID": "string"
       };
 
@@ -810,6 +810,10 @@ class ArtistProfileController extends GetxController {
 
   void validateEducationForm() {
     if (_formEducationKey.currentState!.validate()) {}
+  }
+
+  void validateComfortableInForm() {
+    if (_formComfortableInKey.currentState!.validate()) {}
   }
 
   void validateDocumentsForm() {
