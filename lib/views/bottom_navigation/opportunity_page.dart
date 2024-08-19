@@ -43,16 +43,24 @@ class OpportunityPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CustomMobileButtonWidget(
-                  text: KalakarConstants.createRequirement,
-                  onTap: () {
-                    Get.toNamed(RouteHelper.requirementFormPage);
-                  },
-                  horizontalPadding: 20.w,
-                  verticalPadding: 8.h,
-                  fontSize: 16.sp,
-                  borderRadius: 50.r),
-              SizedBox(height: 24.h,),
+              controller.isArtist
+                  ? Container()
+                  : Column(
+                      children: [
+                        CustomMobileButtonWidget(
+                            text: KalakarConstants.createRequirement,
+                            onTap: () {
+                              Get.toNamed(RouteHelper.requirementFormPage);
+                            },
+                            horizontalPadding: 20.w,
+                            verticalPadding: 8.h,
+                            fontSize: 16.sp,
+                            borderRadius: 50.r),
+                      ],
+                    ),
+              SizedBox(
+                height: 24.h,
+              ),
               ListView.builder(
                   itemCount: controller.requirementDetailsList.length,
                   shrinkWrap: true,
@@ -94,7 +102,8 @@ class OpportunityPage extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.all(8.h),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -113,14 +122,17 @@ class OpportunityPage extends StatelessWidget {
                                       Text(requirementData
                                               .requirementDescription! ??
                                           ""),
-                                      SizedBox(height: 8.h,),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(requirementData.shootingLocation!),
-                                          Text(
-                                              requirementData.shootingStartDate!),
+                                          Text(requirementData
+                                              .shootingLocation!),
+                                          Text(requirementData
+                                              .shootingStartDate!),
                                         ],
                                       ),
                                       Row(

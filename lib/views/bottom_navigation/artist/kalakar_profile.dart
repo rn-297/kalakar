@@ -8,6 +8,8 @@ import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/custom_widgets/custom_divider/custom_dashed_divider.dart';
+import 'package:kalakar/data/models/artist/artist_comfortable_in_class.dart';
+import 'package:kalakar/data/models/artist/artist_education_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -301,6 +303,14 @@ class KalakarProfilePage extends StatelessWidget {
                   // Icon(Icons.double_arrow_outlined)
                 ],
               ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.artistEducationList.length,
+                  itemBuilder: (context, index) {
+                    EducationList educationData =
+                        controller.artistEducationList[index];
+                    return Text(educationData.course!);
+                  }),
               SizedBox(
                 height: 16.h,
               ),
@@ -315,6 +325,14 @@ class KalakarProfilePage extends StatelessWidget {
                   // Icon(Icons.double_arrow_outlined)
                 ],
               ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.artistComfortableInList.length,
+                  itemBuilder: (context, index) {
+                    ComfortableInList comfortableInData =
+                    controller.artistComfortableInList[index];
+                    return Text(comfortableInData.comfortableName!);
+                  }),
               SizedBox(
                 height: 16.h,
               ),

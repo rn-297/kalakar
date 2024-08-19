@@ -63,6 +63,9 @@ class RequirementController extends GetxController {
   //integers
   int? genderValue = 1;
 
+  //bool
+  bool isArtist = false;
+
   setDate(String type, DateTime date) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     switch (type) {
@@ -85,6 +88,7 @@ class RequirementController extends GetxController {
     // print("date time : ${DateTime(2024, DateTime.august, 15)}");
     // print("date time : ${DateTime(2024, DateTime.august, 20)}");
     getRequirementDetailsCompany("0");
+    checkIsArtist();
   }
 
   //global keys
@@ -509,5 +513,13 @@ class RequirementController extends GetxController {
 
   void setGenderValue(int? value) {
     genderValue = value;
+  }
+
+  void checkIsArtist() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      isArtist = loginTable.accountType == KalakarConstants.artist;
+    }
+    update();
   }
 }

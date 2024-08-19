@@ -46,6 +46,10 @@ class KalakarConstants {
       "/ArtistProfile/GetArtistProfile_ComfortableIn";
   static const String getArtistProfileApplyForApi =
       "/ArtistProfile/GetArtistProfile_ApplyFor";
+  static const String getArtistProfileDocumentsApi =
+      "/ArtistProfile/GetArtistProfile_Documents";
+  static const String getArtistPortfolioApi =
+      "/ArtistProfile/GetArtistProfile_Portfolio";
 
   //company profile apis
   static const String saveCompanyProfileBasicsApi =

@@ -5,6 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:kalakar/data/models/artist/artist_comfortable_in_class.dart';
+import 'package:kalakar/data/models/artist/artist_document_list_class.dart';
+import 'package:kalakar/data/models/artist/artist_education_list_class.dart';
+import 'package:kalakar/data/models/artist/artist_experience_list_class.dart';
+import 'package:kalakar/data/models/artist/artist_hobbies_list_class.dart';
+import 'package:kalakar/data/models/artist/artist_interested_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -126,11 +132,20 @@ class ArtistProfileController extends GetxController {
   List<String> stateList = [];
   List<String> cityList = [];
   List<String> pinCodeList = [];
+  List<EducationList> artistEducationList = [];
+  List<ComfortableInList> artistComfortableInList = [];
+  List<HobbiesList> artistHobbiesList = [];
+  List<InterestList> artistInterestedInList = [];
+  List<DocumentsList> artistDocumentsList = [];
+  List<ExperienceList> artistExperienceList = [];
 
   @override
   onInit() {
     super.onInit();
     getArtistProfileBasic();
+    getArtistProfileEducation(0);
+    getArtistProfileComfortableIn(0);
+    getArtistProfileHobbies(0);
   }
 
   setDate(String type, DateTime date) {
@@ -642,10 +657,14 @@ class ArtistProfileController extends GetxController {
     Get.back();
   }
 
-  Future<void> getArtistProfileEducation() async {
+  Future<void> getArtistProfileEducation(int recordID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"userID": "string", "fK_AccountID": 0, "recordID": 0};
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID,
+        "recordID": recordID
+      };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileEducationApi,
@@ -655,6 +674,13 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
+        ArtistEducationListClass artistEducationListClass =
+            ArtistEducationListClass.fromJson(jsonDecode(response.body));
+        if (artistEducationListClass.replayStatus ?? false) {
+          artistEducationList = artistEducationListClass.educationList!;
+          update();
+        }
+
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
@@ -663,11 +689,14 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> getArtistProfileHobbies() async {
+  Future<void> getArtistProfileHobbies(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"userID": "string", "fK_AccountID": 0, "recordID": 0};
-
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID,
+        "recordID": recordId
+      };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileHobbiesApi,
           jsonEncode(body),
@@ -676,6 +705,11 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
+        ArtistHobbiesListClass artistHobbiesListClass =
+            ArtistHobbiesListClass.fromJson(jsonDecode(response.body));
+        artistHobbiesList = artistHobbiesListClass.hobbiesList!;
+        update();
+
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
@@ -684,11 +718,14 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> getArtistProfileInterest() async {
+  Future<void> getArtistProfileInterest(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"userID": "string", "fK_AccountID": 0, "recordID": 0};
-
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID,
+        "recordID": recordId
+      };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileInterestApi,
           jsonEncode(body),
@@ -697,6 +734,10 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
+        ArtistInterestedInClass artistInterestedInClass =
+            ArtistInterestedInClass.fromJson(jsonDecode(response.body));
+        artistInterestedInList = artistInterestedInClass.interestList!;
+        update();
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
@@ -705,10 +746,14 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> getArtistProfileComfortableIn() async {
+  Future<void> getArtistProfileComfortableIn(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"userID": "string", "fK_AccountID": 0, "recordID": 0};
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID,
+        "recordID": recordId
+      };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileComfortableInApi,
@@ -718,6 +763,13 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
+        ArtistComfortableInListClass artistComfortableInListClass =
+            ArtistComfortableInListClass.fromJson(jsonDecode(response.body));
+        if (artistComfortableInListClass.replayStatus ?? false) {
+          artistComfortableInList =
+              artistComfortableInListClass.comfortableInList!;
+          update();
+        }
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
@@ -725,6 +777,100 @@ class ArtistProfileController extends GetxController {
       }
     }
   }
+
+  Future<void> getArtistDocuments() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID
+      };
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistProfileDocumentsApi,
+          jsonEncode(body),
+          loginTable.token);
+      // print(response.statusCode);
+      // print(response);
+
+      if (response.statusCode == 200) {
+        ArtistDocumentListClass artistDocumentListClass =
+            ArtistDocumentListClass.fromJson(jsonDecode(response.body));
+        if (artistDocumentListClass.replayStatus ?? false) {
+          artistDocumentsList = artistDocumentListClass.documentsList!;
+          update();
+        }
+        // print("response successful ${response.body}");
+        // Get.defaultDialog(
+        //   content: Text("response successful ${response.body}"),
+        // );
+      }
+    }
+  }
+
+
+  Future<void> getArtistExperience(int recordId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID,
+        "recordID": recordId
+      };
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistProfileDocumentsApi,
+          jsonEncode(body),
+          loginTable.token);
+      // print(response.statusCode);
+      // print(response);
+
+      if (response.statusCode == 200) {
+        ArtistExperienceListClass artistExperienceListClass =
+        ArtistExperienceListClass.fromJson(jsonDecode(response.body));
+        if (artistExperienceListClass.replayStatus ?? false) {
+          artistExperienceList = artistExperienceListClass.experienceList!;
+          update();
+        }
+        // print("response successful ${response.body}");
+        // Get.defaultDialog(
+        //   content: Text("response successful ${response.body}"),
+        // );
+      }
+    }
+  }
+
+  Future<void> getArtistPortFolio(int recordId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID,
+        "recordID": recordId
+      };
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistPortfolioApi,
+          jsonEncode(body),
+          loginTable.token);
+      // print(response.statusCode);
+      // print(response);
+
+      if (response.statusCode == 200) {
+        ArtistExperienceListClass artistExperienceListClass =
+        ArtistExperienceListClass.fromJson(jsonDecode(response.body));
+        if (artistExperienceListClass.replayStatus ?? false) {
+          artistExperienceList = artistExperienceListClass.experienceList!;
+          update();
+        }
+        // print("response successful ${response.body}");
+        // Get.defaultDialog(
+        //   content: Text("response successful ${response.body}"),
+        // );
+      }
+    }
+  }
+
 
   Future<void> getArtistProfileApplyFor() async {
     LoginTable? loginTable = await HiveService.getLoginData();
