@@ -187,6 +187,14 @@ class Validator {
     }
     return null;
   }
+  // validate state
+
+  static String? validateGender(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Gender';
+    }
+    return null;
+  }
 
   // validate Bio
   static String? validateBio(String? value) {
@@ -289,6 +297,14 @@ class Validator {
   static String? validateAge(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Age';
+    }
+    return null;
+  }
+
+  //validate age
+  static String? validateHairColor(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Hair Color';
     }
     return null;
   }
@@ -523,6 +539,106 @@ class Validator {
     }
     return null;
   }
+
+
+  //validate requirement title
+  static String? validateRequirementTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Requirement Title';
+    }
+    return null;
+  }
+
+//validate requirement status
+  static String? validateRequirementStatus(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Requirement Status';
+    }
+    return null;
+  }
+
+  //validate requirement Description
+  static String? validateDescription(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Description';
+    }
+    return null;
+  }
+
+  //validate looking for
+  static  String? validateLookingFor(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Looking For';
+    }
+    return null;
+  }
+
+  //validate number of openings
+  static  String? validateNoOfOpening(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Number Of Openings';
+    }
+    return null;
+  }
+
+  //validate Language
+  static String? validateLanguage(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Language';
+    }
+    return null;
+  }
+  //validate Experience
+
+  static String? validateExperience(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Experience';
+    }
+    return null;
+  }
+
+  //validate shooting location
+  static String? validateShootingLocation(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Shooting Location';
+    }
+    return null;
+  }
+
+  //validate define role
+  static String? validateDefineRole(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Define Role';
+    }
+    return null;
+  }
+
+  //validate Special Skills required
+  static String? validateSplSkillsRequired(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Special Skills Required';
+    }
+    return null;
+  }
+
+  //validate Special Script for validation
+  static  String? validateScriptForAudition(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Script For Audition';
+    }
+    return null;
+  }
+
+  //validate requirement End date
+  static String? validateRequirementEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Requirement End Date';
+    }
+    return null;
+  }
+
+
+
 /*
     //validate Education Type
   static String? validateEducationType(String? value) {

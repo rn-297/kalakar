@@ -9,10 +9,12 @@ import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../custom_widgets/button_mobile_widget.dart';
+import '../../custom_widgets/custom_dropdown_search.dart';
 import '../../helper/common_widgets.dart';
 import '../../helper/kalakar_colors.dart';
 import '../../helper/picker_helper.dart';
 import '../../helper/route_helper.dart';
+import '../../helper/textfield_validators.dart';
 
 class RequirementFormPage extends StatelessWidget {
   const RequirementFormPage({super.key});
@@ -111,7 +113,22 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.requirementTitleValidator),
+                    validator: Validator.validateRequirementTitle),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateProjectStatus,
+                  items: controller.requirementStatusList,
+                  titleText: KalakarConstants.requirementStatus,
+                  selectedItem: controller.requirementStatusTEController.text.isEmpty
+                      ? null
+                      : controller.requirementStatusTEController.text,
+                  labelText: KalakarConstants.requirementStatus,
+                  onItemSelected: (selectedItem) {
+                    controller.setRequirementStatusValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -124,7 +141,7 @@ class RequirementFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     maxLines: 3,
                     togglePasswordVisibility: () {},
-                    validator: controller.descriptionValidator),
+                    validator: Validator.validateDescription),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -136,7 +153,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.lookingForValidator),
+                    validator: Validator.validateLookingFor),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -148,11 +165,11 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.noOfOpeningValidator),
+                    validator: Validator.validateNoOfOpening),
                 SizedBox(
                   height: 16.h,
                 ),
-                Column(
+                /*Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
@@ -202,6 +219,18 @@ class RequirementFormPage extends StatelessWidget {
                       ],
                     ),
                   ],
+                ),*/
+                CustomDropdownSearch(
+                  validator: Validator.validateGender,
+                  items: controller.genderList,
+                  titleText: KalakarConstants.gender,
+                  selectedItem: controller.genderTEController.text.isEmpty
+                      ? null
+                      : controller.genderTEController.text,
+                  labelText: KalakarConstants.gender,
+                  onItemSelected: (selectedItem) {
+                    controller.setGenderValue(selectedItem);
+                  },
                 ),
                 SizedBox(
                   height: 16.h,
@@ -214,7 +243,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.ageValidator),
+                    validator: Validator.validateAge),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -226,7 +255,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.languageValidator),
+                    validator: Validator.validateLanguage),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -241,7 +270,7 @@ class RequirementFormPage extends StatelessWidget {
                           passwordVisibility: false,
                           borderRadius: 12.r,
                           togglePasswordVisibility: () {},
-                          validator: controller.heightValidator),
+                          validator: Validator.validateHeight),
                     ),
                     SizedBox(
                       width: 16.w,
@@ -255,34 +284,40 @@ class RequirementFormPage extends StatelessWidget {
                           passwordVisibility: false,
                           borderRadius: 12.r,
                           togglePasswordVisibility: () {},
-                          validator: controller.weightValidator),
+                          validator: Validator.validateWeight),
                     ),
                   ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.hairColorTEController,
-                    labelText: KalakarConstants.hairColor,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: controller.hairColorValidator),
+                CustomDropdownSearch(
+                  validator: Validator.validateHairColor,
+                  items: controller.hairColorList,
+                  titleText: KalakarConstants.hairColor,
+                  selectedItem: controller.hairColorTEController.text.isEmpty
+                      ? null
+                      : controller.hairColorTEController.text,
+                  labelText: KalakarConstants.hairColor,
+                  onItemSelected: (selectedItem) {
+                    controller.setHairColorValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.bodyTypeTEController,
-                    labelText: KalakarConstants.bodyType,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: controller.bodyTypeValidator),
+                CustomDropdownSearch(
+                  validator: Validator.validateBodyType,
+                  items: controller.bodyTypeList,
+                  titleText: KalakarConstants.bodyType,
+                  selectedItem: controller.bodyTypeTEController.text.isEmpty
+                      ? null
+                      : controller.bodyTypeTEController.text,
+                  labelText: KalakarConstants.bodyType,
+                  onItemSelected: (selectedItem) {
+                    controller.setBodyTypeValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -294,7 +329,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.experienceValidator),
+                    validator: Validator.validateExperience),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -319,7 +354,7 @@ class RequirementFormPage extends StatelessWidget {
                             editable: false,
                             borderRadius: 12.r,
                             togglePasswordVisibility: () {},
-                            validator: controller.startDateValidator),
+                            validator: Validator.validateStartDate),
                       ),
                     ),
                     SizedBox(
@@ -343,7 +378,7 @@ class RequirementFormPage extends StatelessWidget {
                             editable: false,
                             borderRadius: 12.r,
                             togglePasswordVisibility: () {},
-                            validator: controller.endDateValidator),
+                            validator: Validator.validateEndDate),
                       ),
                     ),
                   ],
@@ -359,7 +394,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.shootingLocationValidator),
+                    validator: Validator.validateShootingLocation),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -372,7 +407,7 @@ class RequirementFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     maxLines: 3,
                     togglePasswordVisibility: () {},
-                    validator: controller.defineRoleValidator),
+                    validator: Validator.validateDefineRole),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -384,7 +419,19 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.splSkillsRequiredValidator),
+                    validator: Validator.validateSplSkillsRequired),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: controller.comfortableInTEController,
+                    labelText: KalakarConstants.comfortableIn,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateComfortableIn),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -396,7 +443,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: controller.scriptForAuditionValidator),
+                    validator: Validator.validateScriptForAudition),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -417,7 +464,7 @@ class RequirementFormPage extends StatelessWidget {
                       passwordVisibility: false,
                       borderRadius: 12.r,
                       togglePasswordVisibility: () {},
-                      validator: controller.requirementEndDateValidator),
+                      validator: Validator.validateRequirementEndDate),
                 ),
                 SizedBox(
                   height: 16.h,
@@ -494,7 +541,7 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                /*CommonWidgets.commonMobileTextField(
                     controller: controller.salaryTEController,
                     labelText: KalakarConstants.salary,
                     obscureText: false,
@@ -517,7 +564,7 @@ class RequirementFormPage extends StatelessWidget {
                     validator: null),
                 SizedBox(
                   height: 24.h,
-                ),
+                ),*/
                 CustomMobileButtonWidget(
                     text: KalakarConstants.saveRequirement,
                     onTap: () {

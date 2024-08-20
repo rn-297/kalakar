@@ -18,7 +18,7 @@ class KalakarConstants {
 
   //artist profile api
   static const String saveArtistProfileApi = "/ArtistProfile/SaveArtistProfile";
-  static const String saveArtistProfileMasterApi =
+  static const String artistProfileMasterApi =
       "/ArtistProfile/ArtistProfile_Master";
   static const String saveArtistProfileEducationApi =
       "/ArtistProfile/SaveArtistProfile_Education";
@@ -181,6 +181,7 @@ class KalakarConstants {
   //requirements
   static const String requirement = "REQUIREMENT";
   static const String requirementTitle = "Requirement Title";
+  static const String requirementStatus = "Requirement Status";
   static const String description = "Description";
   static const String lookingFor = "Looking For";
   static const String noOfOpenings = "Number Of Openings";

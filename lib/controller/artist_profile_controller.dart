@@ -19,6 +19,7 @@ import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
 import '../data/models/csv_model_class.dart';
 import '../helper/picker_helper.dart';
+import '../helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import '../utils/kalakar_constants.dart';
 import 'file_controller.dart';
 import 'package:kalakar/utils/web_utils.dart' as utils;
@@ -29,6 +30,7 @@ class ArtistProfileController extends GetxController {
   TextEditingController middleNameTEController = TextEditingController();
   TextEditingController lastNameTEController = TextEditingController();
   TextEditingController dobTEController = TextEditingController();
+  TextEditingController genderTEController = TextEditingController();
   TextEditingController emailTEController = TextEditingController();
   TextEditingController mobileNumberTEController = TextEditingController();
   TextEditingController ageTEController = TextEditingController();
@@ -91,10 +93,29 @@ class ArtistProfileController extends GetxController {
   String passportImage = "";
   String filmCorporationCardImage = "";
   String adharCardImage = "";
+  String expRoleImage = "";
+  String expRoleVideo = "";
   String documentType = "";
   String dobText = "";
   String courseStartDateText = "";
   String courseEndDateText = "";
+  String artistProfileId = "0";
+  String artistEducationId = "0";
+  String artistHobbiesId = "0";
+  String artistInterestInId = "0";
+  String interestInMasterId = "0";
+  String artistComfortableInId = "0";
+  String comfortableInMasterId = "0";
+  String artistDocumentId = "0";
+  String artistExperienceId = "0";
+  String artistPortfolioId = "0";
+
+  //date time
+  DateTime artistDOB = DateTime.now();
+  DateTime courseStartDate = DateTime.now();
+  DateTime courseEndDate = DateTime.now();
+  DateTime expStartDate = DateTime.now();
+  DateTime expEndDate = DateTime.now();
 
   //artist profile details
   ArtistProfileDetailsClass artistProfileDetails = ArtistProfileDetailsClass();
@@ -138,6 +159,7 @@ class ArtistProfileController extends GetxController {
   List<InterestList> artistInterestedInList = [];
   List<DocumentsList> artistDocumentsList = [];
   List<ExperienceList> artistExperienceList = [];
+  List<String> genderList = ["Male", "Female", "Other"];
 
   @override
   onInit() {
@@ -149,14 +171,14 @@ class ArtistProfileController extends GetxController {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     switch (type) {
       case KalakarConstants.dob:
-        dobText = formatter.format(date);
-        dobTEController.text = dobText!;
+        artistDOB = date;
+        dobTEController.text = formatter.format(date);
       case KalakarConstants.courseStartDate:
-        courseStartDateText = formatter.format(date);
-        courseStartDateTEController.text = courseStartDateText!;
+        courseStartDate = date;
+        courseStartDateTEController.text = formatter.format(date);
       case KalakarConstants.courseEndDate:
-        courseEndDateText = formatter.format(date);
-        courseEndDateTEController.text = courseEndDateText!;
+        courseEndDate = date;
+        courseEndDateTEController.text = formatter.format(date);
     }
   }
 
@@ -164,43 +186,44 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = <String, String>{};
-      body['ArtistProfileID'] = '';
-      body['FK_AccountID'] = '';
-      body['ProfilePic_Name'] = '';
-      body['FirstName'] = '';
-      body['MiddleName'] = '';
-      body['LastName'] = '';
-      body['DateOfBirth'] = '';
-      body['Email'] = '';
-      body['MobileNumber'] = '';
-      body['Gender'] = '';
-      body['Age'] = '';
-      body['RoleAge'] = '';
-      body['Height'] = '';
-      body['Weight'] = '';
-      body['Bio'] = '';
-      body['FBLink'] = '';
-      body['WPLink'] = '';
-      body['YTLink'] = '';
-      body['Instalink'] = '';
-      body['EmailLink'] = '';
-      body['WebsiteLink'] = '';
-      body['Address1'] = '';
-      body['Address2'] = '';
-      body['District'] = '';
-      body['State'] = '';
-      body['Postalcode'] = '';
-      body['AlternateMobileNumber'] = '';
-      body['LanguageKnown'] = '';
-      body['EyeColor'] = '';
-      body['HairColor'] = '';
-      body['BodyType'] = '';
-      body['MaritalStatus'] = '';
-      body['Vehicle'] = '';
-      body['TravelThrIndia'] = '';
+      body['ArtistProfileID'] = artistProfileId;
+      body['FK_AccountID'] = loginTable.accountID;
+      body['ProfilePic_Name'] = "image";
+      body['FirstName'] = firstNameTEController.text.trim();
+      body['MiddleName'] = middleNameTEController.text.trim();
+      body['LastName'] = lastNameTEController.text.trim();
+      body['DateOfBirth'] = artistDOB.toString();
+      body['Email'] = emailLinkTEController.text.trim();
+      body['MobileNumber'] = mobileNumberTEController.text.trim();
+      body['Gender'] = genderTEController.text.trim();
+      body['Age'] = ageTEController.text.trim();
+      body['RoleAge'] = roleAgeTEController.text.trim();
+      body['Height'] = heightTEController.text.trim();
+      body['Weight'] = weightTEController.text.trim();
+      body['Bio'] = bioTEController.text.trim();
+      body['FBLink'] = fbLinkTEController.text.trim();
+      body['WPLink'] = wpLinkTEController.text.trim();
+      body['YTLink'] = ytLinkTEController.text.trim();
+      body['Instalink'] = ytLinkTEController.text.trim();
+      body['EmailLink'] = emailLinkTEController.text.trim();
+      body['WebsiteLink'] = websiteLinkTEController.text.trim();
+      body['Address1'] = address1TEController.text.trim();
+      body['Address2'] = address2TEController.text.trim();
+      body['District'] = districtTEController.text.trim();
+      body['State'] = stateTEController.text.trim();
+      body['Postalcode'] = postalCodeTEController.text.trim();
+      body['AlternateMobileNumber'] =
+          alternateMobileNumberTEController.text.trim();
+      body['LanguageKnown'] = languageKnownTEController.text.trim();
+      body['EyeColor'] = eyeColorTEController.text.trim();
+      body['HairColor'] = hairColorTEController.text.trim();
+      body['BodyType'] = bodyTypeTEController.text.trim();
+      body['MaritalStatus'] = maritalStatusTEController.text.trim();
+      body['Vehicle'] = vehicleTEController.text.trim();
+      body['TravelThrIndia'] = vehicleTEController.text.trim();
 
       Map<String, File> files = {
-        'ProjectCoverDoc': File(""),
+        'ProfilePic': File(artistProfileImage),
       };
 
       var response = await ApiClient.postFormDataToken(
@@ -221,16 +244,16 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {
-        "artistProfile_EducationID": 0,
-        "fK_AccountID": 0,
-        "educationType": "string",
-        "universityOrInstitute": "string",
-        "course": "string",
-        "specialization": "string",
-        "coursetype": "string",
-        "courseStartDate": "2024-08-11T12:41:58.809Z",
-        "courseEndDate": "2024-08-11T12:41:58.809Z",
-        "score": 0
+        "artistProfile_EducationID": artistEducationId,
+        "fK_AccountID": loginTable.accountID,
+        "educationType": educationTypeTEController.text.trim(),
+        "universityOrInstitute": universityOrInstituteTEController.text.trim(),
+        "course": courseTEController.text.trim(),
+        "specialization": specializationTEController.text.trim(),
+        "coursetype": courseTypeTEController.text.trim(),
+        "courseStartDate": courseStartDate.toString(),
+        "courseEndDate": courseEndDate.toString(),
+        "score": scoreTEController.text.trim()
       };
 
       var response = await ApiClient.postDataToken(
@@ -253,9 +276,9 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {
-        "artistProfile_hobbiesID": 0,
-        "fK_AccountID": 0,
-        "hobbyName": "string"
+        "artistProfile_hobbiesID": artistHobbiesId,
+        "fK_AccountID": loginTable.accountID,
+        "hobbyName": hobbyTEController.text.trim()
       };
 
       var response = await ApiClient.postDataToken(
@@ -278,9 +301,9 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {
-        "artistProfile_InterestID": 0,
-        "fK_AccountID": 0,
-        "fK_InterstedListMasterID": "string"
+        "artistProfile_InterestID": artistInterestInId,
+        "fK_AccountID": loginTable.accountID,
+        "fK_InterstedListMasterID": interestInMasterId
       };
 
       var response = await ApiClient.postDataToken(
@@ -299,17 +322,17 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> saveArtistProfileComfortableIn(int comfortableInId) async {
+  Future<void> saveArtistProfileComfortableIn() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {
-        "artistProfile_ComfortableInID": comfortableInId,
+        "artistProfile_ComfortableInID": artistComfortableInId,
         "fK_AccountID": loginTable.accountID,
-        "fK_ComfortableListMasterID": "string"
+        "fK_ComfortableListMasterID": comfortableInMasterId
       };
 
       var response = await ApiClient.postDataToken(
-          KalakarConstants.saveArtistProfileApi,
+          KalakarConstants.saveArtistProfileComfortableInApi,
           jsonEncode(body),
           loginTable.token);
       // print(response.statusCode);
@@ -349,11 +372,11 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> saveArtistProfileMaster() async {
+  Future<void> artistProfileMaster() async {
     final body = <String, dynamic>{};
 
-    var response = await ApiClient.postData(
-        KalakarConstants.saveArtistProfileMasterApi, body);
+    var response =
+        await ApiClient.postData(KalakarConstants.artistProfileMasterApi, body);
     // print(response.statusCode);
     // print(response);
 
@@ -369,14 +392,14 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = <String, String>{};
-      body['ArtistProfile_DocumentsID'] = '';
-      body['FK_AccountID'] = '';
-      body['UserID'] = '';
+      body['ArtistProfile_DocumentsID'] = artistDocumentId;
+      body['FK_AccountID'] = loginTable.accountID;
+      body['UserID'] = loginTable.userID;
 
       Map<String, File> files = {
-        'Passport': File(""),
-        'FileCorporationCard': File(""),
-        'AdharCard': File(""),
+        'Passport': File(passportImage),
+        'FileCorporationCard': File(filmCorporationCardImage),
+        'AdharCard': File(adharCardImage),
       };
 
       var response = await ApiClient.postFormDataToken(
@@ -400,18 +423,18 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = <String, String>{};
-      body['UserID'] = '';
-      body['ArtistProfile_ExperienceID'] = '';
-      body['FK_AccountID'] = '';
-      body['CompanyName'] = '';
-      body['RoleName'] = '';
-      body['StartDate'] = '';
-      body['EndDate'] = '';
-      body['SkillUsed'] = '';
-      body['RoleProfile'] = '';
+      body['UserID'] = loginTable.userID;
+      body['ArtistProfile_ExperienceID'] = artistExperienceId;
+      body['FK_AccountID'] = loginTable.accountID;
+      body['CompanyName'] = companyNameTEController.text.trim();
+      body['RoleName'] = roleNameTEController.text.trim();
+      body['StartDate'] = expStartDate.toString();
+      body['EndDate'] = expEndDate.toString();
+      body['SkillUsed'] = skillsUsedTEController.text.trim();
+      body['RoleProfile'] = roleProfileTEController.text.trim();
       Map<String, File> files = {
-        'RoleImage': File(""),
-        'RoleVideo': File(""),
+        'RoleImage': File(expRoleImage),
+        'RoleVideo': File(expRoleVideo),
       };
 
       var response = await ApiClient.postFormDataToken(
@@ -435,9 +458,9 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = <String, String>{};
-      body['UserID'] = '';
-      body['ArtistProfile_PortfolioID'] = '';
-      body['FK_AccountID'] = '';
+      body['UserID'] = loginTable.userID;
+      body['ArtistProfile_PortfolioID'] = artistPortfolioId;
+      body['FK_AccountID'] = loginTable.accountID;
       body['FileType'] = '';
 
       Map<String, File> files = {
@@ -888,11 +911,37 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  void getCitiesData(String selectedItem) {}
+  getStateData() async {
+    stateCityPinCodeList = await StateCityPinCodeHelper.getCsvData();
+    stateList =
+        await StateCityPinCodeHelper.getFilteredState(stateCityPinCodeList);
 
-  void getPinCodesData(String selectedItem) {}
+    update();
+  }
 
-  void setPinCodeData(String selectedItem) {}
+  Future<void> getCitiesData(String selectedItem) async {
+    print(stateCityPinCodeList.length);
+    stateTEController.text = selectedItem;
+    cityList = await StateCityPinCodeHelper.getFilteredCities(
+        stateCityPinCodeList, selectedItem);
+    print(cityList);
+    districtTEController.text = "";
+    postalCodeTEController.text = "";
+    update();
+  }
+
+  Future<void> getPinCodesData(String selectedItem) async {
+    districtTEController.text = selectedItem;
+    pinCodeList = await StateCityPinCodeHelper.getFilteredPinCodes(
+        stateCityPinCodeList, stateTEController.text, selectedItem);
+    postalCodeTEController.text = "";
+    update();
+  }
+
+  Future<void> setPinCodeData(String selectedItem) async {
+    postalCodeTEController.text = selectedItem;
+    update();
+  }
 
   void validateProfileFormData() {
     if (_formProfileKey.currentState!.validate()) {}
@@ -986,5 +1035,9 @@ class ArtistProfileController extends GetxController {
       getArtistProfileComfortableIn(0);
       getArtistProfileHobbies(0);
     }
+  }
+
+  void setGenderValue(String value) {
+    genderTEController.text = value;
   }
 }

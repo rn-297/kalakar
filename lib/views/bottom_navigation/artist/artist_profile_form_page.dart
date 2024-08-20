@@ -169,6 +169,21 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
+                CustomDropdownSearch(
+                  validator: Validator.validateGender,
+                  items: controller.genderList,
+                  titleText: KalakarConstants.gender,
+                  selectedItem: controller.genderTEController.text.isEmpty
+                      ? null
+                      : controller.genderTEController.text,
+                  labelText: KalakarConstants.gender,
+                  onItemSelected: (selectedItem) {
+                    controller.setGenderValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
                 CommonWidgets.commonMobileTextField(
                     controller: controller.emailTEController,
                     labelText: KalakarConstants.email,

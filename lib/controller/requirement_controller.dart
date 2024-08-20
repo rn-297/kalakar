@@ -19,9 +19,11 @@ import '../views/dialogs/kalakar_dialogs.dart';
 
 class RequirementController extends GetxController {
   TextEditingController requirementTitleTEController = TextEditingController();
+  TextEditingController requirementStatusTEController = TextEditingController();
   TextEditingController descriptionTEController = TextEditingController();
   TextEditingController lookingForTEController = TextEditingController();
   TextEditingController noOfOpeningsTEController = TextEditingController();
+  TextEditingController genderTEController = TextEditingController();
   TextEditingController ageTEController = TextEditingController();
   TextEditingController languageTEController = TextEditingController();
   TextEditingController heightTEController = TextEditingController();
@@ -49,7 +51,7 @@ class RequirementController extends GetxController {
 
   //strings
   String requirementId = "0";
-  String requirementStatusId = "0";
+  String requirementStatusId = "1";
   String requirementPhoto = "";
   String? shootingStartDateText = "";
   String? shootingEndDateText = "";
@@ -62,9 +64,20 @@ class RequirementController extends GetxController {
 
   //lists
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
+  List<String> genderList = ["Male", "Female", "Other"];
+  List<String> hairColorList = [
+    "Black",
+    "Brown",
+    "Auburn",
+    "Red",
+    "Blond",
+    "Gray and white"
+  ];
+  List<String> bodyTypeList = ["good looking", "slim", "muscular"];
+  List<String> requirementStatusList = ["Save as Draft", "Published", "Closed"];
 
   //integers
-  int? genderValue = 1;
+
   int selectedRequirementId = 0;
 
   //bool
@@ -74,12 +87,15 @@ class RequirementController extends GetxController {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     switch (type) {
       case KalakarConstants.startDate:
+        shootingStartDate = date;
         shootingStartDateText = formatter.format(date);
         startDateTEController.text = shootingStartDateText!;
       case KalakarConstants.endDate:
+        shootingEndDate = date;
         shootingEndDateText = formatter.format(date);
         endDateTEController.text = shootingEndDateText!;
       case KalakarConstants.requirementEndDate:
+        requirementEndDate = date;
         requirementEndDateText = formatter.format(date);
         requirementEndDateTEController.text = requirementEndDateText!;
     }
@@ -100,182 +116,6 @@ class RequirementController extends GetxController {
 
   get formRequirementKey => _formRequirementKey;
 
-  //validators
-  String? requirementTitleValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Requirement Title';
-    }
-    return null;
-  }
-
-  String? descriptionValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Description';
-    }
-    return null;
-  }
-
-  String? lookingForValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Looking For';
-    }
-    return null;
-  }
-
-  String? noOfOpeningValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Number Of Openings';
-    }
-    return null;
-  }
-
-  String? ageValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Age';
-    }
-    return null;
-  }
-
-  String? languageValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Language';
-    }
-    return null;
-  }
-
-  String? heightValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Height';
-    }
-    return null;
-  }
-
-  String? weightValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Weight';
-    }
-    return null;
-  }
-
-  String? hairColorValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Hair Color';
-    }
-    return null;
-  }
-
-  String? bodyTypeValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Body Type';
-    }
-    return null;
-  }
-
-  String? experienceValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Experience';
-    }
-    return null;
-  }
-
-  String? startDateValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Select Start Date';
-    }
-    return null;
-  }
-
-  String? endDateValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Select End Date';
-    }
-    return null;
-  }
-
-  String? shootingLocationValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Shooting Location';
-    }
-    return null;
-  }
-
-  String? defineRoleValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Define Role';
-    }
-    return null;
-  }
-
-  String? splSkillsRequiredValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Special Skills Required';
-    }
-    return null;
-  }
-
-  String? comfortableInValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Comfortable In';
-    }
-    return null;
-  }
-
-  String? scriptForAuditionValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Script For Audition';
-    }
-    return null;
-  }
-
-  String? requirementEndDateValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Select Requirement End Date';
-    }
-    return null;
-  }
-
-  String? fbLinkValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Description';
-    }
-    return null;
-  }
-
-  String? wpLinkTitleValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Requirement Title';
-    }
-    return null;
-  }
-
-  String? ytLinkValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Description';
-    }
-    return null;
-  }
-
-  String? instaLinkValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Requirement Title';
-    }
-    return null;
-  }
-
-  String? emailLinkValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Description';
-    }
-    return null;
-  }
-
-  String? websiteLinkValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Enter Description';
-    }
-    return null;
-  }
-
   saveRequirementsDetails() async {
     if (_formRequirementKey.currentState!.validate()) {
       KalakarDialogs.loadingDialog(
@@ -295,7 +135,7 @@ class RequirementController extends GetxController {
           'RequirementDescription': descriptionTEController.text.trim(),
           'LookingFor': lookingForTEController.text.trim(),
           'NUmberOfOpenings': noOfOpeningsTEController.text.trim(),
-          'Gender': genderValue == 1 ? "Male" : "Female",
+          'Gender': genderTEController.text.trim(),
           'Age': ageTEController.text.trim(),
           'Language': languageTEController.text.trim(),
           'Height': heightTEController.text.trim(),
@@ -303,14 +143,14 @@ class RequirementController extends GetxController {
           'HairColor': hairColorTEController.text.trim(),
           'BodyType': bodyTypeTEController.text.trim(),
           'Experiences': experienceTEController.text.trim(),
-          'ShootingStartDate': startDateTEController.text.trim(),
-          'ShootingEndDate': endDateTEController.text.trim(),
+          'ShootingStartDate': shootingStartDate.toString(),
+          'ShootingEndDate': shootingEndDate.toString(),
           'ShootingLocation': shootingLocationTEController.text.trim(),
           'DefineRole': defineRoleTEController.text.trim(),
           'SpecialSkillRequired': splSkillRequiredTEController.text.trim(),
           'ComfortableIn': comfortableInTEController.text.trim(),
           'ScriptForAuditions': scriptForAuditionTEController.text.trim(),
-          'RequirementEndDate': requirementEndDateTEController.text.trim(),
+          'RequirementEndDate': requirementEndDate.toString(),
           'FBLink': fbLinkTEController.text.trim(),
           'WPLink': wpLinkTEController.text.trim(),
           'YTLink': ytLinkTEController.text.trim(),
@@ -539,8 +379,8 @@ class RequirementController extends GetxController {
     Get.back();
   }
 
-  void setGenderValue(int? value) {
-    genderValue = value;
+  void setGenderValue(String value) {
+    genderTEController.text = value;
   }
 
   void checkIsArtist() async {
@@ -555,30 +395,38 @@ class RequirementController extends GetxController {
       ObjResponesRequirementDetailsList requirementData) async {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     selectedRequirementId = requirementData.requirementDetailsID!;
-    requirementPhoto = requirementData.companyLogo ?? "";
+    requirementPhoto = requirementData.refPhotoName ?? "";
     requirementTitleTEController.text = requirementData.requirementTitle! ?? "";
+    requirementStatusTEController.text =
+        requirementData.requirementStatus! ?? "";
     descriptionTEController.text =
         requirementData.requirementDescription! ?? "";
     lookingForTEController.text = requirementData.requirementDescription! ?? "";
+    ageTEController.text = requirementData.age! ?? "";
+    languageTEController.text = requirementData.language! ?? "";
     noOfOpeningsTEController.text =
         requirementData.nUmberOfOpenings!.toString() ?? "";
-    genderValue = requirementData.gender == KalakarConstants.male ? 1 : 2;
+    genderTEController.text = requirementData.gender.toString() ?? "";
     heightTEController.text = requirementData.height.toString() ?? "";
     weightTEController.text = requirementData.weight.toString() ?? "";
     hairColorTEController.text = requirementData.hairColor.toString() ?? "";
     bodyTypeTEController.text = requirementData.bodyType.toString() ?? "";
     experienceTEController.text = requirementData.experiences.toString() ?? "";
     DateTime startDate = DateTime.parse(requirementData!.shootingStartDate!);
+    shootingStartDate = startDate;
     startDateTEController.text = formatter.format(startDate);
     DateTime endDate = DateTime.parse(requirementData!.shootingEndDate!);
+    shootingEndDate = endDate;
     endDateTEController.text = formatter.format(endDate);
     shootingLocationTEController.text = requirementData!.shootingLocation ?? "";
     defineRoleTEController.text = requirementData!.defineRole ?? "";
     splSkillRequiredTEController.text =
         requirementData!.specialSkillRequired ?? "";
+    comfortableInTEController.text = requirementData!.comfortableIn ?? "";
     scriptForAuditionTEController.text =
         requirementData!.scriptForAuditions ?? "";
     DateTime reqEndDate = DateTime.parse(requirementData!.requirementEndDate!);
+    requirementEndDate = reqEndDate;
     requirementEndDateTEController.text = formatter.format(reqEndDate);
     fbLinkTEController.text = requirementData!.fbLink ?? "";
     wpLinkTEController.text = requirementData!.wpLink ?? "";
@@ -589,5 +437,25 @@ class RequirementController extends GetxController {
     salaryTEController.text = requirementData!.salary.toString() ?? "";
     salaryTypeTEController.text = requirementData!.salaryType ?? "";
     Get.toNamed(RouteHelper.requirementFormPage);
+  }
+
+  void setHairColorValue(String selectedItem) {
+    hairColorTEController.text = selectedItem;
+    update();
+  }
+
+  void setBodyTypeValue(String selectedItem) {
+    bodyTypeTEController.text = selectedItem;
+    update();
+  }
+
+  void setRequirementStatusValue(String selectedItem) {
+    requirementStatusTEController.text = selectedItem;
+    requirementStatusId = selectedItem == requirementStatusList[0]
+        ? "0"
+        : selectedItem == requirementStatusList[1]
+            ? "1"
+            : "2";
+    update();
   }
 }
