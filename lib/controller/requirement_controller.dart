@@ -11,8 +11,11 @@ import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
 import '../helper/picker_helper.dart';
+import '../helper/route_helper.dart';
 import '../utils/kalakar_constants.dart';
 import 'package:intl/intl.dart';
+
+import '../views/dialogs/kalakar_dialogs.dart';
 
 class RequirementController extends GetxController {
   TextEditingController requirementTitleTEController = TextEditingController();
@@ -62,6 +65,7 @@ class RequirementController extends GetxController {
 
   //integers
   int? genderValue = 1;
+  int selectedRequirementId = 0;
 
   //bool
   bool isArtist = false;
@@ -87,7 +91,7 @@ class RequirementController extends GetxController {
     super.onInit();
     // print("date time : ${DateTime(2024, DateTime.august, 15)}");
     // print("date time : ${DateTime(2024, DateTime.august, 20)}");
-    getRequirementDetailsCompany("0");
+    getRequirementDetailsCompany(0);
     checkIsArtist();
   }
 
@@ -274,6 +278,8 @@ class RequirementController extends GetxController {
 
   saveRequirementsDetails() async {
     if (_formRequirementKey.currentState!.validate()) {
+      KalakarDialogs.loadingDialog(
+          "Uploading Requirement Data", "Saving Requirement Data");
       LoginTable? loginTable = await HiveService.getLoginData();
       ProfileController profileController = Get.put(ProfileController());
       int? profileId = profileController.profileData!.companyProfileID;
@@ -281,7 +287,7 @@ class RequirementController extends GetxController {
       if (loginTable != null) {
         Map<String, String> fields = {
           'UserID': loginTable.userID,
-          'RequirementDetailsID': requirementId,
+          'RequirementDetailsID': selectedRequirementId.toString(),
           'FK_AccountID': loginTable.accountID,
           'FK_CompanyProfileID': "$profileId",
           'FK_RequirementStatusMasterID': "$requirementStatusId",
@@ -327,28 +333,37 @@ class RequirementController extends GetxController {
             fields,
             files,
             loginTable.token);
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
 
         if (response.statusCode == 200) {
           ResponseModel responseModel =
               ResponseModel.fromJson(jsonDecode(response.body));
+
           if (responseModel.replayStatus ?? false) {
-            Get.defaultDialog(
-              content: Text("response successful ${responseModel.message}"),
-            );
+            KalakarDialogs.successDialog(
+                "Uploading Requirement Data", responseModel.message!);
+            getRequirementDetailsCompany(0);
+          } else {
+            KalakarDialogs.successDialog(
+                "Uploading Requirement Data", responseModel.message!);
           }
         } else {}
       }
     }
   }
 
-  deleteRequirement(String requirementDetailsID) async {
+  deleteRequirement() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     ProfileController profileController = Get.put(ProfileController());
     int? profileId = profileController.profileData!.companyProfileID;
     if (loginTable != null) {
+      KalakarDialogs.successDialog(
+          "Delete Requirement Data", "Deleting Requirement Data");
       var fields = {
         'userID': loginTable.userID,
-        "requirementDetailsID": requirementDetailsID,
+        "requirementDetailsID": selectedRequirementId,
         "fK_AccountID": loginTable.accountID,
         "fK_CompanyProfileID": "$profileId"
       };
@@ -356,12 +371,25 @@ class RequirementController extends GetxController {
           KalakarConstants.deleteRequirementsDetailsApi,
           jsonEncode(fields),
           loginTable.token);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
       if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog(
+              "Deleting Requirement Data", responseModel.message!);
+          getRequirementDetailsCompany(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Requirement Data", responseModel.message!);
+        }
       } else {}
     }
   }
 
-  getRequirementDetailsCompany(String requirementDetailsID) async {
+  getRequirementDetailsCompany(int selectedRequirementId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     ProfileController profileController = Get.put(ProfileController());
@@ -369,7 +397,7 @@ class RequirementController extends GetxController {
     if (loginTable != null) {
       var fields = {
         "userID": loginTable.userID,
-        "requirementDetailsID": requirementDetailsID,
+        "requirementDetailsID": selectedRequirementId.toString(),
         "fK_AccountID": loginTable.accountID,
         "fK_CompanyProfileID": "$profileId"
       };
@@ -521,5 +549,45 @@ class RequirementController extends GetxController {
       isArtist = loginTable.accountType == KalakarConstants.artist;
     }
     update();
+  }
+
+  void setOpportunityData(
+      ObjResponesRequirementDetailsList requirementData) async {
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    selectedRequirementId = requirementData.requirementDetailsID!;
+    requirementPhoto = requirementData.companyLogo ?? "";
+    requirementTitleTEController.text = requirementData.requirementTitle! ?? "";
+    descriptionTEController.text =
+        requirementData.requirementDescription! ?? "";
+    lookingForTEController.text = requirementData.requirementDescription! ?? "";
+    noOfOpeningsTEController.text =
+        requirementData.nUmberOfOpenings!.toString() ?? "";
+    genderValue = requirementData.gender == KalakarConstants.male ? 1 : 2;
+    heightTEController.text = requirementData.height.toString() ?? "";
+    weightTEController.text = requirementData.weight.toString() ?? "";
+    hairColorTEController.text = requirementData.hairColor.toString() ?? "";
+    bodyTypeTEController.text = requirementData.bodyType.toString() ?? "";
+    experienceTEController.text = requirementData.experiences.toString() ?? "";
+    DateTime startDate = DateTime.parse(requirementData!.shootingStartDate!);
+    startDateTEController.text = formatter.format(startDate);
+    DateTime endDate = DateTime.parse(requirementData!.shootingEndDate!);
+    endDateTEController.text = formatter.format(endDate);
+    shootingLocationTEController.text = requirementData!.shootingLocation ?? "";
+    defineRoleTEController.text = requirementData!.defineRole ?? "";
+    splSkillRequiredTEController.text =
+        requirementData!.specialSkillRequired ?? "";
+    scriptForAuditionTEController.text =
+        requirementData!.scriptForAuditions ?? "";
+    DateTime reqEndDate = DateTime.parse(requirementData!.requirementEndDate!);
+    requirementEndDateTEController.text = formatter.format(reqEndDate);
+    fbLinkTEController.text = requirementData!.fbLink ?? "";
+    wpLinkTEController.text = requirementData!.wpLink ?? "";
+    ytLinkTEController.text = requirementData!.ytLink ?? "";
+    instaLinkTEController.text = requirementData!.instalink ?? "";
+    emailLinkTEController.text = requirementData!.emailLink ?? "";
+    websiteLinkTEController.text = requirementData!.websiteLink ?? "";
+    salaryTEController.text = requirementData!.salary.toString() ?? "";
+    salaryTypeTEController.text = requirementData!.salaryType ?? "";
+    Get.toNamed(RouteHelper.requirementFormPage);
   }
 }

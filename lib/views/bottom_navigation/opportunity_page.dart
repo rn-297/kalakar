@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
@@ -50,6 +51,7 @@ class OpportunityPage extends StatelessWidget {
                         CustomMobileButtonWidget(
                             text: KalakarConstants.createRequirement,
                             onTap: () {
+                              controller.selectedRequirementId = 0;
                               Get.toNamed(RouteHelper.requirementFormPage);
                             },
                             horizontalPadding: 20.w,
@@ -68,13 +70,17 @@ class OpportunityPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     ObjResponesRequirementDetailsList requirementData =
                         controller.requirementDetailsList[index];
+                    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+                    DateTime shootingDate =
+                        DateTime.parse(requirementData!.shootingStartDate!);
+                    String date = formatter.format(shootingDate);
                     return Container(
                       margin:
                           EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.h),
                       decoration: BoxDecoration(
                         color: KalakarColors.lightAppBarBackground,
                         borderRadius: BorderRadius.circular(
-                          8.h,
+                          8.r,
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -83,70 +89,96 @@ class OpportunityPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: IntrinsicHeight(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: requirementData.companyLogo == null
-                                    ? Image.asset(
-                                        "assets/images/movie.png",
-                                        fit: BoxFit.fill,
-                                      )
-                                    : Image.network(
-                                        requirementData.companyLogo ?? "",
-                                        fit: BoxFit.fill,
-                                      )),
-                            Expanded(
-                                flex: 3,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.h),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            requirementData.requirementTitle!,
-                                            style: TextStyle(
-                                                fontSize: 20.sp,
-                                                color: KalakarColors.headerText,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Icon(Icons.arrow_forward_ios)
-                                        ],
-                                      ),
-                                      Text(requirementData
-                                              .requirementDescription! ??
-                                          ""),
-                                      SizedBox(
-                                        height: 8.h,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(requirementData
-                                              .shootingLocation!),
-                                          Text(requirementData
-                                              .shootingStartDate!),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(requirementData.gender!),
-                                          Text(requirementData.age!),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ],
+                      child: InkWell(
+                        onTap: () {
+                          controller.setOpportunityData(requirementData);
+                        },
+                        child: IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: requirementData.companyLogo == null
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(8.r),
+                                                bottomLeft:
+                                                    Radius.circular(8.r),
+                                              ),
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                  "assets/images/movie.png",
+                                                ),
+                                                fit: BoxFit.fill,
+                                              )),
+                                        ) //requirementData.companyLogo ?? "",
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(8.r),
+                                                bottomLeft:
+                                                    Radius.circular(8.r),
+                                              ),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  requirementData.companyLogo ??
+                                                      "",
+                                                ),
+                                                fit: BoxFit.fill,
+                                              )),
+                                        )),
+                              Expanded(
+                                  flex: 4,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.h),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              requirementData.requirementTitle!,
+                                              style: TextStyle(
+                                                  fontSize: 20.sp,
+                                                  color:
+                                                      KalakarColors.headerText,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Icon(Icons.arrow_forward_ios)
+                                          ],
+                                        ),
+                                        Text(requirementData
+                                                .requirementDescription! ??
+                                            ""),
+                                        SizedBox(
+                                          height: 8.h,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(requirementData
+                                                .shootingLocation!),
+                                            Text(date),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(requirementData.gender!),
+                                            Text(requirementData.age!),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
                     );

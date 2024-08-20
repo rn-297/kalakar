@@ -142,10 +142,7 @@ class ArtistProfileController extends GetxController {
   @override
   onInit() {
     super.onInit();
-    getArtistProfileBasic();
-    getArtistProfileEducation(0);
-    getArtistProfileComfortableIn(0);
-    getArtistProfileHobbies(0);
+    checkIfArtist();
   }
 
   setDate(String type, DateTime date) {
@@ -808,7 +805,6 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-
   Future<void> getArtistExperience(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
@@ -827,7 +823,7 @@ class ArtistProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ArtistExperienceListClass artistExperienceListClass =
-        ArtistExperienceListClass.fromJson(jsonDecode(response.body));
+            ArtistExperienceListClass.fromJson(jsonDecode(response.body));
         if (artistExperienceListClass.replayStatus ?? false) {
           artistExperienceList = artistExperienceListClass.experienceList!;
           update();
@@ -858,7 +854,7 @@ class ArtistProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ArtistExperienceListClass artistExperienceListClass =
-        ArtistExperienceListClass.fromJson(jsonDecode(response.body));
+            ArtistExperienceListClass.fromJson(jsonDecode(response.body));
         if (artistExperienceListClass.replayStatus ?? false) {
           artistExperienceList = artistExperienceListClass.experienceList!;
           update();
@@ -870,7 +866,6 @@ class ArtistProfileController extends GetxController {
       }
     }
   }
-
 
   Future<void> getArtistProfileApplyFor() async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -980,5 +975,16 @@ class ArtistProfileController extends GetxController {
 
   void validateHobbiesForm() {
     if (_formHobbiesKey.currentState!.validate()) {}
+  }
+
+  Future<void> checkIfArtist() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null &&
+        loginTable.accountType == KalakarConstants.artist) {
+      getArtistProfileBasic();
+      getArtistProfileEducation(0);
+      getArtistProfileComfortableIn(0);
+      getArtistProfileHobbies(0);
+    }
   }
 }
