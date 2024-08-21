@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/data/models/artist_master_data.dart';
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 
@@ -65,16 +66,23 @@ class RequirementController extends GetxController {
   //lists
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
   List<String> genderList = ["Male", "Female", "Other"];
+  List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
   List<String> hairColorList = [
     "Black",
     "Brown",
-    "Auburn",
     "Red",
     "Blond",
     "Gray and white"
   ];
-  List<String> bodyTypeList = ["good looking", "slim", "muscular"];
+  List<String> bodyTypeList = ["Good Looking", "Slim", "Muscular"];
+  List<String> eyeColorList = ["Light Brown", "Black", "White"];
   List<String> requirementStatusList = ["Save as Draft", "Published", "Closed"];
+
+  List<ComfortableListMaster> comfortableInMasterList = [];
+  List<HaiColorMasterList> hairColorMasterList = [];
+  List<BodyTypeMasterList> bodyTypeMasterList = [];
+  List<EyeColorMasterList> eyeColorMasterList = [];
+  List<RequirementStatusMasterList> requirementStatusMasterList = [];
 
   //integers
 
@@ -439,6 +447,86 @@ class RequirementController extends GetxController {
     Get.toNamed(RouteHelper.requirementFormPage);
   }
 
+  Future<void> artistProfileMaster() async {
+    final body = <String, dynamic>{};
+
+    var response =
+        await ApiClient.postData(KalakarConstants.artistProfileMasterApi, body);
+    // print(response.statusCode);
+    // print(response);
+
+    if (response.statusCode == 200) {
+      ArtistMasterClass artistMasterClass =
+          ArtistMasterClass.fromJson(jsonDecode(response.body));
+      if (artistMasterClass.replayStatus ?? false) {
+        comfortableInMasterList = artistMasterClass.comfortableListMaster!;
+        hairColorMasterList = artistMasterClass.haiColorMasterList!;
+        bodyTypeMasterList = artistMasterClass.bodyTypeMasterList!;
+        eyeColorMasterList = artistMasterClass.eyeColorMasterList!;
+        requirementStatusMasterList =
+            artistMasterClass.requirementStatusMasterList!;
+
+        // Extract only the 'name' strings
+        List<String> names = comfortableInMasterList
+            .map((status) => status.name as String)
+            .toList();
+        comfortableInList = names;
+        names =
+            hairColorMasterList.map((status) => status.name as String).toList();
+        hairColorList = names;
+        names =
+            bodyTypeMasterList.map((status) => status.name as String).toList();
+        bodyTypeList = names;
+        names =
+            eyeColorMasterList.map((status) => status.name as String).toList();
+        eyeColorList = names;
+        names = requirementStatusMasterList
+            .map((status) => status.name as String)
+            .toList();
+        requirementStatusList = names;
+        update();
+      }
+    }
+  }
+
+  void emptyOpportunityData() async {
+    selectedRequirementId = 0;
+    requirementPhoto = "";
+    requirementTitleTEController.text = "";
+    requirementStatusTEController.text = "";
+    descriptionTEController.text = "";
+    lookingForTEController.text = "";
+    ageTEController.text = "";
+    languageTEController.text = "";
+    noOfOpeningsTEController.text = "";
+    genderTEController.text = "";
+    heightTEController.text = "";
+    weightTEController.text = "";
+    hairColorTEController.text = "";
+    bodyTypeTEController.text = "";
+    experienceTEController.text = "";
+
+    startDateTEController.text = "";
+
+    endDateTEController.text = "";
+    shootingLocationTEController.text = "";
+    defineRoleTEController.text = "";
+    splSkillRequiredTEController.text = "";
+    comfortableInTEController.text = "";
+    scriptForAuditionTEController.text = "";
+
+    requirementEndDateTEController.text = "";
+    fbLinkTEController.text = "";
+    wpLinkTEController.text = "";
+    ytLinkTEController.text = "";
+    instaLinkTEController.text = "";
+    emailLinkTEController.text = "";
+    websiteLinkTEController.text = "";
+    salaryTEController.text = "";
+    salaryTypeTEController.text = "";
+    Get.toNamed(RouteHelper.requirementFormPage);
+  }
+
   void setHairColorValue(String selectedItem) {
     hairColorTEController.text = selectedItem;
     update();
@@ -451,11 +539,12 @@ class RequirementController extends GetxController {
 
   void setRequirementStatusValue(String selectedItem) {
     requirementStatusTEController.text = selectedItem;
-    requirementStatusId = selectedItem == requirementStatusList[0]
-        ? "0"
-        : selectedItem == requirementStatusList[1]
-            ? "1"
-            : "2";
+    requirementStatusId = requirementStatusMasterList
+        .where((status) => status.name == selectedItem)
+        .toList()
+        .first
+        .id
+        .toString();
     update();
   }
 }

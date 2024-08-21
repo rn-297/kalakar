@@ -46,7 +46,7 @@ class RequirementFormPage extends StatelessWidget {
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       centerTitle: true,
-      actions: [
+      /*actions: [
         InkWell(
           onTap: () {},
           child: Icon(
@@ -57,7 +57,7 @@ class RequirementFormPage extends StatelessWidget {
         SizedBox(
           width: 16.h,
         )
-      ],
+      ],*/
     );
   }
 
@@ -118,7 +118,7 @@ class RequirementFormPage extends StatelessWidget {
                   height: 16.h,
                 ),
                 CustomDropdownSearch(
-                  validator: Validator.validateProjectStatus,
+                  validator: Validator.validateRequirementStatus,
                   items: controller.requirementStatusList,
                   titleText: KalakarConstants.requirementStatus,
                   selectedItem: controller.requirementStatusTEController.text.isEmpty
