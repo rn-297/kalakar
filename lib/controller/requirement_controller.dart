@@ -190,7 +190,7 @@ class RequirementController extends GetxController {
               ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
-            KalakarDialogs.successDialog(
+            KalakarDialogs.successDialog1(
                 "Uploading Requirement Data", responseModel.message!);
             getRequirementDetailsCompany(0);
           } else {
@@ -207,7 +207,7 @@ class RequirementController extends GetxController {
     ProfileController profileController = Get.put(ProfileController());
     int? profileId = profileController.profileData!.companyProfileID;
     if (loginTable != null) {
-      KalakarDialogs.successDialog(
+      KalakarDialogs.loadingDialog(
           "Delete Requirement Data", "Deleting Requirement Data");
       var fields = {
         'userID': loginTable.userID,
@@ -226,7 +226,7 @@ class RequirementController extends GetxController {
         ResponseModel responseModel =
             ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus ?? false) {
-          KalakarDialogs.successDialog(
+          KalakarDialogs.successDialog1(
               "Deleting Requirement Data", responseModel.message!);
           getRequirementDetailsCompany(0);
         } else {
@@ -410,7 +410,7 @@ class RequirementController extends GetxController {
     descriptionTEController.text =
         requirementData.requirementDescription! ?? "";
     lookingForTEController.text = requirementData.requirementDescription! ?? "";
-    ageTEController.text = requirementData.age! ?? "";
+    ageTEController.text = requirementData.age!.split(".")[0] ?? "";
     languageTEController.text = requirementData.language! ?? "";
     noOfOpeningsTEController.text =
         requirementData.nUmberOfOpenings!.toString() ?? "";
@@ -419,7 +419,7 @@ class RequirementController extends GetxController {
     weightTEController.text = requirementData.weight.toString() ?? "";
     hairColorTEController.text = requirementData.hairColor.toString() ?? "";
     bodyTypeTEController.text = requirementData.bodyType.toString() ?? "";
-    experienceTEController.text = requirementData.experiences.toString() ?? "";
+    experienceTEController.text = requirementData.experiences.toString().split(".")[0] ?? "";
     DateTime startDate = DateTime.parse(requirementData!.shootingStartDate!);
     shootingStartDate = startDate;
     startDateTEController.text = formatter.format(startDate);

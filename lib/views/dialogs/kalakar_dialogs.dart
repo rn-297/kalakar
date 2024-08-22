@@ -21,6 +21,20 @@ class KalakarDialogs {
     );
   }
 
+  static successDialog1(String title, String message) {
+    Future.delayed(Duration(seconds: 2), () {
+      Get.back();
+      Get.back();
+    });
+    Get.defaultDialog(
+      title: title,
+      titleStyle: TextStyle(fontSize: 1.sp),
+      radius: 5.r,
+      barrierDismissible: false,
+      content: Text(message),
+    );
+  }
+
   static successGoLoginDialog(String title, String message) {
     Future.delayed(Duration(seconds: 2), () {
       Get.back();

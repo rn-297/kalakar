@@ -75,6 +75,7 @@ class OpportunityPage extends StatelessWidget {
                     DateTime shootingDate =
                         DateTime.parse(requirementData!.shootingStartDate!);
                     String date = formatter.format(shootingDate);
+                    print(requirementData.requirementDetailsID);
                     return Container(
                       margin:
                           EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.h),
@@ -172,7 +173,7 @@ class OpportunityPage extends StatelessWidget {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(requirementData.gender!),
-                                            Text(requirementData.age!),
+                                            Text(requirementData.age!.split(".")[0]),
                                           ],
                                         ),
                                       ],
