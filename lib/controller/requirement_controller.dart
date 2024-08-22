@@ -73,7 +73,7 @@ class RequirementController extends GetxController {
     "Blond",
     "Gray and white"
   ];
-  List<String> bodyTypeList = ["good looking", "slim", "muscular"];
+  List<String> bodyTypeList = ["Good Looking", "Slim", "Muscular"];
   List<String> requirementStatusList = ["Save as Draft", "Published", "Closed"];
 
   //integers
