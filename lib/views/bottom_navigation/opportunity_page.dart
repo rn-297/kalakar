@@ -51,8 +51,9 @@ class OpportunityPage extends StatelessWidget {
                         CustomMobileButtonWidget(
                             text: KalakarConstants.createRequirement,
                             onTap: () {
-                              controller.selectedRequirementId = 0;
-                              Get.toNamed(RouteHelper.requirementFormPage);
+                              // controller.selectedRequirementId = 0;
+                              // Get.toNamed(RouteHelper.requirementFormPage);
+                              controller.emptyOpportunityData();
                             },
                             horizontalPadding: 20.w,
                             verticalPadding: 8.h,
@@ -98,7 +99,7 @@ class OpportunityPage extends StatelessWidget {
                             children: [
                               Expanded(
                                   flex: 2,
-                                  child: requirementData.companyLogo == null
+                                  child: requirementData.refPhotoName == null
                                       ? Container(
                                           decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
@@ -122,7 +123,7 @@ class OpportunityPage extends StatelessWidget {
                                               ),
                                               image: DecorationImage(
                                                 image: NetworkImage(
-                                                  requirementData.companyLogo ??
+                                                  requirementData.refPhotoName ??
                                                       "",
                                                 ),
                                                 fit: BoxFit.fill,
