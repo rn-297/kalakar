@@ -24,6 +24,8 @@ class LoginTable {
   final int verificationStatusID;
   @HiveField(10)
   final bool isverifiedContacts;
+  @HiveField(11)
+  final int profileId;
 
   const LoginTable(
     this.accountID,
@@ -37,5 +39,6 @@ class LoginTable {
     this.verificationStatus,
     this.verificationStatusID,
     this.isverifiedContacts,
+    this.profileId,
   );
 }

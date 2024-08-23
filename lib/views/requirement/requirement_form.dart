@@ -121,9 +121,10 @@ class RequirementFormPage extends StatelessWidget {
                   validator: Validator.validateRequirementStatus,
                   items: controller.requirementStatusList,
                   titleText: KalakarConstants.requirementStatus,
-                  selectedItem: controller.requirementStatusTEController.text.isEmpty
-                      ? null
-                      : controller.requirementStatusTEController.text,
+                  selectedItem:
+                      controller.requirementStatusTEController.text.isEmpty
+                          ? null
+                          : controller.requirementStatusTEController.text,
                   labelText: KalakarConstants.requirementStatus,
                   onItemSelected: (selectedItem) {
                     controller.setRequirementStatusValue(selectedItem);
@@ -423,15 +424,19 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.comfortableInTEController,
-                    labelText: KalakarConstants.comfortableIn,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateComfortableIn),
+                CustomDropdownSearch(
+                  validator: Validator.validateComfortableIn,
+                  items: controller.comfortableInList,
+                  titleText: KalakarConstants.comfortableIn,
+                  selectedItem:
+                      controller.comfortableInTEController.text.isEmpty
+                          ? null
+                          : controller.comfortableInTEController.text,
+                  labelText: KalakarConstants.comfortableIn,
+                  onItemSelected: (selectedItem) {
+                    controller.setComfortableInValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),

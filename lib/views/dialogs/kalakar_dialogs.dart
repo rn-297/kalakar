@@ -72,10 +72,10 @@ class KalakarDialogs {
         Get.offNamed(RouteHelper.bottomNavigationPage);
       } else if (accountType == KalakarConstants.company) {
         Get.offNamed(RouteHelper.bottomNavigationPage);
-        ProfileController profileController=Get.put(ProfileController());
+        ProfileController profileController = Get.put(ProfileController());
         profileController.getProfileData();
       }
-      SettingsController settingsController=Get.put(SettingsController());
+      SettingsController settingsController = Get.put(SettingsController());
       settingsController.onInit();
     });
     Get.defaultDialog(

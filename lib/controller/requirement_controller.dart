@@ -115,7 +115,6 @@ class RequirementController extends GetxController {
     super.onInit();
     // print("date time : ${DateTime(2024, DateTime.august, 15)}");
     // print("date time : ${DateTime(2024, DateTime.august, 20)}");
-    getRequirementDetailsCompany(0);
     checkIsArtist();
   }
 
@@ -166,8 +165,8 @@ class RequirementController extends GetxController {
           'EmailLink': emailLinkTEController.text.trim(),
           'WebsiteLink': websiteLinkTEController.text.trim(),
           'RefPhotoName': "image",
-          'Salary': salaryTEController.text.trim(),
-          'SalaryType': salaryTypeTEController.text.trim(),
+          'Salary': "0",
+          'SalaryType': "0",
         };
         print(fields);
 
@@ -240,14 +239,12 @@ class RequirementController extends GetxController {
   getRequirementDetailsCompany(int selectedRequirementId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
-    ProfileController profileController = Get.put(ProfileController());
-    int? profileId = profileController.profileData!.companyProfileID;
     if (loginTable != null) {
       var fields = {
         "userID": loginTable.userID,
         "requirementDetailsID": selectedRequirementId.toString(),
         "fK_AccountID": loginTable.accountID,
-        "fK_CompanyProfileID": "$profileId"
+        "fK_CompanyProfileID": "${loginTable.profileId}"
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getRequirementsDetailsCompanyApi,
@@ -395,7 +392,11 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       isArtist = loginTable.accountType == KalakarConstants.artist;
-    }
+      if (isArtist) {
+      } else {
+        getRequirementDetailsCompany(0);
+      }
+    } else {}
     update();
   }
 
@@ -419,7 +420,8 @@ class RequirementController extends GetxController {
     weightTEController.text = requirementData.weight.toString() ?? "";
     hairColorTEController.text = requirementData.hairColor.toString() ?? "";
     bodyTypeTEController.text = requirementData.bodyType.toString() ?? "";
-    experienceTEController.text = requirementData.experiences.toString().split(".")[0] ?? "";
+    experienceTEController.text =
+        requirementData.experiences.toString()!.split(".")[0] ?? "";
     DateTime startDate = DateTime.parse(requirementData!.shootingStartDate!);
     shootingStartDate = startDate;
     startDateTEController.text = formatter.format(startDate);
@@ -522,8 +524,8 @@ class RequirementController extends GetxController {
     instaLinkTEController.text = "";
     emailLinkTEController.text = "";
     websiteLinkTEController.text = "";
-    salaryTEController.text = "";
-    salaryTypeTEController.text = "";
+    salaryTEController.text = "0";
+    salaryTypeTEController.text = "0";
     Get.toNamed(RouteHelper.requirementFormPage);
   }
 
@@ -545,6 +547,11 @@ class RequirementController extends GetxController {
         .first
         .id
         .toString();
+    update();
+  }
+
+  void setComfortableInValue(String selectedItem) {
+    comfortableInTEController.text = selectedItem;
     update();
   }
 }

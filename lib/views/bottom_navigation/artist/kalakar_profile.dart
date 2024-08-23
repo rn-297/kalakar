@@ -292,25 +292,42 @@ class KalakarProfilePage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Get.toNamed(RouteHelper.artistEducationForm);
-                      },
-                      child: Text("${KalakarConstants.education} : ")),
-                  // Icon(Icons.double_arrow_outlined)
-                ],
+              Container(
+                padding: EdgeInsets.all(16.h)
+                ,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("${KalakarConstants.education} : ",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),),
+                        InkWell(
+                            onTap: () {
+                              Get.toNamed(RouteHelper.artistEducationForm);
+                            },
+                            child: Icon(Icons.edit,size: 18.sp,)),
+                        // Icon(Icons.double_arrow_outlined)
+                      ],
+                    ),
+                    SizedBox(height: 8.h,),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.artistEducationList.length,
+                        itemBuilder: (context, index) {
+                          EducationList educationData =
+                              controller.artistEducationList[index];
+                          return Column(
+                            children: [
+                              Text(educationData.course!,style: TextStyle(fontSize: 16.sp),),
+                              Text(educationData.universityOrInstitute!),
+                              Text(educationData.courseEndDate!)
+
+                            ],
+                          );
+                        }),
+                  ],
+                ),
               ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.artistEducationList.length,
-                  itemBuilder: (context, index) {
-                    EducationList educationData =
-                        controller.artistEducationList[index];
-                    return Text(educationData.course!);
-                  }),
               SizedBox(
                 height: 16.h,
               ),
