@@ -60,7 +60,7 @@ class ArtistHobbiesFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.comfortableIn,
+        KalakarConstants.hobby,
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
@@ -105,6 +105,21 @@ class ArtistHobbiesFormPage extends StatelessWidget {
                     borderRadius: 50.r,
                     fontSize: 14.sp,
                     text: KalakarConstants.saveHobby,
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  controller.artistHobbiesId=="0"?Container():CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.deleteHobbies();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 14.sp,
+                    text: KalakarConstants.deleteHobby,
+                    backgroundColor: Colors.red,
+                    textColor: KalakarColors.white,
                     horizontalPadding: 20.w,
                     verticalPadding: 8.h,
                   ),

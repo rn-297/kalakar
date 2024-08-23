@@ -37,7 +37,7 @@ class ArtistEducationFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.educationType,
+        KalakarConstants.education,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       /*actions: [
@@ -208,10 +208,28 @@ class ArtistEducationFormPage extends StatelessWidget {
                 },
                 borderRadius: 50.r,
                 fontSize: 14.sp,
-                text: KalakarConstants.saveProfile,
+                text: KalakarConstants.saveEducation,
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
               ),
+              SizedBox(
+                height: 24.h,
+              ),
+              controller.artistEducationId == "0"
+                  ? Container()
+                  : CustomMobileButtonWidget(
+                      onTap: () {
+                        controller
+                            .deleteEducationData();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      text: KalakarConstants.deleteEducation,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                      textColor: KalakarColors.white,
+                      backgroundColor: Colors.red,
+                    ),
             ]),
           ));
     }));

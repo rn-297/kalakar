@@ -12,13 +12,17 @@ import 'package:kalakar/data/models/artist/artist_experience_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_hobbies_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_interested_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
+import 'package:kalakar/data/models/generate_otp_model.dart';
+import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
+import '../data/models/artist_master_data.dart';
 import '../data/models/csv_model_class.dart';
 import '../helper/picker_helper.dart';
+import '../helper/route_helper.dart';
 import '../helper/state_city_pincode_helper/state_city_pincode_helper.dart';
 import '../utils/kalakar_constants.dart';
 import 'file_controller.dart';
@@ -157,9 +161,29 @@ class ArtistProfileController extends GetxController {
   List<ComfortableInList> artistComfortableInList = [];
   List<HobbiesList> artistHobbiesList = [];
   List<InterestList> artistInterestedInList = [];
+
   List<DocumentsList> artistDocumentsList = [];
   List<ExperienceList> artistExperienceList = [];
   List<String> genderList = ["Male", "Female", "Other"];
+  List<String> interestInList = ["Male", "Female", "Other"];
+  List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
+  List<String> hairColorList = [
+    "Black",
+    "Brown",
+    "Red",
+    "Blond",
+    "Gray and white"
+  ];
+  List<String> bodyTypeList = ["Good Looking", "Slim", "Muscular"];
+  List<String> eyeColorList = ["Light Brown", "Black", "White"];
+  List<String> requirementStatusList = ["Save as Draft", "Published", "Closed"];
+  List<InterestedListMaster> artistInterestedInMasterList = [];
+
+  List<ComfortableListMaster> comfortableInMasterList = [];
+  List<HaiColorMasterList> hairColorMasterList = [];
+  List<BodyTypeMasterList> bodyTypeMasterList = [];
+  List<EyeColorMasterList> eyeColorMasterList = [];
+  List<RequirementStatusMasterList> requirementStatusMasterList = [];
 
   @override
   onInit() {
@@ -232,10 +256,15 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Profile Data Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Profile Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -264,10 +293,15 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Education Data Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Education Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -289,10 +323,15 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Hobbies Data Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Hobbies Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -314,10 +353,15 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Interest Data Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Interest Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -339,10 +383,15 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Comfortable In Data Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Comfortable In Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -372,19 +421,43 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> artistProfileMaster() async {
+  Future<void> getArtistProfileMaster() async {
     final body = <String, dynamic>{};
 
     var response =
         await ApiClient.postData(KalakarConstants.artistProfileMasterApi, body);
-    // print(response.statusCode);
-    // print(response);
 
     if (response.statusCode == 200) {
-      // print("response successful ${response.body}");
-      // Get.defaultDialog(
-      //   content: Text("response successful ${response.body}"),
-      // );
+      ArtistMasterClass artistMasterClass =
+          ArtistMasterClass.fromJson(jsonDecode(response.body));
+      if (artistMasterClass.replayStatus ?? false) {
+        comfortableInMasterList = artistMasterClass.comfortableListMaster!;
+        hairColorMasterList = artistMasterClass.haiColorMasterList!;
+        bodyTypeMasterList = artistMasterClass.bodyTypeMasterList!;
+        eyeColorMasterList = artistMasterClass.eyeColorMasterList!;
+        artistInterestedInMasterList = artistMasterClass.interestedListMaster!;
+
+        // Extract only the 'name' strings
+        List<String> names = comfortableInMasterList
+            .map((status) => status.name as String)
+            .toList();
+        comfortableInList = names;
+        names =
+            hairColorMasterList.map((status) => status.name as String).toList();
+        hairColorList = names;
+        names =
+            bodyTypeMasterList.map((status) => status.name as String).toList();
+        bodyTypeList = names;
+        names =
+            eyeColorMasterList.map((status) => status.name as String).toList();
+        eyeColorList = names;
+        names = artistInterestedInMasterList
+            .map((status) => status.name as String)
+            .toList();
+        interestInList = names;
+
+        update();
+      }
     }
   }
 
@@ -838,7 +911,7 @@ class ArtistProfileController extends GetxController {
       };
 
       var response = await ApiClient.postDataToken(
-          KalakarConstants.getArtistProfileDocumentsApi,
+          KalakarConstants.getArtistExperienceApi,
           jsonEncode(body),
           loginTable.token);
       // print(response.statusCode);
@@ -999,7 +1072,9 @@ class ArtistProfileController extends GetxController {
   }
 
   void validateEducationForm() {
-    if (_formEducationKey.currentState!.validate()) {}
+    if (_formEducationKey.currentState!.validate()) {
+      saveArtistProfileEducation();
+    }
   }
 
   void validateComfortableInForm() {
@@ -1030,14 +1105,48 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null &&
         loginTable.accountType == KalakarConstants.artist) {
+      getArtistProfileMaster();
       getArtistProfileBasic();
       getArtistProfileEducation(0);
       getArtistProfileComfortableIn(0);
       getArtistProfileHobbies(0);
+      getArtistProfileInterest(0);
+      getArtistExperience(0);
     }
   }
 
   void setGenderValue(String value) {
     genderTEController.text = value;
   }
+
+  void addNewEducationClick() {
+    artistEducationId = "0";
+    educationTypeTEController.text = "";
+    universityOrInstituteTEController.text = "";
+    courseTEController.text = "";
+    courseTypeTEController.text = "";
+    courseStartDateTEController.text = "";
+    courseEndDateTEController.text = "";
+    scoreTEController.text = "";
+    Get.toNamed(RouteHelper.artistEducationForm);
+  }
+
+  void deleteEducationData() {}
+
+  void setComfortableInValue(String selectedItem) {
+    comfortableInTEController.text = selectedItem;
+    comfortableInMasterId = comfortableInMasterList
+        .where((status) => status.name == selectedItem)
+        .toList()
+        .first
+        .id
+        .toString();
+    update();
+  }
+
+  void deleteComfortableIn() {}
+
+  void deleteHobbies() {}
+
+  void setInterestedInValue(String selectedItem) {}
 }

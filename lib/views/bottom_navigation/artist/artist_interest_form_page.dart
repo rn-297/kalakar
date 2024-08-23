@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
+import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/textfield_validators.dart';
@@ -86,15 +87,18 @@ class ArtistInterestFormPage extends StatelessWidget {
           child: Form(
             key: controller.formInterestedInKey,
             child: Column(children: [
-              CommonWidgets.commonMobileTextField(
-                  controller: controller.interestedInTEController,
-                  labelText: KalakarConstants.interestIn,
-                  obscureText: false,
-                  textInputType: TextInputType.text,
-                  passwordVisibility: false,
-                  borderRadius: 12.r,
-                  togglePasswordVisibility: () {},
-                  validator: Validator.validateInterestedIn),
+              CustomDropdownSearch(
+                validator: Validator.validateInterestedIn,
+                items: controller.interestInList,
+                titleText: KalakarConstants.interestIn,
+                selectedItem: controller.interestedInTEController.text.isEmpty
+                    ? null
+                    : controller.interestedInTEController.text,
+                labelText: KalakarConstants.interestIn,
+                onItemSelected: (selectedItem) {
+                  controller.setInterestedInValue(selectedItem);
+                },
+              ),
               SizedBox(
                 height: 24.h,
               ),

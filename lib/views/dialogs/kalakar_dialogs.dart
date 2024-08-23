@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/controller/settings_controller.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
@@ -70,6 +71,8 @@ class KalakarDialogs {
       Get.back();
       if (accountType == KalakarConstants.artist) {
         Get.offNamed(RouteHelper.bottomNavigationPage);
+        ArtistProfileController artistProfileController=Get.put(ArtistProfileController());
+        artistProfileController.checkIfArtist();
       } else if (accountType == KalakarConstants.company) {
         Get.offNamed(RouteHelper.bottomNavigationPage);
         ProfileController profileController = Get.put(ProfileController());

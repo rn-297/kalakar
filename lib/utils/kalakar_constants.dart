@@ -50,6 +50,7 @@ class KalakarConstants {
       "/ArtistProfile/GetArtistProfile_Documents";
   static const String getArtistPortfolioApi =
       "/ArtistProfile/GetArtistProfile_Portfolio";
+  static const String getArtistExperienceApi = "/ArtistProfile/GetArtistProfile_Experience";
 
   //company profile apis
   static const String saveCompanyProfileBasicsApi =
@@ -215,7 +216,6 @@ class KalakarConstants {
   static const String male = "Male";
   static const String female = "Female";
 
-
   //Profile
   static const String companyName = "Company Name / Production House";
   static const String companyLogo = "Company Logo";
@@ -288,8 +288,14 @@ class KalakarConstants {
   static const String camera = "Camera";
   static const String gallery = "Gallery";
   static const String saveDocuments = "Save Documents";
+  static const String saveComfortableIn = "Save Comfortable In";
   static const String saveExperience = "Save Experience";
   static const String saveHobby = "Save Hobby";
   static const String saveInterestedIn = "Save Interested In";
+  static const String deleteEducation = "Delete Education";
+  static const String deleteComfortableIn = "Delete Comfortable In";
+  static const String deleteHobby = "Delete Hobby";
+
+
 // static const String roleProfile = "roleProfile";
 }

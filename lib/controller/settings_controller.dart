@@ -16,29 +16,31 @@ class SettingsController extends GetxController {
 
   void setSettingsList() async {
     LoginTable? loginTable = await HiveService.getLoginData();
-    print(loginTable!.accountType!);
-    if (loginTable!.accountType == KalakarConstants.artist) {
-      settingsList = [
-        KalakarConstants.myProfile,
-        KalakarConstants.myApplications,
-        KalakarConstants.myFavourites,
-        KalakarConstants.aboutUs,
-        KalakarConstants.help,
-        KalakarConstants.privacyPolicy,
-        KalakarConstants.termsNConditions,
-        KalakarConstants.referralCode1
-      ];
-    }else{
-      settingsList = [
-        KalakarConstants.myProfile,
-        KalakarConstants.myApplications,
-        KalakarConstants.myFavourites,
-        KalakarConstants.aboutUs,
-        KalakarConstants.help,
-        KalakarConstants.privacyPolicy,
-        KalakarConstants.termsNConditions,
-        KalakarConstants.referralCode1
-      ];
+    if (loginTable!=null) {
+      print(loginTable!.accountType!);
+      if (loginTable!.accountType == KalakarConstants.artist) {
+        settingsList = [
+          KalakarConstants.myProfile,
+          KalakarConstants.myApplications,
+          KalakarConstants.myFavourites,
+          KalakarConstants.aboutUs,
+          KalakarConstants.help,
+          KalakarConstants.privacyPolicy,
+          KalakarConstants.termsNConditions,
+          KalakarConstants.referralCode1
+        ];
+      }else{
+        settingsList = [
+          KalakarConstants.myProfile,
+          KalakarConstants.myApplications,
+          KalakarConstants.myFavourites,
+          KalakarConstants.aboutUs,
+          KalakarConstants.help,
+          KalakarConstants.privacyPolicy,
+          KalakarConstants.termsNConditions,
+          KalakarConstants.referralCode1
+        ];
+      }
     }
     update();
   }

@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
+import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/route_helper.dart';
@@ -87,18 +88,17 @@ class ArtistComfortableInFormPage extends StatelessWidget {
           child: Form(
             key: controller.formComfortableInKey,
             child: Column(children: [
-              InkWell(
-                // onTap: () {},
-                child: CommonWidgets.commonMobileTextField(
-                    controller: controller.comfortableInTEController,
-                    labelText: KalakarConstants.comfortableIn,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    editable: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateComfortableIn),
+              CustomDropdownSearch(
+                validator: Validator.validateComfortableIn,
+                items: controller.comfortableInList,
+                titleText: KalakarConstants.comfortableIn,
+                selectedItem: controller.comfortableInTEController.text.isEmpty
+                    ? null
+                    : controller.comfortableInTEController.text,
+                labelText: KalakarConstants.comfortableIn,
+                onItemSelected: (selectedItem) {
+                  controller.setComfortableInValue(selectedItem);
+                },
               ),
               SizedBox(
                 height: 24.h,
@@ -109,10 +109,27 @@ class ArtistComfortableInFormPage extends StatelessWidget {
                 },
                 borderRadius: 50.r,
                 fontSize: 14.sp,
-                text: KalakarConstants.saveDocuments,
+                text: KalakarConstants.saveComfortableIn,
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
               ),
+              SizedBox(
+                height: 24.h,
+              ),
+              controller.comfortableInMasterId == "0"
+                  ? Container()
+                  : CustomMobileButtonWidget(
+                      onTap: () {
+                        controller.deleteComfortableIn();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      backgroundColor: Colors.red,
+                      textColor: KalakarColors.white,
+                      text: KalakarConstants.deleteComfortableIn,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                    ),
             ]),
           ));
     }));

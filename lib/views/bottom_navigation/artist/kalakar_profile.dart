@@ -10,6 +10,9 @@ import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/custom_widgets/custom_divider/custom_dashed_divider.dart';
 import 'package:kalakar/data/models/artist/artist_comfortable_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_education_list_class.dart';
+import 'package:kalakar/data/models/artist/artist_experience_list_class.dart';
+import 'package:kalakar/data/models/artist/artist_hobbies_list_class.dart';
+import 'package:kalakar/data/models/artist/artist_interested_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -293,35 +296,85 @@ class KalakarProfilePage extends StatelessWidget {
                 height: 16.h,
               ),
               Container(
-                padding: EdgeInsets.all(16.h)
-                ,
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.backgroundGrey,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${KalakarConstants.education} : ",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),),
+                        Text(
+                          "${KalakarConstants.education} : ",
+                          style: TextStyle(
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
+                        ),
                         InkWell(
                             onTap: () {
-                              Get.toNamed(RouteHelper.artistEducationForm);
+                              controller.addNewEducationClick();
                             },
-                            child: Icon(Icons.edit,size: 18.sp,)),
-                        // Icon(Icons.double_arrow_outlined)
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.h)),
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                ))),
                       ],
                     ),
-                    SizedBox(height: 8.h,),
+                    SizedBox(
+                      height: 8.h,
+                    ),
                     ListView.builder(
                         shrinkWrap: true,
                         itemCount: controller.artistEducationList.length,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           EducationList educationData =
                               controller.artistEducationList[index];
                           return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(educationData.course!,style: TextStyle(fontSize: 16.sp),),
-                              Text(educationData.universityOrInstitute!),
-                              Text(educationData.courseEndDate!)
-
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    educationData.course!,
+                                    style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            RouteHelper.artistEducationForm);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 18.sp,
+                                      )),
+                                ],
+                              ),
+                              Text(
+                                educationData.universityOrInstitute!,
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                              Text(
+                                educationData.courseEndDate!,
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              )
                             ],
                           );
                         }),
@@ -331,52 +384,251 @@ class KalakarProfilePage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Get.toNamed(RouteHelper.artistComfortableInForm);
-                      },
-                      child: Text("${KalakarConstants.comfortableIn} : ")),
-                  // Icon(Icons.double_arrow_outlined)
-                ],
+              Container(
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.backgroundGrey,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${KalakarConstants.comfortableIn} : ",
+                          style: TextStyle(
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Get.toNamed(RouteHelper
+                                  .artistComfortableInForm);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.h)),
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                ))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.artistComfortableInList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          ComfortableInList comfortableInData =
+                              controller.artistComfortableInList[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    comfortableInData.comfortableName!,
+                                    style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        Get.toNamed(RouteHelper
+                                            .artistComfortableInForm);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 18.sp,
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8.h,
+                              )
+                            ],
+                          );
+                        }),
+                  ],
+                ),
               ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.artistComfortableInList.length,
-                  itemBuilder: (context, index) {
-                    ComfortableInList comfortableInData =
-                    controller.artistComfortableInList[index];
-                    return Text(comfortableInData.comfortableName!);
-                  }),
               SizedBox(
                 height: 16.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Get.toNamed(RouteHelper.artistHobbiesFrom);
-                      },
-                      child: Text("${KalakarConstants.hobby} : ")),
-                  // Icon(Icons.double_arrow_outlined)
-                ],
+              Container(
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.backgroundGrey,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${KalakarConstants.hobby} : ",
+                          style: TextStyle(
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Get.toNamed(
+                                  RouteHelper.artistHobbiesFrom);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.h)),
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                ))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.artistHobbiesList.length,
+                        physics: NeverScrollableScrollPhysics(),
+
+                        itemBuilder: (context, index) {
+                          HobbiesList hobbiesData =
+                              controller.artistHobbiesList[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    hobbiesData.hobbyName!,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            RouteHelper.artistHobbiesFrom);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 18.sp,
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              )
+                            ],
+                          );
+                        }),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 16.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Get.toNamed(RouteHelper.artistInterestForm);
-                      },
-                      child: Text("${KalakarConstants.interestIn} : ")),
-                  // Icon(Icons.double_arrow_outlined)
-                ],
+              Container(
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.backgroundGrey,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${KalakarConstants.interestIn} : ",
+                          style: TextStyle(
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Get.toNamed(
+                                  RouteHelper.artistInterestForm);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.h)),
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                ))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.artistInterestedInList.length,
+                        physics: NeverScrollableScrollPhysics(),
+
+                        itemBuilder: (context, index) {
+                          InterestList interestInData =
+                              controller.artistInterestedInList[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    interestInData.interestedName!,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            RouteHelper.artistInterestForm);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 18.sp,
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              )
+                            ],
+                          );
+                        }),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 24.h,
@@ -406,11 +658,86 @@ class KalakarProfilePage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              InkWell(
-                  onTap: () {
-                    Get.toNamed(RouteHelper.artistExperienceForm);
-                  },
-                  child: Text(KalakarConstants.experience)),
+              Container(
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.backgroundGrey,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${KalakarConstants.experience} : ",
+                          style: TextStyle(
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Get.toNamed(
+                                  RouteHelper.artistExperienceForm);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.h)),
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                ))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.artistExperienceList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          ExperienceList expereinceData =
+                          controller.artistExperienceList[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    expereinceData.roleProfile!,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            RouteHelper.artistInterestForm);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 18.sp,
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              )
+                            ],
+                          );
+                        }),
+                  ],
+                ),
+              ),
             ],
           );
         }),
