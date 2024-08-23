@@ -79,7 +79,6 @@ class AuthPageController extends GetxController {
 
   get formCreateAccountKey => _formCreateAccountKey;
 
-
   void getStartedCall() {
     if (_formGetOtpKey.currentState!.validate() &&
         validateOtp() &&
@@ -358,7 +357,8 @@ class AuthPageController extends GetxController {
             loginDataClass.userID ?? "",
             loginDataClass.verificationStatus ?? "",
             loginDataClass.verificationStatusID ?? 0,
-            loginDataClass.isverifiedContacts ?? false);
+            loginDataClass.isverifiedContacts ?? false,
+            loginDataClass.profileID ?? 0);
         HiveService.saveLoginData(loginTable);
         KalakarDialogs.goHomePage("Login Success", loginDataClass.message!,
             loginDataClass.accountType!);

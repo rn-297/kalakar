@@ -28,13 +28,14 @@ class LoginTableAdapter extends TypeAdapter<LoginTable> {
       fields[8] as String,
       fields[9] as int,
       fields[10] as bool,
+      fields[11] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, LoginTable obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.accountID)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class LoginTableAdapter extends TypeAdapter<LoginTable> {
       ..writeByte(9)
       ..write(obj.verificationStatusID)
       ..writeByte(10)
-      ..write(obj.isverifiedContacts);
+      ..write(obj.isverifiedContacts)
+      ..writeByte(11)
+      ..write(obj.profileId);
   }
 
   @override

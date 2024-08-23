@@ -1,4 +1,6 @@
 class LoginDataClass {
+  bool? replayStatus;
+  String? message;
   String? accountID;
   String? email;
   String? mobileNumber;
@@ -10,12 +12,13 @@ class LoginDataClass {
   String? verificationStatus;
   int? verificationStatusID;
   bool? isverifiedContacts;
-  bool? replayStatus;
-  String? message;
-  dynamic data;
+  int? profileID;
+
 
   LoginDataClass(
-      {this.accountID,
+      {this.replayStatus,
+        this.message,
+        this.accountID,
         this.email,
         this.mobileNumber,
         this.accountType,
@@ -26,11 +29,12 @@ class LoginDataClass {
         this.verificationStatus,
         this.verificationStatusID,
         this.isverifiedContacts,
-        this.replayStatus,
-        this.message,
-        this.data});
+        this.profileID,
+      });
 
   LoginDataClass.fromJson(Map<String, dynamic> json) {
+    replayStatus = json['replayStatus'];
+    message = json['message'];
     accountID = json['accountID'];
     email = json['email'];
     mobileNumber = json['mobileNumber'];
@@ -41,14 +45,14 @@ class LoginDataClass {
     userID = json['userID'];
     verificationStatus = json['verificationStatus'];
     verificationStatusID = json['verificationStatusID'];
+    profileID = json['profileID'];
     isverifiedContacts = json['isverifiedContacts'];
-    replayStatus = json['replayStatus'];
-    message = json['message'];
-    data = json['data'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['replayStatus'] = this.replayStatus;
+    data['message'] = this.message;
     data['accountID'] = this.accountID;
     data['email'] = this.email;
     data['mobileNumber'] = this.mobileNumber;
@@ -59,10 +63,8 @@ class LoginDataClass {
     data['userID'] = this.userID;
     data['verificationStatus'] = this.verificationStatus;
     data['verificationStatusID'] = this.verificationStatusID;
+    data['profileID'] = this.profileID;
     data['isverifiedContacts'] = this.isverifiedContacts;
-    data['replayStatus'] = this.replayStatus;
-    data['message'] = this.message;
-    data['data'] = this.data;
     return data;
   }
 }
