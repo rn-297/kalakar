@@ -6,6 +6,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../helper/common_widgets.dart';
+import '../../../helper/date_picker_helper.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/textfield_validators.dart';
 import '../../../utils/kalakar_constants.dart';
@@ -35,7 +36,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.artistDocuments,
+        KalakarConstants.experience1,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       /* actions: [
@@ -60,7 +61,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.education,
+        KalakarConstants.experience,
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
@@ -110,27 +111,44 @@ class ArtistExperienceFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
-                  controller: controller.expStartDateTEController,
-                  labelText: KalakarConstants.startDate,
-                  obscureText: false,
-                  textInputType: TextInputType.text,
-                  passwordVisibility: false,
-                  borderRadius: 12.r,
-                  togglePasswordVisibility: () {},
-                  validator: Validator.validateStartDate),
+              InkWell(
+                onTap: () async {
+                  final date = await DatePickerHelper.selectDate(context);
+                  if (date != null) {
+                    controller.setDate(KalakarConstants.expStartDate, date);
+                  }
+                },
+                child: CommonWidgets.commonMobileTextField(
+                    controller: controller.expStartDateTEController,
+                    labelText: KalakarConstants.startDate,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    editable: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateStartDate),
+              ),
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
-                  controller: controller.expEndDateTEController,
-                  labelText: KalakarConstants.endDate,
-                  obscureText: false,
-                  textInputType: TextInputType.text,
-                  passwordVisibility: false,
-                  borderRadius: 12.r,
-                  togglePasswordVisibility: () {},
-                  validator: Validator.validateEndDate),
+              InkWell(
+                onTap: () async {
+                  final date = await DatePickerHelper.selectDate(context);
+                  if (date != null) {
+                    controller.setDate(KalakarConstants.expEndDate, date);
+                  }
+                },
+                child: CommonWidgets.commonMobileTextField(
+                    controller: controller.expEndDateTEController,
+                    labelText: KalakarConstants.endDate,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateEndDate),
+              ),
               SizedBox(
                 height: 16.h,
               ),
@@ -170,6 +188,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     editable: false,
+                    isSuffixIcon: true,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),
@@ -189,6 +208,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     editable: false,
+                    isSuffixIcon: true,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),
@@ -206,6 +226,23 @@ class ArtistExperienceFormPage extends StatelessWidget {
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
               ),
+              SizedBox(
+                height: 24.h,
+              ),
+              controller.artistExperienceId == "0"
+                  ? Container()
+                  : CustomMobileButtonWidget(
+                      onTap: () {
+                        controller.deleteExperienceForm();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      backgroundColor: Colors.red,
+                      textColor: KalakarColors.white,
+                      text: KalakarConstants.deleteExperience,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                    ),
             ]),
           ));
     }));

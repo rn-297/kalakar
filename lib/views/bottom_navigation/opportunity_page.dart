@@ -78,7 +78,7 @@ class OpportunityPage extends StatelessWidget {
                     print(requirementData.requirementDetailsID);
                     return Container(
                       margin:
-                          EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.h),
+                          EdgeInsets.symmetric(vertical: 12.h, horizontal: 4.h),
                       decoration: BoxDecoration(
                         color: KalakarColors.lightAppBarBackground,
                         borderRadius: BorderRadius.circular(
@@ -102,11 +102,10 @@ class OpportunityPage extends StatelessWidget {
                                   flex: 2,
                                   child: requirementData.refPhotoName == null
                                       ? Container(
+                                    margin: EdgeInsets.all(2.h),
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(8.r),
-                                                bottomLeft:
-                                                    Radius.circular(8.r),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(8.r),
                                               ),
                                               image: DecorationImage(
                                                 image: AssetImage(
@@ -116,10 +115,10 @@ class OpportunityPage extends StatelessWidget {
                                               )),
                                         ) //requirementData.companyLogo ?? "",
                                       : Container(
+                                    margin: EdgeInsets.all(2.h),
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(8.r),
-                                                bottomLeft:
+                                              borderRadius: BorderRadius.all(
+
                                                     Radius.circular(8.r),
                                               ),
                                               image: DecorationImage(
@@ -145,7 +144,7 @@ class OpportunityPage extends StatelessWidget {
                                             Text(
                                               requirementData.requirementTitle!,
                                               style: TextStyle(
-                                                  fontSize: 20.sp,
+                                                  fontSize: 16.sp,
                                                   color:
                                                       KalakarColors.headerText,
                                                   fontWeight: FontWeight.bold),
@@ -210,7 +209,7 @@ class OpportunityPage extends StatelessWidget {
               itemCount: 10,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.h),
+                  margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.h),
                   padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.h),
                   decoration: BoxDecoration(
                     color: KalakarColors.lightAppBarBackground,

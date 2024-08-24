@@ -112,6 +112,23 @@ class ArtistInterestFormPage extends StatelessWidget {
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
               ),
+              SizedBox(
+                height: 24.h,
+              ),
+              controller.interestInMasterId == "0"
+                  ? Container()
+                  : CustomMobileButtonWidget(
+                      onTap: () {
+                        controller.deleteInterestIn();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      text: KalakarConstants.deleteInterestIn,
+                      backgroundColor: Colors.red,
+                      textColor: KalakarColors.white,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                    ),
             ]),
           ));
     }));

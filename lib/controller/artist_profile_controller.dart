@@ -203,6 +203,12 @@ class ArtistProfileController extends GetxController {
       case KalakarConstants.courseEndDate:
         courseEndDate = date;
         courseEndDateTEController.text = formatter.format(date);
+      case KalakarConstants.expStartDate:
+        expStartDate = date;
+        expStartDateTEController.text = formatter.format(date);
+      case KalakarConstants.expEndDate:
+        expEndDate = date;
+        expEndDateTEController.text = formatter.format(date);
     }
   }
 
@@ -1078,27 +1084,39 @@ class ArtistProfileController extends GetxController {
   }
 
   void validateComfortableInForm() {
-    if (_formComfortableInKey.currentState!.validate()) {}
+    if (_formComfortableInKey.currentState!.validate()) {
+      saveArtistProfileComfortableIn();
+    }
   }
 
   void validateDocumentsForm() {
-    if (_formDocumentKey.currentState!.validate()) {}
+    if (_formDocumentKey.currentState!.validate()) {
+      saveArtistProfileDocuments();
+    }
   }
 
   void validateExperienceForm() {
-    if (_formExperienceKey.currentState!.validate()) {}
+    if (_formExperienceKey.currentState!.validate()) {
+      saveArtistProfileExperience();
+    }
   }
 
   void validateInterestedInForm() {
-    if (_formInterestedInKey.currentState!.validate()) {}
+    if (_formInterestedInKey.currentState!.validate()) {
+      saveArtistProfileInterest();
+    }
   }
 
   void validatePortfolioForm() {
-    if (_formPortFolioKey.currentState!.validate()) {}
+    if (_formPortFolioKey.currentState!.validate()) {
+      saveArtistProfilePortFolio();
+    }
   }
 
   void validateHobbiesForm() {
-    if (_formHobbiesKey.currentState!.validate()) {}
+    if (_formHobbiesKey.currentState!.validate()) {
+      saveArtistProfileHobbies();
+    }
   }
 
   Future<void> checkIfArtist() async {
@@ -1149,4 +1167,8 @@ class ArtistProfileController extends GetxController {
   void deleteHobbies() {}
 
   void setInterestedInValue(String selectedItem) {}
+
+  void deleteInterestIn() {}
+
+  void deleteExperienceForm() {}
 }

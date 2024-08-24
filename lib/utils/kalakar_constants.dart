@@ -191,6 +191,7 @@ class KalakarConstants {
   static const String hairColor = "Hair Color";
   static const String bodyType = "Body Type";
   static const String experiences = "Experiences";
+  static const String experience1 = "Experience";
   static const String startDate = "Start Date";
   static const String endDate = "End Date";
   static const String shootingLocation = "Shooting Location";
@@ -274,6 +275,8 @@ class KalakarConstants {
   static const String courseType = "Course Type";
   static const String courseStartDate = "Course Start Date";
   static const String courseEndDate = "Course End Date";
+  static const String expStartDate = "Experience Start Date";
+  static const String expEndDate = "Experience End Date";
   static const String score = "Score";
   static const String hobby = "Hobby";
   static const String interestIn = "Interest In";
@@ -295,6 +298,8 @@ class KalakarConstants {
   static const String deleteEducation = "Delete Education";
   static const String deleteComfortableIn = "Delete Comfortable In";
   static const String deleteHobby = "Delete Hobby";
+  static const String deleteInterestIn = "Delete Interest In";
+  static const String deleteExperience = "Delete Experience";
 
 
 // static const String roleProfile = "roleProfile";
