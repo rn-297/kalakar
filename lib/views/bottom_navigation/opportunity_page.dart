@@ -44,7 +44,7 @@ class OpportunityPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              controller.isArtist
+              controller.isArtist && controller.requirementDetailsList.isEmpty
                   ? Container()
                   : Column(
                       children: [
@@ -64,126 +64,137 @@ class OpportunityPage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              ListView.builder(
-                  itemCount: controller.requirementDetailsList.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    ObjResponesRequirementDetailsList requirementData =
-                        controller.requirementDetailsList[index];
-                    final DateFormat formatter = DateFormat('dd-MM-yyyy');
-                    DateTime shootingDate =
-                        DateTime.parse(requirementData!.shootingStartDate!);
-                    String date = formatter.format(shootingDate);
-                    print(requirementData.requirementDetailsID);
-                    return Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 12.h, horizontal: 4.h),
-                      decoration: BoxDecoration(
-                        color: KalakarColors.lightAppBarBackground,
-                        borderRadius: BorderRadius.circular(
-                          8.r,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ],
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          controller.setOpportunityData(requirementData);
-                        },
-                        child: IntrinsicHeight(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: requirementData.refPhotoName == null
-                                      ? Container(
-                                    margin: EdgeInsets.all(2.h),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8.r),
-                                              ),
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                  "assets/images/movie.png",
-                                                ),
-                                                fit: BoxFit.fill,
-                                              )),
-                                        ) //requirementData.companyLogo ?? "",
-                                      : Container(
-                                    margin: EdgeInsets.all(2.h),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-
-                                                    Radius.circular(8.r),
-                                              ),
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  requirementData.refPhotoName ??
-                                                      "",
-                                                ),
-                                                fit: BoxFit.fill,
-                                              )),
-                                        )),
-                              Expanded(
-                                  flex: 4,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.h),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              requirementData.requirementTitle!,
-                                              style: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  color:
-                                                      KalakarColors.headerText,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Icon(Icons.arrow_forward_ios)
-                                          ],
-                                        ),
-                                        Text(requirementData
-                                                .requirementDescription! ??
-                                            ""),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(requirementData
-                                                .shootingLocation!),
-                                            Text(date),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(requirementData.gender!),
-                                            Text(requirementData.age!.split(".")[0]),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+              controller.isRequirementsLoading
+                  ?  Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: controller.requirementDetailsList.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        ObjResponesRequirementDetailsList requirementData =
+                            controller.requirementDetailsList[index];
+                        final DateFormat formatter = DateFormat('dd-MM-yyyy');
+                        DateTime shootingDate =
+                            DateTime.parse(requirementData!.shootingStartDate!);
+                        String date = formatter.format(shootingDate);
+                        print(requirementData.requirementDetailsID);
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 12.h, horizontal: 4.h),
+                          decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            borderRadius: BorderRadius.circular(
+                              8.r,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                              ),
                             ],
                           ),
-                        ),
-                      ),
-                    );
-                  })
+                          child: InkWell(
+                            onTap: () {
+                              controller.setOpportunityData(requirementData);
+                            },
+                            child: IntrinsicHeight(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      flex: 2,
+                                      child: requirementData.refPhotoName ==
+                                              null
+                                          ? Container(
+                                              margin: EdgeInsets.all(2.h),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(8.r),
+                                                  ),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                      "assets/images/movie.png",
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  )),
+                                            ) //requirementData.companyLogo ?? "",
+                                          : Container(
+                                              margin: EdgeInsets.all(2.h),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(8.r),
+                                                  ),
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      requirementData
+                                                              .refPhotoName ??
+                                                          "",
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  )),
+                                            )),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.h),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  requirementData
+                                                      .requirementTitle!,
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: KalakarColors
+                                                          .headerText,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Icon(Icons.arrow_forward_ios)
+                                              ],
+                                            ),
+                                            Text(requirementData
+                                                    .requirementDescription! ??
+                                                ""),
+                                            SizedBox(
+                                              height: 8.h,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(requirementData
+                                                    .shootingLocation!),
+                                                Text(date),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(requirementData.gender!),
+                                                Text(requirementData.age!
+                                                    .split(".")[0]),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      })
             ],
           );
         }),

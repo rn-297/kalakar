@@ -77,12 +77,18 @@ class RequirementController extends GetxController {
   List<String> bodyTypeList = ["Good Looking", "Slim", "Muscular"];
   List<String> eyeColorList = ["Light Brown", "Black", "White"];
   List<String> requirementStatusList = ["Save as Draft", "Published", "Closed"];
+  List<String> ageRangeList = ["1-2 Years", "2-3 Years", "3-5 Years"];
+  List<String> heightRangeList = ["0-1 Feet", "1-2 Feet", "2-3 Feet"];
+  List<String> weightRangeList = ["1-2 KG", "2-3 KG", "3-5 KG"];
 
   List<ComfortableListMaster> comfortableInMasterList = [];
   List<HaiColorMasterList> hairColorMasterList = [];
   List<BodyTypeMasterList> bodyTypeMasterList = [];
   List<EyeColorMasterList> eyeColorMasterList = [];
   List<RequirementStatusMasterList> requirementStatusMasterList = [];
+  List<AgeRangeMasterList> ageRangeMasterList = [];
+  List<HeighRangeMasterList> heightRangeMasterList = [];
+  List<WeightRangeMasterList> weightRangeMasterList = [];
 
   //integers
 
@@ -90,6 +96,7 @@ class RequirementController extends GetxController {
 
   //bool
   bool isArtist = false;
+  bool isRequirementsLoading = false;
 
   setDate(String type, DateTime date) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -115,6 +122,7 @@ class RequirementController extends GetxController {
     super.onInit();
     // print("date time : ${DateTime(2024, DateTime.august, 15)}");
     // print("date time : ${DateTime(2024, DateTime.august, 20)}");
+    artistProfileMaster();
     checkIsArtist();
   }
 
@@ -240,6 +248,8 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      isRequirementsLoading = true;
+      update();
       var fields = {
         "userID": loginTable.userID,
         "requirementDetailsID": selectedRequirementId.toString(),
@@ -259,6 +269,8 @@ class RequirementController extends GetxController {
           update();
         }
       } else {}
+      isRequirementsLoading = false;
+      update();
     }
   }
 
@@ -451,42 +463,63 @@ class RequirementController extends GetxController {
 
   Future<void> artistProfileMaster() async {
     final body = <String, dynamic>{};
+    LoginTable? loginTable = await HiveService.getLoginData();
 
-    var response =
-        await ApiClient.postData(KalakarConstants.artistProfileMasterApi, body);
-    // print(response.statusCode);
-    // print(response);
+    if (loginTable != null) {
+      var response = await ApiClient.postDataToken1(
+          KalakarConstants.artistProfileMasterApi, body, loginTable.token );
+      print(response.statusCode);
+      print(response);
 
-    if (response.statusCode == 200) {
-      ArtistMasterClass artistMasterClass =
-          ArtistMasterClass.fromJson(jsonDecode(response.body));
-      if (artistMasterClass.replayStatus ?? false) {
-        comfortableInMasterList = artistMasterClass.comfortableListMaster!;
-        hairColorMasterList = artistMasterClass.haiColorMasterList!;
-        bodyTypeMasterList = artistMasterClass.bodyTypeMasterList!;
-        eyeColorMasterList = artistMasterClass.eyeColorMasterList!;
-        requirementStatusMasterList =
-            artistMasterClass.requirementStatusMasterList!;
+      if (response.statusCode == 200) {
+        ArtistMasterClass artistMasterClass =
+            ArtistMasterClass.fromJson(jsonDecode(response.body));
+        if (artistMasterClass.replayStatus ?? false) {
+          comfortableInMasterList = artistMasterClass.comfortableListMaster!;
+          hairColorMasterList = artistMasterClass.haiColorMasterList!;
+          bodyTypeMasterList = artistMasterClass.bodyTypeMasterList!;
+          eyeColorMasterList = artistMasterClass.eyeColorMasterList!;
+          requirementStatusMasterList =
+              artistMasterClass.requirementStatusMasterList!;
+          ageRangeMasterList = artistMasterClass.ageRangeMasterList!;
+          heightRangeMasterList = artistMasterClass.heighRangeMasterList!;
+          weightRangeMasterList = artistMasterClass.weightRangeMasterList!;
 
-        // Extract only the 'name' strings
-        List<String> names = comfortableInMasterList
-            .map((status) => status.name as String)
-            .toList();
-        comfortableInList = names;
-        names =
-            hairColorMasterList.map((status) => status.name as String).toList();
-        hairColorList = names;
-        names =
-            bodyTypeMasterList.map((status) => status.name as String).toList();
-        bodyTypeList = names;
-        names =
-            eyeColorMasterList.map((status) => status.name as String).toList();
-        eyeColorList = names;
-        names = requirementStatusMasterList
-            .map((status) => status.name as String)
-            .toList();
-        requirementStatusList = names;
-        update();
+          // Extract only the 'name' strings
+          List<String> names = comfortableInMasterList
+              .map((status) => status.name as String)
+              .toList();
+          comfortableInList = names;
+          names = hairColorMasterList
+              .map((status) => status.name as String)
+              .toList();
+          hairColorList = names;
+          names = bodyTypeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          bodyTypeList = names;
+          names = eyeColorMasterList
+              .map((status) => status.name as String)
+              .toList();
+          eyeColorList = names;
+          names = requirementStatusMasterList
+              .map((status) => status.name as String)
+              .toList();
+          requirementStatusList = names;
+          names = ageRangeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          ageRangeList = names;
+          names = heightRangeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          heightRangeList = names;
+          names = weightRangeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          weightRangeList = names;
+          update();
+        }
       }
     }
   }
@@ -552,6 +585,21 @@ class RequirementController extends GetxController {
 
   void setComfortableInValue(String selectedItem) {
     comfortableInTEController.text = selectedItem;
+    update();
+  }
+
+  void setAgeRangeValue(String selectedItem) {
+    ageTEController.text = selectedItem;
+    update();
+  }
+
+  void setWeightRangeValue(String selectedItem) {
+    weightTEController.text = selectedItem;
+    update();
+  }
+
+  void setHeightRangeValue(String selectedItem) {
+    heightTEController.text = selectedItem;
     update();
   }
 }

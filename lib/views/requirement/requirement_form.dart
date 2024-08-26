@@ -236,15 +236,18 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.ageTEController,
-                    labelText: KalakarConstants.age,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateAge),
+                CustomDropdownSearch(
+                  validator: Validator.validateAge,
+                  items: controller.ageRangeList,
+                  titleText: KalakarConstants.age,
+                  selectedItem: controller.ageTEController.text.isEmpty
+                      ? null
+                      : controller.ageTEController.text,
+                  labelText: KalakarConstants.age,
+                  onItemSelected: (selectedItem) {
+                    controller.setAgeRangeValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -263,29 +266,35 @@ class RequirementFormPage extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CommonWidgets.commonMobileTextField(
-                          controller: controller.heightTEController,
-                          labelText: KalakarConstants.height,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateHeight),
+                      child: CustomDropdownSearch(
+                        validator: Validator.validateHeight,
+                        items: controller.heightRangeList,
+                        titleText: KalakarConstants.height,
+                        selectedItem: controller.heightTEController.text.isEmpty
+                            ? null
+                            : controller.heightTEController.text,
+                        labelText: KalakarConstants.height,
+                        onItemSelected: (selectedItem) {
+                          controller.setHeightRangeValue(selectedItem);
+                        },
+                      ),
                     ),
                     SizedBox(
                       width: 16.w,
                     ),
                     Expanded(
-                      child: CommonWidgets.commonMobileTextField(
-                          controller: controller.weightTEController,
-                          labelText: KalakarConstants.weight,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateWeight),
+                      child: CustomDropdownSearch(
+                        validator: Validator.validateWeight,
+                        items: controller.weightRangeList,
+                        titleText: KalakarConstants.weight,
+                        selectedItem: controller.weightTEController.text.isEmpty
+                            ? null
+                            : controller.weightTEController.text,
+                        labelText: KalakarConstants.weight,
+                        onItemSelected: (selectedItem) {
+                          controller.setWeightRangeValue(selectedItem);
+                        },
+                      ),
                     ),
                   ],
                 ),

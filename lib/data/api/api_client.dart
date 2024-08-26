@@ -116,6 +116,38 @@ abstract class ApiClient extends GetxService {
     }
   }
 
+  static postDataToken1(String uri, dynamic body, String accessToken) async {
+    try {
+      print(KalakarConstants.baseURL + uri);
+      print(body);
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult.isEmpty) {
+        return Response(
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+      }
+      Map<String, String> headers = {
+        "Accept": "*/*",
+        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+      };
+
+      var _response = await client
+          .post(
+            Uri.parse(KalakarConstants.baseURL + uri),
+            headers: headers,
+            body: body,
+          )
+          .timeout(Duration(seconds: timeoutInSeconds));
+      print(_response.request);
+      print(_response.headers);
+      print(_response.body);
+
+      return _response;
+    } catch (ex) {
+      print(ex);
+      return Response(statusCode: 1, statusText: ex.toString());
+    }
+  }
+
   static postFormDataToken(String uri, Map<String, String>? fields,
       Map<String, File?>? files, String accessToken) async {
     try {

@@ -7,20 +7,26 @@ class ArtistMasterClass {
   List<BodyTypeMasterList>? bodyTypeMasterList;
   List<EyeColorMasterList>? eyeColorMasterList;
   List<MaritalStatusMasterList>? maritalStatusMasterList;
+  List<AgeRangeMasterList>? ageRangeMasterList;
+  List<HeighRangeMasterList>? heighRangeMasterList;
+  List<WeightRangeMasterList>? weightRangeMasterList;
   bool? replayStatus;
   String? message;
 
   ArtistMasterClass(
       {this.comfortableListMaster,
-        this.applyListMaster,
-        this.interestedListMaster,
-        this.requirementStatusMasterList,
-        this.haiColorMasterList,
-        this.bodyTypeMasterList,
-        this.eyeColorMasterList,
-        this.maritalStatusMasterList,
-        this.replayStatus,
-        this.message});
+      this.applyListMaster,
+      this.interestedListMaster,
+      this.requirementStatusMasterList,
+      this.haiColorMasterList,
+      this.bodyTypeMasterList,
+      this.eyeColorMasterList,
+      this.maritalStatusMasterList,
+      this.ageRangeMasterList,
+      this.heighRangeMasterList,
+      this.weightRangeMasterList,
+      this.replayStatus,
+      this.message});
 
   ArtistMasterClass.fromJson(Map<String, dynamic> json) {
     if (json['comfortableListMaster'] != null) {
@@ -72,6 +78,24 @@ class ArtistMasterClass {
         maritalStatusMasterList!.add(new MaritalStatusMasterList.fromJson(v));
       });
     }
+    if (json['ageRangeMasterList'] != null) {
+      ageRangeMasterList = <AgeRangeMasterList>[];
+      json['ageRangeMasterList'].forEach((v) {
+        ageRangeMasterList!.add(new AgeRangeMasterList.fromJson(v));
+      });
+    }
+    if (json['heighRangeMasterList'] != null) {
+      heighRangeMasterList = <HeighRangeMasterList>[];
+      json['heighRangeMasterList'].forEach((v) {
+        heighRangeMasterList!.add(new HeighRangeMasterList.fromJson(v));
+      });
+    }
+    if (json['weightRangeMasterList'] != null) {
+      weightRangeMasterList = <WeightRangeMasterList>[];
+      json['weightRangeMasterList'].forEach((v) {
+        weightRangeMasterList!.add(new WeightRangeMasterList.fromJson(v));
+      });
+    }
     replayStatus = json['replayStatus'];
     message = json['message'];
   }
@@ -110,6 +134,18 @@ class ArtistMasterClass {
       data['maritalStatusMasterList'] =
           this.maritalStatusMasterList!.map((v) => v.toJson()).toList();
     }
+    if (this.ageRangeMasterList != null) {
+      data['ageRangeMasterList'] =
+          this.ageRangeMasterList!.map((v) => v.toJson()).toList();
+    }
+    if (this.heighRangeMasterList != null) {
+      data['heighRangeMasterList'] =
+          this.heighRangeMasterList!.map((v) => v.toJson()).toList();
+    }
+    if (this.weightRangeMasterList != null) {
+      data['weightRangeMasterList'] =
+          this.weightRangeMasterList!.map((v) => v.toJson()).toList();
+    }
     data['replayStatus'] = this.replayStatus;
     data['message'] = this.message;
     return data;
@@ -134,6 +170,7 @@ class ComfortableListMaster {
     return data;
   }
 }
+
 class ApplyListMaster {
   String? name;
   int? id;
@@ -152,6 +189,7 @@ class ApplyListMaster {
     return data;
   }
 }
+
 class InterestedListMaster {
   String? name;
   int? id;
@@ -170,6 +208,7 @@ class InterestedListMaster {
     return data;
   }
 }
+
 class RequirementStatusMasterList {
   String? name;
   int? id;
@@ -188,6 +227,7 @@ class RequirementStatusMasterList {
     return data;
   }
 }
+
 class HaiColorMasterList {
   String? name;
   int? id;
@@ -206,6 +246,7 @@ class HaiColorMasterList {
     return data;
   }
 }
+
 class BodyTypeMasterList {
   String? name;
   int? id;
@@ -224,6 +265,7 @@ class BodyTypeMasterList {
     return data;
   }
 }
+
 class EyeColorMasterList {
   String? name;
   int? id;
@@ -242,6 +284,7 @@ class EyeColorMasterList {
     return data;
   }
 }
+
 class MaritalStatusMasterList {
   String? name;
   int? id;
@@ -249,6 +292,63 @@ class MaritalStatusMasterList {
   MaritalStatusMasterList({this.name, this.id});
 
   MaritalStatusMasterList.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['id'] = this.id;
+    return data;
+  }
+}
+
+class AgeRangeMasterList {
+  String? name;
+  int? id;
+
+  AgeRangeMasterList({this.name, this.id});
+
+  AgeRangeMasterList.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['id'] = this.id;
+    return data;
+  }
+}
+
+class HeighRangeMasterList {
+  String? name;
+  int? id;
+
+  HeighRangeMasterList({this.name, this.id});
+
+  HeighRangeMasterList.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['id'] = this.id;
+    return data;
+  }
+}
+
+class WeightRangeMasterList {
+  String? name;
+  int? id;
+
+  WeightRangeMasterList({this.name, this.id});
+
+  WeightRangeMasterList.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     id = json['id'];
   }
