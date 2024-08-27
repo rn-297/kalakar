@@ -591,17 +591,19 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),
-                CustomMobileButtonWidget(
-                    text: KalakarConstants.deleteRequirement,
-                    onTap: () {
-                      controller.deleteRequirement();
-                    },
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    horizontalPadding: 20.w,
-                    verticalPadding: 8.h,
-                    fontSize: 16.sp,
-                    borderRadius: 50.r),
+                controller.requirementId != "0"
+                    ? Container()
+                    : CustomMobileButtonWidget(
+                        text: KalakarConstants.deleteRequirement,
+                        onTap: () {
+                          controller.deleteRequirement();
+                        },
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        horizontalPadding: 20.w,
+                        verticalPadding: 8.h,
+                        fontSize: 16.sp,
+                        borderRadius: 50.r),
                 SizedBox(
                   height: 24.h,
                 ),

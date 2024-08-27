@@ -212,8 +212,8 @@ class KalakarConstants {
   static const String saveAsDraft = "Save as Draft";
   static const String publish = "Publish";
   static const String createRequirement = "Create Requirement";
-  static const String saveRequirement = "Save Requirement";
-  static const String deleteRequirement = "Delete Requirement";
+  static const String saveRequirement = "Save";
+  static const String deleteRequirement = "Delete";
   static const String male = "Male";
   static const String female = "Female";
 

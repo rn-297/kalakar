@@ -41,31 +41,35 @@ class OpportunityPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Text(KalakarConstants.opportunitiesText),
-              SizedBox(
-                height: 16.h,
-              ),
               controller.isArtist && controller.requirementDetailsList.isEmpty
-                  ? Container()
-                  : Column(
-                      children: [
-                        CustomMobileButtonWidget(
-                            text: KalakarConstants.createRequirement,
-                            onTap: () {
-                              // controller.selectedRequirementId = 0;
-                              // Get.toNamed(RouteHelper.requirementFormPage);
-                              controller.emptyOpportunityData();
-                            },
-                            horizontalPadding: 20.w,
-                            verticalPadding: 8.h,
-                            fontSize: 16.sp,
-                            borderRadius: 50.r),
-                      ],
-                    ),
-              SizedBox(
-                height: 24.h,
-              ),
+                  ?Column(
+                children: [
+                  SizedBox(
+                    height: 16.h,
+                  ),
+
+                       Column(
+                          children: [
+                            CustomMobileButtonWidget(
+                                text: KalakarConstants.createRequirement,
+                                onTap: () {
+                                  // controller.selectedRequirementId = 0;
+                                  // Get.toNamed(RouteHelper.requirementFormPage);
+                                  controller.emptyOpportunityData();
+                                },
+                                horizontalPadding: 20.w,
+                                verticalPadding: 8.h,
+                                fontSize: 16.sp,
+                                borderRadius: 50.r),
+                          ],
+                        ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                ],
+              ):Container(),
               controller.isRequirementsLoading
-                  ?  Center(child: CircularProgressIndicator())
+                  ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       itemCount: controller.requirementDetailsList.length,
                       shrinkWrap: true,
@@ -142,24 +146,17 @@ class OpportunityPage extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  requirementData
-                                                      .requirementTitle!,
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp,
-                                                      color: KalakarColors
-                                                          .headerText,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Icon(Icons.arrow_forward_ios)
-                                              ],
+                                            Text(
+                                              requirementData
+                                                  .requirementTitle!,
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  color: KalakarColors
+                                                      .headerText,
+                                                  fontWeight:
+                                                  FontWeight.bold),
                                             ),
+                                            SizedBox(height: 8.h,),
                                             Text(requirementData
                                                     .requirementDescription! ??
                                                 ""),
@@ -305,6 +302,7 @@ class OpportunityPage extends StatelessWidget {
   }
 
   appBarMobileView() {
+    RequirementController controller = Get.put(RequirementController());
     return AppBar(
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
@@ -314,9 +312,11 @@ class OpportunityPage extends StatelessWidget {
       ),
       actions: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            controller.emptyOpportunityData();
+          },
           child: Icon(
-            Icons.filter_alt,
+            Icons.add,
             size: 30.h,
           ),
         ),
