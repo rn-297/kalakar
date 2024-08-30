@@ -173,7 +173,7 @@ class NewProjectFormPage extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(10.h),
-                      height: 190.h,
+                      height: 140.h,
                       width: double.infinity,
                       child: ListView.builder(
                           shrinkWrap: true,
@@ -189,8 +189,8 @@ class NewProjectFormPage extends StatelessWidget {
                                     },
                                     child: Center(
                                       child: Container(
-                                        height: 80.h,
-                                        width: 60.h,
+                                        height: 125.h,
+                                        width: 80.h,
                                         margin: EdgeInsets.only(right: 15.w),
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -210,8 +210,8 @@ class NewProjectFormPage extends StatelessWidget {
                                     child: Stack(
                                       children: [
                                         Container(
-                                          height: 180.h,
-                                          width: 125.h,
+                                          height: 125.h,
+                                          width: 80.h,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(8.r),
@@ -278,6 +278,9 @@ class NewProjectFormPage extends StatelessWidget {
                       textColor: KalakarColors.white,
                       text: KalakarConstants.deleteProject,
                       horizontalPadding: 20.w,
+                      showIcon: true,
+                      icon: Icons.delete,
+                      iconColor: KalakarColors.white,
                       verticalPadding: 8.h,
                     ),
                   CustomMobileButtonWidget(
@@ -287,6 +290,9 @@ class NewProjectFormPage extends StatelessWidget {
                     borderRadius: 50.r,
                     fontSize: 14.sp,
                     text: KalakarConstants.saveNewProject,
+                    showIcon: true,
+                    icon: Icons.save,
+                    iconColor: KalakarColors.headerText,
                     horizontalPadding: 20.w,
                     verticalPadding: 8.h,
                   ),
