@@ -103,22 +103,12 @@ class ArtistComfortableInFormPage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              CustomMobileButtonWidget(
-                onTap: () {
-                  controller.validateDocumentsForm();
-                },
-                borderRadius: 50.r,
-                fontSize: 14.sp,
-                text: KalakarConstants.saveComfortableIn,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-              controller.comfortableInMasterId == "0"
-                  ? Container()
-                  : CustomMobileButtonWidget(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(controller.comfortableInMasterId == "0")
+                    CustomMobileButtonWidget(
+                      width: 125.w,
                       onTap: () {
                         controller.deleteComfortableIn();
                       },
@@ -126,10 +116,34 @@ class ArtistComfortableInFormPage extends StatelessWidget {
                       fontSize: 14.sp,
                       backgroundColor: Colors.red,
                       textColor: KalakarColors.white,
-                      text: KalakarConstants.deleteComfortableIn,
+                      text: KalakarConstants.delete,
+                      showIcon: true,
+                      icon: Icons.delete,
+                      iconColor: KalakarColors.white,
                       horizontalPadding: 20.w,
                       verticalPadding: 8.h,
                     ),
+                  CustomMobileButtonWidget(
+                    width: 125.w,
+                    onTap: () {
+                      controller.validateDocumentsForm();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 14.sp,
+                    text: KalakarConstants.save,
+                    showIcon: true,
+                    icon: Icons.save,
+                    iconColor: KalakarColors.headerText,
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+                  ),
+
+                ],
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+
             ]),
           ));
     }));

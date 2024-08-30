@@ -98,31 +98,47 @@ class ArtistHobbiesFormPage extends StatelessWidget {
                   SizedBox(
                     height: 24.h,
                   ),
-                  CustomMobileButtonWidget(
-                    onTap: () {
-                      controller.validateHobbiesForm();
-                    },
-                    borderRadius: 50.r,
-                    fontSize: 14.sp,
-                    text: KalakarConstants.saveHobby,
-                    horizontalPadding: 20.w,
-                    verticalPadding: 8.h,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      if(controller.artistHobbiesId!="0")CustomMobileButtonWidget(
+                        onTap: () {
+                          controller.deleteHobbies();
+                        },
+                        borderRadius: 50.r,
+                        fontSize: 14.sp,
+                        width: 125.w,
+                        text: KalakarConstants.delete,
+                        backgroundColor: Colors.red,
+                        showIcon: true,
+
+                        icon: Icons.delete,
+                        iconColor: KalakarColors.white,
+                        textColor: KalakarColors.white,
+                        horizontalPadding: 20.w,
+                        verticalPadding: 8.h,
+                      ),
+                      CustomMobileButtonWidget(
+                        onTap: () {
+                          controller.validateHobbiesForm();
+                        },
+                        borderRadius: 50.r,
+                        fontSize: 14.sp,
+                        width: 125.w,
+                        showIcon: true,
+
+                        icon: Icons.save,
+                        iconColor: KalakarColors.headerText,
+                        text: KalakarConstants.save,
+                        horizontalPadding: 20.w,
+                        verticalPadding: 8.h,
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 24.h,
                   ),
-                  controller.artistHobbiesId=="0"?Container():CustomMobileButtonWidget(
-                    onTap: () {
-                      controller.deleteHobbies();
-                    },
-                    borderRadius: 50.r,
-                    fontSize: 14.sp,
-                    text: KalakarConstants.deleteHobby,
-                    backgroundColor: Colors.red,
-                    textColor: KalakarColors.white,
-                    horizontalPadding: 20.w,
-                    verticalPadding: 8.h,
-                  ),
+
                 ]),
               ));
         }));

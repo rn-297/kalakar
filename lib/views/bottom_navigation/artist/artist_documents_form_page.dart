@@ -155,6 +155,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                 },
                 borderRadius: 50.r,
                 fontSize: 14.sp,
+
                 text: KalakarConstants.saveDocuments,
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,

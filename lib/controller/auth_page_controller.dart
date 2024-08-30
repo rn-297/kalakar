@@ -360,6 +360,8 @@ class AuthPageController extends GetxController {
             loginDataClass.isverifiedContacts ?? false,
             loginDataClass.profileID ?? 0);
         HiveService.saveLoginData(loginTable);
+        signInEmailOrMobile.clear();
+        signInPassword.clear();
         KalakarDialogs.goHomePage("Login Success", loginDataClass.message!,
             loginDataClass.accountType!);
       } else {

@@ -41,7 +41,7 @@ class OpportunityPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Text(KalakarConstants.opportunitiesText),
-              controller.isArtist && controller.requirementDetailsList.isEmpty
+              !controller.isArtist && controller.requirementDetailsList.isEmpty
                   ?Column(
                 children: [
                   SizedBox(
@@ -311,7 +311,7 @@ class OpportunityPage extends StatelessWidget {
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
-        InkWell(
+        if(!controller.isArtist)InkWell(
           onTap: () {
             controller.emptyOpportunityData();
           },

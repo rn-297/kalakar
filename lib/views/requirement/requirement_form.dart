@@ -579,31 +579,44 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),*/
-                CustomMobileButtonWidget(
-                    text: KalakarConstants.saveRequirement,
-                    onTap: () {
-                      controller.saveRequirementsDetails();
-                    },
-                    horizontalPadding: 20.w,
-                    verticalPadding: 8.h,
-                    fontSize: 16.sp,
-                    borderRadius: 50.r),
-                SizedBox(
-                  height: 24.h,
-                ),
-                controller.requirementId != "0"
-                    ? Container()
-                    : CustomMobileButtonWidget(
-                        text: KalakarConstants.deleteRequirement,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    if(controller.selectedRequirementId != "0")
+                      CustomMobileButtonWidget(
+                          text: KalakarConstants.deleteRequirement,
+                          onTap: () {
+                            controller.deleteRequirement();
+                          },
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          horizontalPadding: 20.w,
+                          verticalPadding: 8.h,
+                          fontSize: 16.sp,
+                          width: 125.w,
+                          showIcon: true,
+                          icon: Icons.delete,
+                          iconColor: KalakarColors.white,
+                          borderRadius: 50.r),
+                    CustomMobileButtonWidget(
+                        text: KalakarConstants.saveRequirement,
                         onTap: () {
-                          controller.deleteRequirement();
+                          controller.saveRequirementsDetails();
                         },
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
                         horizontalPadding: 20.w,
                         verticalPadding: 8.h,
                         fontSize: 16.sp,
+                        width: 125.w,
+                        showIcon: true,
+                        icon: Icons.save,
+                        iconColor: KalakarColors.headerText,
                         borderRadius: 50.r),
+                  ],
+                ),
+                SizedBox(
+                  height: 24.h,
+                ),
+
                 SizedBox(
                   height: 24.h,
                 ),

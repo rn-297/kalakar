@@ -102,33 +102,47 @@ class ArtistInterestFormPage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              CustomMobileButtonWidget(
-                onTap: () {
-                  controller.validateInterestedInForm();
-                },
-                borderRadius: 50.r,
-                fontSize: 14.sp,
-                text: KalakarConstants.saveInterestedIn,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-              controller.interestInMasterId == "0"
-                  ? Container()
-                  : CustomMobileButtonWidget(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(controller.interestInMasterId != "0")
+                    CustomMobileButtonWidget(
                       onTap: () {
                         controller.deleteInterestIn();
                       },
                       borderRadius: 50.r,
                       fontSize: 14.sp,
-                      text: KalakarConstants.deleteInterestIn,
+                      text: KalakarConstants.delete,
                       backgroundColor: Colors.red,
                       textColor: KalakarColors.white,
                       horizontalPadding: 20.w,
                       verticalPadding: 8.h,
+                      showIcon: true,
+                      iconColor: Colors.white,
+                      icon: Icons.delete,
+                      width: 125.w,
                     ),
+                  CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.validateInterestedInForm();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 14.sp,
+                    text: KalakarConstants.save,
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+
+                    showIcon: true,
+                    iconColor: KalakarColors.headerText,
+                    icon: Icons.save,
+                    width: 125.w,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+
             ]),
           ));
     }));

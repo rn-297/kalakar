@@ -216,22 +216,11 @@ class ArtistExperienceFormPage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              CustomMobileButtonWidget(
-                onTap: () {
-                  controller.validateExperienceForm();
-                },
-                borderRadius: 50.r,
-                fontSize: 14.sp,
-                text: KalakarConstants.saveExperience,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-              controller.artistExperienceId == "0"
-                  ? Container()
-                  : CustomMobileButtonWidget(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(controller.artistExperienceId != "0")
+                    CustomMobileButtonWidget(
                       onTap: () {
                         controller.deleteExperienceForm();
                       },
@@ -239,10 +228,34 @@ class ArtistExperienceFormPage extends StatelessWidget {
                       fontSize: 14.sp,
                       backgroundColor: Colors.red,
                       textColor: KalakarColors.white,
-                      text: KalakarConstants.deleteExperience,
+                      text: KalakarConstants.delete,
                       horizontalPadding: 20.w,
                       verticalPadding: 8.h,
+                      showIcon: true,
+                      icon: Icons.delete,
+                      iconColor: KalakarColors.white,
+                      width: 125.w,
                     ),
+                  CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.validateExperienceForm();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 14.sp,
+                    text: KalakarConstants.save,
+                    horizontalPadding: 20.w,
+                    showIcon: true,
+                    icon: Icons.save,
+                    iconColor: KalakarColors.headerText,
+                    width: 125.w,
+                    verticalPadding: 8.h,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+
             ]),
           ));
     }));

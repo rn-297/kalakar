@@ -202,34 +202,47 @@ class ArtistEducationFormPage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              CustomMobileButtonWidget(
-                onTap: () {
-                  controller.validateEducationForm();
-                },
-                borderRadius: 50.r,
-                fontSize: 14.sp,
-                text: KalakarConstants.saveEducation,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-              controller.artistEducationId == "0"
-                  ? Container()
-                  : CustomMobileButtonWidget(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(controller.artistEducationId == "0")
+                    CustomMobileButtonWidget(
                       onTap: () {
                         controller
                             .deleteEducationData();
                       },
                       borderRadius: 50.r,
                       fontSize: 14.sp,
-                      text: KalakarConstants.deleteEducation,
+                      width: 125.w,
+                      text: KalakarConstants.delete,
                       horizontalPadding: 20.w,
+                      showIcon: true,
+                      icon: Icons.delete,
+                      iconColor: KalakarColors.white,
                       verticalPadding: 8.h,
                       textColor: KalakarColors.white,
                       backgroundColor: Colors.red,
                     ),
+                  CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.validateEducationForm();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 14.sp,
+                    text: KalakarConstants.save,
+                    showIcon: true,
+                    icon: Icons.save,
+                    width: 125.w,
+                    iconColor: KalakarColors.headerText,
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+
             ]),
           ));
     }));

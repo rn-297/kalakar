@@ -300,6 +300,8 @@ class KalakarConstants {
   static const String deleteHobby = "Delete Hobby";
   static const String deleteInterestIn = "Delete Interest In";
   static const String deleteExperience = "Delete Experience";
+  static const String save = "Save";
+  static const String delete = "Delete";
 
 
 // static const String roleProfile = "roleProfile";

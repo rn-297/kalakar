@@ -9,6 +9,7 @@ class CustomMobileButtonWidget extends StatelessWidget {
   final double horizontalPadding;
   final double verticalPadding;
   final double fontSize;
+  final double width;
   final Color backgroundColor;
   final Color textColor;
   final double borderRadius;
@@ -27,6 +28,7 @@ class CustomMobileButtonWidget extends StatelessWidget {
       this.textColor = KalakarColors.headerText,
       required this.borderRadius,
       this.boxShadow,
+      this.width = 200,
       this.icon = Icons.save,
       this.iconColor = KalakarColors.headerText,
       this.showIcon = false});
@@ -37,6 +39,7 @@ class CustomMobileButtonWidget extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
+          width: width,
           padding: EdgeInsets.symmetric(
               horizontal: horizontalPadding.w, vertical: verticalPadding.h),
           decoration: BoxDecoration(
@@ -51,19 +54,25 @@ class CustomMobileButtonWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius.r),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 text,
                 style: TextStyle(
                   color: textColor,
                   fontSize: fontSize,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-
               if (showIcon)
-                SizedBox(width: 8.w,),
-                if (showIcon) Icon(icon,color: iconColor,)
+                SizedBox(
+                  width: 8.w,
+                ),
+              if (showIcon)
+                Icon(
+                  icon,
+                  color: iconColor,
+                )
             ],
           ),
         ),
