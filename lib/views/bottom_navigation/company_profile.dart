@@ -112,12 +112,13 @@ class CompanyProfilePage extends StatelessWidget {
                         ),
                         Text(
                             "${profileDta.address}, ${profileDta.district}, ${profileDta.state}, ${profileDta.postalcode}."),
-                        SizedBox(
-                          height: 24.h,
-                        ),
+
                         profileDta.verificationStatus == "Not verified"
                             ? Column(
                                 children: [
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
                                   CustomMobileButtonWidget(
                                     text: KalakarConstants
                                         .sendProfileForVerification,
@@ -144,13 +145,14 @@ class CompanyProfilePage extends StatelessWidget {
                                 ],
                               )
                             : Container(),
-                        Divider(
-                          thickness: 3.0,
-                          height: 10.h,
+                        Padding(
+                          padding: EdgeInsets.all(12.w),
+                          child: Divider(
+                            height: 10.h,
+                            thickness: 1.0,
+                          ),
                         ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
+
                         Column(
                           children: [
                             Text(
@@ -237,47 +239,53 @@ class CompanyProfilePage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
+
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          padding: EdgeInsets.all(12.w),
                           child: Divider(
                             height: 10.h,
                             thickness: 1.0,
                           ),
                         ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        CustomMobileButtonWidget(
-                          text: KalakarConstants.createProject,
-                          onTap: () {
-                            controller.createNewProject();
-                          },
-                          horizontalPadding: 20.w,
-                          verticalPadding: 8.h,
-                          fontSize: 14.sp,
-                          backgroundColor: KalakarColors.buttonBackground,
-                          textColor: KalakarColors.headerText,
-                          borderRadius: 50.0,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 5.0,
-                            ),
-                          ],
-                        ),
+
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
+                            Padding(
+                              padding: EdgeInsets.only(left: 16.w),
+                              child: CustomMobileButtonWidget(
+                                text: KalakarConstants.createProject,
                                 onTap: () {
-                                  Get.toNamed(RouteHelper.allProjects);
+                                  controller.createNewProject();
                                 },
-                                child: Text(KalakarConstants.viewAll)),
-                            Icon(Icons.double_arrow_rounded)
+                                horizontalPadding: 20.w,
+                                verticalPadding: 8.h,
+                                fontSize: 14.sp,
+                                backgroundColor: KalakarColors.buttonBackground,
+                                textColor: KalakarColors.headerText,
+                                borderRadius: 50.0,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 5.0,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      Get.toNamed(RouteHelper.allProjects);
+                                    },
+                                    child: Text(KalakarConstants.viewAll)),
+                                Icon(Icons.double_arrow_rounded),
+                              ],
+                            )
                           ],
+                        ),
+                        SizedBox(
+                          height: 8.h,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
@@ -301,6 +309,7 @@ class CompanyProfilePage extends StatelessWidget {
                                             BorderRadius.circular(8.r),
                                         color: KalakarColors.backgroundGrey),
                                     child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           height: 120.h,
@@ -320,9 +329,19 @@ class CompanyProfilePage extends StatelessWidget {
                                           controller.companyAllProjects[index]
                                               .projectTitle!,
                                           style: TextStyle(
-                                              fontSize: 20.sp,
+                                              fontSize: 18.sp,
                                               fontWeight: FontWeight.bold),
-                                        )
+                                        ),
+                                        SizedBox(
+                                          height: 4.h,
+                                        ),
+                                        Text(
+                                          controller.companyAllProjects[index]
+                                              .projectDescription!,
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -417,367 +436,367 @@ class CompanyProfilePage extends StatelessWidget {
         return controller.isProfileLoading
             ? Center(child: CircularProgressIndicator())
             : profileDta == null
-            ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Unable To Load Data"),
-              InkWell(
-                onTap: () {
-                  controller.getProfileData();
-                },
-                child: Text("Refresh Data"),
-              )
-            ],
-          ),
-        )
-            : SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 150.h,
-                width: 150.h,
-                margin: EdgeInsets.all(20.h),
-                decoration: BoxDecoration(
-                  border: Border.all(color: KalakarColors.headerText),
-                  borderRadius: BorderRadius.circular(75.r),
-                  image: DecorationImage(
-                      image:
-                      NetworkImage(profileDta.companyLogo ?? "")),
-                ),
-              ),
-              Text(
-                "${KalakarConstants.kalakarId} ${profileDta!.userID}",
-                style: TextStyle(
-                    color: KalakarColors.headerText,
-                    fontWeight: FontWeight.bold),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.edit,
-                    color: Colors.transparent,
-                    size: 35,
-                  ),
-                  Text(
-                    controller.profileData!
-                        .companyNameProductionhouse ??
-                        "NA",
-                    style: TextStyle(
-                        fontSize: 15.sp,
-                        color: KalakarColors.buttonText,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  InkWell(
-                      onTap: () {
-                        controller.setProfileFormData();
-                        Get.toNamed(
-                            RouteHelper.companyProfileFormPage);
-                      },
-                      child: Icon(
-                        Icons.edit,
-                        size: 25,
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
-              Text(
-                  "${profileDta.address}, ${profileDta.district}, ${profileDta.state}, ${profileDta.postalcode}."),
-              SizedBox(
-                height: 24.h,
-              ),
-              profileDta.verificationStatus == "Not verified"
-                  ? Column(
-                children: [
-                  CustomMobileButtonWidget(
-                    text: KalakarConstants
-                        .sendProfileForVerification,
-                    onTap: () {
-                      controller.sendProfileForVerification();
-                    },
-                    horizontalPadding: 20.w,
-                    verticalPadding: 8.h,
-                    fontSize: 14.sp,
-                    backgroundColor:
-                    KalakarColors.buttonBackground,
-                    textColor: KalakarColors.headerText,
-                    borderRadius: 50.0,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5.0,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  )
-                ],
-              )
-                  : Container(),
-              Divider(
-                thickness: 3.0,
-                height: 10.h,
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              Column(
-                children: [
-                  Text(
-                    KalakarConstants.bio,
-                    style: TextStyle(
-                        fontSize: 8.sp,
-                        fontWeight: FontWeight.bold,
-                        color: KalakarColors.headerText),
-                  ),
-                  Text(profileDta.bio ?? "NA"),
-                ],
-              ),
-              // SizedBox(
-              //   height: 32.h,
-              //   width: Get.size.width / 2,
-              //   child: DashedDottedDivider(
-              //     isHorizontal: true,
-              //   ),
-              // ),
-              Container(
-                padding: EdgeInsets.all(16.h),
-                margin: EdgeInsets.all(4.h),
-                decoration: BoxDecoration(
-                  color: KalakarColors.backgroundGrey,
-                  borderRadius: BorderRadius.circular(8.r),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.grey,
-                  //     blurRadius: 4.0,
-                  //   ),
-                  // ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: Text(
-                            "${KalakarConstants.moreInfo} :",
-                            style: TextStyle(
-                                fontSize: 8.sp,
-                                fontWeight: FontWeight.bold,
-                                color: KalakarColors.headerText),
+                        Text("Unable To Load Data"),
+                        InkWell(
+                          onTap: () {
+                            controller.getProfileData();
+                          },
+                          child: Text("Refresh Data"),
+                        )
+                      ],
+                    ),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 150.h,
+                          width: 150.h,
+                          margin: EdgeInsets.all(20.h),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: KalakarColors.headerText),
+                            borderRadius: BorderRadius.circular(75.r),
+                            image: DecorationImage(
+                                image:
+                                    NetworkImage(profileDta.companyLogo ?? "")),
                           ),
                         ),
-                        InkWell(
-                            onTap: () {
-                              controller.setProfileFormData();
-                              Get.toNamed(RouteHelper
-                                  .companyMoreInfoFormPage);
-                            },
-                            child: Icon(
+                        Text(
+                          "${KalakarConstants.kalakarId} ${profileDta!.userID}",
+                          style: TextStyle(
+                              color: KalakarColors.headerText,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
                               Icons.edit,
-                              size: 20,
-                            ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                              "${KalakarConstants.mobileNumber}"),
+                              color: Colors.transparent,
+                              size: 35,
+                            ),
+                            Text(
+                              controller.profileData!
+                                      .companyNameProductionhouse ??
+                                  "NA",
+                              style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: KalakarColors.buttonText,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  controller.setProfileFormData();
+                                  Get.toNamed(
+                                      RouteHelper.companyProfileFormPage);
+                                },
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 25,
+                                ))
+                          ],
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: Text(": ${profileDta.mobileNumber}"),
+                        SizedBox(
+                          height: 4.h,
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text("${KalakarConstants.email}"),
+                        Text(
+                            "${profileDta.address}, ${profileDta.district}, ${profileDta.state}, ${profileDta.postalcode}."),
+                        SizedBox(
+                          height: 24.h,
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: Text(": ${profileDta.email}"),
+                        profileDta.verificationStatus == "Not verified"
+                            ? Column(
+                                children: [
+                                  CustomMobileButtonWidget(
+                                    text: KalakarConstants
+                                        .sendProfileForVerification,
+                                    onTap: () {
+                                      controller.sendProfileForVerification();
+                                    },
+                                    horizontalPadding: 20.w,
+                                    verticalPadding: 8.h,
+                                    fontSize: 14.sp,
+                                    backgroundColor:
+                                        KalakarColors.buttonBackground,
+                                    textColor: KalakarColors.headerText,
+                                    borderRadius: 50.0,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 5.0,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 16.h,
+                                  )
+                                ],
+                              )
+                            : Container(),
+                        Divider(
+                          thickness: 3.0,
+                          height: 10.h,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Divider(
-                  height: 10.h,
-                  thickness: 1.0,
-                ),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              CustomMobileButtonWidget(
-                text: KalakarConstants.createProject,
-                onTap: () {
-                  controller.createNewProject();
-                },
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-                fontSize: 8.sp,
-                backgroundColor: KalakarColors.buttonBackground,
-                textColor: KalakarColors.headerText,
-                borderRadius: 50.0,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 5.0,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Get.toNamed(RouteHelper.allProjects);
-                      },
-                      child: Text(KalakarConstants.viewAll)),
-                  Icon(Icons.double_arrow_rounded)
-                ],
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                height: 250.h,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.companyAllProjects.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          controller.openProjectDetails(
-                              controller.companyAllProjects[index]);
-                        },
-                        child: Container(
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              KalakarConstants.bio,
+                              style: TextStyle(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: KalakarColors.headerText),
+                            ),
+                            Text(profileDta.bio ?? "NA"),
+                          ],
+                        ),
+                        // SizedBox(
+                        //   height: 32.h,
+                        //   width: Get.size.width / 2,
+                        //   child: DashedDottedDivider(
+                        //     isHorizontal: true,
+                        //   ),
+                        // ),
+                        Container(
                           padding: EdgeInsets.all(16.h),
-                          margin: EdgeInsets.only(right: 16.h),
-                          width: 200.h,
+                          margin: EdgeInsets.all(4.h),
                           decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(8.r),
-                              color: KalakarColors.backgroundGrey),
+                            color: KalakarColors.backgroundGrey,
+                            borderRadius: BorderRadius.circular(8.r),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.grey,
+                            //     blurRadius: 4.0,
+                            //   ),
+                            // ],
+                          ),
                           child: Column(
                             children: [
-                              Container(
-                                height: 120.h,
-                                width: 120.h,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(60.h),
-                                    image: DecorationImage(
-                                        image: NetworkImage(controller
-                                            .companyAllProjects[index]
-                                            .projectCoverDoc!))),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "${KalakarConstants.moreInfo} :",
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: KalakarColors.headerText),
+                                    ),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        controller.setProfileFormData();
+                                        Get.toNamed(RouteHelper
+                                            .companyMoreInfoFormPage);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 20,
+                                      ))
+                                ],
                               ),
                               SizedBox(
                                 height: 16.h,
                               ),
-                              Text(
-                                controller.companyAllProjects[index]
-                                    .projectTitle!,
-                                style: TextStyle(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold),
-                              )
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                        "${KalakarConstants.mobileNumber}"),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(": ${profileDta.mobileNumber}"),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text("${KalakarConstants.email}"),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(": ${profileDta.email}"),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
-                      );
-                    }),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              Divider(
-                height: 10.h,
-                thickness: 3.0,
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      controller.openSocialMedia(0);
-                    },
-                    child: SvgPicture.asset(
-                      "assets/svg/facebook.svg",
-                      height: 30.h,
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Divider(
+                            height: 10.h,
+                            thickness: 1.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        CustomMobileButtonWidget(
+                          text: KalakarConstants.createProject,
+                          onTap: () {
+                            controller.createNewProject();
+                          },
+                          horizontalPadding: 20.w,
+                          verticalPadding: 8.h,
+                          fontSize: 8.sp,
+                          backgroundColor: KalakarColors.buttonBackground,
+                          textColor: KalakarColors.headerText,
+                          borderRadius: 50.0,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Get.toNamed(RouteHelper.allProjects);
+                                },
+                                child: Text(KalakarConstants.viewAll)),
+                            Icon(Icons.double_arrow_rounded)
+                          ],
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          height: 250.h,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.companyAllProjects.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    controller.openProjectDetails(
+                                        controller.companyAllProjects[index]);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(16.h),
+                                    margin: EdgeInsets.only(right: 16.h),
+                                    width: 200.h,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        color: KalakarColors.backgroundGrey),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 120.h,
+                                          width: 120.h,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(60.h),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(controller
+                                                      .companyAllProjects[index]
+                                                      .projectCoverDoc!))),
+                                        ),
+                                        SizedBox(
+                                          height: 16.h,
+                                        ),
+                                        Text(
+                                          controller.companyAllProjects[index]
+                                              .projectTitle!,
+                                          style: TextStyle(
+                                              fontSize: 8.sp,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Divider(
+                          height: 10.h,
+                          thickness: 3.0,
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                controller.openSocialMedia(0);
+                              },
+                              child: SvgPicture.asset(
+                                "assets/svg/facebook.svg",
+                                height: 30.h,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                controller.openSocialMedia(1);
+                              },
+                              child: SvgPicture.asset(
+                                "assets/svg/instagram.svg",
+                                height: 30.h,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                controller.openSocialMedia(2);
+                              },
+                              child: SvgPicture.asset(
+                                "assets/svg/whatsapp.svg",
+                                height: 30.h,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                controller.openSocialMedia(3);
+                              },
+                              child: SvgPicture.asset(
+                                "assets/svg/youtube.svg",
+                                height: 30.h,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                controller.openSocialMedia(4);
+                              },
+                              child: SvgPicture.asset(
+                                "assets/svg/email.svg",
+                                height: 30.h,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                controller.openSocialMedia(5);
+                              },
+                              child: SvgPicture.asset(
+                                "assets/svg/website.svg",
+                                height: 30.h,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 24.h,
+                        ),
+                      ],
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.openSocialMedia(1);
-                    },
-                    child: SvgPicture.asset(
-                      "assets/svg/instagram.svg",
-                      height: 30.h,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.openSocialMedia(2);
-                    },
-                    child: SvgPicture.asset(
-                      "assets/svg/whatsapp.svg",
-                      height: 30.h,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.openSocialMedia(3);
-                    },
-                    child: SvgPicture.asset(
-                      "assets/svg/youtube.svg",
-                      height: 30.h,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.openSocialMedia(4);
-                    },
-                    child: SvgPicture.asset(
-                      "assets/svg/email.svg",
-                      height: 30.h,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.openSocialMedia(5);
-                    },
-                    child: SvgPicture.asset(
-                      "assets/svg/website.svg",
-                      height: 30.h,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-            ],
-          ),
-        );
+                  );
       }),
     );
   }

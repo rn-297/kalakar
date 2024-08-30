@@ -187,20 +187,22 @@ class NewProjectFormPage extends StatelessWidget {
                                       controller.addPhotosAndVideos(
                                           context, controller);
                                     },
-                                    child: Container(
-                                      height: 180.h,
-                                      width: 125.h,
-                                      margin: EdgeInsets.only(right: 15.w),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        border: Border.all(),
+                                    child: Center(
+                                      child: Container(
+                                        height: 80.h,
+                                        width: 60.h,
+                                        margin: EdgeInsets.only(right: 15.w),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                          border: Border.all(),
+                                        ),
+                                        child: Center(
+                                            child: Icon(
+                                          Icons.add,
+                                          size: 35,
+                                        )),
                                       ),
-                                      child: Center(
-                                          child: Icon(
-                                        Icons.add,
-                                        size: 35,
-                                      )),
                                     ),
                                   )
                                 : Container(
@@ -262,21 +264,11 @@ class NewProjectFormPage extends StatelessWidget {
               SizedBox(
                 height: 32.h,
               ),
-              CustomMobileButtonWidget(
-                onTap: () {
-                  controller.saveNewProject();
-                },
-                borderRadius: 50.r,
-                fontSize: 14.sp,
-                text: KalakarConstants.saveNewProject,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-              controller.selectedCompanyProject != null
-                  ? CustomMobileButtonWidget(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (controller.selectedCompanyProject != null)
+                    CustomMobileButtonWidget(
                       onTap: () {
                         controller.deleteProject();
                       },
@@ -287,8 +279,19 @@ class NewProjectFormPage extends StatelessWidget {
                       text: KalakarConstants.deleteProject,
                       horizontalPadding: 20.w,
                       verticalPadding: 8.h,
-                    )
-                  : Container(),
+                    ),
+                  CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.saveNewProject();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 14.sp,
+                    text: KalakarConstants.saveNewProject,
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+                  ),
+                ],
+              ),
             ],
           );
         }),
