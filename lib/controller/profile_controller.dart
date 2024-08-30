@@ -64,6 +64,7 @@ class ProfileController extends GetxController {
   String selfieUploadedPath = "";
   String projectCoverPath = "";
   String selectedProjectStatusId = "";
+  String companyProjectId = "0";
   String? selectedProjectStatus = null;
   List<FileData> projectDocuments = [FileData(path: "", type: "Add")];
   int startTime = 90;
@@ -817,14 +818,14 @@ class ProfileController extends GetxController {
   Future<void> saveNewProject() async {
     isLoading = true;
     KalakarDialogs.loadingDialog(
-        "Uploading New Project", "Uploading New Project");
+        "Uploading Project Details", "Uploading Project Details");
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       // Example fields (if any)
       Map<String, String> fields = {
         'UserID': loginTable.userID,
-        'CompanyProjectID': "0",
+        'CompanyProjectID': companyProjectId,
         'FK_AccountID': loginTable.accountID,
         'FK_CompanyProfileID': profileData!.companyProfileID!.toString(),
         'ProjectDescription': projectDescriptionTEController.text.trim(),
@@ -835,13 +836,16 @@ class ProfileController extends GetxController {
 
       // Example files (if any)
       Map<String, File> files = {
-        'ProjectCoverDoc': File(projectCoverPath),
+        'ProjectCoverDoc':
+            File(projectCoverPath.startsWith("http") ? "" : projectCoverPath),
       };
 
       // Example files (if any)
       Map<String, List<FileData>> files1 = {
-        'ProjectDocuments':
-            projectDocuments.where((element) => element.path != "").toList(),
+        'ProjectDocuments': projectDocuments
+            .where((element) =>
+                element.path != "" && !element.path.startsWith("http"))
+            .toList(),
       };
 
       var response = await ApiClient.postFormDataToken1(
@@ -863,6 +867,10 @@ class ProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
           getProfileData();
+          getCompanyProjects("0");
+          if (companyProjectId != "0") {
+            getProjectDocuments(companyProjectId);
+          }
         } else {
           KalakarDialogs.successDialog(
               "Profile Save Failed", responseModel.message!);
@@ -878,13 +886,19 @@ class ProfileController extends GetxController {
   }
 
   void openProjectDetails(CompanyProjectsData companyProject) {
+    companyProjectId = companyProject.companyProjectID.toString();
     selectedCompanyProject = companyProject;
     projectCoverPath = companyProject.projectCoverDoc!;
     projectTitleTEController.text = companyProject.projectTitle!;
     projectDescriptionTEController.text = companyProject.projectDescription!;
     selectedProjectStatus = getProjectStatus(companyProject.projectStatusID);
     print(selectedProjectStatus);
-    getProjectDocuments(companyProject.companyProjectID);
+    selectedProjectStatusId = projectStatusList
+        .where((element) => element.projectStatus == selectedProjectStatus)
+        .first
+        .projectStatusID
+        .toString();
+    getProjectDocuments(companyProject.companyProjectID.toString());
     Get.toNamed(RouteHelper.newProjectFormPage);
   }
 
@@ -905,7 +919,7 @@ class ProfileController extends GetxController {
     Get.toNamed(RouteHelper.newProjectFormPage);
   }
 
-  Future<void> getProjectDocuments(int? companyProjectID) async {
+  Future<void> getProjectDocuments(String companyProjectID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
@@ -976,6 +990,10 @@ class ProfileController extends GetxController {
         if (responseModel.replayStatus!) {
           KalakarDialogs.successDialog(
               "Delete Document", responseModel.message!);
+          getProjectDocuments(companyProjectID.toString());
+        } else {
+          KalakarDialogs.successDialog(
+              "Delete Document Failed", responseModel.message!);
         }
       }
     } else {}

@@ -175,14 +175,18 @@ abstract class ApiClient extends GetxService {
       if (files != null) {
         files.forEach((key, file) async {
           if (file != null) {
-            var multipartFile = /*file.path.split("").last.contains("pdf")
-                          ? await Http.MultipartFile.fromPath(key, file.path,
-                              filename: file.path.split("/").last,
-                              contentType: mime.MediaType("document", "pdf"))
-                          :*/
-                await Http.MultipartFile.fromPath(key, file.path,
-                    filename: "image.jpg");
-            request.files.add(multipartFile);
+            if (file.existsSync()) {
+              var multipartFile = /*file.path.split("").last.contains("pdf")
+                                        ? await Http.MultipartFile.fromPath(key, file.path,
+                                            filename: file.path.split("/").last,
+                                            contentType: mime.MediaType("document", "pdf"))
+                                        :*/
+                              await Http.MultipartFile.fromPath(key, file.path,
+                                  filename: "image.jpg");
+              request.files.add(multipartFile);
+            } else {
+              request.fields[key] = "";
+            }
           } else {
             request.fields[key] = "";
           }
@@ -233,14 +237,20 @@ abstract class ApiClient extends GetxService {
       // Add files
       if (files != null) {
         files.forEach((key, file) async {
-          var multipartFile = /*file.path.split("").last.contains("pdf")
+          if (file.existsSync()) {
+            var multipartFile = /*file.path.split("").last.contains("pdf")
               ? await Http.MultipartFile.fromPath(key, file.path,
                   filename: file.path.split("/").last,
                   contentType: mime.MediaType("document", "pdf"))
               :*/
-              await Http.MultipartFile.fromPath(key, file.path,
-                  filename: file.path.split("/").last);
-          request.files.add(multipartFile);
+            await Http.MultipartFile.fromPath(key, file.path,
+                filename: file.path
+                    .split("/")
+                    .last);
+            request.files.add(multipartFile);
+          }else{
+            request.fields[key] = "";
+          }
         });
       }
       // Add files
@@ -251,12 +261,17 @@ abstract class ApiClient extends GetxService {
                   filename: file.path.split("/").last,
                   contentType: mime.MediaType("document", "pdf"))
               :*/
-          file.forEach((file1) async {
-            var multipartFile = await Http.MultipartFile.fromPath(
-                key, file1.path,
-                filename: file1.path.split("/").last);
-            request.files.add(multipartFile);
-          });
+            file.forEach((file1) async {
+                        if (File(file1.path).existsSync()) {
+                          var multipartFile = await Http.MultipartFile.fromPath(
+                                                      key, file1.path,
+                                                      filename: file1.path.split("/").last);
+                          request.files.add(multipartFile);
+                        } else {
+                          request.fields[key] = "";
+                        }
+                      });
+
         });
       }
 
