@@ -151,6 +151,10 @@ class ArtistProfileController extends GetxController {
 
   get formPortFolioKey => _formPortFolioKey;
 
+
+  //Date Formatter
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
+
   //Lists
 
   List<CSVData> stateCityPinCodeList = [];
@@ -192,7 +196,6 @@ class ArtistProfileController extends GetxController {
   }
 
   setDate(String type, DateTime date) {
-    final DateFormat formatter = DateFormat('dd-MM-yyyy');
     switch (type) {
       case KalakarConstants.dob:
         artistDOB = date;
@@ -1171,4 +1174,21 @@ class ArtistProfileController extends GetxController {
   void deleteInterestIn() {}
 
   void deleteExperienceForm() {}
+
+  void setEducationData(EducationList educationData) {
+
+    artistEducationId = educationData.artistProfileEducationID.toString();
+    educationTypeTEController.text = educationData.educationType.toString();
+    universityOrInstituteTEController.text =
+        educationData.universityOrInstitute.toString();
+    courseTEController.text = educationData.course.toString();
+    courseTypeTEController.text = educationData.coursetype.toString();
+    DateTime startDate = DateTime.parse(educationData.courseStartDate.toString());
+    courseStartDateTEController.text = formatter.format(startDate);
+
+    DateTime endDate = DateTime.parse(educationData.courseStartDate.toString());
+    courseEndDateTEController.text = formatter.format(endDate);
+    scoreTEController.text = educationData.score.toString();
+    Get.toNamed(RouteHelper.artistEducationForm);
+  }
 }

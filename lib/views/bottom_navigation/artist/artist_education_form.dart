@@ -205,7 +205,7 @@ class ArtistEducationFormPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  if(controller.artistEducationId == "0")
+                  if(controller.artistEducationId != "0")
                     CustomMobileButtonWidget(
                       onTap: () {
                         controller

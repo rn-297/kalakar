@@ -355,8 +355,7 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        Get.toNamed(
-                                            RouteHelper.artistEducationForm);
+                                        controller.setEducationData(educationData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -721,7 +720,7 @@ class KalakarProfilePage extends StatelessWidget {
                                   InkWell(
                                       onTap: () {
                                         Get.toNamed(
-                                            RouteHelper.artistInterestForm);
+                                            RouteHelper.artistExperienceForm);
                                       },
                                       child: Icon(
                                         Icons.edit,
