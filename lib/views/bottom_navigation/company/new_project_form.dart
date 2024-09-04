@@ -173,7 +173,7 @@ class NewProjectFormPage extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(10.h),
-                      height: 140.h,
+                      height: 140 .h,
                       width: double.infinity,
                       child: ListView.builder(
                           shrinkWrap: true,
