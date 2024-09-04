@@ -85,9 +85,9 @@ class AllProjectsPage extends StatelessWidget {
             itemCount: controller.companyAllProjects.length,
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: (){
-                  controller.openProjectDetails(
-                      controller.companyAllProjects[index]);
+                onTap: () {
+                  controller
+                      .openProjectDetails(controller.companyAllProjects[index]);
                 },
                 child: Container(
                   padding: EdgeInsets.all(8.h),
@@ -113,22 +113,40 @@ class AllProjectsPage extends StatelessWidget {
                       SizedBox(
                         width: 16.w,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            controller.companyAllProjects[index].projectTitle!,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              controller.companyAllProjects[index].projectTitle!,
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          Text(
-                              controller.companyAllProjects[index].projectTitle!),
-                        ],
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Text(controller
+                                .companyAllProjects[index].projectTitle!,style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Text(
+                              controller
+                                  .companyAllProjects[index].projectDescription!,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -146,8 +164,7 @@ class AllProjectsPage extends StatelessWidget {
         child: GridView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: controller
-                .companyAllProjects.length,
+            itemCount: controller.companyAllProjects.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, childAspectRatio: 4.0),
             itemBuilder: (context, index) {

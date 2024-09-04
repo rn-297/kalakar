@@ -159,7 +159,7 @@ class OpportunityPage extends StatelessWidget {
                                             SizedBox(height: 8.h,),
                                             Text(requirementData
                                                     .requirementDescription! ??
-                                                ""),
+                                                "",overflow: TextOverflow.ellipsis,maxLines: 2,),
                                             SizedBox(
                                               height: 8.h,
                                             ),

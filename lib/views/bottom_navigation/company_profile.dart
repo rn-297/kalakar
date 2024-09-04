@@ -307,12 +307,12 @@ class CompanyProfilePage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(8.r),
-                                        color: KalakarColors.backgroundGrey),
+                                        border: Border.all(color: KalakarColors.backgroundGrey)),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          height: 120.h,
+                                          height: 118.h,
                                           width: 120.h,
                                           decoration: BoxDecoration(
                                               borderRadius:
@@ -328,6 +328,7 @@ class CompanyProfilePage extends StatelessWidget {
                                         Text(
                                           controller.companyAllProjects[index]
                                               .projectTitle!,
+                                          overflow: TextOverflow.ellipsis,maxLines: 2,
                                           style: TextStyle(
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.bold),
@@ -338,6 +339,7 @@ class CompanyProfilePage extends StatelessWidget {
                                         Text(
                                           controller.companyAllProjects[index]
                                               .projectDescription!,
+                                            overflow: TextOverflow.ellipsis,maxLines: 2,
                                           style: TextStyle(
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.bold),
