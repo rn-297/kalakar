@@ -6,7 +6,6 @@ import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
-import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

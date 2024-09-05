@@ -165,11 +165,16 @@ class ArtistProfileController extends GetxController {
   List<ComfortableInList> artistComfortableInList = [];
   List<HobbiesList> artistHobbiesList = [];
   List<InterestList> artistInterestedInList = [];
+  List<AgeRangeMasterList> ageRangeMasterList = [];
+  List<HeighRangeMasterList> heightRangeMasterList = [];
+  List<WeightRangeMasterList> weightRangeMasterList = [];
+  List<MaritalStatusMasterList> maritalStatusMasterList = [];
 
   List<DocumentsList> artistDocumentsList = [];
   List<ExperienceList> artistExperienceList = [];
   List<String> genderList = ["Male", "Female", "Other"];
   List<String> interestInList = ["Male", "Female", "Other"];
+  List<String> maritalStatusList = ["Male", "Female", "Other"];
   List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
   List<String> hairColorList = [
     "Black",
@@ -178,8 +183,12 @@ class ArtistProfileController extends GetxController {
     "Blond",
     "Gray and white"
   ];
+  List<String> ageRangeList = ["1-2 Years", "2-3 Years", "3-5 Years"];
+  List<String> heightRangeList = ["0-1 Feet", "1-2 Feet", "2-3 Feet"];
+  List<String> weightRangeList = ["1-2 KG", "2-3 KG", "3-5 KG"];
   List<String> bodyTypeList = ["Good Looking", "Slim", "Muscular"];
   List<String> eyeColorList = ["Light Brown", "Black", "White"];
+  List<String> yesNoList = ["Yes", "No"];
   List<String> requirementStatusList = ["Save as Draft", "Published", "Closed"];
   List<InterestedListMaster> artistInterestedInMasterList = [];
 
@@ -215,9 +224,82 @@ class ArtistProfileController extends GetxController {
     }
   }
 
+
+  Future<void> getArtistProfileMaster() async {
+    final body = <String, dynamic>{};
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var response = await ApiClient.postDataToken1(
+          KalakarConstants.artistProfileMasterApi, body, loginTable.token );
+      print(response.statusCode);
+      print(response);
+
+      if (response.statusCode == 200) {
+        ArtistMasterClass artistMasterClass =
+        ArtistMasterClass.fromJson(jsonDecode(response.body));
+        if (artistMasterClass.replayStatus ?? false) {
+          comfortableInMasterList = artistMasterClass.comfortableListMaster!;
+          hairColorMasterList = artistMasterClass.haiColorMasterList!;
+          bodyTypeMasterList = artistMasterClass.bodyTypeMasterList!;
+          eyeColorMasterList = artistMasterClass.eyeColorMasterList!;
+          requirementStatusMasterList =
+          artistMasterClass.requirementStatusMasterList!;
+          ageRangeMasterList = artistMasterClass.ageRangeMasterList!;
+          heightRangeMasterList = artistMasterClass.heighRangeMasterList!;
+          weightRangeMasterList = artistMasterClass.weightRangeMasterList!;
+          maritalStatusMasterList = artistMasterClass.maritalStatusMasterList!;
+
+          // Extract only the 'name' strings
+          List<String> names = comfortableInMasterList
+              .map((status) => status.name as String)
+              .toList();
+          comfortableInList = names;
+          names = hairColorMasterList
+              .map((status) => status.name as String)
+              .toList();
+          hairColorList = names;
+          names = bodyTypeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          bodyTypeList = names;
+          names = eyeColorMasterList
+              .map((status) => status.name as String)
+              .toList();
+          eyeColorList = names;
+          names = requirementStatusMasterList
+              .map((status) => status.name as String)
+              .toList();
+          requirementStatusList = names;
+          names = ageRangeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          ageRangeList = names;
+          names = heightRangeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          heightRangeList = names;
+          names = weightRangeMasterList
+              .map((status) => status.name as String)
+              .toList();
+          weightRangeList = names;
+          names = maritalStatusMasterList
+              .map((status) => status.name as String)
+              .toList();
+          maritalStatusList = names;
+          update();
+        }
+      }
+    }
+  }
+
+
   Future<void> saveArtistProfile() async {
     LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Uploading Profile Data", "Saving Profile Data");
       final body = <String, String>{};
       body['ArtistProfileID'] = artistProfileId;
       body['FK_AccountID'] = loginTable.accountID;
@@ -253,7 +335,7 @@ class ArtistProfileController extends GetxController {
       body['BodyType'] = bodyTypeTEController.text.trim();
       body['MaritalStatus'] = maritalStatusTEController.text.trim();
       body['Vehicle'] = vehicleTEController.text.trim();
-      body['TravelThrIndia'] = vehicleTEController.text.trim();
+      body['TravelThrIndia'] = vehicleTEController.text.trim()=="Yes"?"True":"False";
 
       Map<String, File> files = {
         'ProfilePic': File(artistProfileImage),
@@ -263,6 +345,9 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfileApi, body, files, loginTable.token);
       // print(response.statusCode);
       // print(response);
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
@@ -430,45 +515,6 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> getArtistProfileMaster() async {
-    final body = <String, dynamic>{};
-
-    var response =
-        await ApiClient.postData(KalakarConstants.artistProfileMasterApi, body);
-
-    if (response.statusCode == 200) {
-      ArtistMasterClass artistMasterClass =
-          ArtistMasterClass.fromJson(jsonDecode(response.body));
-      if (artistMasterClass.replayStatus ?? false) {
-        comfortableInMasterList = artistMasterClass.comfortableListMaster!;
-        hairColorMasterList = artistMasterClass.haiColorMasterList!;
-        bodyTypeMasterList = artistMasterClass.bodyTypeMasterList!;
-        eyeColorMasterList = artistMasterClass.eyeColorMasterList!;
-        artistInterestedInMasterList = artistMasterClass.interestedListMaster!;
-
-        // Extract only the 'name' strings
-        List<String> names = comfortableInMasterList
-            .map((status) => status.name as String)
-            .toList();
-        comfortableInList = names;
-        names =
-            hairColorMasterList.map((status) => status.name as String).toList();
-        hairColorList = names;
-        names =
-            bodyTypeMasterList.map((status) => status.name as String).toList();
-        bodyTypeList = names;
-        names =
-            eyeColorMasterList.map((status) => status.name as String).toList();
-        eyeColorList = names;
-        names = artistInterestedInMasterList
-            .map((status) => status.name as String)
-            .toList();
-        interestInList = names;
-
-        update();
-      }
-    }
-  }
 
   Future<void> saveArtistProfileDocuments() async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -603,10 +649,18 @@ class ArtistProfileController extends GetxController {
       dobTEController.text = artistProfileDetails.dateOfBirth!;
       emailTEController.text = artistProfileDetails.email!;
       mobileNumberTEController.text = artistProfileDetails.mobileNumber!;
+      languageKnownTEController.text = artistProfileDetails.languageKnown!;
+      alternateMobileNumberTEController.text=artistProfileDetails.alternateMobileNumber!;
       ageTEController.text = artistProfileDetails.age!.toString();
       roleAgeTEController.text = artistProfileDetails.roleAge.toString()!;
       heightTEController.text = artistProfileDetails.height!.toString();
       weightTEController.text = artistProfileDetails.weight!.toString();
+      bodyTypeTEController.text = artistProfileDetails.bodyType!.toString();
+      eyeColorTEController.text = artistProfileDetails.eyeColor!.toString();
+      hairColorTEController.text = artistProfileDetails.hairColor!.toString();
+      maritalStatusTEController.text = artistProfileDetails.maritalStatus!.toString();
+      vehicleTEController.text = artistProfileDetails.vehicle!.toString();
+      travelThroughIndiaTEController.text = artistProfileDetails.travelThrIndia!.toString();
       address1TEController.text = artistProfileDetails.address1!;
       address2TEController.text = artistProfileDetails.address2!;
       stateTEController.text = artistProfileDetails.state!;
@@ -1026,7 +1080,9 @@ class ArtistProfileController extends GetxController {
   }
 
   void validateProfileFormData() {
-    if (_formProfileKey.currentState!.validate()) {}
+    if (_formProfileKey.currentState!.validate()) {
+      saveArtistProfile();
+    }
   }
 
   Future<void> openSocialMedia(int index) async {
@@ -1190,5 +1246,41 @@ class ArtistProfileController extends GetxController {
     courseEndDateTEController.text = formatter.format(endDate);
     scoreTEController.text = educationData.score.toString();
     Get.toNamed(RouteHelper.artistEducationForm);
+  }
+
+  void setAgeRangeValue(String selectedItem) {
+    ageTEController.text=selectedItem;
+  }
+
+  void setRoleAgeRangeValue(String selectedItem) {
+    roleAgeTEController.text=selectedItem;
+  }
+
+  void setHeightRangeValue(String selectedItem) {
+    heightTEController.text=selectedItem;
+  }
+
+  void setBodyTypeValue(String selectedItem) {
+    bodyTypeTEController.text=selectedItem;
+  }
+
+  void setEyeColorValue(String selectedItem) {
+    eyeColorTEController.text=selectedItem;
+  }
+
+  void setHairColorValue(String selectedItem) {
+    hairColorTEController.text=selectedItem;
+  }
+
+  void setMaritalStatusValue(String selectedItem) {
+    maritalStatusTEController.text=selectedItem;
+  }
+
+  void setTravelThrIndiaValue(String selectedItem) {
+    travelThroughIndiaTEController.text=selectedItem;
+  }
+
+  void setVehicleValue(String selectedItem) {
+    vehicleTEController.text=selectedItem;
   }
 }

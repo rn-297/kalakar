@@ -209,50 +209,178 @@ class ArtistProfileFormPage extends StatelessWidget {
                   height: 16.h,
                 ),
                 CommonWidgets.commonMobileTextField(
-                    controller: controller.ageTEController,
-                    labelText: KalakarConstants.age,
+                    controller: controller.alternateMobileNumberTEController,
+                    labelText: KalakarConstants.alternateMobileNumber,
                     obscureText: false,
                     textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: Validator.validateAge),
+                    validator: Validator.validateAlternateMobileNumber),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.roleAgeTEController,
-                    labelText: KalakarConstants.roleAge,
-                    obscureText: false,
-                    textInputType: TextInputType.number,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateRoleAge),
+                CustomDropdownSearch(
+                  validator: Validator.validateAge,
+                  items: controller.ageRangeList,
+                  titleText: KalakarConstants.age,
+                  selectedItem: controller.ageTEController.text.isEmpty
+                      ? null
+                      : controller.ageTEController.text,
+                  labelText: KalakarConstants.age,
+                  onItemSelected: (selectedItem) {
+                    controller.setAgeRangeValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.heightTEController,
-                    labelText: KalakarConstants.height,
-                    obscureText: false,
-                    textInputType: TextInputType.number,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateHeight),
+                CustomDropdownSearch(
+                  validator: Validator.validateRoleAge,
+                  items: controller.ageRangeList,
+                  titleText: KalakarConstants.roleAge,
+                  selectedItem: controller.roleAgeTEController.text.isEmpty
+                      ? null
+                      : controller.roleAgeTEController.text,
+                  labelText: KalakarConstants.roleAge,
+                  onItemSelected: (selectedItem) {
+                    controller.setRoleAgeRangeValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.weightTEController,
-                    labelText: KalakarConstants.weight,
+                CustomDropdownSearch(
+                  validator: Validator.validateHeight,
+                  items: controller.heightRangeList,
+                  titleText: KalakarConstants.height,
+                  selectedItem: controller.heightTEController.text.isEmpty
+                      ? null
+                      : controller.heightTEController.text,
+                  labelText: KalakarConstants.height,
+                  onItemSelected: (selectedItem) {
+                    controller.setHeightRangeValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateWeight,
+                  items: controller.weightRangeList,
+                  titleText: KalakarConstants.weight,
+                  selectedItem: controller.weightTEController.text.isEmpty
+                      ? null
+                      : controller.weightTEController.text,
+                  labelText: KalakarConstants.weight,
+                  onItemSelected: (selectedItem) {
+                    controller.setHeightRangeValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateBodyType,
+                  items: controller.bodyTypeList,
+                  titleText: KalakarConstants.bodyType,
+                  selectedItem: controller.bodyTypeTEController.text.isEmpty
+                      ? null
+                      : controller.bodyTypeTEController.text,
+                  labelText: KalakarConstants.bodyType,
+                  onItemSelected: (selectedItem) {
+                    controller.setBodyTypeValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateEyeColor,
+                  items: controller.eyeColorList,
+                  titleText: KalakarConstants.eyeColor,
+                  selectedItem: controller.eyeColorTEController.text.isEmpty
+                      ? null
+                      : controller.eyeColorTEController.text,
+                  labelText: KalakarConstants.eyeColor,
+                  onItemSelected: (selectedItem) {
+                    controller.setEyeColorValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateHairColor,
+                  items: controller.hairColorList,
+                  titleText: KalakarConstants.hairColor,
+                  selectedItem: controller.hairColorTEController.text.isEmpty
+                      ? null
+                      : controller.hairColorTEController.text,
+                  labelText: KalakarConstants.hairColor,
+                  onItemSelected: (selectedItem) {
+                    controller.setHairColorValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateMaritalStatus,
+                  items: controller.maritalStatusList,
+                  titleText: KalakarConstants.maritalStatus,
+                  selectedItem:
+                      controller.maritalStatusTEController.text.isEmpty
+                          ? null
+                          : controller.maritalStatusTEController.text,
+                  labelText: KalakarConstants.maritalStatus,
+                  onItemSelected: (selectedItem) {
+                    controller.setMaritalStatusValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),CommonWidgets.commonMobileTextField(
+                    controller: controller.languageKnownTEController,
+                    labelText: KalakarConstants.languageKnown,
                     obscureText: false,
-                    textInputType: TextInputType.number,
+                    textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: Validator.validateWeight),
+                    validator: Validator.validateLanguageKnown),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateVehicle,
+                  items: controller.yesNoList,
+                  titleText: KalakarConstants.vehicle,
+                  selectedItem:
+                  controller.vehicleTEController.text.isEmpty
+                      ? null
+                      : controller.vehicleTEController.text,
+                  labelText: KalakarConstants.vehicle,
+                  onItemSelected: (selectedItem) {
+                    controller.setVehicleValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch(
+                  validator: Validator.validateTravelThrIndia,
+                  items: controller.yesNoList,
+                  titleText: KalakarConstants.travelThrIndia,
+                  selectedItem:
+                      controller.travelThroughIndiaTEController.text.isEmpty
+                          ? null
+                          : controller.travelThroughIndiaTEController.text,
+                  labelText: KalakarConstants.travelThrIndia,
+                  onItemSelected: (selectedItem) {
+                    controller.setTravelThrIndiaValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -379,6 +507,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
+
                 CommonWidgets.commonMobileTextField(
                     controller: controller.fbLinkTEController,
                     labelText: KalakarConstants.fbLink,

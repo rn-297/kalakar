@@ -190,6 +190,7 @@ class KalakarConstants {
   static const String language = "Language";
   static const String hairColor = "Hair Color";
   static const String bodyType = "Body Type";
+  static const String eyeColor = "Eye Color";
   static const String experiences = "Experiences";
   static const String experience1 = "Experience";
   static const String startDate = "Start Date";
@@ -282,6 +283,8 @@ class KalakarConstants {
   static const String interestIn = "Interest In";
   static const String passport = "Passport";
   static const String aadharCard = "Aadhar Card";
+  static const String vehicle = "Vehicle";
+
   static const String roleName = "Role Name";
   static const String skillsUsed = "Skill Used";
   static const String roleProfile = "roleProfile";
