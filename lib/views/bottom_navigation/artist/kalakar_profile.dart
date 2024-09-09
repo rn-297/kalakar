@@ -52,16 +52,18 @@ class KalakarProfilePage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      height: 80.h,
-                      width: 80.h,
-                      margin: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: KalakarColors.headerText),
-                        borderRadius: BorderRadius.circular(50),
-                        image: DecorationImage(
-                            image:
-                                NetworkImage(profileDetails.profilePic ?? "")),
+                    child: Center(
+                      child: Container(
+                        height: 80.h,
+                        width: 80.h,
+                        margin: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          // border: Border.all(color: KalakarColors.headerText),
+                          borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(
+                              image:
+                                  NetworkImage(profileDetails.profilePic ?? "")),
+                        ),
                       ),
                     ),
                   ),
@@ -315,7 +317,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                         InkWell(
                             onTap: () {
-                              controller.addNewEducationClick();
+                              controller.setEducationData(null);
                             },
                             child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -403,8 +405,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                         InkWell(
                             onTap: () {
-                              Get.toNamed(RouteHelper
-                                  .artistComfortableInForm);
+                              controller.setComfortableInEditData(null);
                             },
                             child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -444,8 +445,8 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        Get.toNamed(RouteHelper
-                                            .artistComfortableInForm);
+                                        controller.setComfortableInEditData
+                                          (comfortableInData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -485,8 +486,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                         InkWell(
                             onTap: () {
-                              Get.toNamed(
-                                  RouteHelper.artistHobbiesFrom);
+                             controller.setEditHobbiesData(null);
                             },
                             child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -527,8 +527,7 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        Get.toNamed(
-                                            RouteHelper.artistHobbiesFrom);
+                                        controller.setEditHobbiesData(hobbiesData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -569,8 +568,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                         InkWell(
                             onTap: () {
-                              Get.toNamed(
-                                  RouteHelper.artistInterestForm);
+                              controller.setEditInterestInData(null);
                             },
                             child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -611,8 +609,7 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        Get.toNamed(
-                                            RouteHelper.artistInterestForm);
+                                        controller.setEditInterestInData(interestInData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -678,8 +675,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                         InkWell(
                             onTap: () {
-                              Get.toNamed(
-                                  RouteHelper.artistExperienceForm);
+                              controller.setEditExperienceData(null);
                             },
                             child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -719,8 +715,8 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        Get.toNamed(
-                                            RouteHelper.artistExperienceForm);
+                                        controller.setEditExperienceData(expereinceData);
+
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -989,7 +985,7 @@ class KalakarProfilePage extends StatelessWidget {
             Get.toNamed(RouteHelper.artistProfileForm);
           },
           child: Icon(
-            Icons.settings,
+            Icons.edit,
             size: 30.h,
           ),
         ),

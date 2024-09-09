@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -105,6 +106,46 @@ abstract class ApiClient extends GetxService {
             body: body,
           )
           .timeout(Duration(seconds: timeoutInSeconds));
+      print(_response.request);
+      print(_response.headers);
+      print(_response.body);
+
+      return _response;
+    } catch (ex) {
+      print(ex);
+      return Response(statusCode: 1, statusText: ex.toString());
+    }
+  }
+
+
+  static deleteDataToken(String uri, dynamic body, String accessToken) async {
+    try {
+      print(KalakarConstants.baseURL + uri);
+      print(body);
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult.isEmpty) {
+        return Response(
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+      }
+      String jsonBody = json.encode(body);
+      Map<String, String> headers = {
+        "Accept": "*/*",
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+      };
+
+      // Using http.Request to manually create a DELETE request with a body
+      var request =Http.Request(
+        'DELETE',
+        Uri.parse(KalakarConstants.baseURL + uri),
+      );
+      request.headers.addAll(headers);
+      request.body = jsonBody;  // Adding the JSON encoded body
+
+      // Sending the request and awaiting the streamed response
+      var streamedResponse = await request.send();
+      var _response = await Http.Response.fromStream(streamedResponse);
+
       print(_response.request);
       print(_response.headers);
       print(_response.body);

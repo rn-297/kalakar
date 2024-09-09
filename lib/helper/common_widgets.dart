@@ -19,6 +19,7 @@ class CommonWidgets {
     bool isSuffixIcon = false,
     IconData suffixIcon = Icons.upload_file_outlined,
     int maxLines = 1,
+    String? hintText=null,
     double borderRadius = 50.0,
     EdgeInsetsGeometry contentPadding =
         const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 12),
@@ -31,6 +32,7 @@ class CommonWidgets {
       keyboardType: textInputType,
       enabled: editable,
       maxLines: maxLines,
+
       // Added validator
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -42,6 +44,7 @@ class CommonWidgets {
           borderSide: BorderSide(color: borderColor, width: 1),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
+        hintText: hintText,
         alignLabelWithHint: true,
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: focusedBorderColor, width: 1),

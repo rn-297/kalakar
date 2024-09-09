@@ -151,7 +151,6 @@ class ArtistProfileController extends GetxController {
 
   get formPortFolioKey => _formPortFolioKey;
 
-
   //Date Formatter
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
@@ -173,8 +172,8 @@ class ArtistProfileController extends GetxController {
   List<DocumentsList> artistDocumentsList = [];
   List<ExperienceList> artistExperienceList = [];
   List<String> genderList = ["Male", "Female", "Other"];
-  List<String> interestInList = ["Male", "Female", "Other"];
-  List<String> maritalStatusList = ["Male", "Female", "Other"];
+  List<String> interestInList = ["Films", "Web series", "Advertise"];
+  List<String> maritalStatusList = ["Single", "Married", "Divorced"];
   List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
   List<String> hairColorList = [
     "Black",
@@ -224,31 +223,32 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-
   Future<void> getArtistProfileMaster() async {
     final body = <String, dynamic>{};
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       var response = await ApiClient.postDataToken1(
-          KalakarConstants.artistProfileMasterApi, body, loginTable.token );
+          KalakarConstants.artistProfileMasterApi, body, loginTable.token);
       print(response.statusCode);
       print(response);
 
       if (response.statusCode == 200) {
         ArtistMasterClass artistMasterClass =
-        ArtistMasterClass.fromJson(jsonDecode(response.body));
+            ArtistMasterClass.fromJson(jsonDecode(response.body));
         if (artistMasterClass.replayStatus ?? false) {
           comfortableInMasterList = artistMasterClass.comfortableListMaster!;
           hairColorMasterList = artistMasterClass.haiColorMasterList!;
           bodyTypeMasterList = artistMasterClass.bodyTypeMasterList!;
           eyeColorMasterList = artistMasterClass.eyeColorMasterList!;
           requirementStatusMasterList =
-          artistMasterClass.requirementStatusMasterList!;
+              artistMasterClass.requirementStatusMasterList!;
           ageRangeMasterList = artistMasterClass.ageRangeMasterList!;
           heightRangeMasterList = artistMasterClass.heighRangeMasterList!;
           weightRangeMasterList = artistMasterClass.weightRangeMasterList!;
           maritalStatusMasterList = artistMasterClass.maritalStatusMasterList!;
+          artistInterestedInMasterList =
+              artistMasterClass.interestedListMaster!;
 
           // Extract only the 'name' strings
           List<String> names = comfortableInMasterList
@@ -287,12 +287,15 @@ class ArtistProfileController extends GetxController {
               .map((status) => status.name as String)
               .toList();
           maritalStatusList = names;
+          names = artistInterestedInList
+              .map((status) => status.interestedName as String)
+              .toList();
+          interestInList = names;
           update();
         }
       }
     }
   }
-
 
   Future<void> saveArtistProfile() async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -335,7 +338,8 @@ class ArtistProfileController extends GetxController {
       body['BodyType'] = bodyTypeTEController.text.trim();
       body['MaritalStatus'] = maritalStatusTEController.text.trim();
       body['Vehicle'] = vehicleTEController.text.trim();
-      body['TravelThrIndia'] = vehicleTEController.text.trim()=="Yes"?"True":"False";
+      body['TravelThrIndia'] =
+          vehicleTEController.text.trim() == "Yes" ? "True" : "False";
 
       Map<String, File> files = {
         'ProfilePic': File(artistProfileImage),
@@ -345,7 +349,7 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfileApi, body, files, loginTable.token);
       // print(response.statusCode);
       // print(response);
-      if(Get.isDialogOpen!){
+      if (Get.isDialogOpen!) {
         Get.back();
       }
 
@@ -366,6 +370,10 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileEducation() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      String startDate = courseStartDate.toIso8601String();
+      String endDate = courseEndDate.toIso8601String();
+      KalakarDialogs.loadingDialog(
+          "Uploading Education Data", "Saving Education Data");
       final body = {
         "artistProfile_EducationID": artistEducationId,
         "fK_AccountID": loginTable.accountID,
@@ -374,8 +382,8 @@ class ArtistProfileController extends GetxController {
         "course": courseTEController.text.trim(),
         "specialization": specializationTEController.text.trim(),
         "coursetype": courseTypeTEController.text.trim(),
-        "courseStartDate": courseStartDate.toString(),
-        "courseEndDate": courseEndDate.toString(),
+        "courseStartDate": startDate + "Z",
+        "courseEndDate": endDate + "Z",
         "score": scoreTEController.text.trim()
       };
 
@@ -385,6 +393,10 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
+
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
@@ -514,7 +526,6 @@ class ArtistProfileController extends GetxController {
       }
     }
   }
-
 
   Future<void> saveArtistProfileDocuments() async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -650,7 +661,8 @@ class ArtistProfileController extends GetxController {
       emailTEController.text = artistProfileDetails.email!;
       mobileNumberTEController.text = artistProfileDetails.mobileNumber!;
       languageKnownTEController.text = artistProfileDetails.languageKnown!;
-      alternateMobileNumberTEController.text=artistProfileDetails.alternateMobileNumber!;
+      alternateMobileNumberTEController.text =
+          artistProfileDetails.alternateMobileNumber!;
       ageTEController.text = artistProfileDetails.age!.toString();
       roleAgeTEController.text = artistProfileDetails.roleAge.toString()!;
       heightTEController.text = artistProfileDetails.height!.toString();
@@ -658,9 +670,11 @@ class ArtistProfileController extends GetxController {
       bodyTypeTEController.text = artistProfileDetails.bodyType!.toString();
       eyeColorTEController.text = artistProfileDetails.eyeColor!.toString();
       hairColorTEController.text = artistProfileDetails.hairColor!.toString();
-      maritalStatusTEController.text = artistProfileDetails.maritalStatus!.toString();
+      maritalStatusTEController.text =
+          artistProfileDetails.maritalStatus!.toString();
       vehicleTEController.text = artistProfileDetails.vehicle!.toString();
-      travelThroughIndiaTEController.text = artistProfileDetails.travelThrIndia!.toString();
+      travelThroughIndiaTEController.text =
+          artistProfileDetails.travelThrIndia!.toString();
       address1TEController.text = artistProfileDetails.address1!;
       address2TEController.text = artistProfileDetails.address2!;
       stateTEController.text = artistProfileDetails.state!;
@@ -954,6 +968,17 @@ class ArtistProfileController extends GetxController {
             ArtistDocumentListClass.fromJson(jsonDecode(response.body));
         if (artistDocumentListClass.replayStatus ?? false) {
           artistDocumentsList = artistDocumentListClass.documentsList!;
+          passportTEController.text =
+              artistDocumentsList[0].passport.toString().split("/").last;
+          passportImage = artistDocumentsList[0].passport.toString();
+          adharCardTEController.text =
+              artistDocumentsList[0].adharCard.toString().split("/").last;
+          adharCardImage = artistDocumentsList[0].adharCard.toString();
+          filmCorporationCrdTEController.text =
+              artistDocumentsList[0].fileCorporationCard.toString().split("/").last;
+          filmCorporationCardImage =
+              artistDocumentsList[0].fileCorporationCard.toString();
+
           update();
         }
         // print("response successful ${response.body}");
@@ -1182,13 +1207,20 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null &&
         loginTable.accountType == KalakarConstants.artist) {
-      getArtistProfileMaster();
-      getArtistProfileBasic();
-      getArtistProfileEducation(0);
-      getArtistProfileComfortableIn(0);
-      getArtistProfileHobbies(0);
-      getArtistProfileInterest(0);
-      getArtistExperience(0);
+      final apiCalls = [
+        getArtistProfileMaster(),
+        getArtistProfileBasic(),
+        getArtistProfileEducation(0),
+        getArtistProfileComfortableIn(0),
+        getArtistProfileHobbies(0),
+        getArtistProfileInterest(0),
+        getArtistExperience(0),
+        getArtistDocuments()
+      ];
+
+      // Process only 2 API calls at a time
+      final results = await Future.wait(apiCalls, eagerError: true);
+      print(results);
     }
   }
 
@@ -1196,19 +1228,41 @@ class ArtistProfileController extends GetxController {
     genderTEController.text = value;
   }
 
-  void addNewEducationClick() {
-    artistEducationId = "0";
-    educationTypeTEController.text = "";
-    universityOrInstituteTEController.text = "";
-    courseTEController.text = "";
-    courseTypeTEController.text = "";
-    courseStartDateTEController.text = "";
-    courseEndDateTEController.text = "";
-    scoreTEController.text = "";
-    Get.toNamed(RouteHelper.artistEducationForm);
-  }
+  Future<void> deleteEducationData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Deleting Education Data", "Deleting Education Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = artistEducationId;
 
-  void deleteEducationData() {}
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteArtistEducationDataApi,
+          body,
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Deleting Education Data Success", responseModel.message!);
+          getArtistProfileEducation(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Education Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
 
   void setComfortableInValue(String selectedItem) {
     comfortableInTEController.text = selectedItem;
@@ -1221,66 +1275,248 @@ class ArtistProfileController extends GetxController {
     update();
   }
 
-  void deleteComfortableIn() {}
+  Future<void> deleteComfortableIn() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Deleting Comfortable In Data", "Deleting Comfortable In Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = artistEducationId;
 
-  void deleteHobbies() {}
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteArtistHobbyDataApi, body, loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Deleting Comfortable In Data Success", responseModel.message!);
+          getArtistProfileHobbies(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Comfortable Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
+
+  Future<void> deleteHobbies() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Deleting Hobby Data", "Deleting Hobby Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = artistHobbiesId;
+
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteArtistHobbyDataApi, body, loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Deleting Hobby Data Success", responseModel.message!);
+          getArtistProfileHobbies(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Hobby Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
 
   void setInterestedInValue(String selectedItem) {}
 
   void deleteInterestIn() {}
 
-  void deleteExperienceForm() {}
+  Future<void> deleteExperienceForm() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Deleting Experience Data", "Deleting Experience Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = artistExperienceId;
 
-  void setEducationData(EducationList educationData) {
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteArtistExperienceDataApi,
+          body,
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
 
-    artistEducationId = educationData.artistProfileEducationID.toString();
-    educationTypeTEController.text = educationData.educationType.toString();
-    universityOrInstituteTEController.text =
-        educationData.universityOrInstitute.toString();
-    courseTEController.text = educationData.course.toString();
-    courseTypeTEController.text = educationData.coursetype.toString();
-    DateTime startDate = DateTime.parse(educationData.courseStartDate.toString());
-    courseStartDateTEController.text = formatter.format(startDate);
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Deleting Experience Data Success", responseModel.message!);
+          getArtistExperience(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Experience Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
 
-    DateTime endDate = DateTime.parse(educationData.courseStartDate.toString());
-    courseEndDateTEController.text = formatter.format(endDate);
-    scoreTEController.text = educationData.score.toString();
+  void setEducationData(EducationList? educationData) {
+    if (educationData != null) {
+      artistEducationId = educationData.artistProfileEducationID.toString();
+      educationTypeTEController.text = educationData.educationType.toString();
+      universityOrInstituteTEController.text =
+          educationData.universityOrInstitute.toString();
+      courseTEController.text = educationData.course.toString();
+      specializationTEController.text = educationData.specialization.toString();
+      courseTypeTEController.text = educationData.coursetype.toString();
+      DateTime startDate =
+          DateTime.parse(educationData.courseStartDate.toString());
+      courseStartDate = startDate;
+      courseStartDateTEController.text = formatter.format(startDate);
+
+      DateTime endDate =
+          DateTime.parse(educationData.courseStartDate.toString());
+      courseEndDate = endDate;
+      courseEndDateTEController.text = formatter.format(endDate);
+      scoreTEController.text = educationData.score.toString();
+    } else {
+      artistEducationId = "0";
+      educationTypeTEController.text = "";
+      universityOrInstituteTEController.text = "";
+      courseTEController.text = "";
+      specializationTEController.text = "";
+      courseTypeTEController.text = "";
+
+      courseStartDateTEController.text = "";
+
+      courseEndDateTEController.text = "";
+      scoreTEController.text = "";
+    }
     Get.toNamed(RouteHelper.artistEducationForm);
   }
 
   void setAgeRangeValue(String selectedItem) {
-    ageTEController.text=selectedItem;
+    ageTEController.text = selectedItem;
   }
 
   void setRoleAgeRangeValue(String selectedItem) {
-    roleAgeTEController.text=selectedItem;
+    roleAgeTEController.text = selectedItem;
   }
 
   void setHeightRangeValue(String selectedItem) {
-    heightTEController.text=selectedItem;
+    heightTEController.text = selectedItem;
   }
 
   void setBodyTypeValue(String selectedItem) {
-    bodyTypeTEController.text=selectedItem;
+    bodyTypeTEController.text = selectedItem;
   }
 
   void setEyeColorValue(String selectedItem) {
-    eyeColorTEController.text=selectedItem;
+    eyeColorTEController.text = selectedItem;
   }
 
   void setHairColorValue(String selectedItem) {
-    hairColorTEController.text=selectedItem;
+    hairColorTEController.text = selectedItem;
   }
 
   void setMaritalStatusValue(String selectedItem) {
-    maritalStatusTEController.text=selectedItem;
+    maritalStatusTEController.text = selectedItem;
   }
 
   void setTravelThrIndiaValue(String selectedItem) {
-    travelThroughIndiaTEController.text=selectedItem;
+    travelThroughIndiaTEController.text = selectedItem;
   }
 
   void setVehicleValue(String selectedItem) {
-    vehicleTEController.text=selectedItem;
+    vehicleTEController.text = selectedItem;
+  }
+
+  void setComfortableInEditData(ComfortableInList? comfortableInData) async {
+    if (comfortableInData != null) {
+      comfortableInMasterId =
+          comfortableInData.artistProfileComfortableInID.toString();
+      comfortableInTEController.text = comfortableInMasterList
+          .where((status) =>
+              status.id == comfortableInData.artistProfileComfortableInID)
+          .toList()
+          .first
+          .name
+          .toString();
+    } else {
+      comfortableInMasterId = "0";
+      comfortableInTEController.text = "";
+    }
+    Get.toNamed(RouteHelper.artistComfortableInForm);
+  }
+
+  void setEditHobbiesData(HobbiesList? hobbiesData) {
+    if (hobbiesData != null) {
+      artistHobbiesId = hobbiesData.artistProfileHobbiesID.toString();
+      hobbyTEController.text = hobbiesData.hobbyName.toString();
+    } else {
+      artistHobbiesId = "";
+      hobbyTEController.text = "";
+    }
+    Get.toNamed(RouteHelper.artistHobbiesFrom);
+  }
+
+  void setEditInterestInData(InterestList? interestInData) {
+    if (interestInData != null) {
+      interestInMasterId = interestInData.artistProfileInterestID.toString();
+      interestedInTEController.text = interestInData.interestedName.toString();
+    } else {
+      interestInMasterId = "0";
+      interestedInTEController.text = "";
+    }
+    Get.toNamed(RouteHelper.artistInterestForm);
+  }
+
+  void setEditExperienceData(ExperienceList? expereinceData) {
+    if (expereinceData != null) {
+      artistExperienceId = expereinceData.artistProfileExperienceID.toString();
+      companyNameTEController.text = "";
+      roleNameTEController.text = expereinceData.roleName.toString();
+
+      DateTime startDate = DateTime.parse(expereinceData.startDate.toString());
+      expStartDate = startDate;
+      expStartDateTEController.text = formatter.format(startDate);
+      DateTime endDate = DateTime.parse(expereinceData.startDate.toString());
+      expEndDate = endDate;
+      expEndDateTEController.text = formatter.format(endDate);
+      roleImageTEController.text = expereinceData.roleImage.toString();
+      roleVideoTEController.text = expereinceData.roleVideo.toString();
+    } else {
+      companyNameTEController.text = "";
+      roleNameTEController.text = "";
+      expEndDateTEController.text = "";
+      expStartDateTEController.text = "";
+      roleImageTEController.text = "";
+      roleVideoTEController.text = "";
+      artistExperienceId = "0";
+    }
+    Get.toNamed(RouteHelper.artistExperienceForm);
   }
 }

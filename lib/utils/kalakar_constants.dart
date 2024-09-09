@@ -96,6 +96,12 @@ class KalakarConstants {
       "/RequirementDetails/GetAppliedForRequirement_Artist";
   static const String getAppliedForRequirementCompany =
       "/RequirementDetails/GetAppliedForRequirement_Company";
+  static const String deleteArtistEducationDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Education";
+  static const String deleteArtistHobbyDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Hobbies";
+  static const String deleteArtistExperienceDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Experience";
 
   //Strings
   static const String usernameHint = "E-mail Id or Contact Number";

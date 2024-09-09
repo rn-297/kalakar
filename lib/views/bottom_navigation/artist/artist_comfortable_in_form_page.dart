@@ -106,7 +106,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  if(controller.comfortableInMasterId == "0")
+                  if(controller.comfortableInMasterId == "-1")
                     CustomMobileButtonWidget(
                       width: 125.w,
                       onTap: () {
@@ -126,7 +126,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                     width: 125.w,
                     onTap: () {
-                      controller.validateDocumentsForm();
+                      controller.validateComfortableInForm();
                     },
                     borderRadius: 50.r,
                     fontSize: 14.sp,
