@@ -304,6 +304,7 @@ class KalakarConstants {
   static const String saveExperience = "Save Experience";
   static const String saveHobby = "Save Hobby";
   static const String saveInterestedIn = "Save Interested In";
+  static const String savePortfolio = "Save Portfolio";
   static const String deleteEducation = "Delete Education";
   static const String deleteComfortableIn = "Delete Comfortable In";
   static const String deleteHobby = "Delete Hobby";

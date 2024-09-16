@@ -173,6 +173,7 @@ class ArtistProfileController extends GetxController {
   List<ExperienceList> artistExperienceList = [];
   List<String> genderList = ["Male", "Female", "Other"];
   List<String> interestInList = ["Films", "Web series", "Advertise"];
+  List<String> fileTypeList = ["IMAGE", "VIDEO"];
   List<String> maritalStatusList = ["Single", "Married", "Divorced"];
   List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
   List<String> hairColorList = [
@@ -600,7 +601,7 @@ class ArtistProfileController extends GetxController {
       body['UserID'] = loginTable.userID;
       body['ArtistProfile_PortfolioID'] = artistPortfolioId;
       body['FK_AccountID'] = loginTable.accountID;
-      body['FileType'] = '';
+      body['FileType'] = fileTypeTEController.text;
 
       Map<String, File> files = {
         'FilePath': File(""),
@@ -974,8 +975,11 @@ class ArtistProfileController extends GetxController {
           adharCardTEController.text =
               artistDocumentsList[0].adharCard.toString().split("/").last;
           adharCardImage = artistDocumentsList[0].adharCard.toString();
-          filmCorporationCrdTEController.text =
-              artistDocumentsList[0].fileCorporationCard.toString().split("/").last;
+          filmCorporationCrdTEController.text = artistDocumentsList[0]
+              .fileCorporationCard
+              .toString()
+              .split("/")
+              .last;
           filmCorporationCardImage =
               artistDocumentsList[0].fileCorporationCard.toString();
 
@@ -1518,5 +1522,9 @@ class ArtistProfileController extends GetxController {
       artistExperienceId = "0";
     }
     Get.toNamed(RouteHelper.artistExperienceForm);
+  }
+
+  void setFileTypeValue(String selectedItem) {
+    fileTypeTEController.text = selectedItem;
   }
 }

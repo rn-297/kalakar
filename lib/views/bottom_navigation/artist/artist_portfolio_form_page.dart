@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
+import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/textfield_validators.dart';
@@ -86,15 +87,18 @@ class ArtistPortfolioFormPage extends StatelessWidget {
           child: Form(
             key: controller.formPortFolioKey,
             child: Column(children: [
-              CommonWidgets.commonMobileTextField(
-                  controller: controller.fileTypeTEController,
-                  labelText: KalakarConstants.fileType,
-                  obscureText: false,
-                  textInputType: TextInputType.text,
-                  passwordVisibility: false,
-                  borderRadius: 12.r,
-                  togglePasswordVisibility: () {},
-                  validator: Validator.validateFileType),
+              CustomDropdownSearch(
+                validator: Validator.validateInterestedIn,
+                items: controller.interestInList,
+                titleText: KalakarConstants.fileType,
+                selectedItem: controller.fileTypeTEController.text.isEmpty
+                    ? null
+                    : controller.fileTypeTEController.text,
+                labelText: KalakarConstants.fileType,
+                onItemSelected: (selectedItem) {
+                  controller.setFileTypeValue(selectedItem);
+                },
+              ),
 
               CommonWidgets.commonMobileTextField(
                   controller: controller.filePathTEController,
@@ -114,7 +118,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
                 },
                 borderRadius: 50.r,
                 fontSize: 14.sp,
-                text: KalakarConstants.saveInterestedIn,
+                text: KalakarConstants.savePortfolio,
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
               ),
