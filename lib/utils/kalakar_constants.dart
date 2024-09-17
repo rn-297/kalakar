@@ -34,6 +34,8 @@ class KalakarConstants {
       "/ArtistProfile/ArtistProfile_Documents";
   static const String saveArtistProfileExperienceApi =
       "/ArtistProfile/SaveArtistProfile_Experience";
+  static const String saveArtistProfilePortfolioApi =
+      "/ArtistProfile/SaveArtistProfile_Portfolio";
   static const String getArtistProfileBasicApi =
       "/ArtistProfile/GetArtistProfile_Basic";
   static const String getArtistProfileEducationApi =

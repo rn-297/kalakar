@@ -11,6 +11,7 @@ import 'package:kalakar/data/models/artist/artist_education_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_experience_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_hobbies_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_interested_in_class.dart';
+import 'package:kalakar/data/models/artist/artist_portfolio_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
@@ -97,6 +98,7 @@ class ArtistProfileController extends GetxController {
   String passportImage = "";
   String filmCorporationCardImage = "";
   String adharCardImage = "";
+  String portFolioImageOrVideo = "";
   String expRoleImage = "";
   String expRoleVideo = "";
   String documentType = "";
@@ -171,6 +173,7 @@ class ArtistProfileController extends GetxController {
 
   List<DocumentsList> artistDocumentsList = [];
   List<ExperienceList> artistExperienceList = [];
+  List<PortfolioList> artistPortfolioList = [];
   List<String> genderList = ["Male", "Female", "Other"];
   List<String> interestInList = ["Films", "Web series", "Advertise"];
   List<String> fileTypeList = ["IMAGE", "VIDEO"];
@@ -597,29 +600,42 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfilePortFolio() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Portfolio Data", "Saving Portfolio Data");
       final body = <String, String>{};
       body['UserID'] = loginTable.userID;
       body['ArtistProfile_PortfolioID'] = artistPortfolioId;
       body['FK_AccountID'] = loginTable.accountID;
-      body['FileType'] = fileTypeTEController.text;
+      body['FileType'] = fileTypeTEController.text == "IMAGE" ? "1" : "2";
 
       Map<String, File> files = {
-        'FilePath': File(""),
+        'FilePath': File(portFolioImageOrVideo),
       };
+      print(body);
 
       var response = await ApiClient.postFormDataToken(
-          KalakarConstants.saveArtistProfileExperienceApi,
+          KalakarConstants.saveArtistProfilePortfolioApi,
           body,
           files,
           loginTable.token);
       // print(response.statusCode);
       // print(response);
 
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
+
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+        ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Portfolio Data Success", responseModel.message!);
+          getArtistProfileEducation(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Portfolio Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -822,10 +838,19 @@ class ArtistProfileController extends GetxController {
       } else if (documentType == KalakarConstants.aadharCard) {
         adharCardImage = file.path;
         adharCardTEController.text = adharCardImage.split("/").last;
+      } else if (documentType == KalakarConstants.portfolio) {
+        portFolioImageOrVideo = file.path;
+        filePathTEController.text = portFolioImageOrVideo.split("/").last;
       }
       update();
     }
     Get.back();
+  }
+
+  void addPhotosAndVideos(
+      BuildContext context, ArtistProfileController controller) {
+    documentType = KalakarConstants.portfolio;
+    PickerHelper.showImageVideoBottomSheet(context, controller);
   }
 
   Future<void> getArtistProfileEducation(int recordID) async {
@@ -1041,10 +1066,10 @@ class ArtistProfileController extends GetxController {
       // print(response);
 
       if (response.statusCode == 200) {
-        ArtistExperienceListClass artistExperienceListClass =
-            ArtistExperienceListClass.fromJson(jsonDecode(response.body));
-        if (artistExperienceListClass.replayStatus ?? false) {
-          artistExperienceList = artistExperienceListClass.experienceList!;
+        ArtistPortfolioListClass artistPortfolioListClass =
+            ArtistPortfolioListClass.fromJson(jsonDecode(response.body));
+        if (artistPortfolioListClass.replayStatus ?? false) {
+          artistPortfolioList = artistPortfolioListClass.portfolioList!;
           update();
         }
         // print("response successful ${response.body}");
@@ -1219,7 +1244,8 @@ class ArtistProfileController extends GetxController {
         getArtistProfileHobbies(0),
         getArtistProfileInterest(0),
         getArtistExperience(0),
-        getArtistDocuments()
+        getArtistDocuments(),
+        getArtistPortFolio(0)
       ];
 
       // Process only 2 API calls at a time
@@ -1526,5 +1552,9 @@ class ArtistProfileController extends GetxController {
 
   void setFileTypeValue(String selectedItem) {
     fileTypeTEController.text = selectedItem;
+  }
+
+  void editArtistPortfolio(PortfolioList artistPortfolioList) {
+
   }
 }

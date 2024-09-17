@@ -36,7 +36,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.interestIn,
+        KalakarConstants.portfolio,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       /* actions: [
@@ -61,7 +61,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.interestIn,
+        KalakarConstants.portfolio,
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
@@ -89,7 +89,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
             child: Column(children: [
               CustomDropdownSearch(
                 validator: Validator.validateInterestedIn,
-                items: controller.interestInList,
+                items: controller.fileTypeList,
                 titleText: KalakarConstants.fileType,
                 selectedItem: controller.fileTypeTEController.text.isEmpty
                     ? null
@@ -99,16 +99,24 @@ class ArtistPortfolioFormPage extends StatelessWidget {
                   controller.setFileTypeValue(selectedItem);
                 },
               ),
+              SizedBox(height: 16.h,),
 
-              CommonWidgets.commonMobileTextField(
-                  controller: controller.filePathTEController,
-                  labelText: KalakarConstants.fileType,
-                  obscureText: false,
-                  textInputType: TextInputType.text,
-                  passwordVisibility: false,
-                  borderRadius: 12.r,
-                  togglePasswordVisibility: () {},
-                  validator: Validator.validateFilePath),
+              InkWell(
+                onTap: (){
+                  controller.addPhotosAndVideos(
+                      context, controller);
+                },
+                child: CommonWidgets.commonMobileTextField(
+                    controller: controller.filePathTEController,
+                    labelText: KalakarConstants.filePath,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    editable: false,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateFilePath),
+              ),
               SizedBox(
                 height: 24.h,
               ),

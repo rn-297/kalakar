@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -636,14 +638,95 @@ class KalakarProfilePage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              Text(KalakarConstants.portfolio),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: Divider(
-                  height: 10.h,
-                  thickness: 1.0,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(KalakarConstants.portfolio),
+                  InkWell(
+                      onTap: (){
+                        Get.toNamed(RouteHelper.artistPortfolio);
+                      },
+                      child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8.w),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4.h)),
+                          child: Text(
+                            "Add",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp),
+                          ))),
+                ],
               ),
+
+              SizedBox(height: 12.h,),
+              Container(
+                padding: EdgeInsets.all(10.h),
+                height: 140 .h,
+                width: double.infinity,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.artistPortfolioList.length,
+                    itemBuilder: (context, index) {
+                      return  Container(
+                        margin: EdgeInsets.only(right: 15.w),
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 125.h,
+                              width: 80.h,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(8.r),
+                                image: DecorationImage(
+                                    image: controller
+                                        .artistPortfolioList[index]
+                                        .filePath!
+                                        .startsWith("http")
+                                        ? NetworkImage(controller
+                                        .artistPortfolioList[index]
+                                        .filePath!)
+                                        : FileImage(File(controller
+                                        .artistPortfolioList[index]
+                                        .filePath!)) as ImageProvider,
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                            Positioned(
+                              right: 2,
+                              top: 2,
+                              child: InkWell(
+                                onTap: () {
+                                  controller.editArtistPortfolio(
+                                      controller
+                                          .artistPortfolioList[index],
+                                     );
+                                },
+                                child: Container(
+                                    padding: EdgeInsets.all(4.h),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            50.r),
+                                        color: KalakarColors.white
+                                            .withOpacity(.5)),
+                                    child: Icon(Icons.edit,size: 16.sp,)),
+                              ),
+                            )
+                          ],
+                        ),
+                      ); //Container();
+                    }),
+              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 8.w),
+              //   child: Divider(
+              //     height: 10.h,
+              //     thickness: 1.0,
+              //   ),
+              // ),
               SizedBox(
                 height: 16.h,
               ),
