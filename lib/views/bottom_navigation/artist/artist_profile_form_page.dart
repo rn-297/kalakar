@@ -102,8 +102,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                               onTap: () {
                                 controller.documentType =
                                     KalakarConstants.profilePhoto;
-                                PickerHelper.showImageBottomSheet(
-                                    context, controller);
+                                controller.pickOrShowDocument(KalakarConstants.profilePhoto, context, controller);
                               },
                               child: Icon(Icons.camera_alt_outlined)))
                     ],

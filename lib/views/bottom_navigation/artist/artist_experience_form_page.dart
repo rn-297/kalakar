@@ -178,7 +178,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  controller.pickDocument(
+                  controller.pickOrShowDocument(
                       KalakarConstants.roleImage, context, controller);
                 },
                 child: CommonWidgets.commonMobileTextField(
@@ -198,7 +198,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  controller.pickDocument(
+                  controller.pickOrShowDocument(
                       KalakarConstants.roleVideo, context, controller);
                 },
                 child: CommonWidgets.commonMobileTextField(

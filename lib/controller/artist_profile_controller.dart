@@ -621,13 +621,13 @@ class ArtistProfileController extends GetxController {
       // print(response.statusCode);
       // print(response);
 
-      if(Get.isDialogOpen!){
+      if (Get.isDialogOpen!) {
         Get.back();
       }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-        ResponseModel.fromJson(jsonDecode(response.body));
+            ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Portfolio Data Success", responseModel.message!);
@@ -711,6 +711,7 @@ class ArtistProfileController extends GetxController {
   }
 
   pickOrShowDocument(String documentType, BuildContext context, controller) {
+    this.documentType=documentType;
     switch (documentType) {
       case KalakarConstants.profilePhoto:
         if (artistProfileImage.isNotEmpty) {
@@ -738,6 +739,30 @@ class ArtistProfileController extends GetxController {
         break;
       case KalakarConstants.aadharCard:
         if (adharCardImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showImageBottomSheet(context, controller);
+        }
+        break;
+      case KalakarConstants.portfolio:
+        if (portFolioImageOrVideo.isNotEmpty) {
+          documentType = KalakarConstants.portfolio;
+          PickerHelper.showImageVideoBottomSheet(context, controller);
+        } else {
+          PickerHelper.showImageBottomSheet(context, controller);
+        }
+        break;
+      case KalakarConstants.roleImage:
+        if (expRoleImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showImageBottomSheet(context, controller);
+        }
+        break;
+      case KalakarConstants.roleVideo:
+        if (expRoleVideo.isNotEmpty) {
           PickerHelper.showOrPickDocBottomSheet(
               documentType, context, controller);
         } else {
@@ -783,6 +808,8 @@ class ArtistProfileController extends GetxController {
     }*/
   }
 
+
+
   showDocument(String documentType) {
     FileController fileController = Get.put(FileController());
     switch (documentType) {
@@ -805,6 +832,34 @@ class ArtistProfileController extends GetxController {
           utils.openLink(adharCardImage);
         } else {
           fileController.viewFile1(adharCardImage, documentType);
+        }
+        break;
+      case KalakarConstants.portfolio:
+        if (kIsWeb) {
+          utils.openLink(portFolioImageOrVideo);
+        } else {
+          fileController.viewFile1(portFolioImageOrVideo, documentType);
+        }
+        break;
+      case KalakarConstants.roleImage:
+        if (kIsWeb) {
+          utils.openLink(expRoleImage);
+        } else {
+          fileController.viewFile1(expRoleImage, documentType);
+        }
+        break;
+      case KalakarConstants.roleVideo:
+        if (kIsWeb) {
+          utils.openLink(expRoleVideo);
+        } else {
+          fileController.viewFile1(expRoleVideo, documentType);
+        }
+        break;
+      case KalakarConstants.profilePhoto:
+        if (kIsWeb) {
+          utils.openLink(artistProfileImage);
+        } else {
+          fileController.viewFile1(artistProfileImage, documentType);
         }
         break;
       /*case KalakarConstants.selfieUpload:
@@ -841,17 +896,20 @@ class ArtistProfileController extends GetxController {
       } else if (documentType == KalakarConstants.portfolio) {
         portFolioImageOrVideo = file.path;
         filePathTEController.text = portFolioImageOrVideo.split("/").last;
+      } else if (documentType == KalakarConstants.roleImage) {
+        expRoleImage = file.path;
+        roleImageTEController.text = expRoleImage.split("/").last;
+      } else if (documentType == KalakarConstants.roleVideo) {
+        expRoleVideo = file.path;
+
+        roleVideoTEController.text = expRoleVideo.split("/").last;
       }
       update();
     }
     Get.back();
   }
 
-  void addPhotosAndVideos(
-      BuildContext context, ArtistProfileController controller) {
-    documentType = KalakarConstants.portfolio;
-    PickerHelper.showImageVideoBottomSheet(context, controller);
-  }
+
 
   Future<void> getArtistProfileEducation(int recordID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -1536,8 +1594,10 @@ class ArtistProfileController extends GetxController {
       DateTime endDate = DateTime.parse(expereinceData.startDate.toString());
       expEndDate = endDate;
       expEndDateTEController.text = formatter.format(endDate);
-      roleImageTEController.text = expereinceData.roleImage.toString();
-      roleVideoTEController.text = expereinceData.roleVideo.toString();
+      roleImageTEController.text = expereinceData.roleImage.toString().split("/").last;
+      expRoleImage=expereinceData.roleImage!;
+      roleVideoTEController.text = expereinceData.roleVideo.toString().split("/").last;
+      expRoleVideo=expereinceData.roleImage!;
     } else {
       companyNameTEController.text = "";
       roleNameTEController.text = "";
@@ -1554,7 +1614,5 @@ class ArtistProfileController extends GetxController {
     fileTypeTEController.text = selectedItem;
   }
 
-  void editArtistPortfolio(PortfolioList artistPortfolioList) {
-
-  }
+  void editArtistPortfolio(PortfolioList artistPortfolioList) {}
 }

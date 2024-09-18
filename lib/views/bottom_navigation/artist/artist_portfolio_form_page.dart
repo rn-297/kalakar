@@ -103,7 +103,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
 
               InkWell(
                 onTap: (){
-                  controller.addPhotosAndVideos(
+                  controller.pickOrShowDocument(KalakarConstants.portfolio,
                       context, controller);
                 },
                 child: CommonWidgets.commonMobileTextField(
