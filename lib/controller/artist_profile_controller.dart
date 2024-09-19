@@ -1591,13 +1591,7 @@ class ArtistProfileController extends GetxController {
     if (comfortableInData != null) {
       comfortableInMasterId =
           comfortableInData.artistProfileComfortableInID.toString();
-      comfortableInTEController.text = comfortableInMasterList
-          .where((status) =>
-              status.id == comfortableInData.artistProfileComfortableInID)
-          .toList()
-          .first
-          .name
-          .toString();
+      comfortableInTEController.text = comfortableInData.comfortableName.toString();
     } else {
       comfortableInMasterId = "0";
       comfortableInTEController.text = "";
@@ -1649,7 +1643,9 @@ class ArtistProfileController extends GetxController {
       expEndDateTEController.text = "";
       expStartDateTEController.text = "";
       roleImageTEController.text = "";
+      expRoleImage="";
       roleVideoTEController.text = "";
+      expRoleVideo="";
       artistExperienceId = "0";
     }
     Get.toNamed(RouteHelper.artistExperienceForm);

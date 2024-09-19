@@ -113,7 +113,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  final date = await DatePickerHelper.selectDate(context);
+                  final date = await DatePickerHelper.selectDate(context,isOld:true);
                   if (date != null) {
                     controller.setDate(KalakarConstants.expStartDate, date);
                   }
@@ -134,7 +134,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  final date = await DatePickerHelper.selectDate(context);
+                  final date = await DatePickerHelper.selectDate(context,isOld:true);
                   if (date != null) {
                     controller.setDate(KalakarConstants.expEndDate, date);
                   }
@@ -145,6 +145,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    editable: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateEndDate),
