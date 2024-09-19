@@ -307,6 +307,7 @@ class ArtistProfileController extends GetxController {
     if (loginTable != null) {
       KalakarDialogs.loadingDialog(
           "Uploading Profile Data", "Saving Profile Data");
+      String artistDob = artistDOB.toIso8601String();
       final body = <String, String>{};
       body['ArtistProfileID'] = artistProfileId;
       body['FK_AccountID'] = loginTable.accountID;
@@ -314,8 +315,8 @@ class ArtistProfileController extends GetxController {
       body['FirstName'] = firstNameTEController.text.trim();
       body['MiddleName'] = middleNameTEController.text.trim();
       body['LastName'] = lastNameTEController.text.trim();
-      body['DateOfBirth'] = artistDOB.toString();
-      body['Email'] = emailLinkTEController.text.trim();
+      body['DateOfBirth'] = artistDob+"Z";
+      body['Email'] = emailTEController.text.trim();
       body['MobileNumber'] = mobileNumberTEController.text.trim();
       body['Gender'] = genderTEController.text.trim();
       body['Age'] = ageTEController.text.trim();
@@ -348,6 +349,7 @@ class ArtistProfileController extends GetxController {
       Map<String, File> files = {
         'ProfilePic': File(artistProfileImage),
       };
+      print(body);
 
       var response = await ApiClient.postFormDataToken(
           KalakarConstants.saveArtistProfileApi, body, files, loginTable.token);
@@ -363,6 +365,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Profile Data Success", responseModel.message!);
+          getArtistProfileBasic();
         } else {
           KalakarDialogs.successDialog(
               "Saving Profile Data Failed", responseModel.message!);
@@ -408,6 +411,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Education Data Success", responseModel.message!);
+          getArtistProfileEducation(0);
         } else {
           KalakarDialogs.successDialog(
               "Saving Education Data Failed", responseModel.message!);
@@ -419,6 +423,8 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileHobbies() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Hobbies Data", "Saving Hobbies Data");
       final body = {
         "artistProfile_hobbiesID": artistHobbiesId,
         "fK_AccountID": loginTable.accountID,
@@ -431,6 +437,9 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
@@ -438,6 +447,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Hobbies Data Success", responseModel.message!);
+          getArtistProfileHobbies(0);
         } else {
           KalakarDialogs.successDialog(
               "Saving Hobbies Data Failed", responseModel.message!);
@@ -449,6 +459,8 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileInterest() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Interested In Data", "Saving Interested In Data");
       final body = {
         "artistProfile_InterestID": artistInterestInId,
         "fK_AccountID": loginTable.accountID,
@@ -461,6 +473,9 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
@@ -468,6 +483,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Interest Data Success", responseModel.message!);
+          getArtistProfileInterest(0);
         } else {
           KalakarDialogs.successDialog(
               "Saving Interest Data Failed", responseModel.message!);
@@ -479,6 +495,8 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileComfortableIn() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Comfortable In Data", "Saving Comfortable In Data");
       final body = {
         "artistProfile_ComfortableInID": artistComfortableInId,
         "fK_AccountID": loginTable.accountID,
@@ -491,6 +509,9 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
@@ -498,6 +519,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Comfortable In Data Success", responseModel.message!);
+          getArtistProfileComfortableIn(0);
         } else {
           KalakarDialogs.successDialog(
               "Saving Comfortable In Data Failed", responseModel.message!);
@@ -534,6 +556,8 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileDocuments() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Artist Documents Data", "Saving Artist Documents Data");
       final body = <String, String>{};
       body['ArtistProfile_DocumentsID'] = artistDocumentId;
       body['FK_AccountID'] = loginTable.accountID;
@@ -552,12 +576,20 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+        ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Artist Documents Data Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Artist Documents Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -565,6 +597,8 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileExperience() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Experience Data", "Saving Experience Data");
       final body = <String, String>{};
       body['UserID'] = loginTable.userID;
       body['ArtistProfile_ExperienceID'] = artistExperienceId;
@@ -587,12 +621,21 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+        ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Experience Data Success", responseModel.message!);
+          getArtistExperience(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Experience Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -631,7 +674,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Portfolio Data Success", responseModel.message!);
-          getArtistProfileEducation(0);
+          getArtistPortFolio(0);
         } else {
           KalakarDialogs.successDialog(
               "Saving Portfolio Data Failed", responseModel.message!);

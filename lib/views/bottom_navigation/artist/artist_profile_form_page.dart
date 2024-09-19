@@ -102,7 +102,10 @@ class ArtistProfileFormPage extends StatelessWidget {
                               onTap: () {
                                 controller.documentType =
                                     KalakarConstants.profilePhoto;
-                                controller.pickOrShowDocument(KalakarConstants.profilePhoto, context, controller);
+                                controller.pickOrShowDocument(
+                                    KalakarConstants.profilePhoto,
+                                    context,
+                                    controller);
                               },
                               child: Icon(Icons.camera_alt_outlined)))
                     ],
@@ -149,7 +152,8 @@ class ArtistProfileFormPage extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    final date = await DatePickerHelper.selectDate(context);
+                    final date =
+                        await DatePickerHelper.selectDate(context, isOld: true);
                     if (date != null) {
                       controller.setDate(KalakarConstants.startDate, date);
                     }
@@ -251,7 +255,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     labelText: KalakarConstants.height,
                     obscureText: false,
                     textInputType: TextInputType.number,
-hintText: "in foot",
+                    hintText: "in foot",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -332,7 +336,8 @@ hintText: "in foot",
                 ),
                 SizedBox(
                   height: 16.h,
-                ),CommonWidgets.commonMobileTextField(
+                ),
+                CommonWidgets.commonMobileTextField(
                     controller: controller.languageKnownTEController,
                     labelText: KalakarConstants.languageKnown,
                     obscureText: false,
@@ -348,8 +353,7 @@ hintText: "in foot",
                   validator: Validator.validateVehicle,
                   items: controller.yesNoList,
                   titleText: KalakarConstants.vehicle,
-                  selectedItem:
-                  controller.vehicleTEController.text.isEmpty
+                  selectedItem: controller.vehicleTEController.text.isEmpty
                       ? null
                       : controller.vehicleTEController.text,
                   labelText: KalakarConstants.vehicle,
@@ -499,7 +503,6 @@ hintText: "in foot",
                 SizedBox(
                   height: 16.h,
                 ),
-
                 CommonWidgets.commonMobileTextField(
                     controller: controller.fbLinkTEController,
                     labelText: KalakarConstants.fbLink,
