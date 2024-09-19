@@ -155,7 +155,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     final date =
                         await DatePickerHelper.selectDate(context, isOld: true);
                     if (date != null) {
-                      controller.setDate(KalakarConstants.startDate, date);
+                      controller.setDate(KalakarConstants.dob, date);
                     }
                   },
                   child: CommonWidgets.commonMobileTextField(
@@ -235,18 +235,15 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
-                  validator: Validator.validateRoleAge,
-                  items: controller.ageRangeList,
-                  titleText: KalakarConstants.roleAge,
-                  selectedItem: controller.roleAgeTEController.text.isEmpty
-                      ? null
-                      : controller.roleAgeTEController.text,
-                  labelText: KalakarConstants.roleAge,
-                  onItemSelected: (selectedItem) {
-                    controller.setRoleAgeRangeValue(selectedItem);
-                  },
-                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: controller.roleAgeTEController,
+                    labelText: KalakarConstants.roleAge,
+                    obscureText: false,
+                    textInputType: TextInputType.number,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateRoleAge),
                 SizedBox(
                   height: 16.h,
                 ),

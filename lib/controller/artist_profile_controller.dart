@@ -225,6 +225,7 @@ class ArtistProfileController extends GetxController {
         expEndDate = date;
         expEndDateTEController.text = formatter.format(date);
     }
+    update();
   }
 
   Future<void> getArtistProfileMaster() async {
@@ -291,8 +292,8 @@ class ArtistProfileController extends GetxController {
               .map((status) => status.name as String)
               .toList();
           maritalStatusList = names;
-          names = artistInterestedInList
-              .map((status) => status.interestedName as String)
+          names = artistInterestedInMasterList
+              .map((status) => status.name as String)
               .toList();
           interestInList = names;
           update();
@@ -305,9 +306,9 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     print("object");
     if (loginTable != null) {
+      final DateFormat format = DateFormat('yyyy-MM-dd');
       KalakarDialogs.loadingDialog(
           "Uploading Profile Data", "Saving Profile Data");
-      String artistDob = artistDOB.toIso8601String();
       final body = <String, String>{};
       body['ArtistProfileID'] = artistProfileId;
       body['FK_AccountID'] = loginTable.accountID;
@@ -315,7 +316,7 @@ class ArtistProfileController extends GetxController {
       body['FirstName'] = firstNameTEController.text.trim();
       body['MiddleName'] = middleNameTEController.text.trim();
       body['LastName'] = lastNameTEController.text.trim();
-      body['DateOfBirth'] = artistDob+"Z";
+      body['DateOfBirth'] = format.format(artistDOB);
       body['Email'] = emailTEController.text.trim();
       body['MobileNumber'] = mobileNumberTEController.text.trim();
       body['Gender'] = genderTEController.text.trim();
@@ -719,12 +720,13 @@ class ArtistProfileController extends GetxController {
       lastNameTEController.text = artistProfileDetails.lastName!;
       dobTEController.text = artistProfileDetails.dateOfBirth!;
       emailTEController.text = artistProfileDetails.email!;
+      genderTEController.text = artistProfileDetails.gender!;
       mobileNumberTEController.text = artistProfileDetails.mobileNumber!;
       languageKnownTEController.text = artistProfileDetails.languageKnown!;
       alternateMobileNumberTEController.text =
           artistProfileDetails.alternateMobileNumber!;
-      ageTEController.text = artistProfileDetails.age!.toString();
-      roleAgeTEController.text = artistProfileDetails.roleAge.toString()!;
+      ageTEController.text = artistProfileDetails.age!.toString().split(".").first;
+      roleAgeTEController.text = artistProfileDetails.roleAge.toString().split(".").first;
       heightTEController.text = artistProfileDetails.height!.toString();
       weightTEController.text = artistProfileDetails.weight!.toString();
       bodyTypeTEController.text = artistProfileDetails.bodyType!.toString();
@@ -1608,7 +1610,7 @@ class ArtistProfileController extends GetxController {
       artistHobbiesId = hobbiesData.artistProfileHobbiesID.toString();
       hobbyTEController.text = hobbiesData.hobbyName.toString();
     } else {
-      artistHobbiesId = "";
+      artistHobbiesId = "0";
       hobbyTEController.text = "";
     }
     Get.toNamed(RouteHelper.artistHobbiesFrom);
