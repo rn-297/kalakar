@@ -120,15 +120,42 @@ class ArtistPortfolioFormPage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              CustomMobileButtonWidget(
-                onTap: () {
-                  controller.validatePortfolioForm();
-                },
-                borderRadius: 50.r,
-                fontSize: 14.sp,
-                text: KalakarConstants.savePortfolio,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(controller.artistPortfolioId == "0")
+                    CustomMobileButtonWidget(
+                      onTap: () {
+                        controller.deletePortfolioData();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      text: KalakarConstants.delete,
+                      backgroundColor: Colors.red,
+                      textColor: KalakarColors.white,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                      showIcon: true,
+                      iconColor: Colors.white,
+                      icon: Icons.delete,
+                      width: 125.w,
+                    ),
+                  CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.validatePortfolioForm();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 14.sp,
+                    text: KalakarConstants.save,
+                    horizontalPadding: 20.w,
+                    verticalPadding: 8.h,
+
+                    showIcon: true,
+                    iconColor: KalakarColors.headerText,
+                    icon: Icons.save,
+                    width: 125.w,
+                  ),
+                ],
               ),
             ]),
           ));

@@ -438,7 +438,7 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
-      if(Get.isDialogOpen!){
+      if (Get.isDialogOpen!) {
         Get.back();
       }
 
@@ -474,7 +474,7 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
-      if(Get.isDialogOpen!){
+      if (Get.isDialogOpen!) {
         Get.back();
       }
 
@@ -510,7 +510,7 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
-      if(Get.isDialogOpen!){
+      if (Get.isDialogOpen!) {
         Get.back();
       }
 
@@ -577,13 +577,13 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
-      if(Get.isDialogOpen!){
+      if (Get.isDialogOpen!) {
         Get.back();
       }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-        ResponseModel.fromJson(jsonDecode(response.body));
+            ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Artist Documents Data Success", responseModel.message!);
@@ -622,13 +622,13 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
-      if(Get.isDialogOpen!){
+      if (Get.isDialogOpen!) {
         Get.back();
       }
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-        ResponseModel.fromJson(jsonDecode(response.body));
+            ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Experience Data Success", responseModel.message!);
@@ -725,8 +725,10 @@ class ArtistProfileController extends GetxController {
       languageKnownTEController.text = artistProfileDetails.languageKnown!;
       alternateMobileNumberTEController.text =
           artistProfileDetails.alternateMobileNumber!;
-      ageTEController.text = artistProfileDetails.age!.toString().split(".").first;
-      roleAgeTEController.text = artistProfileDetails.roleAge.toString().split(".").first;
+      ageTEController.text =
+          artistProfileDetails.age!.toString().split(".").first;
+      roleAgeTEController.text =
+          artistProfileDetails.roleAge.toString().split(".").first;
       heightTEController.text = artistProfileDetails.height!.toString();
       weightTEController.text = artistProfileDetails.weight!.toString();
       bodyTypeTEController.text = artistProfileDetails.bodyType!.toString();
@@ -756,7 +758,7 @@ class ArtistProfileController extends GetxController {
   }
 
   pickOrShowDocument(String documentType, BuildContext context, controller) {
-    this.documentType=documentType;
+    this.documentType = documentType;
     switch (documentType) {
       case KalakarConstants.profilePhoto:
         if (artistProfileImage.isNotEmpty) {
@@ -852,8 +854,6 @@ class ArtistProfileController extends GetxController {
         break;
     }*/
   }
-
-
 
   showDocument(String documentType) {
     FileController fileController = Get.put(FileController());
@@ -953,8 +953,6 @@ class ArtistProfileController extends GetxController {
     }
     Get.back();
   }
-
-
 
   Future<void> getArtistProfileEducation(int recordID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -1476,7 +1474,14 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  void setInterestedInValue(String selectedItem) {}
+  void setInterestedInValue(String selectedItem) {
+    interestedInTEController.text = selectedItem;
+    interestInMasterId = artistInterestedInMasterList
+        .where((interestIn) => interestIn.name == selectedItem)
+        .first
+        .id
+        .toString();
+  }
 
   void deleteInterestIn() {}
 
@@ -1591,7 +1596,8 @@ class ArtistProfileController extends GetxController {
     if (comfortableInData != null) {
       comfortableInMasterId =
           comfortableInData.artistProfileComfortableInID.toString();
-      comfortableInTEController.text = comfortableInData.comfortableName.toString();
+      comfortableInTEController.text =
+          comfortableInData.comfortableName.toString();
     } else {
       comfortableInMasterId = "0";
       comfortableInTEController.text = "";
@@ -1633,19 +1639,21 @@ class ArtistProfileController extends GetxController {
       DateTime endDate = DateTime.parse(expereinceData.startDate.toString());
       expEndDate = endDate;
       expEndDateTEController.text = formatter.format(endDate);
-      roleImageTEController.text = expereinceData.roleImage.toString().split("/").last;
-      expRoleImage=expereinceData.roleImage!;
-      roleVideoTEController.text = expereinceData.roleVideo.toString().split("/").last;
-      expRoleVideo=expereinceData.roleImage!;
+      roleImageTEController.text =
+          expereinceData.roleImage.toString().split("/").last;
+      expRoleImage = expereinceData.roleImage!;
+      roleVideoTEController.text =
+          expereinceData.roleVideo.toString().split("/").last;
+      expRoleVideo = expereinceData.roleImage!;
     } else {
       companyNameTEController.text = "";
       roleNameTEController.text = "";
       expEndDateTEController.text = "";
       expStartDateTEController.text = "";
       roleImageTEController.text = "";
-      expRoleImage="";
+      expRoleImage = "";
       roleVideoTEController.text = "";
-      expRoleVideo="";
+      expRoleVideo = "";
       artistExperienceId = "0";
     }
     Get.toNamed(RouteHelper.artistExperienceForm);
@@ -1655,5 +1663,19 @@ class ArtistProfileController extends GetxController {
     fileTypeTEController.text = selectedItem;
   }
 
-  void editArtistPortfolio(PortfolioList artistPortfolioList) {}
+  void editArtistPortfolio(PortfolioList? artistPortfolio) {
+    if (artistPortfolio != null) {
+      artistPortfolioId = artistPortfolio.artistProfilePortfolioID.toString();
+      fileTypeTEController.text =
+          artistPortfolio.fileType.toString() == "1" ? "IMAGE" : "VIDEO";
+      filePathTEController.text = artistPortfolio.filePath.toString();
+    } else {
+      artistPortfolioId = "0";
+      fileTypeTEController.text = "";
+      filePathTEController.text = "";
+    }
+    Get.toNamed(RouteHelper.artistPortfolio);
+  }
+
+  void deletePortfolioData() {}
 }

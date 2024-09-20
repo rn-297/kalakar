@@ -644,7 +644,7 @@ class KalakarProfilePage extends StatelessWidget {
                   Text(KalakarConstants.portfolio),
                   InkWell(
                       onTap: (){
-                        Get.toNamed(RouteHelper.artistPortfolio);
+                        controller.editArtistPortfolio(null);
                       },
                       child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 8.w),
