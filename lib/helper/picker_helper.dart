@@ -43,13 +43,13 @@ class PickerHelper {
   }
 
   static Future<File?> pickVideoFromCamera(BuildContext context) async {
-    XFile? file = await _imagePicker.pickImage(
-        source: ImageSource.camera, maxWidth: 600, maxHeight: 600);
-    String? croppedImage = "";
+    XFile? file = await _imagePicker.pickVideo(
+      source: ImageSource.camera,
+    );
     if (file != null) {
-      croppedImage = await cropMyImage(file, context) ?? "";
+      return File(file.path);
     }
-    return File(croppedImage);
+    return null;
   }
 
   static Future<File?> pickPdfFromGallery() async {

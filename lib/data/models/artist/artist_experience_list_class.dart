@@ -37,6 +37,7 @@ class ExperienceList {
   String? endDate;
   String? skillUsed;
   String? roleProfile;
+  String? companyName;
   String? roleImage;
   String? roleVideo;
 
@@ -48,6 +49,7 @@ class ExperienceList {
         this.endDate,
         this.skillUsed,
         this.roleProfile,
+        this.companyName,
         this.roleImage,
         this.roleVideo});
 
@@ -59,6 +61,7 @@ class ExperienceList {
     endDate = json['endDate'];
     skillUsed = json['skillUsed'];
     roleProfile = json['roleProfile'];
+    companyName = json['companyName'];
     roleImage = json['roleImage'];
     roleVideo = json['roleVideo'];
   }
@@ -72,6 +75,7 @@ class ExperienceList {
     data['endDate'] = this.endDate;
     data['skillUsed'] = this.skillUsed;
     data['roleProfile'] = this.roleProfile;
+    data['companyName'] = this.companyName;
     data['roleImage'] = this.roleImage;
     data['roleVideo'] = this.roleVideo;
     return data;

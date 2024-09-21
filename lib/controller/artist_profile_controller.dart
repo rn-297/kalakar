@@ -11,17 +11,19 @@ import 'package:kalakar/data/models/artist/artist_education_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_experience_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_hobbies_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_interested_in_class.dart';
-import 'package:kalakar/data/models/artist/artist_portfolio_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
+import '../data/models/artist/artist_portfolio_list_class.dart';
 import '../data/models/artist_master_data.dart';
 import '../data/models/csv_model_class.dart';
+import '../data/models/file_data_model.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
 import '../helper/state_city_pincode_helper/state_city_pincode_helper.dart';
@@ -718,7 +720,8 @@ class ArtistProfileController extends GetxController {
       firstNameTEController.text = artistProfileDetails.firstName!;
       middleNameTEController.text = artistProfileDetails.middleName!;
       lastNameTEController.text = artistProfileDetails.lastName!;
-      dobTEController.text = artistProfileDetails.dateOfBirth!;
+      DateTime dobDate = DateTime.parse(artistProfileDetails.dateOfBirth!);
+      dobTEController.text = formatter.format(dobDate);
       emailTEController.text = artistProfileDetails.email!;
       genderTEController.text = artistProfileDetails.gender!;
       mobileNumberTEController.text = artistProfileDetails.mobileNumber!;
@@ -792,12 +795,12 @@ class ArtistProfileController extends GetxController {
           PickerHelper.showImageBottomSheet(context, controller);
         }
         break;
-      case KalakarConstants.portfolio:
+      case KalakarConstants.portfolio1:
         if (portFolioImageOrVideo.isNotEmpty) {
-          documentType = KalakarConstants.portfolio;
-          PickerHelper.showImageVideoBottomSheet(context, controller);
+          PickerHelper.showOrPickDocBottomSheet(
+              documentType, context, controller);
         } else {
-          PickerHelper.showImageBottomSheet(context, controller);
+          PickerHelper.showImageVideoBottomSheet(context, controller);
         }
         break;
       case KalakarConstants.roleImage:
@@ -823,7 +826,28 @@ class ArtistProfileController extends GetxController {
       String documentType, BuildContext context, controller) async {
     print(documentType);
     this.documentType = documentType;
-    PickerHelper.showImageBottomSheet(context, controller);
+    print("here1");
+    switch (documentType) {
+      case KalakarConstants.portfolio1:
+        print("here2");
+
+        if (fileTypeTEController.text == "IMAGE") {
+          print("here3");
+
+          PickerHelper.showImageBottomSheet(context, controller);
+        } else {
+          print("here4");
+
+          PickerHelper.showVideoBottomSheet(context, controller);
+        }
+
+        break;
+      case KalakarConstants.roleVideo:
+        PickerHelper.showVideoBottomSheet(context, controller);
+        break;
+      default:
+        PickerHelper.showImageBottomSheet(context, controller);
+    }
     /*switch (documentType) {
       case KalakarConstants.profilePhoto:
         File? file = await PickerHelper.pickPdfFromGallery();
@@ -915,6 +939,34 @@ class ArtistProfileController extends GetxController {
         }
         break;*/
     }
+  }
+
+  Future<void> getVideoFromCamera(BuildContext context) async {
+    File? file = await PickerHelper.pickVideoFromCamera(context);
+    if (file != null) {
+      if (documentType == KalakarConstants.portfolio1) {
+        portFolioImageOrVideo = file.path;
+        filePathTEController.text = file.path.split("/").last;
+      } else if (documentType == KalakarConstants.roleVideo) {
+        expRoleVideo = file.path;
+        roleVideoTEController.text = file.path.split("/").last;
+      }
+    }
+    update();
+    Get.back();
+  }
+
+  Future<void> getVideoFromGallery(BuildContext context) async {
+    File? file = await PickerHelper.pickVideoFromGallery(context);
+    if (file != null) {
+      if (documentType == KalakarConstants.portfolio1) {
+        portFolioImageOrVideo = file.path;
+      } else if (documentType == KalakarConstants.roleVideo) {
+        expRoleVideo = file.path;
+      }
+    }
+    update();
+    Get.back();
   }
 
   Future<void> getImageFromCamera(BuildContext context, String type) async {
@@ -1170,7 +1222,20 @@ class ArtistProfileController extends GetxController {
         ArtistPortfolioListClass artistPortfolioListClass =
             ArtistPortfolioListClass.fromJson(jsonDecode(response.body));
         if (artistPortfolioListClass.replayStatus ?? false) {
-          artistPortfolioList = artistPortfolioListClass.portfolioList!;
+          List<PortfolioList> list = artistPortfolioListClass.portfolioList!;
+          for (int i = 0; i < list.length; i++) {
+            if (list[i].fileType == 2) {
+              list[i].thumbnail = await VideoThumbnail.thumbnailData(
+                video: list[i].filePath!,
+                // Replace with your video URL
+                imageFormat: ImageFormat.JPEG,
+                maxHeight: 150,
+                // Set a maximum height for the thumbnail
+                quality: 75,
+              );
+            }
+          }
+          artistPortfolioList = list;
           update();
         }
         // print("response successful ${response.body}");
@@ -1415,10 +1480,12 @@ class ArtistProfileController extends GetxController {
       final body = <String, String>{};
       body['userID'] = loginTable.userID;
       body['fK_AccountID'] = loginTable.accountID;
-      body['recordID'] = artistEducationId;
+      body['recordID'] = artistComfortableInId;
 
       var response = await ApiClient.deleteDataToken(
-          KalakarConstants.deleteArtistHobbyDataApi, body, loginTable.token);
+          KalakarConstants.deleteArtistComfortableInDataApi,
+          body,
+          loginTable.token);
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -1431,7 +1498,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Deleting Comfortable In Data Success", responseModel.message!);
-          getArtistProfileHobbies(0);
+          getArtistProfileComfortableIn(0);
         } else {
           KalakarDialogs.successDialog(
               "Deleting Comfortable Data Failed", responseModel.message!);
@@ -1483,7 +1550,39 @@ class ArtistProfileController extends GetxController {
         .toString();
   }
 
-  void deleteInterestIn() {}
+  Future<void> deleteInterestIn() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Deleting Interested In Data", "Deleting Interested In Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = artistInterestInId;
+
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteArtistInterestedInDataApi, body, loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Deleting Interested In Data Success", responseModel.message!);
+          getArtistProfileInterest(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Interested In Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
 
   Future<void> deleteExperienceForm() async {
     LoginTable? loginTable = await HiveService.getLoginData();
@@ -1594,12 +1693,15 @@ class ArtistProfileController extends GetxController {
 
   void setComfortableInEditData(ComfortableInList? comfortableInData) async {
     if (comfortableInData != null) {
-      comfortableInMasterId =
+      artistComfortableInId =
           comfortableInData.artistProfileComfortableInID.toString();
+
       comfortableInTEController.text =
           comfortableInData.comfortableName.toString();
+      comfortableInMasterId =
+          comfortableInData.fKComfortableListMasterID!.toString();
     } else {
-      comfortableInMasterId = "0";
+      artistComfortableInId = "0";
       comfortableInTEController.text = "";
     }
     Get.toNamed(RouteHelper.artistComfortableInForm);
@@ -1618,33 +1720,38 @@ class ArtistProfileController extends GetxController {
 
   void setEditInterestInData(InterestList? interestInData) {
     if (interestInData != null) {
-      interestInMasterId = interestInData.artistProfileInterestID.toString();
+      artistInterestInId = interestInData.artistProfileInterestID.toString();
       interestedInTEController.text = interestInData.interestedName.toString();
+      comfortableInMasterId =
+          interestInData.fKInterstedListMasterID!.toString();
     } else {
-      interestInMasterId = "0";
+      artistInterestInId = "0";
+      interestInMasterId = "";
       interestedInTEController.text = "";
     }
     Get.toNamed(RouteHelper.artistInterestForm);
   }
 
-  void setEditExperienceData(ExperienceList? expereinceData) {
-    if (expereinceData != null) {
-      artistExperienceId = expereinceData.artistProfileExperienceID.toString();
-      companyNameTEController.text = "";
-      roleNameTEController.text = expereinceData.roleName.toString();
+  void setEditExperienceData(ExperienceList? experienceData) {
+    if (experienceData != null) {
+      artistExperienceId = experienceData.artistProfileExperienceID.toString();
+      companyNameTEController.text = experienceData.companyName.toString();
+      roleNameTEController.text = experienceData.roleName.toString();
 
-      DateTime startDate = DateTime.parse(expereinceData.startDate.toString());
+      DateTime startDate = DateTime.parse(experienceData.startDate.toString());
       expStartDate = startDate;
       expStartDateTEController.text = formatter.format(startDate);
-      DateTime endDate = DateTime.parse(expereinceData.startDate.toString());
+      DateTime endDate = DateTime.parse(experienceData.startDate.toString());
       expEndDate = endDate;
       expEndDateTEController.text = formatter.format(endDate);
+      skillsUsedTEController.text = experienceData.skillUsed.toString();
+      roleProfileTEController.text = experienceData.roleProfile.toString();
       roleImageTEController.text =
-          expereinceData.roleImage.toString().split("/").last;
-      expRoleImage = expereinceData.roleImage!;
+          experienceData.roleImage.toString().split("\\").last;
+      expRoleImage = experienceData.roleImage!;
       roleVideoTEController.text =
-          expereinceData.roleVideo.toString().split("/").last;
-      expRoleVideo = expereinceData.roleImage!;
+          experienceData.roleVideo.toString().split("\\").last;
+      expRoleVideo = experienceData.roleImage!;
     } else {
       companyNameTEController.text = "";
       roleNameTEController.text = "";
@@ -1668,7 +1775,9 @@ class ArtistProfileController extends GetxController {
       artistPortfolioId = artistPortfolio.artistProfilePortfolioID.toString();
       fileTypeTEController.text =
           artistPortfolio.fileType.toString() == "1" ? "IMAGE" : "VIDEO";
-      filePathTEController.text = artistPortfolio.filePath.toString();
+      filePathTEController.text =
+          artistPortfolio.filePath.toString().split("\\").last;
+      portFolioImageOrVideo = artistPortfolio.filePath.toString();
     } else {
       artistPortfolioId = "0";
       fileTypeTEController.text = "";
@@ -1677,5 +1786,38 @@ class ArtistProfileController extends GetxController {
     Get.toNamed(RouteHelper.artistPortfolio);
   }
 
-  void deletePortfolioData() {}
+  Future<void> deletePortfolioData() async {
+
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Deleting Portfolio Data", "Deleting Portfolio Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = artistPortfolioId;
+
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteArtistPortfolioDataApi, body, loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+        ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Deleting Portfolio Data Success", responseModel.message!);
+          getArtistPortFolio(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Portfolio Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
 }

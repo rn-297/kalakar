@@ -53,6 +53,18 @@ class KalakarConstants {
   static const String getArtistPortfolioApi =
       "/ArtistProfile/GetArtistProfile_Portfolio";
   static const String getArtistExperienceApi = "/ArtistProfile/GetArtistProfile_Experience";
+  static const String deleteArtistEducationDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Education";
+  static const String deleteArtistHobbyDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Hobbies";
+  static const String deleteArtistComfortableInDataApi =
+      "/ArtistProfile/DeleteArtistProfile_ComfortableIn";
+  static const String deleteArtistInterestedInDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Interest";
+  static const String deleteArtistExperienceDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Experience";
+  static const String deleteArtistPortfolioDataApi =
+      "/ArtistProfile/DeleteArtistProfile_Portfolio";
 
   //company profile apis
   static const String saveCompanyProfileBasicsApi =
@@ -98,12 +110,7 @@ class KalakarConstants {
       "/RequirementDetails/GetAppliedForRequirement_Artist";
   static const String getAppliedForRequirementCompany =
       "/RequirementDetails/GetAppliedForRequirement_Company";
-  static const String deleteArtistEducationDataApi =
-      "/ArtistProfile/DeleteArtistProfile_Education";
-  static const String deleteArtistHobbyDataApi =
-      "/ArtistProfile/DeleteArtistProfile_Hobbies";
-  static const String deleteArtistExperienceDataApi =
-      "/ArtistProfile/DeleteArtistProfile_Experience";
+
 
   //Strings
   static const String usernameHint = "E-mail Id or Contact Number";
@@ -155,6 +162,7 @@ class KalakarConstants {
   static const String upcomingProjects = "Upcoming Projects :";
   static const String reviews = "REVIEWS :";
   static const String portfolio = "PORTFOLIO :";
+  static const String portfolio1 = "PORTFOLIO";
   static const String experienceLevel = "Experience Level";
   static const String moreInfo = "More Info";
   static const String experience = "EXPERIENCE :";

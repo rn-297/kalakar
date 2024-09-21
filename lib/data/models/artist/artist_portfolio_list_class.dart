@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class ArtistPortfolioListClass {
   List<PortfolioList>? portfolioList;
   bool? replayStatus;
@@ -34,12 +36,13 @@ class PortfolioList {
   int? fKAccountID;
   int? fileType;
   String? filePath;
+  Uint8List? thumbnail;
 
   PortfolioList(
       {this.artistProfilePortfolioID,
-        this.fKAccountID,
-        this.fileType,
-        this.filePath});
+      this.fKAccountID,
+      this.fileType,
+      this.filePath});
 
   PortfolioList.fromJson(Map<String, dynamic> json) {
     artistProfilePortfolioID = json['artistProfile_PortfolioID'];

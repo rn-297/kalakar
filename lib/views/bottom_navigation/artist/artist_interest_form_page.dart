@@ -105,7 +105,7 @@ class ArtistInterestFormPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  if(controller.interestInMasterId == "-1")
+                  if(controller.artistInterestInId != "0")
                     CustomMobileButtonWidget(
                       onTap: () {
                         controller.deleteInterestIn();

@@ -36,7 +36,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.portfolio,
+        KalakarConstants.portfolio1,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       /* actions: [
@@ -61,7 +61,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.portfolio,
+        KalakarConstants.portfolio1,
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
@@ -103,7 +103,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
 
               InkWell(
                 onTap: (){
-                  controller.pickOrShowDocument(KalakarConstants.portfolio,
+                  controller.pickOrShowDocument(KalakarConstants.portfolio1,
                       context, controller);
                 },
                 child: CommonWidgets.commonMobileTextField(
@@ -123,7 +123,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  if(controller.artistPortfolioId == "0")
+                  if(controller.artistPortfolioId != "0")
                     CustomMobileButtonWidget(
                       onTap: () {
                         controller.deletePortfolioData();

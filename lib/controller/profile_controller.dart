@@ -505,7 +505,6 @@ class ProfileController extends GetxController {
     File? file = await PickerHelper.pickVideoFromCamera(context);
     if (file != null) {
       if (documentType == KalakarConstants.projectDocuments) {
-        Uint8List imageData = await File(file.path).readAsBytesSync();
         FileData fileData = FileData(path: file.path, type: "VIDEO");
         projectDocuments.add(fileData);
       }

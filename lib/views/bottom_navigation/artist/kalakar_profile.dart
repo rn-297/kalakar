@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
@@ -18,6 +19,7 @@ import 'package:kalakar/data/models/artist/artist_interested_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../helper/kalakar_colors.dart';
 import '../../../utils/kalakar_constants.dart';
@@ -63,8 +65,8 @@ class KalakarProfilePage extends StatelessWidget {
                           // border: Border.all(color: KalakarColors.headerText),
                           borderRadius: BorderRadius.circular(50),
                           image: DecorationImage(
-                              image:
-                                  NetworkImage(profileDetails.profilePic ?? "")),
+                              image: NetworkImage(
+                                  profileDetails.profilePic ?? "")),
                         ),
                       ),
                     ),
@@ -303,8 +305,17 @@ class KalakarProfilePage extends StatelessWidget {
                 padding: EdgeInsets.all(16.h),
                 margin: EdgeInsets.all(4.h),
                 decoration: BoxDecoration(
-                  color: KalakarColors.backgroundGrey,
                   borderRadius: BorderRadius.circular(8.r),
+
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: KalakarColors.backgroundGrey,
+                  //     spreadRadius: 1,
+                  //     blurRadius: 1,
+                  //   ),
+                  // ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -344,6 +355,9 @@ class KalakarProfilePage extends StatelessWidget {
                         itemBuilder: (context, index) {
                           EducationList educationData =
                               controller.artistEducationList[index];
+                          DateTime courseEndDate = DateTime.parse(
+                              educationData.courseEndDate.toString());
+                          DateFormat formatter = DateFormat('dd-MM-yyyy');
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -359,7 +373,8 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        controller.setEducationData(educationData);
+                                        controller
+                                            .setEducationData(educationData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -372,7 +387,7 @@ class KalakarProfilePage extends StatelessWidget {
                                 style: TextStyle(fontSize: 14.sp),
                               ),
                               Text(
-                                educationData.courseEndDate!,
+                                formatter.format(courseEndDate),
                                 style: TextStyle(fontSize: 14.sp),
                               ),
                               SizedBox(
@@ -391,7 +406,8 @@ class KalakarProfilePage extends StatelessWidget {
                 padding: EdgeInsets.all(16.h),
                 margin: EdgeInsets.all(4.h),
                 decoration: BoxDecoration(
-                  color: KalakarColors.backgroundGrey,
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Column(
@@ -447,8 +463,8 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        controller.setComfortableInEditData
-                                          (comfortableInData);
+                                        controller.setComfortableInEditData(
+                                            comfortableInData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -472,7 +488,8 @@ class KalakarProfilePage extends StatelessWidget {
                 padding: EdgeInsets.all(16.h),
                 margin: EdgeInsets.all(4.h),
                 decoration: BoxDecoration(
-                  color: KalakarColors.backgroundGrey,
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Column(
@@ -488,7 +505,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                         InkWell(
                             onTap: () {
-                             controller.setEditHobbiesData(null);
+                              controller.setEditHobbiesData(null);
                             },
                             child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -510,7 +527,6 @@ class KalakarProfilePage extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: controller.artistHobbiesList.length,
                         physics: NeverScrollableScrollPhysics(),
-
                         itemBuilder: (context, index) {
                           HobbiesList hobbiesData =
                               controller.artistHobbiesList[index];
@@ -529,7 +545,8 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        controller.setEditHobbiesData(hobbiesData);
+                                        controller
+                                            .setEditHobbiesData(hobbiesData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -553,13 +570,13 @@ class KalakarProfilePage extends StatelessWidget {
                 padding: EdgeInsets.all(16.h),
                 margin: EdgeInsets.all(4.h),
                 decoration: BoxDecoration(
-                  color: KalakarColors.backgroundGrey,
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -592,7 +609,6 @@ class KalakarProfilePage extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: controller.artistInterestedInList.length,
                         physics: NeverScrollableScrollPhysics(),
-
                         itemBuilder: (context, index) {
                           InterestList interestInData =
                               controller.artistInterestedInList[index];
@@ -611,7 +627,8 @@ class KalakarProfilePage extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        controller.setEditInterestInData(interestInData);
+                                        controller.setEditInterestInData(
+                                            interestInData);
                                       },
                                       child: Icon(
                                         Icons.edit,
@@ -632,93 +649,114 @@ class KalakarProfilePage extends StatelessWidget {
                 height: 24.h,
               ),
               Divider(
-                thickness: 3.0,
+                thickness:1.0,
                 height: 10.h,
               ),
               SizedBox(
-                height: 16.h,
+                height: 8.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(KalakarConstants.portfolio),
-                  InkWell(
-                      onTap: (){
-                        controller.editArtistPortfolio(null);
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(4.h)),
-                          child: Text(
-                            "Add",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.sp),
-                          ))),
-                ],
-              ),
-
-              SizedBox(height: 12.h,),
               Container(
-                padding: EdgeInsets.all(10.h),
-                height: 140 .h,
-                width: double.infinity,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.artistPortfolioList.length,
-                    itemBuilder: (context, index) {
-                      return  Container(
-                        margin: EdgeInsets.only(right: 15.w),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 125.h,
-                              width: 80.h,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.circular(8.r),
-                                image: DecorationImage(
-                                    image: controller
-                                        .artistPortfolioList[index]
-                                        .filePath!
-                                        .startsWith("http")
-                                        ? NetworkImage(controller
-                                        .artistPortfolioList[index]
-                                        .filePath!)
-                                        : FileImage(File(controller
-                                        .artistPortfolioList[index]
-                                        .filePath!)) as ImageProvider,
-                                    fit: BoxFit.cover),
-                              ),
-                            ),
-                            Positioned(
-                              right: 2,
-                              top: 2,
-                              child: InkWell(
-                                onTap: () {
-                                  controller.editArtistPortfolio(
-                                      controller
-                                          .artistPortfolioList[index],
-                                     );
-                                },
-                                child: Container(
-                                    padding: EdgeInsets.all(4.h),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            50.r),
-                                        color: KalakarColors.white
-                                            .withOpacity(.5)),
-                                    child: Icon(Icons.edit,size: 16.sp,)),
-                              ),
-                            )
-                          ],
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          KalakarConstants.portfolio,
+                          style: TextStyle(
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
                         ),
-                      ); //Container();
-                    }),
+                        InkWell(
+                            onTap: () {
+                              controller.editArtistPortfolio(null);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.h)),
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 14.sp),
+                                ))),
+                      ],
+                    ),
+
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(2.h),
+                      height: 160.h,
+                      width: double.infinity,
+
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.artistPortfolioList.length,
+                          itemBuilder: (context, index) {
+
+                            return Container(
+                              margin: EdgeInsets.only(right: 12.w),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 155.h,
+                                    width: 100.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: KalakarColors.backgroundGrey),
+                                      image: DecorationImage(
+                                          image: controller.artistPortfolioList[index].fileType==1?controller.artistPortfolioList[index]
+                                                  .filePath!
+                                                  .startsWith("http")
+                                              ? NetworkImage(controller
+                                                  .artistPortfolioList[index]
+                                                  .filePath!)
+                                              : FileImage(File(controller
+                                                  .artistPortfolioList[index]
+                                                  .filePath!)) as ImageProvider:MemoryImage(controller.artistPortfolioList[index].thumbnail!),
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 2,
+                                    top: 2,
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.editArtistPortfolio(
+                                          controller.artistPortfolioList[index],
+                                        );
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.all(4.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.r),
+                                              color: KalakarColors.white
+                                                  .withOpacity(.5)),
+                                          child: Icon(
+                                            Icons.edit,
+                                            size: 16.sp,
+                                          )),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ); //Container();
+                          }),
+                    ),
+                  ],
+                ),
               ),
               // Padding(
               //   padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -728,11 +766,11 @@ class KalakarProfilePage extends StatelessWidget {
               //   ),
               // ),
               SizedBox(
-                height: 16.h,
+                height: 8.h,
               ),
               Divider(
                 height: 10.h,
-                thickness: 3.0,
+                thickness: 1.0,
               ),
               SizedBox(
                 height: 16.h,
@@ -741,13 +779,13 @@ class KalakarProfilePage extends StatelessWidget {
                 padding: EdgeInsets.all(16.h),
                 margin: EdgeInsets.all(4.h),
                 decoration: BoxDecoration(
-                  color: KalakarColors.backgroundGrey,
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -782,24 +820,24 @@ class KalakarProfilePage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           ExperienceList expereinceData =
-                          controller.artistExperienceList[index];
+                              controller.artistExperienceList[index];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    expereinceData.roleProfile!,
+                                    expereinceData.roleName!,
                                     style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        controller.setEditExperienceData(expereinceData);
-
+                                        controller.setEditExperienceData(
+                                            expereinceData);
                                       },
                                       child: Icon(
                                         Icons.edit,
