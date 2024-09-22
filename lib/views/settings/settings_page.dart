@@ -6,6 +6,7 @@ import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../helper/kalakar_colors.dart';
+import '../../helper/route_helper.dart';
 import '../../utils/kalakar_constants.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -53,9 +54,15 @@ class SettingsPage extends StatelessWidget {
         ],
       ),
       actions: [
-        Icon(
-          Icons.notifications,
-          size: 35,
+        InkWell(
+          onTap: (){
+            Get.toNamed(RouteHelper.notificationPage);
+
+          },
+          child: Icon(
+            Icons.notifications,
+            size: 35,
+          ),
         ),
         SizedBox(
           width: 20.w,
@@ -113,20 +120,25 @@ class SettingsPage extends StatelessWidget {
             itemBuilder: (context, index) {
               return Container(
                 padding: EdgeInsets.symmetric(vertical: 10.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      controller.settingsList[index],
-                      style: TextStyle(
-                        fontSize: 18.sp,
+                child: InkWell(
+                  onTap: (){
+                    controller.gotoNextPage(controller.settingsList[index]);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        controller.settingsList[index],
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 18,
-                    )
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 18,
+                      )
+                    ],
+                  ),
                 ),
               );
             }),

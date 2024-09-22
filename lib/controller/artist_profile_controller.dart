@@ -1715,7 +1715,7 @@ class ArtistProfileController extends GetxController {
       artistHobbiesId = "0";
       hobbyTEController.text = "";
     }
-    Get.toNamed(RouteHelper.artistHobbiesFrom);
+    Get.toNamed(RouteHelper.artistHobbiesForm);
   }
 
   void setEditInterestInData(InterestList? interestInData) {

@@ -16,6 +16,12 @@ import 'package:kalakar/views/bottom_navigation/company/company_profile_form.dar
 import 'package:kalakar/views/bottom_navigation/company/company_more_info.dart';
 import 'package:kalakar/views/bottom_navigation/company/new_project_form.dart';
 import 'package:kalakar/views/requirement/requirement_form.dart';
+import 'package:kalakar/views/settings/about_us_page.dart';
+import 'package:kalakar/views/settings/help_page.dart';
+import 'package:kalakar/views/settings/notifications_page.dart';
+import 'package:kalakar/views/settings/privacy_policy_page.dart';
+import 'package:kalakar/views/settings/referral_code_page.dart';
+import 'package:kalakar/views/settings/terms_and_conditions_page.dart';
 
 import '../views/splash/splash_screen.dart';
 
@@ -40,7 +46,13 @@ class RouteHelper {
   static const String artistExperienceForm = '/kalakar_artist_experience_form';
   static const String artistInterestForm = '/kalakar_artist_interest_form';
   static const String artistPortfolio = '/kalakar_artist_portfolio_form';
-  static const String artistHobbiesFrom = '/kalakar_artist_Hobbies_form';
+  static const String artistHobbiesForm = '/kalakar_artist_Hobbies_form';
+  static const String aboutUsPage = '/kalakar_about_us';
+  static const String helpPage = '/kalakar_help';
+  static const String privacyPolicyPage = '/kalakar_privacy_policy';
+  static const String termsAndConditionsPage = '/kalakar_terms_and_conditions';
+  static const String referralCodePage = '/kalakar_referral_code';
+  static const String notificationPage = '/kalakar_notification_page';
 
   static List<GetPage> routes = [
     GetPage(
@@ -104,7 +116,7 @@ class RouteHelper {
       page: () => ArtistExperienceFormPage(),
     ),
     GetPage(
-      name: artistHobbiesFrom,
+      name: artistHobbiesForm,
       page: () => ArtistHobbiesFormPage(),
     ),
     GetPage(
@@ -114,6 +126,30 @@ class RouteHelper {
     GetPage(
       name: artistPortfolio,
       page: () => ArtistPortfolioFormPage(),
+    ),
+    GetPage(
+      name: aboutUsPage,
+      page: () => AboutUsPage(),
+    ),
+    GetPage(
+      name: helpPage,
+      page: () => HelpPage(),
+    ),
+    GetPage(
+      name: privacyPolicyPage,
+      page: () => PrivacyPolicyPage(),
+    ),
+    GetPage(
+      name: termsAndConditionsPage,
+      page: () => TermsAndConditionsPage(),
+    ),
+    GetPage(
+      name: referralCodePage,
+      page: () => ReferralCodePage(),
+    ),
+    GetPage(
+      name: notificationPage,
+      page: () => NotificationsPage(),
     ),
   ];
 }

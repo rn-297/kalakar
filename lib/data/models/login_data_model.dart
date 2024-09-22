@@ -9,11 +9,12 @@ class LoginDataClass {
   String? lastName;
   String? token;
   String? userID;
+  String? referralCode;
+  String? usedReferralCode;
   String? verificationStatus;
   int? verificationStatusID;
-  bool? isverifiedContacts;
   int? profileID;
-
+  bool? isverifiedContacts;
 
   LoginDataClass(
       {this.replayStatus,
@@ -26,11 +27,12 @@ class LoginDataClass {
         this.lastName,
         this.token,
         this.userID,
+        this.referralCode,
+        this.usedReferralCode,
         this.verificationStatus,
         this.verificationStatusID,
-        this.isverifiedContacts,
         this.profileID,
-      });
+        this.isverifiedContacts});
 
   LoginDataClass.fromJson(Map<String, dynamic> json) {
     replayStatus = json['replayStatus'];
@@ -43,6 +45,8 @@ class LoginDataClass {
     lastName = json['lastName'];
     token = json['token'];
     userID = json['userID'];
+    referralCode = json['referralCode'];
+    usedReferralCode = json['usedReferralCode'];
     verificationStatus = json['verificationStatus'];
     verificationStatusID = json['verificationStatusID'];
     profileID = json['profileID'];
@@ -61,6 +65,8 @@ class LoginDataClass {
     data['lastName'] = this.lastName;
     data['token'] = this.token;
     data['userID'] = this.userID;
+    data['referralCode'] = this.referralCode;
+    data['usedReferralCode'] = this.usedReferralCode;
     data['verificationStatus'] = this.verificationStatus;
     data['verificationStatusID'] = this.verificationStatusID;
     data['profileID'] = this.profileID;

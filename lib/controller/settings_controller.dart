@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 
 import '../data/local_database/hive_service.dart';
@@ -16,7 +17,7 @@ class SettingsController extends GetxController {
 
   void setSettingsList() async {
     LoginTable? loginTable = await HiveService.getLoginData();
-    if (loginTable!=null) {
+    if (loginTable != null) {
       print(loginTable!.accountType!);
       if (loginTable!.accountType == KalakarConstants.artist) {
         settingsList = [
@@ -29,7 +30,7 @@ class SettingsController extends GetxController {
           KalakarConstants.termsNConditions,
           KalakarConstants.referralCode1
         ];
-      }else{
+      } else {
         settingsList = [
           KalakarConstants.myProfile,
           KalakarConstants.myApplications,
@@ -43,5 +44,29 @@ class SettingsController extends GetxController {
       }
     }
     update();
+  }
+
+  void gotoNextPage(String settingsName) {
+    switch (settingsName) {
+      case KalakarConstants.aboutUs:
+        Get.toNamed(RouteHelper.aboutUsPage);
+        break;
+      case KalakarConstants.help:
+        Get.toNamed(RouteHelper.helpPage);
+
+        break;
+      case KalakarConstants.privacyPolicy:
+        Get.toNamed(RouteHelper.privacyPolicyPage);
+
+        break;
+      case KalakarConstants.termsNConditions:
+        Get.toNamed(RouteHelper.termsAndConditionsPage);
+
+        break;
+      case KalakarConstants.referralCode1:
+        Get.toNamed(RouteHelper.referralCodePage);
+
+        break;
+    }
   }
 }

@@ -26,6 +26,10 @@ class LoginTable {
   final bool isverifiedContacts;
   @HiveField(11)
   final int profileId;
+  @HiveField(12)
+  final String referralCode;
+  @HiveField(13)
+  final String usedReferralCode;
 
   const LoginTable(
     this.accountID,
@@ -40,5 +44,8 @@ class LoginTable {
     this.verificationStatusID,
     this.isverifiedContacts,
     this.profileId,
+    this.referralCode,
+    this.usedReferralCode,
+
   );
 }

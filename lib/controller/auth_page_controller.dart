@@ -358,7 +358,9 @@ class AuthPageController extends GetxController {
             loginDataClass.verificationStatus ?? "",
             loginDataClass.verificationStatusID ?? 0,
             loginDataClass.isverifiedContacts ?? false,
-            loginDataClass.profileID ?? 0);
+            loginDataClass.profileID ?? 0,
+            loginDataClass.referralCode ?? "",
+            loginDataClass.usedReferralCode ?? "");
         HiveService.saveLoginData(loginTable);
         signInEmailOrMobile.clear();
         signInPassword.clear();

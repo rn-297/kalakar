@@ -194,6 +194,7 @@ class KalakarConstants {
   static const String followUsOn = "Follow us on";
   static const String appVersion = "App Version";
   static const String logout = "Log Out";
+  static const String notifications = "Notifications";
 
   //requirements
   static const String requirement = "REQUIREMENT";
@@ -322,6 +323,8 @@ class KalakarConstants {
   static const String deleteExperience = "Delete Experience";
   static const String save = "Save";
   static const String delete = "Delete";
+
+
 
 
 // static const String roleProfile = "roleProfile";
