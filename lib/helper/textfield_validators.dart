@@ -187,11 +187,20 @@ class Validator {
     }
     return null;
   }
-  // validate state
+  // validate gender
 
   static String? validateGender(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Select Gender';
+    }
+    return null;
+  }
+
+  // validate apply for
+
+  static String? validateApplyFor(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Apply For';
     }
     return null;
   }

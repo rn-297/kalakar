@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
+import 'package:kalakar/data/models/artist/applied_requirement_list_class.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../data/models/company/company_requirement_list_class.dart';
 import '../../helper/kalakar_colors.dart';
 import '../../utils/kalakar_constants.dart';
 
@@ -119,7 +122,116 @@ class MyApplicationsPage extends StatelessWidget {
     return GetBuilder<RequirementController>(builder: (controller) {
       return SingleChildScrollView(
           child: Column(
-        children: [Text("This is My Applications page")],
+        children: [
+          ListView.builder(
+              itemCount: controller.appliedRequirementDetailsList.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                AppliedRequirementDetailsList requirementData =
+                    controller.appliedRequirementDetailsList[index];
+                final DateFormat formatter = DateFormat('dd-MM-yyyy');
+                DateTime shootingDate =
+                    DateTime.parse(requirementData!.shootingStartDate!);
+                String date = formatter.format(shootingDate);
+                print(requirementData.requirementDetailsID);
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      controller.setAppliedRequirementViewData(requirementData,true);
+                    },
+                    child: IntrinsicHeight(
+                      child: Row(
+                        children: [
+                          Expanded(
+                              flex: 2,
+                              child: requirementData.refPhotoName == null
+                                  ? Container(
+                                      margin: EdgeInsets.all(2.h),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.r),
+                                          ),
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              "assets/images/movie.png",
+                                            ),
+                                            fit: BoxFit.fill,
+                                          )),
+                                    ) //requirementData.companyLogo ?? "",
+                                  : Container(
+                                      margin: EdgeInsets.all(2.h),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.r),
+                                          ),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                              requirementData.refPhotoName ??
+                                                  "",
+                                            ),
+                                            fit: BoxFit.fill,
+                                          )),
+                                    )),
+                          Expanded(
+                              flex: 4,
+                              child: Padding(
+                                padding: EdgeInsets.all(8.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      requirementData.requirementTitle!,
+                                      style: TextStyle(
+                                          fontSize: 16.sp,
+                                          color: KalakarColors.headerText,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Text(
+                                      requirementData.requirementDescription! ??
+                                          "",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(requirementData.shootingLocation!),
+                                        Text(date),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(requirementData.gender!),
+                                        Text(
+                                            requirementData.age!.split(".")[0]),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              })
+        ],
       ));
     });
   }

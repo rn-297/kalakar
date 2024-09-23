@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/data/models/artist/applied_requirement_list_class.dart';
 import 'package:kalakar/data/models/artist/review_details_class.dart';
 import 'package:kalakar/data/models/artist/upcoming_company_projects.dart';
 import 'package:kalakar/data/models/artist_master_data.dart';
@@ -14,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
+import '../data/models/company/project_details_documents_class.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
 import '../utils/kalakar_constants.dart';
@@ -73,6 +75,7 @@ class RequirementController extends GetxController {
   List<ObjResponesRequirementDetailsList> newRequirementDetailsList = [];
   List<ObjResponesRequirementDetailsList> allRequirementDetailsList = [];
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
+  List<AppliedRequirementDetailsList> appliedRequirementDetailsList = [];
   List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
   List<GetApplicationReviewList> reviewDetailsList = [];
   List<String> genderList = ["Male", "Female", "Other"];
@@ -107,10 +110,17 @@ class RequirementController extends GetxController {
   //objects
   ObjResponesRequirementDetailsList selectedRequirement =
       ObjResponesRequirementDetailsList();
+  AppliedRequirementDetailsList selectedAppliedRequirement =
+      AppliedRequirementDetailsList();
+  ProjectDetailAndDocuments upcomingCompanyProject =
+      ProjectDetailAndDocuments();
+  GetApplicationReviewList selectedReviewData = GetApplicationReviewList();
 
   //bool
   bool isArtist = false;
   bool isRequirementsLoading = false;
+  bool isDocumentsLoading = false;
+  bool showStatus = false;
 
   setDate(String type, DateTime date) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -386,12 +396,23 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      var fields = {"requirementDetailsID": 0, "fK_AccountID": 0};
+      var fields = {
+        "requirementDetailsID": 0,
+        "fK_AccountID": loginTable.accountID
+      };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getAppliedForRequirementArtistApi,
           jsonEncode(fields),
           loginTable.token);
       if (response.statusCode == 200) {
+        ArtistAppliedRequirementDetailsClass companyRequirementListClass =
+            ArtistAppliedRequirementDetailsClass.fromJson(
+                jsonDecode(response.body));
+        if (companyRequirementListClass.replayStatus ?? false) {
+          appliedRequirementDetailsList =
+              companyRequirementListClass.objResponesRequirementDetailsList!;
+        }
+        update();
       } else {}
     }
   }
@@ -436,6 +457,7 @@ class RequirementController extends GetxController {
         getArtistHomeRequirementDetails(false);
         getArtistHomeRequirementDetails(true);
         getUpcomingProjectsDetails();
+        getAppliedForRequirementArtist();
         getReviewDetails();
       } else {
         getRequirementDetailsCompany(0);
@@ -699,16 +721,47 @@ class RequirementController extends GetxController {
       if (response.statusCode == 200) {
         ReviewClass reviewClass =
             ReviewClass.fromJson(jsonDecode(response.body));
-        reviewDetailsList =
-        reviewClass.getApplicationReviewList!;
+        reviewDetailsList = reviewClass.getApplicationReviewList!;
       }
       update();
     }
   }
 
-  void setRequirementViewData(ObjResponesRequirementDetailsList requirement) {
+  Future<void> getUpcomingProjectDocumentDetails(String projectId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {"superAdminProjectID": projectId, "fK_AccountID": "0"};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistHomeProjectDocumentsApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+
+      if (response.statusCode == 200) {
+        ProjectDetailAndDocuments reviewClass =
+            ProjectDetailAndDocuments.fromJson(jsonDecode(response.body));
+        upcomingCompanyProject = reviewClass;
+      }
+      isDocumentsLoading = false;
+
+      update();
+    }
+  }
+
+  void setRequirementViewData(
+      ObjResponesRequirementDetailsList requirement, bool showStatus) {
     selectedRequirement = requirement;
+    this.showStatus = showStatus;
     Get.toNamed(RouteHelper.requirementViewPage);
+  }
+
+  void setUpcomingProjectViewData(ResponseCompanyProjects upcomingProject) {
+    isDocumentsLoading = true;
+
+    getUpcomingProjectDocumentDetails(upcomingProject.projectStatusID!);
+    Get.toNamed(RouteHelper.upcomingProjectViewPage);
   }
 
   Future<void> openSocialMedia(int index, String link) async {
@@ -760,5 +813,17 @@ class RequirementController extends GetxController {
         }
         break;
     }
+  }
+
+  void setReviewDataToView(GetApplicationReviewList reviewData) {
+    selectedReviewData = reviewData;
+    Get.toNamed(RouteHelper.reviewViewPage);
+  }
+
+  void setAppliedRequirementViewData(
+      AppliedRequirementDetailsList requirementData, bool showStatus) {
+    selectedAppliedRequirement = requirementData;
+    this.showStatus = showStatus;
+    Get.toNamed(RouteHelper.requirementViewPage);
   }
 }

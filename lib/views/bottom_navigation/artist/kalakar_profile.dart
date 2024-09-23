@@ -11,6 +11,7 @@ import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/custom_widgets/custom_divider/custom_dashed_divider.dart';
+import 'package:kalakar/data/models/artist/artist_apply_for_class.dart';
 import 'package:kalakar/data/models/artist/artist_comfortable_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_education_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_experience_list_class.dart';
@@ -629,6 +630,88 @@ class KalakarProfilePage extends StatelessWidget {
                                       onTap: () {
                                         controller.setEditInterestInData(
                                             interestInData);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 18.sp,
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              )
+                            ],
+                          );
+                        }),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Container(
+                padding: EdgeInsets.all(16.h),
+                margin: EdgeInsets.all(4.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${KalakarConstants.applyFor} : ",
+                          style: TextStyle(
+                              fontSize: 18.sp, fontWeight: FontWeight.bold),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              controller.setEditApplyForData(null);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.h)),
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                ))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.artistApplyForList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          ApplyList applyForData =
+                              controller.artistApplyForList[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    applyForData.applyName!,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        controller.setEditApplyForData(
+                                            applyForData);
                                       },
                                       child: Icon(
                                         Icons.edit,

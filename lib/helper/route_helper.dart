@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:kalakar/helper/file_viewer/file_viewer.dart';
 import 'package:kalakar/views/auth/forgot_password.dart';
 import 'package:kalakar/views/auth/login_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_apply_for_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_comfortable_in_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_documents_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_education_form.dart';
@@ -17,6 +18,8 @@ import 'package:kalakar/views/bottom_navigation/company/company_more_info.dart';
 import 'package:kalakar/views/bottom_navigation/company/new_project_form.dart';
 import 'package:kalakar/views/requirement/requirement_form.dart';
 import 'package:kalakar/views/requirement/requirement_view_page.dart';
+import 'package:kalakar/views/requirement/review_view_page.dart';
+import 'package:kalakar/views/requirement/upcoming_projects_view_page.dart';
 import 'package:kalakar/views/settings/about_us_page.dart';
 import 'package:kalakar/views/settings/help_page.dart';
 import 'package:kalakar/views/settings/my_applications_page.dart';
@@ -57,6 +60,9 @@ class RouteHelper {
   static const String referralCodePage = '/kalakar_referral_code';
   static const String notificationPage = '/kalakar_notification_page';
   static const String requirementViewPage = '/kalakar_requirement_view';
+  static const String applyForFormPage = '/kalakar_apply_for_form';
+  static const String upcomingProjectViewPage = '/kalakar_upcoming_project_view';
+  static const String reviewViewPage = '/kalakar_review_view';
 
   static List<GetPage> routes = [
     GetPage(
@@ -158,6 +164,18 @@ class RouteHelper {
     GetPage(
       name: myApplicationsPage,
       page: () => MyApplicationsPage(),
+    ),
+    GetPage(
+      name: applyForFormPage,
+      page: () => ArtistApplyForFormPage(),
+    ),
+    GetPage(
+      name: upcomingProjectViewPage,
+      page: () => UpcomingProjectsViewPage(),
+    ),
+    GetPage(
+      name: reviewViewPage,
+      page: () => ReviewViewPage(),
     ),
   ];
 }

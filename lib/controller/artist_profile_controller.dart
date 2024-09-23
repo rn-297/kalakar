@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:kalakar/data/models/artist/artist_apply_for_class.dart';
 import 'package:kalakar/data/models/artist/artist_comfortable_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_document_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_education_list_class.dart';
@@ -59,6 +60,7 @@ class ArtistProfileController extends GetxController {
   TextEditingController alternateMobileNumberTEController =
       TextEditingController();
   TextEditingController languageKnownTEController = TextEditingController();
+  TextEditingController applyForTEController = TextEditingController();
   TextEditingController eyeColorTEController = TextEditingController();
   TextEditingController hairColorTEController = TextEditingController();
   TextEditingController bodyTypeTEController = TextEditingController();
@@ -114,9 +116,11 @@ class ArtistProfileController extends GetxController {
   String interestInMasterId = "0";
   String artistComfortableInId = "0";
   String comfortableInMasterId = "0";
+  String artistApplyForMasterId = "0";
   String artistDocumentId = "0";
   String artistExperienceId = "0";
   String artistPortfolioId = "0";
+  String artistApplyForId = "0";
 
   //date time
   DateTime artistDOB = DateTime.now();
@@ -154,6 +158,9 @@ class ArtistProfileController extends GetxController {
   final _formPortFolioKey = GlobalKey<FormState>();
 
   get formPortFolioKey => _formPortFolioKey;
+  final _formApplyForKey = GlobalKey<FormState>();
+
+  get formApplyForKey => _formApplyForKey;
 
   //Date Formatter
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -168,10 +175,12 @@ class ArtistProfileController extends GetxController {
   List<ComfortableInList> artistComfortableInList = [];
   List<HobbiesList> artistHobbiesList = [];
   List<InterestList> artistInterestedInList = [];
+  List<ApplyList> artistApplyForList = [];
   List<AgeRangeMasterList> ageRangeMasterList = [];
   List<HeighRangeMasterList> heightRangeMasterList = [];
   List<WeightRangeMasterList> weightRangeMasterList = [];
   List<MaritalStatusMasterList> maritalStatusMasterList = [];
+  List<ApplyListMaster> applyForMasterList = [];
 
   List<DocumentsList> artistDocumentsList = [];
   List<ExperienceList> artistExperienceList = [];
@@ -181,6 +190,7 @@ class ArtistProfileController extends GetxController {
   List<String> fileTypeList = ["IMAGE", "VIDEO"];
   List<String> maritalStatusList = ["Single", "Married", "Divorced"];
   List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
+  List<String> applyForList = ["Acting", "Direction team", "Camera Team"];
   List<String> hairColorList = [
     "Black",
     "Brown",
@@ -254,6 +264,7 @@ class ArtistProfileController extends GetxController {
           heightRangeMasterList = artistMasterClass.heighRangeMasterList!;
           weightRangeMasterList = artistMasterClass.weightRangeMasterList!;
           maritalStatusMasterList = artistMasterClass.maritalStatusMasterList!;
+          applyForMasterList = artistMasterClass.applyListMaster!;
           artistInterestedInMasterList =
               artistMasterClass.interestedListMaster!;
 
@@ -298,6 +309,10 @@ class ArtistProfileController extends GetxController {
               .map((status) => status.name as String)
               .toList();
           interestInList = names;
+          names = applyForMasterList
+              .map((status) => status.name as String)
+              .toList();
+          applyForList = names;
           update();
         }
       }
@@ -534,24 +549,33 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileApplyFor() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Apply For Data", "Saving Apply For Data");
       final body = {
-        "artistProfile_ApplyForID": 0,
-        "fK_AccountID": 0,
-        "fK_ApplyListMasterID": "string"
+        "artistProfile_ApplyForID": artistApplyForId,
+        "fK_AccountID": loginTable.accountID,
+        "fK_ApplyListMasterID": artistApplyForMasterId
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveArtistProfileApplyForApi,
           jsonEncode(body),
           loginTable.token);
-      // print(response.statusCode);
-      // print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
 
       if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
+        ResponseModel responseModel =
+        ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Apply For Data Success", responseModel.message!);
+          getArtistProfileComfortableIn(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Apply For Data Failed", responseModel.message!);
+        }
       }
     }
   }
@@ -1067,6 +1091,34 @@ class ArtistProfileController extends GetxController {
     }
   }
 
+  Future<void> getArtistProfileApplyFor(int recordId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {
+        "userID": loginTable.userID,
+        "fK_AccountID": loginTable.accountID,
+        "recordID": recordId
+      };
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistProfileApplyForApi,
+          jsonEncode(body),
+          loginTable.token);
+      // print(response.statusCode);
+      // print(response);
+
+      if (response.statusCode == 200) {
+        ApplyForListClass applyForListClass =
+            ApplyForListClass.fromJson(jsonDecode(response.body));
+        artistApplyForList = applyForListClass.applyList!;
+        update();
+        // print("response successful ${response.body}");
+        // Get.defaultDialog(
+        //   content: Text("response successful ${response.body}"),
+        // );
+      }
+    }
+  }
+
   Future<void> getArtistProfileInterest(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
@@ -1246,27 +1298,6 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  Future<void> getArtistProfileApplyFor() async {
-    LoginTable? loginTable = await HiveService.getLoginData();
-    if (loginTable != null) {
-      final body = {"userID": "string", "fK_AccountID": 0, "recordID": 0};
-
-      var response = await ApiClient.postDataToken(
-          KalakarConstants.getArtistProfileApplyForApi,
-          jsonEncode(body),
-          loginTable.token);
-      // print(response.statusCode);
-      // print(response);
-
-      if (response.statusCode == 200) {
-        // print("response successful ${response.body}");
-        // Get.defaultDialog(
-        //   content: Text("response successful ${response.body}"),
-        // );
-      }
-    }
-  }
-
   getStateData() async {
     stateCityPinCodeList = await StateCityPinCodeHelper.getCsvData();
     stateList =
@@ -1304,6 +1335,13 @@ class ArtistProfileController extends GetxController {
       saveArtistProfile();
     }
   }
+
+  void validateApplyForForm() {
+    if (_formApplyForKey.currentState!.validate()) {
+      saveArtistProfileApplyFor();
+    }
+  }
+
 
   Future<void> openSocialMedia(int index) async {
     switch (index) {
@@ -1409,6 +1447,7 @@ class ArtistProfileController extends GetxController {
         getArtistProfileComfortableIn(0),
         getArtistProfileHobbies(0),
         getArtistProfileInterest(0),
+        getArtistProfileApplyFor(0),
         getArtistExperience(0),
         getArtistDocuments(),
         getArtistPortFolio(0)
@@ -1562,7 +1601,9 @@ class ArtistProfileController extends GetxController {
       body['recordID'] = artistInterestInId;
 
       var response = await ApiClient.deleteDataToken(
-          KalakarConstants.deleteArtistInterestedInDataApi, body, loginTable.token);
+          KalakarConstants.deleteArtistInterestedInDataApi,
+          body,
+          loginTable.token);
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -1787,7 +1828,6 @@ class ArtistProfileController extends GetxController {
   }
 
   Future<void> deletePortfolioData() async {
-
     LoginTable? loginTable = await HiveService.getLoginData();
     print("object");
     if (loginTable != null) {
@@ -1799,7 +1839,9 @@ class ArtistProfileController extends GetxController {
       body['recordID'] = artistPortfolioId;
 
       var response = await ApiClient.deleteDataToken(
-          KalakarConstants.deleteArtistPortfolioDataApi, body, loginTable.token);
+          KalakarConstants.deleteArtistPortfolioDataApi,
+          body,
+          loginTable.token);
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -1808,7 +1850,7 @@ class ArtistProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-        ResponseModel.fromJson(jsonDecode(response.body));
+            ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Deleting Portfolio Data Success", responseModel.message!);
@@ -1820,4 +1862,30 @@ class ArtistProfileController extends GetxController {
       }
     }
   }
+
+  void setEditApplyForData(ApplyList? applyForData) {
+    if (applyForData != null) {
+      artistApplyForId = applyForData.artistProfileApplyForID.toString();
+      applyForTEController.text = applyForData.applyName.toString();
+      artistApplyForMasterId = applyForData.fKApplyListMasterID.toString();
+    } else {
+      artistApplyForId = "0";
+      applyForTEController.text = "";
+      artistApplyForMasterId = "";
+    }
+    Get.toNamed(RouteHelper.applyForFormPage);
+  }
+
+  void setApplyForValue(String selectedItem) {
+    applyForTEController.text = selectedItem;
+    artistApplyForMasterId = applyForMasterList
+        .where((item) => item.name == selectedItem)
+        .first
+        .id
+        .toString();
+    update();
+  }
+
+  void deleteApplyFor() {}
+
 }

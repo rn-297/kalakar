@@ -288,7 +288,7 @@ class KalakarHomePage extends StatelessWidget {
                       DateFormat formatter = DateFormat('dd-MM-yyyy');
                       return InkWell(
                         onTap: () {
-                          controller.setRequirementViewData(requirement);
+                          controller.setRequirementViewData(requirement,false);
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -453,57 +453,63 @@ class KalakarHomePage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       ResponseCompanyProjects upcomingProject =
                           controller.upcomingProjectsDetailsList[index];
-                      return Container(
-                        margin: EdgeInsets.only(
-                          top: 8.h,
-                          bottom: 8.h,
-                          right: 8.h,
-                        ),
-                        // padding: EdgeInsets.all(8.h),
-                        width: Get.size.width / 2,
-                        decoration: BoxDecoration(
-                          color: KalakarColors.white,
-                          border:
-                              Border.all(color: KalakarColors.backgroundGrey),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  upcomingProject.projectCoverDoc!,
-                                  fit: BoxFit.cover,
-                                  height: (Get.size.width / 2) / 1.5,
-                                  errorBuilder: (BuildContext context,
-                                      Object error, StackTrace? stackTrace) {
-                                    // Return a dummy or placeholder image when an error occurs
-                                    return Image.asset(
-                                      "assets/images/movie.png",
-                                      height: 80.h,
-                                      fit: BoxFit.fitWidth,
-                                    );
-                                  },
+                      return InkWell(
+                        onTap: () {
+                          controller
+                              .setUpcomingProjectViewData(upcomingProject);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: 8.h,
+                            bottom: 8.h,
+                            right: 8.h,
+                          ),
+                          // padding: EdgeInsets.all(8.h),
+                          width: Get.size.width / 2,
+                          decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            border:
+                                Border.all(color: KalakarColors.backgroundGrey),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    upcomingProject.projectCoverDoc!,
+                                    fit: BoxFit.cover,
+                                    height: (Get.size.width / 2) / 1.5,
+                                    errorBuilder: (BuildContext context,
+                                        Object error, StackTrace? stackTrace) {
+                                      // Return a dummy or placeholder image when an error occurs
+                                      return Image.asset(
+                                        "assets/images/movie.png",
+                                        height: 80.h,
+                                        fit: BoxFit.fitWidth,
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                              Divider(
-                                color: KalakarColors.backgroundGrey,
-                                height: 20,
-                                thickness: 1,
-                                // indent: 20,
-                                // endIndent: 20,
-                              ),
-                              Text(
-                                upcomingProject.projectTitle!,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
+                                Divider(
+                                  color: KalakarColors.backgroundGrey,
+                                  height: 20,
+                                  thickness: 1,
+                                  // indent: 20,
+                                  // endIndent: 20,
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
+                                Text(
+                                  upcomingProject.projectTitle!,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -532,7 +538,10 @@ class KalakarHomePage extends StatelessWidget {
                         color: KalakarColors.white,
                         border: Border.all(color: KalakarColors.backgroundGrey),
                       ),
-                      child: SingleChildScrollView(
+                      child: InkWell(
+                        onTap: (){
+                          controller.setReviewDataToView(reviewData);
+                        },
                         child: Row(
                           children: [
                             ClipRRect(
@@ -564,7 +573,9 @@ class KalakarHomePage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(reviewData.reviewStar!.toString()),
-                                        SizedBox(width: 16.w,),
+                                        SizedBox(
+                                          width: 16.w,
+                                        ),
                                         SizedBox(
                                           height: 20.h,
                                           width: 150.w,

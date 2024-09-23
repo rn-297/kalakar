@@ -31,6 +31,8 @@ void main() async {
 
 
   Get.lazyPut(() => RequirementController());
+  Get.put(RequirementController());
+
 
   runApp(const MyApp());
 }

@@ -116,6 +116,8 @@ class KalakarConstants {
       "/SuperAdmin/GetSuperAdminCompanyProjects";
   static const String getArtistHomeReviewApi =
       "/SuperAdmin/GetApplicationReview";
+  static const String getArtistHomeProjectDocumentsApi =
+      "/SuperAdmin/GetSuperAdminCompanyProjects_Documents";
 
 
   //Strings
@@ -167,7 +169,9 @@ class KalakarConstants {
   static const String newOpportunities = "New Opportunities :";
   static const String seeAll = "See all >>";
   static const String upcomingProjects = "Upcoming Projects :";
+  static const String upcomingProject = "Upcoming Project";
   static const String reviews = "REVIEWS :";
+  static const String review = "Review";
   static const String portfolio = "PORTFOLIO :";
   static const String portfolio1 = "PORTFOLIO";
   static const String experienceLevel = "Experience Level";
@@ -305,6 +309,7 @@ class KalakarConstants {
   static const String score = "Score";
   static const String hobby = "Hobby";
   static const String interestIn = "Interest In";
+  static const String applyFor = "Apply For";
   static const String passport = "Passport";
   static const String aadharCard = "Aadhar Card";
   static const String vehicle = "Vehicle";

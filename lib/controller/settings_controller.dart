@@ -50,7 +50,7 @@ class SettingsController extends GetxController {
   void gotoNextPage(String settingsName) {
     switch (settingsName) {
       case KalakarConstants.myApplications:
-        Get.toNamed(RouteHelper.aboutUsPage);
+        Get.toNamed(RouteHelper.myApplicationsPage);
         break;
       case KalakarConstants.aboutUs:
         Get.toNamed(RouteHelper.aboutUsPage);
