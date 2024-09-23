@@ -11,7 +11,8 @@ class BottomNavigatorPage extends StatelessWidget {
     Get.put(BottomNavigationController());
     return GetBuilder<BottomNavigationController>(
       builder: (navigationController) {
-        return SafeArea(child: Scaffold(bottomNavigationBar: BottomNavigationBar(
+        return SafeArea(child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
           currentIndex: navigationController.getSelectedArtistIndex(),
           showSelectedLabels: false,
           showUnselectedLabels: false,

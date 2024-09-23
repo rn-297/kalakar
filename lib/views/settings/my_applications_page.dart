@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../helper/kalakar_colors.dart';
@@ -25,7 +26,6 @@ class MyApplicationsPage extends StatelessWidget {
       ),
     );
   }
-
 
   appbarMobileView() {
     return AppBar(
@@ -115,7 +115,14 @@ class MyApplicationsPage extends StatelessWidget {
     );
   }
 
-  myApplicationsMobileView() {return Column(children: [Text("This is My Applications page")],);}
+  myApplicationsMobileView() {
+    return GetBuilder<RequirementController>(builder: (controller) {
+      return SingleChildScrollView(
+          child: Column(
+        children: [Text("This is My Applications page")],
+      ));
+    });
+  }
 
   myApplicationsWebView(BuildContext context) {}
 }

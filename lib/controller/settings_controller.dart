@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
+import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
@@ -48,6 +49,9 @@ class SettingsController extends GetxController {
 
   void gotoNextPage(String settingsName) {
     switch (settingsName) {
+      case KalakarConstants.myApplications:
+        Get.toNamed(RouteHelper.aboutUsPage);
+        break;
       case KalakarConstants.aboutUs:
         Get.toNamed(RouteHelper.aboutUsPage);
         break;
@@ -68,5 +72,9 @@ class SettingsController extends GetxController {
 
         break;
     }
+  }
+
+  void logOutMessage() {
+    KalakarDialogs.logOutDialog();
   }
 }

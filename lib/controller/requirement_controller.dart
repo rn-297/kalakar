@@ -4,9 +4,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/data/models/artist/review_details_class.dart';
+import 'package:kalakar/data/models/artist/upcoming_company_projects.dart';
 import 'package:kalakar/data/models/artist_master_data.dart';
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
@@ -19,6 +22,7 @@ import 'package:intl/intl.dart';
 import '../views/dialogs/kalakar_dialogs.dart';
 
 class RequirementController extends GetxController {
+  //TEControllers
   TextEditingController requirementTitleTEController = TextEditingController();
   TextEditingController requirementStatusTEController = TextEditingController();
   TextEditingController descriptionTEController = TextEditingController();
@@ -50,6 +54,8 @@ class RequirementController extends GetxController {
   TextEditingController salaryTEController = TextEditingController();
   TextEditingController salaryTypeTEController = TextEditingController();
 
+  //searchTEControllers
+
   //strings
   String requirementId = "0";
   String requirementStatusId = "1";
@@ -64,7 +70,11 @@ class RequirementController extends GetxController {
   DateTime requirementEndDate = DateTime.now();
 
   //lists
+  List<ObjResponesRequirementDetailsList> newRequirementDetailsList = [];
+  List<ObjResponesRequirementDetailsList> allRequirementDetailsList = [];
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
+  List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
+  List<GetApplicationReviewList> reviewDetailsList = [];
   List<String> genderList = ["Male", "Female", "Other"];
   List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
   List<String> hairColorList = [
@@ -93,6 +103,10 @@ class RequirementController extends GetxController {
   //integers
 
   int selectedRequirementId = 0;
+
+  //objects
+  ObjResponesRequirementDetailsList selectedRequirement =
+      ObjResponesRequirementDetailsList();
 
   //bool
   bool isArtist = false;
@@ -279,7 +293,7 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       var fields = {
-        "artistID": "string",
+        "artistID": loginTable.accountID,
         "location": "string",
         "startShootingDate": "string",
         "endShootingDate": "string",
@@ -299,20 +313,34 @@ class RequirementController extends GetxController {
     }
   }
 
-  saveAppliedToRequirement() async {
+  saveAppliedToRequirement(int requirementDetailsId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Applying For Opportunity", "Applying For Opportunity");
       var fields = {
         "artistAppliedForRequirementTransID": "0",
-        "fK_RequirementDetailsID": "0",
-        "fK_AccountID": "0"
+        "fK_RequirementDetailsID": requirementDetailsId,
+        "fK_AccountID": loginTable.accountID
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveAppliedToRequirementApi,
           jsonEncode(fields),
           loginTable.token);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
       if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Applying For Opportunity Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Applying For Opportunity Failed", responseModel.message!);
+        }
       } else {}
     }
   }
@@ -374,7 +402,7 @@ class RequirementController extends GetxController {
     if (loginTable != null) {
       var fields = {"requirementDetailsID": 0, "fK_AccountID": 0};
       var response = await ApiClient.postDataToken(
-          KalakarConstants.getAppliedForRequirementCompany,
+          KalakarConstants.getAppliedForRequirementCompanyApi,
           jsonEncode(fields),
           loginTable.token);
       if (response.statusCode == 200) {
@@ -405,6 +433,10 @@ class RequirementController extends GetxController {
     if (loginTable != null) {
       isArtist = loginTable.accountType == KalakarConstants.artist;
       if (isArtist) {
+        getArtistHomeRequirementDetails(false);
+        getArtistHomeRequirementDetails(true);
+        getUpcomingProjectsDetails();
+        getReviewDetails();
       } else {
         getRequirementDetailsCompany(0);
       }
@@ -467,7 +499,7 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       var response = await ApiClient.postDataToken1(
-          KalakarConstants.artistProfileMasterApi, body, loginTable.token );
+          KalakarConstants.artistProfileMasterApi, body, loginTable.token);
       print(response.statusCode);
       print(response);
 
@@ -601,5 +633,132 @@ class RequirementController extends GetxController {
   void setHeightRangeValue(String selectedItem) {
     heightTEController.text = selectedItem;
     update();
+  }
+
+  Future<void> getArtistHomeRequirementDetails(bool iSAll) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {"fK_AccountID": loginTable.accountID, "isAll": iSAll};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistHomeRequirementsApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+
+      if (response.statusCode == 200) {
+        CompanyRequirementListClass artistHomeRequirementsClass =
+            CompanyRequirementListClass.fromJson(jsonDecode(response.body));
+        if (iSAll) {
+          allRequirementDetailsList =
+              artistHomeRequirementsClass.objResponesRequirementDetailsList!;
+        } else {
+          newRequirementDetailsList =
+              artistHomeRequirementsClass.objResponesRequirementDetailsList!;
+        }
+      }
+      update();
+    }
+  }
+
+  Future<void> getUpcomingProjectsDetails() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {"superAdminProjectID": "0", "fK_AccountID": "0"};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistHomeUpcomingProjectsApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+
+      if (response.statusCode == 200) {
+        UpcomigProjectClass upcomigProjectClass =
+            UpcomigProjectClass.fromJson(jsonDecode(response.body));
+        upcomingProjectsDetailsList =
+            upcomigProjectClass.lResponseCompanyProjects!;
+      }
+      update();
+    }
+  }
+
+  Future<void> getReviewDetails() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {"applicationReviewID": "0", "fK_AccountID": "0"};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistHomeReviewApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+
+      if (response.statusCode == 200) {
+        ReviewClass reviewClass =
+            ReviewClass.fromJson(jsonDecode(response.body));
+        reviewDetailsList =
+        reviewClass.getApplicationReviewList!;
+      }
+      update();
+    }
+  }
+
+  void setRequirementViewData(ObjResponesRequirementDetailsList requirement) {
+    selectedRequirement = requirement;
+    Get.toNamed(RouteHelper.requirementViewPage);
+  }
+
+  Future<void> openSocialMedia(int index, String link) async {
+    switch (index) {
+      case 0:
+        try {
+          launchUrl(Uri.parse(link));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 1:
+        try {
+          launchUrl(Uri.parse(link!));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 2:
+        try {
+          launchUrl(Uri.parse(link));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 3:
+        try {
+          launchUrl(Uri.parse(link));
+        } catch (e) {
+          print(e);
+        }
+
+        break;
+      case 4:
+        try {
+          launchUrl(Uri.parse(link));
+        } catch (e) {
+          print(e);
+        }
+        break;
+      case 5:
+        try {
+          launchUrl(Uri.parse(link));
+        } catch (e) {
+          print(e);
+        }
+        break;
+    }
   }
 }

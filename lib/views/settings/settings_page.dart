@@ -55,9 +55,8 @@ class SettingsPage extends StatelessWidget {
       ),
       actions: [
         InkWell(
-          onTap: (){
+          onTap: () {
             Get.toNamed(RouteHelper.notificationPage);
-
           },
           child: Icon(
             Icons.notifications,
@@ -110,102 +109,99 @@ class SettingsPage extends StatelessWidget {
   settingsMobileView() {
     return GetBuilder<SettingsController>(builder: (controller) {
       return Padding(
-              padding: EdgeInsets.all(24.h),
-              child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: controller.settingsList.length,
-            itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.symmetric(vertical: 10.h),
-                child: InkWell(
-                  onTap: (){
-                    controller.gotoNextPage(controller.settingsList[index]);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        controller.settingsList[index],
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                        ),
+        padding: EdgeInsets.all(24.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.settingsList.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    child: InkWell(
+                      onTap: () {
+                        controller.gotoNextPage(controller.settingsList[index]);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            controller.settingsList[index],
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 18,
+                          )
+                        ],
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 18,
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }),
-        SizedBox(
-          height: 10.h,
-        ),
-        Text(KalakarConstants.followUsOn),
-        Container(
-          height: 60.h,
-          child: ListView.builder(
-              itemCount: 4,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.all(8.h),
-                  margin: EdgeInsets.all(8.h),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: KalakarColors.textColor)),
-                  child: Icon(
-                    Icons.connected_tv_sharp,
-                    size: 30,
-                  ),
-                );
-              }),
-        ),
-        SizedBox(
-          height: 20.h,
-        ),
-        Text(
-          KalakarConstants.appVersion,
-          style: TextStyle(fontSize: 18.sp),
-        ),
-        Text(
-          "1.0.0",
-          style: TextStyle(fontSize: 12.sp),
-        ),
-        Center(
-            child: InkWell(
-              onTap: (){
-                HiveService.deleteLoginData();
+                    ),
+                  );
+                }),
+            SizedBox(
+              height: 10.h,
+            ),
+            Text(KalakarConstants.followUsOn),
+            Container(
+              height: 60.h,
+              child: ListView.builder(
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: EdgeInsets.all(8.h),
+                      margin: EdgeInsets.all(8.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(color: KalakarColors.textColor)),
+                      child: Icon(
+                        Icons.connected_tv_sharp,
+                        size: 30,
+                      ),
+                    );
+                  }),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Text(
+              KalakarConstants.appVersion,
+              style: TextStyle(fontSize: 18.sp),
+            ),
+            Text(
+              "1.0.0",
+              style: TextStyle(fontSize: 12.sp),
+            ),
+            Center(
+                child: InkWell(
+              onTap: () {
+                controller.logOutMessage();
               },
               child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
-                            decoration: BoxDecoration(
-                border: Border.all(color: KalakarColors.textColor),
-                borderRadius: BorderRadius.circular(50.r)),
-                            child: Text(KalakarConstants.logout),
-                          ),
-            ))
-      ],
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                    border: Border.all(color: KalakarColors.textColor),
+                    borderRadius: BorderRadius.circular(50.r)),
+                child: Text(KalakarConstants.logout),
               ),
-            );
+            ))
+          ],
+        ),
+      );
     });
   }
 
   settingsWebView(BuildContext context) {
     return GetBuilder<SettingsController>(builder: (controller) {
       return Padding(
-        padding: EdgeInsets.symmetric(vertical:16.h,horizontal: 72.w
-        ),
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 72.w),
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-
           child: SingleChildScrollView(
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -248,7 +244,8 @@ class SettingsPage extends StatelessWidget {
                           margin: EdgeInsets.all(8.h),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.r),
-                              border: Border.all(color: KalakarColors.textColor)),
+                              border:
+                                  Border.all(color: KalakarColors.textColor)),
                           child: Icon(
                             Icons.connected_tv_sharp,
                             size: 20,
@@ -269,17 +266,18 @@ class SettingsPage extends StatelessWidget {
                 ),
                 Center(
                     child: InkWell(
-                      onTap: (){
-                        HiveService.deleteLoginData();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: KalakarColors.textColor),
-                            borderRadius: BorderRadius.circular(50.r)),
-                        child: Text(KalakarConstants.logout),
-                      ),
-                    ))
+                  onTap: () {
+                    controller.logOutMessage();
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: KalakarColors.textColor),
+                        borderRadius: BorderRadius.circular(50.r)),
+                    child: Text(KalakarConstants.logout),
+                  ),
+                ))
               ],
             ),
           ),

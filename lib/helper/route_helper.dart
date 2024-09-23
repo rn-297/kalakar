@@ -16,8 +16,10 @@ import 'package:kalakar/views/bottom_navigation/company/company_profile_form.dar
 import 'package:kalakar/views/bottom_navigation/company/company_more_info.dart';
 import 'package:kalakar/views/bottom_navigation/company/new_project_form.dart';
 import 'package:kalakar/views/requirement/requirement_form.dart';
+import 'package:kalakar/views/requirement/requirement_view_page.dart';
 import 'package:kalakar/views/settings/about_us_page.dart';
 import 'package:kalakar/views/settings/help_page.dart';
+import 'package:kalakar/views/settings/my_applications_page.dart';
 import 'package:kalakar/views/settings/notifications_page.dart';
 import 'package:kalakar/views/settings/privacy_policy_page.dart';
 import 'package:kalakar/views/settings/referral_code_page.dart';
@@ -50,9 +52,11 @@ class RouteHelper {
   static const String aboutUsPage = '/kalakar_about_us';
   static const String helpPage = '/kalakar_help';
   static const String privacyPolicyPage = '/kalakar_privacy_policy';
+  static const String myApplicationsPage = '/kalakar_my_applications';
   static const String termsAndConditionsPage = '/kalakar_terms_and_conditions';
   static const String referralCodePage = '/kalakar_referral_code';
   static const String notificationPage = '/kalakar_notification_page';
+  static const String requirementViewPage = '/kalakar_requirement_view';
 
   static List<GetPage> routes = [
     GetPage(
@@ -148,8 +152,12 @@ class RouteHelper {
       page: () => ReferralCodePage(),
     ),
     GetPage(
-      name: notificationPage,
-      page: () => NotificationsPage(),
+      name: requirementViewPage,
+      page: () => RequirementViewPage(),
+    ),
+    GetPage(
+      name: myApplicationsPage,
+      page: () => MyApplicationsPage(),
     ),
   ];
 }

@@ -108,8 +108,14 @@ class KalakarConstants {
       "/RequirementDetails/AddRequirementInFavorites";
   static const String getAppliedForRequirementArtistApi =
       "/RequirementDetails/GetAppliedForRequirement_Artist";
-  static const String getAppliedForRequirementCompany =
+  static const String getAppliedForRequirementCompanyApi =
       "/RequirementDetails/GetAppliedForRequirement_Company";
+  static const String getArtistHomeRequirementsApi =
+      "/RequirementDetails/GetRequirementDetails_ArtistHome";
+  static const String getArtistHomeUpcomingProjectsApi =
+      "/SuperAdmin/GetSuperAdminCompanyProjects";
+  static const String getArtistHomeReviewApi =
+      "/SuperAdmin/GetApplicationReview";
 
 
   //Strings
@@ -152,6 +158,7 @@ class KalakarConstants {
   static const String profile1 = "PROFILE";
   static const String settings = "Settings";
   static const String opportunities = "Opportunities";
+  static const String opportunity = "Opportunity";
   static const String opportunitiesText = "1st Step To Prove Yourself";
   static const String opportunities1 = "OPPORTUNITIES";
   static const String namskarKalakar = "Namskar Kalakaar";

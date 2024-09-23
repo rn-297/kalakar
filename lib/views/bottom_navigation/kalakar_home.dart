@@ -3,6 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:kalakar/controller/requirement_controller.dart';
+import 'package:kalakar/data/models/artist/review_details_class.dart';
+import 'package:kalakar/data/models/artist/upcoming_company_projects.dart';
+import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -246,277 +251,352 @@ class KalakarHomePage extends StatelessWidget {
 
   kalakarHomeMobileView() {
     return SingleChildScrollView(
-      child: Container(
-        color: KalakarColors.appBarBackground1,
-        padding: EdgeInsets.symmetric(horizontal: 24.w,
-            vertical: 16.h),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  KalakarConstants.newOpportunities,
-                  style: TextStyle(fontSize: 16.sp),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Text(
-                    KalakarConstants.seeAll,
+      child: GetBuilder<RequirementController>(builder: (controller) {
+        return Container(
+          color: KalakarColors.appBarBackground1,
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    KalakarConstants.newOpportunities,
                     style: TextStyle(fontSize: 16.sp),
                   ),
-                )
-              ],
-            ),
-            Container(
-              height: Get.size.height / 2.8,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.all(8.h),
-                      padding: EdgeInsets.all(8.h),
-                      width: Get.size.width / 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: KalakarColors.appBarBackground1,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
+                  InkWell(
+                    onTap: () {},
+                    child: Text(
+                      KalakarConstants.seeAll,
+                      style: TextStyle(fontSize: 16.sp),
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                height: Get.size.height / 2.8,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.newRequirementDetailsList.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      ObjResponesRequirementDetailsList requirement =
+                          controller.newRequirementDetailsList[index];
+                      DateTime shootingStartDate = DateTime.parse(
+                          requirement.shootingStartDate.toString());
+                      DateFormat formatter = DateFormat('dd-MM-yyyy');
+                      return InkWell(
+                        onTap: () {
+                          controller.setRequirementViewData(requirement);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              right: 8.h, top: 8.h, bottom: 8.h),
+                          padding: EdgeInsets.all(8.h),
+                          width: Get.size.width / 2,
+                          decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            border:
+                                Border.all(color: KalakarColors.backgroundGrey),
+                            borderRadius: BorderRadius.circular(8.r),
                           ),
-                        ],
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(CupertinoIcons.suit_heart)),
-                            ClipOval(
-                              // Image radius
-                              child: Image.asset(
-                                "assets/images/app_bar_logo.png",
-                                fit: BoxFit.cover,
-                                height: 80.h,
-                                width: 80.h,
-                              ),
-                            ),
-                            Text("Company Name"),
-                            Divider(
-                              color: Colors.grey,
-                              height: 20,
-                              thickness: 2,
-                              // indent: 20,
-                              // endIndent: 20,
-                            ),
-                            Container(
-                              color: KalakarColors.white,
-                              padding: EdgeInsets.all(4.h),
-                              child: InkWell(
-                                  child: Container(
-                                margin: EdgeInsets.all(4.h),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 4.h, horizontal: 16.w),
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius: 5.0,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                // Align(
+                                //     alignment: Alignment.centerRight,
+                                //     child: Icon(CupertinoIcons.suit_heart)),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                ClipOval(
+                                  // Image radius
+                                  child: Image.network(
+                                    requirement.refPhotoName!,
+                                    fit: BoxFit.cover,
+                                    height: 80.h,
+                                    width: 80.h,
+                                    errorBuilder: (BuildContext context,
+                                        Object error, StackTrace? stackTrace) {
+                                      // Return a dummy or placeholder image when an error occurs
+                                      return Image.asset(
+                                        "assets/images/app_bar_logo.png",
+                                        height: 80.h,
+                                        width: 80.h,
+                                      );
+                                    },
                                   ),
-                                ], color: KalakarColors.white),
-                                child: Text("Good Looking Models"),
-                              )),
-                            ),
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Icon(Icons.cake),
                                 ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text("25-30 Years"),
+                                Text(requirement.companyNameProductionhouse!),
+                                Divider(
+                                  color: KalakarColors.backgroundGrey,
+                                  height: 20,
+                                  thickness: 2,
+                                  // indent: 20,
+                                  // endIndent: 20,
+                                ),
+                                Container(
+                                  color: KalakarColors.white,
+                                  padding: EdgeInsets.all(4.h),
+                                  child: InkWell(
+                                      child: Container(
+                                    margin: EdgeInsets.all(4.h),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 4.h, horizontal: 16.w),
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 5.0,
+                                      ),
+                                    ], color: KalakarColors.white),
+                                    child: Text(requirement.lookingFor!),
+                                  )),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.cake),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(requirement.age!.contains(".")
+                                          ? requirement.age!.split(".").first +
+                                              " Years"
+                                          : requirement.age! + " Years"),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.person),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(requirement.gender!),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.location_on),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child:
+                                          Text(requirement.shootingLocation!),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.calendar_month),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                          formatter.format(shootingStartDate)),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Icon(Icons.person),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text("Male/Female"),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Icon(Icons.location_on),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text("Mumbai"),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Icon(Icons.calendar_month),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text("30-06-2024"),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  KalakarConstants.upcomingProjects,
-                  style: TextStyle(fontSize: 16.sp),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Text(
-                    KalakarConstants.seeAll,
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    KalakarConstants.upcomingProjects,
                     style: TextStyle(fontSize: 16.sp),
                   ),
-                )
-              ],
-            ),
-            Container(
-              height: Get.size.height / 4,
-              child: ListView.builder(
+                  InkWell(
+                    onTap: () {},
+                    child: Text(
+                      KalakarConstants.seeAll,
+                      style: TextStyle(fontSize: 16.sp),
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                height: Get.size.height / 4,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.upcomingProjectsDetailsList.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      ResponseCompanyProjects upcomingProject =
+                          controller.upcomingProjectsDetailsList[index];
+                      return Container(
+                        margin: EdgeInsets.only(
+                          top: 8.h,
+                          bottom: 8.h,
+                          right: 8.h,
+                        ),
+                        // padding: EdgeInsets.all(8.h),
+                        width: Get.size.width / 2,
+                        decoration: BoxDecoration(
+                          color: KalakarColors.white,
+                          border:
+                              Border.all(color: KalakarColors.backgroundGrey),
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  upcomingProject.projectCoverDoc!,
+                                  fit: BoxFit.cover,
+                                  height: (Get.size.width / 2) / 1.5,
+                                  errorBuilder: (BuildContext context,
+                                      Object error, StackTrace? stackTrace) {
+                                    // Return a dummy or placeholder image when an error occurs
+                                    return Image.asset(
+                                      "assets/images/movie.png",
+                                      height: 80.h,
+                                      fit: BoxFit.fitWidth,
+                                    );
+                                  },
+                                ),
+                              ),
+                              Divider(
+                                color: KalakarColors.backgroundGrey,
+                                height: 20,
+                                thickness: 1,
+                                // indent: 20,
+                                // endIndent: 20,
+                              ),
+                              Text(
+                                upcomingProject.projectTitle!,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Text(
+                KalakarConstants.reviews,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 5,
-                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.reviewDetailsList.length,
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
+                    GetApplicationReviewList reviewData =
+                        controller.reviewDetailsList[index];
                     return Container(
-                      margin: EdgeInsets.all(8.h),
-                      // padding: EdgeInsets.all(8.h),
-                      width: Get.size.width / 2,
+                      margin: EdgeInsets.only(bottom: 8.h),
+                      padding: EdgeInsets.all(8.h),
+                      // width: Get.size.width / 2,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.r),
-                        color: KalakarColors.appBarBackground1,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ],
+                        color: KalakarColors.white,
+                        border: Border.all(color: KalakarColors.backgroundGrey),
                       ),
                       child: SingleChildScrollView(
-                        child: Column(
+                        child: Row(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.asset(
-                                "assets/images/movie.png",
-                                fit: BoxFit.fitWidth,
+                              borderRadius: BorderRadius.circular(50.r),
+                              child: Image.network(
+                                reviewData.reviewByProfilePic!,
+                                fit: BoxFit.cover,
+                                height: 40.h,
+                                errorBuilder: (BuildContext context,
+                                    Object error, StackTrace? stackTrace) {
+                                  // Return a dummy or placeholder image when an error occurs
+                                  return Image.asset(
+                                    "assets/images/app_bar_logo.png",
+                                    height: 40.h,
+                                    width: 40.h,
+                                  );
+                                },
+                                width: 40.h,
                               ),
                             ),
-                            Text("Movie Name"),
-                            Text("Hindi Movie"),
+                            Expanded(
+                              flex: 3,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(reviewData.reviewBy!),
+                                    Row(
+                                      children: [
+                                        Text(reviewData.reviewStar!.toString()),
+                                        SizedBox(width: 16.w,),
+                                        SizedBox(
+                                          height: 20.h,
+                                          width: 150.w,
+                                          child: ListView.builder(
+                                            itemCount:
+                                                reviewData.reviewStar!.toInt(),
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) {
+                                              return Icon(
+                                                Icons.star,
+                                                size: 15,
+                                                color: CupertinoColors
+                                                    .systemYellow,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     );
                   }),
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            Text(KalakarConstants.reviews),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: 5,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.all(8.h),
-                    padding: EdgeInsets.all(8.h),
-                    // width: Get.size.width / 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      color: KalakarColors.appBarBackground1,
-                      border: Border.all(color: KalakarColors.black),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 5.0,
-                        ),
-                      ],
-                    ),
-                    child: SingleChildScrollView(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50.r),
-                              child: Image.asset(
-                                "assets/images/movie.png",
-                                fit: BoxFit.cover,
-                                height: 80.h,
-                                width: 80.h,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.h),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Director Name"),
-                                  Text("Movies Names"),
-                                  Container(
-                                      padding: EdgeInsets.all(8.h),
-                                      decoration: BoxDecoration(),
-                                      child: Text("Reviws")),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
