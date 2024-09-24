@@ -119,6 +119,10 @@ class RequirementController extends GetxController {
   //bool
   bool isArtist = false;
   bool isRequirementsLoading = false;
+  bool isArtistHomeRequirementsLoading = false;
+  bool isArtistOpportunitiesRequirementsLoading = false;
+  bool isArtistHomeUpcomingProjectsLoading = false;
+  bool isArtistHomeReviewsLoading = false;
   bool isDocumentsLoading = false;
   bool showStatus = false;
 
@@ -661,6 +665,11 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      if (iSAll) {
+        isArtistOpportunitiesRequirementsLoading = true;
+      } else {
+        isArtistHomeRequirementsLoading = true;
+      }
       var body = {"fK_AccountID": loginTable.accountID, "isAll": iSAll};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeRequirementsApi,
@@ -680,6 +689,11 @@ class RequirementController extends GetxController {
               artistHomeRequirementsClass.objResponesRequirementDetailsList!;
         }
       }
+      if (iSAll) {
+        isArtistOpportunitiesRequirementsLoading = false;
+      } else {
+        isArtistHomeRequirementsLoading = false;
+      }
       update();
     }
   }
@@ -688,6 +702,7 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      isArtistHomeUpcomingProjectsLoading=true;
       var body = {"superAdminProjectID": "0", "fK_AccountID": "0"};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeUpcomingProjectsApi,
@@ -702,6 +717,7 @@ class RequirementController extends GetxController {
         upcomingProjectsDetailsList =
             upcomigProjectClass.lResponseCompanyProjects!;
       }
+      isArtistHomeUpcomingProjectsLoading=false;
       update();
     }
   }
@@ -710,6 +726,7 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      isArtistHomeReviewsLoading=true;
       var body = {"applicationReviewID": "0", "fK_AccountID": "0"};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeReviewApi,
@@ -723,6 +740,8 @@ class RequirementController extends GetxController {
             ReviewClass.fromJson(jsonDecode(response.body));
         reviewDetailsList = reviewClass.getApplicationReviewList!;
       }
+      isArtistHomeReviewsLoading=false;
+
       update();
     }
   }

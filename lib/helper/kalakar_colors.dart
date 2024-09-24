@@ -20,5 +20,9 @@ class KalakarColors{
   static const  Color headerText = Color(0xFf670397);
   static const  Color border = Color(0xFF282C35);
   static const  Color selectedBorder = Color(0xFf493AED);
+  static Color blue10 =  Color(0xFF064494).withOpacity(0.10);
+  static Color blue20 = const Color(0xFF064494).withOpacity(0.20);
+
+
 
 }

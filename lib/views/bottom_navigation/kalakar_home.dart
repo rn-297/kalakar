@@ -11,6 +11,7 @@ import 'package:kalakar/data/models/company/company_requirement_list_class.dart'
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shimmer/shimmer.dart';
 
 class KalakarHomePage extends StatelessWidget {
   const KalakarHomePage({super.key});
@@ -276,154 +277,345 @@ class KalakarHomePage extends StatelessWidget {
               ),
               Container(
                 height: Get.size.height / 2.8,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.newRequirementDetailsList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      ObjResponesRequirementDetailsList requirement =
-                          controller.newRequirementDetailsList[index];
-                      DateTime shootingStartDate = DateTime.parse(
-                          requirement.shootingStartDate.toString());
-                      DateFormat formatter = DateFormat('dd-MM-yyyy');
-                      return InkWell(
-                        onTap: () {
-                          controller.setRequirementViewData(requirement,false);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              right: 8.h, top: 8.h, bottom: 8.h),
-                          padding: EdgeInsets.all(8.h),
-                          width: Get.size.width / 2,
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border:
-                                Border.all(color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                // Align(
-                                //     alignment: Alignment.centerRight,
-                                //     child: Icon(CupertinoIcons.suit_heart)),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                ClipOval(
-                                  // Image radius
-                                  child: Image.network(
-                                    requirement.refPhotoName!,
-                                    fit: BoxFit.cover,
-                                    height: 80.h,
-                                    width: 80.h,
-                                    errorBuilder: (BuildContext context,
-                                        Object error, StackTrace? stackTrace) {
-                                      // Return a dummy or placeholder image when an error occurs
-                                      return Image.asset(
-                                        "assets/images/app_bar_logo.png",
+                child: controller.isArtistHomeRequirementsLoading
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 5,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(
+                                right: 8.h, top: 8.h, bottom: 8.h),
+                            padding: EdgeInsets.all(8.h),
+                            width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                              color: KalakarColors.white,
+                              border: Border.all(
+                                  color: KalakarColors.backgroundGrey),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  // Align(
+                                  //     alignment: Alignment.centerRight,
+                                  //     child: Icon(CupertinoIcons.suit_heart)),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  ClipOval(
+                                    // Image radius
+                                    child: Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
                                         height: 80.h,
                                         width: 80.h,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Text(requirement.companyNameProductionhouse!),
-                                Divider(
-                                  color: KalakarColors.backgroundGrey,
-                                  height: 20,
-                                  thickness: 2,
-                                  // indent: 20,
-                                  // endIndent: 20,
-                                ),
-                                Container(
-                                  color: KalakarColors.white,
-                                  padding: EdgeInsets.all(4.h),
-                                  child: InkWell(
-                                      child: Container(
-                                    margin: EdgeInsets.all(4.h),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 4.h, horizontal: 16.w),
-                                    decoration: BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        blurRadius: 5.0,
+                                        color: KalakarColors.white,
                                       ),
-                                    ], color: KalakarColors.white),
-                                    child: Text(requirement.lookingFor!),
-                                  )),
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Icon(Icons.cake),
                                     ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(requirement.age!.contains(".")
-                                          ? requirement.age!.split(".").first +
-                                              " Years"
-                                          : requirement.age! + " Years"),
+                                  ),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 30.h,
+                                      width: 100.h,
+                                      color: KalakarColors.white,
                                     ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Icon(Icons.person),
+                                  ),
+                                  Divider(
+                                    color: KalakarColors.backgroundGrey,
+                                    height: 20,
+                                    thickness: 2,
+                                    // indent: 20,
+                                    // endIndent: 20,
+                                  ),
+                                  Container(
+                                    color: KalakarColors.white,
+                                    padding: EdgeInsets.all(4.h),
+                                    child: Container(
+                                      margin: EdgeInsets.all(4.h),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 4.h, horizontal: 16.w),
+                                      decoration: BoxDecoration(boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 5.0,
+                                        ),
+                                      ], color: KalakarColors.white),
+                                      child: Shimmer.fromColors(
+                                        baseColor: KalakarColors.blue10,
+                                        highlightColor: KalakarColors.blue20,
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 80.h,
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
                                     ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(requirement.gender!),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Icon(Icons.location_on),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child:
-                                          Text(requirement.shootingLocation!),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Icon(Icons.calendar_month),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                          formatter.format(shootingStartDate)),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Icon(Icons.cake),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 80.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(child: Container())
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Icon(Icons.person),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 80.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(child: Container())
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Icon(Icons.location_on),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 80.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(child: Container())
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Icon(Icons.calendar_month),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 80.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(child: Container())
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }),
+                          );
+                        })
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.newRequirementDetailsList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          ObjResponesRequirementDetailsList requirement =
+                              controller.newRequirementDetailsList[index];
+                          DateTime shootingStartDate = DateTime.parse(
+                              requirement.shootingStartDate.toString());
+                          DateFormat formatter = DateFormat('dd-MM-yyyy');
+                          return InkWell(
+                            onTap: () {
+                              controller.setRequirementViewData(
+                                  requirement, false);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  right: 8.h, top: 8.h, bottom: 8.h),
+                              padding: EdgeInsets.all(8.h),
+                              width: Get.size.width / 2,
+                              decoration: BoxDecoration(
+                                color: KalakarColors.white,
+                                border: Border.all(
+                                    color: KalakarColors.backgroundGrey),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    // Align(
+                                    //     alignment: Alignment.centerRight,
+                                    //     child: Icon(CupertinoIcons.suit_heart)),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    ClipOval(
+                                      // Image radius
+                                      child: Image.network(
+                                        requirement.refPhotoName!,
+                                        fit: BoxFit.cover,
+                                        height: 80.h,
+                                        width: 80.h,
+                                        errorBuilder: (BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace) {
+                                          // Return a dummy or placeholder image when an error occurs
+                                          return Image.asset(
+                                            "assets/images/app_bar_logo.png",
+                                            height: 80.h,
+                                            width: 80.h,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Text(requirement
+                                        .companyNameProductionhouse!),
+                                    Divider(
+                                      color: KalakarColors.backgroundGrey,
+                                      height: 20,
+                                      thickness: 2,
+                                      // indent: 20,
+                                      // endIndent: 20,
+                                    ),
+                                    Container(
+                                      color: KalakarColors.white,
+                                      padding: EdgeInsets.all(4.h),
+                                      child: InkWell(
+                                          child: Container(
+                                        margin: EdgeInsets.all(4.h),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 4.h, horizontal: 16.w),
+                                        decoration: BoxDecoration(boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            blurRadius: 5.0,
+                                          ),
+                                        ], color: KalakarColors.white),
+                                        child: Text(requirement.lookingFor!),
+                                      )),
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Icon(Icons.cake),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(requirement.age!
+                                                  .contains(".")
+                                              ? requirement.age!
+                                                      .split(".")
+                                                      .first +
+                                                  " Years"
+                                              : requirement.age! + " Years"),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Icon(Icons.person),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(requirement.gender!),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Icon(Icons.location_on),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                              requirement.shootingLocation!),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Icon(Icons.calendar_month),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(formatter
+                                              .format(shootingStartDate)),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
               ),
               SizedBox(
                 height: 16.h,
@@ -446,74 +638,134 @@ class KalakarHomePage extends StatelessWidget {
               ),
               Container(
                 height: Get.size.height / 4,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.upcomingProjectsDetailsList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      ResponseCompanyProjects upcomingProject =
-                          controller.upcomingProjectsDetailsList[index];
-                      return InkWell(
-                        onTap: () {
-                          controller
-                              .setUpcomingProjectViewData(upcomingProject);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            top: 8.h,
-                            bottom: 8.h,
-                            right: 8.h,
-                          ),
-                          // padding: EdgeInsets.all(8.h),
-                          width: Get.size.width / 2,
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border:
-                                Border.all(color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    upcomingProject.projectCoverDoc!,
-                                    fit: BoxFit.cover,
-                                    height: (Get.size.width / 2) / 1.5,
-                                    errorBuilder: (BuildContext context,
-                                        Object error, StackTrace? stackTrace) {
-                                      // Return a dummy or placeholder image when an error occurs
-                                      return Image.asset(
-                                        "assets/images/movie.png",
-                                        height: 80.h,
-                                        fit: BoxFit.fitWidth,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Divider(
-                                  color: KalakarColors.backgroundGrey,
-                                  height: 20,
-                                  thickness: 1,
-                                  // indent: 20,
-                                  // endIndent: 20,
-                                ),
-                                Text(
-                                  upcomingProject.projectTitle!,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.sp,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                child: controller.isArtistHomeUpcomingProjectsLoading
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:
+                            5,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+
+                          return Container(
+                            margin: EdgeInsets.only(
+                              top: 8.h,
+                              bottom: 8.h,
+                              right: 8.h,
                             ),
-                          ),
-                        ),
-                      );
-                    }),
+                            // padding: EdgeInsets.all(8.h),
+                            width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                              color: KalakarColors.white,
+                              border: Border.all(
+                                  color: KalakarColors.backgroundGrey),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 80.h,
+                                        width: Get.size.width / 2,
+                                        color: KalakarColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: KalakarColors.backgroundGrey,
+                                    height: 20,
+                                    thickness: 1,
+                                    // indent: 20,
+                                    // endIndent: 20,
+                                  ),
+                                  Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 20.h,
+                                      width: 80.h,
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        })
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:
+                            controller.upcomingProjectsDetailsList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          ResponseCompanyProjects upcomingProject =
+                              controller.upcomingProjectsDetailsList[index];
+                          return InkWell(
+                            onTap: () {
+                              controller
+                                  .setUpcomingProjectViewData(upcomingProject);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                top: 8.h,
+                                bottom: 8.h,
+                                right: 8.h,
+                              ),
+                              // padding: EdgeInsets.all(8.h),
+                              width: Get.size.width / 2,
+                              decoration: BoxDecoration(
+                                color: KalakarColors.white,
+                                border: Border.all(
+                                    color: KalakarColors.backgroundGrey),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        upcomingProject.projectCoverDoc!,
+                                        fit: BoxFit.cover,
+                                        height: (Get.size.width / 2) / 1.5,
+                                        errorBuilder: (BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace) {
+                                          // Return a dummy or placeholder image when an error occurs
+                                          return Image.asset(
+                                            "assets/images/movie.png",
+                                            height: 80.h,
+                                            fit: BoxFit.fitWidth,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: KalakarColors.backgroundGrey,
+                                      height: 20,
+                                      thickness: 1,
+                                      // indent: 20,
+                                      // endIndent: 20,
+                                    ),
+                                    Text(
+                                      upcomingProject.projectTitle!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
               ),
               SizedBox(
                 height: 16.h,
@@ -522,7 +774,96 @@ class KalakarHomePage extends StatelessWidget {
                 KalakarConstants.reviews,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
-              ListView.builder(
+              controller.isArtistHomeReviewsLoading?ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 8.h),
+                      padding: EdgeInsets.all(8.h),
+                      // width: Get.size.width / 2,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: KalakarColors.white,
+                        border: Border.all(color: KalakarColors.backgroundGrey),
+                      ),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(50.r),
+                            child: Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 40.h,
+                                width: 40.h,
+                                color: KalakarColors.white,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 20.h,
+                                      width: 80.h,
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Shimmer.fromColors(
+                                        baseColor: KalakarColors.blue10,
+                                        highlightColor: KalakarColors.blue20,
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 20.h,
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 16.w,
+                                      ),
+                                      SizedBox(
+                                        height: 20.h,
+                                        width: 150.w,
+                                        child: ListView.builder(
+                                          itemCount:
+                                              5,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) {
+                                            return Shimmer.fromColors(
+                                              baseColor: KalakarColors.blue10,
+                                              highlightColor: KalakarColors.blue20,
+                                              child: Container(
+                                                height: 15.h,
+                                                width: 15.h,
+                                                color: KalakarColors.white,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  })
+              :ListView.builder(
                   shrinkWrap: true,
                   itemCount: controller.reviewDetailsList.length,
                   physics: NeverScrollableScrollPhysics(),
@@ -539,7 +880,7 @@ class KalakarHomePage extends StatelessWidget {
                         border: Border.all(color: KalakarColors.backgroundGrey),
                       ),
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           controller.setReviewDataToView(reviewData);
                         },
                         child: Row(
