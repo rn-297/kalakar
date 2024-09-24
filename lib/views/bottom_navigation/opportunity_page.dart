@@ -8,6 +8,7 @@ import 'package:kalakar/data/models/company/company_requirement_list_class.dart'
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shimmer/shimmer.dart';
 
 class OpportunityPage extends StatelessWidget {
   const OpportunityPage({Key? key}) : super(key: key);
@@ -68,8 +69,130 @@ class OpportunityPage extends StatelessWidget {
                 ],
               ):Container(),
               controller.isRequirementsLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : ListView.builder(
+                  ?  ListView.builder(
+                      itemCount: 6,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 12.h, horizontal: 4.h),
+                          decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            borderRadius: BorderRadius.circular(
+                              8.r,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                              ),
+                            ],
+                          ),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    flex: 2,
+                                    child: Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 80.h,
+                                        width: 80.h,
+                                        color: KalakarColors.white,
+                                      ),
+                                    )),
+                                Expanded(
+                                    flex: 4,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.h),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor: KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8.h,),
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor: KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8.h,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor: KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor: KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor: KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor: KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        );
+                      })
+              :ListView.builder(
                       itemCount: controller.requirementDetailsList.length,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -86,19 +209,13 @@ class OpportunityPage extends StatelessWidget {
                               vertical: 12.h, horizontal: 4.h),
                           decoration: BoxDecoration(
                             color: KalakarColors.white,
-                            borderRadius: BorderRadius.circular(
-                              8.r,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 5.0,
-                              ),
-                            ],
+                            border: Border.all(
+                                color: KalakarColors.backgroundGrey),
+                            borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: InkWell(
                             onTap: () {
-                              controller.setOpportunityData(requirementData);
+                              controller.checkArtistAndSetData(requirementData);
                             },
                             child: IntrinsicHeight(
                               child: Row(

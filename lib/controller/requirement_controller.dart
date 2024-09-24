@@ -73,7 +73,6 @@ class RequirementController extends GetxController {
 
   //lists
   List<ObjResponesRequirementDetailsList> newRequirementDetailsList = [];
-  List<ObjResponesRequirementDetailsList> allRequirementDetailsList = [];
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
   List<AppliedRequirementDetailsList> appliedRequirementDetailsList = [];
   List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
@@ -470,6 +469,15 @@ class RequirementController extends GetxController {
     update();
   }
 
+  checkArtistAndSetData(ObjResponesRequirementDetailsList requirementData) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null&&loginTable.accountType==KalakarConstants.artist){
+      setRequirementViewData(requirementData,false);
+    }else {
+    setOpportunityData(requirementData);}
+  }
+
   void setOpportunityData(
       ObjResponesRequirementDetailsList requirementData) async {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -666,7 +674,7 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       if (iSAll) {
-        isArtistOpportunitiesRequirementsLoading = true;
+        isRequirementsLoading = true;
       } else {
         isArtistHomeRequirementsLoading = true;
       }
@@ -682,7 +690,7 @@ class RequirementController extends GetxController {
         CompanyRequirementListClass artistHomeRequirementsClass =
             CompanyRequirementListClass.fromJson(jsonDecode(response.body));
         if (iSAll) {
-          allRequirementDetailsList =
+          requirementDetailsList =
               artistHomeRequirementsClass.objResponesRequirementDetailsList!;
         } else {
           newRequirementDetailsList =
@@ -690,7 +698,7 @@ class RequirementController extends GetxController {
         }
       }
       if (iSAll) {
-        isArtistOpportunitiesRequirementsLoading = false;
+        isRequirementsLoading = false;
       } else {
         isArtistHomeRequirementsLoading = false;
       }

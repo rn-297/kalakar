@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:kalakar/controller/settings_controller.dart';
 import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
@@ -77,6 +78,9 @@ class KalakarDialogs {
         ArtistProfileController artistProfileController =
             Get.put(ArtistProfileController());
         artistProfileController.checkIfArtist();
+        RequirementController requirementController =
+            Get.put(RequirementController());
+        requirementController.checkIsArtist();
       } else if (accountType == KalakarConstants.company) {
         Get.offNamed(RouteHelper.bottomNavigationPage);
         ProfileController profileController = Get.put(ProfileController());
