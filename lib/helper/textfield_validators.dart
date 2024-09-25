@@ -222,6 +222,15 @@ class Validator {
     return null;
   }
 
+  // validate project title
+
+  static String? validateTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Title';
+    }
+    return null;
+  }
+
   // validate project Description
   static String? validateProjectDescription(String? value) {
     if (value == null || value.isEmpty) {
@@ -610,6 +619,29 @@ class Validator {
   static String? validateShootingLocation(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter Shooting Location';
+    }
+    return null;
+  }
+  //validate shooting Start Date
+  static String? validateShootingStartDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Shooting Start Date';
+    }
+    return null;
+  }
+
+  //validate shooting Start Date
+  static String? validateShootingEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Shooting End Date';
+    }
+    return null;
+  }
+
+  //validate shooting location
+  static String? validateLocation(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Location';
     }
     return null;
   }

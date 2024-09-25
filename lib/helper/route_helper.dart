@@ -11,6 +11,7 @@ import 'package:kalakar/views/bottom_navigation/artist/artist_hobbies_form_page.
 import 'package:kalakar/views/bottom_navigation/artist/artist_interest_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_portfolio_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_profile_form_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_search_requirement_page.dart';
 import 'package:kalakar/views/bottom_navigation/bottom_navigator.dart';
 import 'package:kalakar/views/bottom_navigation/company/all_projects_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/applied_profiles_page.dart';
@@ -67,6 +68,7 @@ class RouteHelper {
   static const String reviewViewPage = '/kalakar_review_view';
   static const String appliedProfilesPage = '/kalakar_applied_profiles';
   static const String artistProfileViewPage = '/kalakar_artist_profile_view';
+  static const String artistSearchRequirementPage = '/kalakar_artist_search_requirement';
 
   static List<GetPage> routes = [
     GetPage(
@@ -183,12 +185,21 @@ class RouteHelper {
     ),
 
     GetPage(
+      name: RouteHelper.notificationPage,
+      page: () => NotificationsPage(),
+    ),
+
+    GetPage(
       name: RouteHelper.appliedProfilesPage,
       page: () => AppliedProfilesPage(),
     ),
     GetPage(
       name: RouteHelper.artistProfileViewPage,
       page: () => ArtistProfileViewPage(),
+    ),
+    GetPage(
+      name: RouteHelper.artistSearchRequirementPage,
+      page: () => ArtistSearchRequirementPage(),
     ),
   ];
 }

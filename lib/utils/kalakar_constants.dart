@@ -17,6 +17,7 @@ class KalakarConstants {
   static const String profilePath = "kalaakar/profile_docs/";
 
   //artist profile api
+  static const String checkTokenExpired = "/Account/Check_TokenIsExpiredOrNot";
   static const String saveArtistProfileApi = "/ArtistProfile/SaveArtistProfile";
   static const String artistProfileMasterApi =
       "/ArtistProfile/ArtistProfile_Master";
@@ -166,6 +167,7 @@ class KalakarConstants {
   static const String namskarKalakar = "Namskar Kalakaar";
   static const String searchAnything = "Search Anything";
   static const String searchArtist = "SEARCH ARTIST";
+  static const String searchRequirement = "Search Opportunities";
   static const String newOpportunities = "New Opportunities :";
   static const String seeAll = "See all >>";
   static const String upcomingProjects = "Upcoming Projects :";

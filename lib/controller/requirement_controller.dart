@@ -58,6 +58,13 @@ class RequirementController extends GetxController {
   TextEditingController salaryTypeTEController = TextEditingController();
 
   //searchTEControllers
+  TextEditingController searchTitleTEController = TextEditingController();
+  TextEditingController searchLocationTEController = TextEditingController();
+  TextEditingController searchShootingStartDateTEController = TextEditingController();
+  TextEditingController searchShootingEndDateTEController = TextEditingController();
+  TextEditingController searchLanguageTEController = TextEditingController();
+  TextEditingController searchStartAgeTEController = TextEditingController();
+  TextEditingController searchEndAgeTEController = TextEditingController();
 
   //strings
   String requirementId = "0";
@@ -77,7 +84,7 @@ class RequirementController extends GetxController {
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
   List<ArtistAppliedRequirementDetailsList>
       artistAppliedRequirementDetailsList = [];
-  List<CompanyAppliedRequirementDetailsList>
+  List<AppliedArtistDetailsList>
       companyAppliedRequirementDetailsList = [];
   List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
   List<GetApplicationReviewList> reviewDetailsList = [];
@@ -116,8 +123,8 @@ class RequirementController extends GetxController {
   ArtistAppliedRequirementDetailsList selectedAppliedRequirement =
       ArtistAppliedRequirementDetailsList();
 
-  CompanyAppliedRequirementDetailsList selectedArtistProfileData =
-      CompanyAppliedRequirementDetailsList();
+  AppliedArtistDetailsList selectedArtistProfileData =
+  AppliedArtistDetailsList();
   ProjectDetailAndDocuments upcomingCompanyProject =
       ProjectDetailAndDocuments();
   GetApplicationReviewList selectedReviewData = GetApplicationReviewList();
@@ -163,8 +170,10 @@ class RequirementController extends GetxController {
 
   //global keys
   final _formRequirementKey = GlobalKey<FormState>();
-
   get formRequirementKey => _formRequirementKey;
+
+  final _formArtistSearchRequirementKey = GlobalKey<FormState>();
+  get formArtistSearchRequirementKey => _formArtistSearchRequirementKey;
 
   saveRequirementsDetails() async {
     if (_formRequirementKey.currentState!.validate()) {
@@ -885,7 +894,7 @@ class RequirementController extends GetxController {
   }
 
   void setArtistProfileDataToView(
-      CompanyAppliedRequirementDetailsList appliedProfileDetail) {
+      AppliedArtistDetailsList appliedProfileDetail) {
     selectedArtistProfileData = appliedProfileDetail;
     Get.toNamed(RouteHelper.artistProfileViewPage);
   }

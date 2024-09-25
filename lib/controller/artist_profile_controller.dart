@@ -14,6 +14,7 @@ import 'package:kalakar/data/models/artist/artist_hobbies_list_class.dart';
 import 'package:kalakar/data/models/artist/artist_interested_in_class.dart';
 import 'package:kalakar/data/models/artist/artist_profile_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
+import 'package:kalakar/data/models/token_expiration_class.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -216,6 +217,7 @@ class ArtistProfileController extends GetxController {
   @override
   onInit() {
     super.onInit();
+    checkTokenExpired();
     checkIfArtist();
   }
 
@@ -248,7 +250,7 @@ class ArtistProfileController extends GetxController {
       var response = await ApiClient.postDataToken1(
           KalakarConstants.artistProfileMasterApi, body, loginTable.token);
       print(response.statusCode);
-      print(response);
+      print(loginTable.token);
 
       if (response.statusCode == 200) {
         ArtistMasterClass artistMasterClass =
@@ -567,7 +569,7 @@ class ArtistProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ResponseModel responseModel =
-        ResponseModel.fromJson(jsonDecode(response.body));
+            ResponseModel.fromJson(jsonDecode(response.body));
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Apply For Data Success", responseModel.message!);
@@ -1342,7 +1344,6 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-
   Future<void> openSocialMedia(int index) async {
     switch (index) {
       case 0:
@@ -1888,4 +1889,29 @@ class ArtistProfileController extends GetxController {
 
   void deleteApplyFor() {}
 
+  Future<void> checkTokenExpired() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {"token": loginTable.token, "accountID": loginTable.accountID};
+      var response = await ApiClient.postDataToken1(
+          KalakarConstants.checkTokenExpired,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(loginTable.token);
+
+      if (response.statusCode == 200) {
+        TokenExpirationClass tokenExpirationClass =
+        TokenExpirationClass.fromJson(jsonDecode(response.body));
+        if (tokenExpirationClass.replayStatus ?? false) {
+          if(tokenExpirationClass.message=="Token Expired"){
+            loginTable.token=tokenExpirationClass.token!;
+           HiveService.editLoginData(loginTable);
+           checkIfArtist();
+          }
+        }
+      }
+    }
+  }
 }

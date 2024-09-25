@@ -22,4 +22,21 @@ class HiveService {
     await box.delete('loginData');
     Get.offAll(SplashScreenPage());
   }
-}
+  static Future<void> editLoginData(LoginTable updatedLoginData) async {
+    try {
+      final box = await Hive.openBox<LoginTable>(_boxName);
+      final existingData = box.get('loginData');
+
+      if (existingData != null) {
+        // Overwrite the existing data with updated values
+        await box.put('loginData', updatedLoginData);
+        print("Login data updated successfully.");
+      } else {
+        print("No existing login data found to update.");
+      }
+    } catch (e) {
+      print("Error editing login data: $e");
+    }
+  }
+
+  }

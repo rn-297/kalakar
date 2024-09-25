@@ -15,7 +15,7 @@ class LoginTable {
   @HiveField(5)
   final String lastName;
   @HiveField(6)
-  final String token;
+  late String token;
   @HiveField(7)
   final String userID;
   @HiveField(8)
@@ -31,7 +31,7 @@ class LoginTable {
   @HiveField(13)
   final String usedReferralCode;
 
-  const LoginTable(
+   LoginTable(
     this.accountID,
     this.email,
     this.mobileNumber,

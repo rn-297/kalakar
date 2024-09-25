@@ -204,7 +204,7 @@ class AppliedProfilesPage extends StatelessWidget {
                       itemCount: controller.companyAppliedRequirementDetailsList.length,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        CompanyAppliedRequirementDetailsList appliedProfileDetail =
+                        AppliedArtistDetailsList appliedProfileDetail =
                             controller.companyAppliedRequirementDetailsList[index];
                         return Container(
                           margin: EdgeInsets.only(bottom: 8.h),
