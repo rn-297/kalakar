@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
+import '../data/models/company/company_applied_details_class.dart';
 import '../data/models/company/project_details_documents_class.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
@@ -74,7 +75,10 @@ class RequirementController extends GetxController {
   //lists
   List<ObjResponesRequirementDetailsList> newRequirementDetailsList = [];
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
-  List<AppliedRequirementDetailsList> appliedRequirementDetailsList = [];
+  List<ArtistAppliedRequirementDetailsList>
+      artistAppliedRequirementDetailsList = [];
+  List<CompanyAppliedRequirementDetailsList>
+      companyAppliedRequirementDetailsList = [];
   List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
   List<GetApplicationReviewList> reviewDetailsList = [];
   List<String> genderList = ["Male", "Female", "Other"];
@@ -109,8 +113,11 @@ class RequirementController extends GetxController {
   //objects
   ObjResponesRequirementDetailsList selectedRequirement =
       ObjResponesRequirementDetailsList();
-  AppliedRequirementDetailsList selectedAppliedRequirement =
-      AppliedRequirementDetailsList();
+  ArtistAppliedRequirementDetailsList selectedAppliedRequirement =
+      ArtistAppliedRequirementDetailsList();
+
+  CompanyAppliedRequirementDetailsList selectedArtistProfileData =
+      CompanyAppliedRequirementDetailsList();
   ProjectDetailAndDocuments upcomingCompanyProject =
       ProjectDetailAndDocuments();
   GetApplicationReviewList selectedReviewData = GetApplicationReviewList();
@@ -122,6 +129,7 @@ class RequirementController extends GetxController {
   bool isArtistOpportunitiesRequirementsLoading = false;
   bool isArtistHomeUpcomingProjectsLoading = false;
   bool isArtistHomeReviewsLoading = false;
+  bool isAppliedProfileLoading = false;
   bool isDocumentsLoading = false;
   bool showStatus = false;
 
@@ -412,7 +420,7 @@ class RequirementController extends GetxController {
             ArtistAppliedRequirementDetailsClass.fromJson(
                 jsonDecode(response.body));
         if (companyRequirementListClass.replayStatus ?? false) {
-          appliedRequirementDetailsList =
+          artistAppliedRequirementDetailsList =
               companyRequirementListClass.objResponesRequirementDetailsList!;
         }
         update();
@@ -424,13 +432,28 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      var fields = {"requirementDetailsID": 0, "fK_AccountID": 0};
+      isAppliedProfileLoading = true;
+      var fields = {
+        "requirementDetailsID": 0,
+        "fK_AccountID": loginTable.accountID
+      };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getAppliedForRequirementCompanyApi,
           jsonEncode(fields),
           loginTable.token);
       if (response.statusCode == 200) {
+        CompanyAppliedRequirementDetailsClass
+            companyAppliedRequirementDetailsClass =
+            CompanyAppliedRequirementDetailsClass.fromJson(
+                jsonDecode(response.body));
+        if (companyAppliedRequirementDetailsClass.replayStatus ?? false) {
+          companyAppliedRequirementDetailsList =
+              companyAppliedRequirementDetailsClass
+                  .objResponesRequirementDetailsList!;
+        }
       } else {}
+      isAppliedProfileLoading = false;
+      update();
     }
   }
 
@@ -469,13 +492,15 @@ class RequirementController extends GetxController {
     update();
   }
 
-  checkArtistAndSetData(ObjResponesRequirementDetailsList requirementData) async {
-    LoginTable? loginTable = await HiveService.getLoginData();
+  checkArtistAndSetData(
+      ObjResponesRequirementDetailsList requirementData) async {
+    // LoginTable? loginTable = await HiveService.getLoginData();
+    print(requirementData.companyNameProductionhouse);
 
-    if (loginTable != null&&loginTable.accountType==KalakarConstants.artist){
-      setRequirementViewData(requirementData,false);
-    }else {
-    setOpportunityData(requirementData);}
+    // if (loginTable != null&&loginTable.accountType==KalakarConstants.artist){
+    setRequirementViewData(requirementData, false);
+    // }else {
+    // setOpportunityData(requirementData);}
   }
 
   void setOpportunityData(
@@ -710,7 +735,7 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      isArtistHomeUpcomingProjectsLoading=true;
+      isArtistHomeUpcomingProjectsLoading = true;
       var body = {"superAdminProjectID": "0", "fK_AccountID": "0"};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeUpcomingProjectsApi,
@@ -725,7 +750,7 @@ class RequirementController extends GetxController {
         upcomingProjectsDetailsList =
             upcomigProjectClass.lResponseCompanyProjects!;
       }
-      isArtistHomeUpcomingProjectsLoading=false;
+      isArtistHomeUpcomingProjectsLoading = false;
       update();
     }
   }
@@ -734,7 +759,7 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      isArtistHomeReviewsLoading=true;
+      isArtistHomeReviewsLoading = true;
       var body = {"applicationReviewID": "0", "fK_AccountID": "0"};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeReviewApi,
@@ -748,7 +773,7 @@ class RequirementController extends GetxController {
             ReviewClass.fromJson(jsonDecode(response.body));
         reviewDetailsList = reviewClass.getApplicationReviewList!;
       }
-      isArtistHomeReviewsLoading=false;
+      isArtistHomeReviewsLoading = false;
 
       update();
     }
@@ -848,9 +873,20 @@ class RequirementController extends GetxController {
   }
 
   void setAppliedRequirementViewData(
-      AppliedRequirementDetailsList requirementData, bool showStatus) {
+      ArtistAppliedRequirementDetailsList requirementData, bool showStatus) {
     selectedAppliedRequirement = requirementData;
     this.showStatus = showStatus;
     Get.toNamed(RouteHelper.requirementViewPage);
+  }
+
+  void getAppliedData() {
+    getAppliedForRequirementCompany();
+    Get.toNamed(RouteHelper.appliedProfilesPage);
+  }
+
+  void setArtistProfileDataToView(
+      CompanyAppliedRequirementDetailsList appliedProfileDetail) {
+    selectedArtistProfileData = appliedProfileDetail;
+    Get.toNamed(RouteHelper.artistProfileViewPage);
   }
 }

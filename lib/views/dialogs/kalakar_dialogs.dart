@@ -78,14 +78,16 @@ class KalakarDialogs {
         ArtistProfileController artistProfileController =
             Get.put(ArtistProfileController());
         artistProfileController.checkIfArtist();
-        RequirementController requirementController =
-            Get.put(RequirementController());
-        requirementController.checkIsArtist();
+
       } else if (accountType == KalakarConstants.company) {
         Get.offNamed(RouteHelper.bottomNavigationPage);
         ProfileController profileController = Get.put(ProfileController());
         profileController.getRequireData();
+
       }
+      RequirementController requirementController =
+      Get.put(RequirementController());
+      requirementController.checkIsArtist();
       SettingsController settingsController = Get.put(SettingsController());
       settingsController.onInit();
     });

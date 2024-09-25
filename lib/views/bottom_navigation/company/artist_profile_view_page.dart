@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import '../../helper/kalakar_colors.dart';
-import '../../utils/kalakar_constants.dart';
+import '../../../helper/kalakar_colors.dart';
+import '../../../utils/kalakar_constants.dart';
 
-class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({super.key});
+class ArtistProfileViewPage extends StatelessWidget {
+  const ArtistProfileViewPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class NotificationsPage extends StatelessWidget {
             width: 8.w,
           ),
           Text(
-            KalakarConstants.notifications,
+            KalakarConstants.artistProfile,
             style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
           ),
         ],
@@ -88,7 +88,7 @@ class NotificationsPage extends StatelessWidget {
             width: 8.w,
           ),
           Text(
-            KalakarConstants.notifications,
+            KalakarConstants.artistProfile,
             style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
           ),
         ],
@@ -115,7 +115,7 @@ class NotificationsPage extends StatelessWidget {
 
   notificationsMobileView() {
     return Column(
-      children: [Text("This is Notifications page")],
+      children: [Text("This is Artist Profile View page")],
     );
   }
 

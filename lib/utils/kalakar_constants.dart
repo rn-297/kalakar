@@ -245,6 +245,8 @@ class KalakarConstants {
   static const String deleteRequirement = "Delete";
   static const String male = "Male";
   static const String female = "Female";
+  static const String apply = "Apply";
+  static const String appliedProfiles = "Applied Profiles";
 
   //Profile
   static const String companyName = "Company Name / Production House";

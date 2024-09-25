@@ -124,12 +124,12 @@ class MyApplicationsPage extends StatelessWidget {
           child: Column(
         children: [
           ListView.builder(
-              itemCount: controller.appliedRequirementDetailsList.length,
+              itemCount: controller.artistAppliedRequirementDetailsList.length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                AppliedRequirementDetailsList requirementData =
-                    controller.appliedRequirementDetailsList[index];
+                ArtistAppliedRequirementDetailsList requirementData =
+                    controller.artistAppliedRequirementDetailsList[index];
                 final DateFormat formatter = DateFormat('dd-MM-yyyy');
                 DateTime shootingDate =
                     DateTime.parse(requirementData!.shootingStartDate!);

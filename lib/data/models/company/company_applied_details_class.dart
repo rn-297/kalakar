@@ -1,19 +1,19 @@
-class ArtistAppliedRequirementDetailsClass {
-  List<ArtistAppliedRequirementDetailsList>? objResponesRequirementDetailsList;
+class CompanyAppliedRequirementDetailsClass {
+  List<CompanyAppliedRequirementDetailsList>? objResponesRequirementDetailsList;
   bool? replayStatus;
   String? message;
 
-  ArtistAppliedRequirementDetailsClass(
+  CompanyAppliedRequirementDetailsClass(
       {this.objResponesRequirementDetailsList,
         this.replayStatus,
         this.message});
 
-  ArtistAppliedRequirementDetailsClass.fromJson(Map<String, dynamic> json) {
+  CompanyAppliedRequirementDetailsClass.fromJson(Map<String, dynamic> json) {
     if (json['objResponesRequirementDetailsList'] != null) {
-      objResponesRequirementDetailsList = <ArtistAppliedRequirementDetailsList>[];
+      objResponesRequirementDetailsList = <CompanyAppliedRequirementDetailsList>[];
       json['objResponesRequirementDetailsList'].forEach((v) {
         objResponesRequirementDetailsList!
-            .add(new ArtistAppliedRequirementDetailsList.fromJson(v));
+            .add(new CompanyAppliedRequirementDetailsList.fromJson(v));
       });
     }
     replayStatus = json['replayStatus'];
@@ -34,7 +34,7 @@ class ArtistAppliedRequirementDetailsClass {
   }
 }
 
-class ArtistAppliedRequirementDetailsList {
+class CompanyAppliedRequirementDetailsList {
   String? userID;
   String? artistUserID;
   int? requirementDetailsID;
@@ -79,7 +79,7 @@ class ArtistAppliedRequirementDetailsList {
   int? fKApplyStatusMasterID;
   String? applyStatus;
 
-  ArtistAppliedRequirementDetailsList(
+  CompanyAppliedRequirementDetailsList(
       {this.userID,
         this.artistUserID,
         this.requirementDetailsID,
@@ -124,7 +124,7 @@ class ArtistAppliedRequirementDetailsList {
         this.fKApplyStatusMasterID,
         this.applyStatus});
 
-  ArtistAppliedRequirementDetailsList.fromJson(Map<String, dynamic> json) {
+  CompanyAppliedRequirementDetailsList.fromJson(Map<String, dynamic> json) {
     userID = json['userID'];
     artistUserID = json['artistUserID'];
     requirementDetailsID = json['requirementDetailsID'];

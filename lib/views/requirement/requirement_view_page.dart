@@ -43,6 +43,7 @@ class RequirementViewPage extends StatelessWidget {
   }
 
   appbarMobileView() {
+    RequirementController controller = Get.put(RequirementController());
     return AppBar(
       toolbarHeight: 60.h,
       backgroundColor: KalakarColors.appBarBackground,
@@ -66,24 +67,21 @@ class RequirementViewPage extends StatelessWidget {
           ),
         ],
       ),
-
-/*
       actions: [
-        InkWell(
-          onTap: (){
-            Get.toNamed(RouteHelper.notificationPage);
-
-          },
-          child: Icon(
-            Icons.notifications,
-            size: 35,
+        if (!controller.isArtist)
+          InkWell(
+            onTap: () {
+              controller.setOpportunityData(controller.selectedRequirement);
+            },
+            child: Icon(
+              Icons.edit,
+              size: 30.h,
+            ),
           ),
-        ),
         SizedBox(
-          width: 20.w,
+          width: 16.h,
         )
       ],
-*/
     );
   }
 
@@ -132,275 +130,18 @@ class RequirementViewPage extends StatelessWidget {
   }
 
   RequirementViewMobileView() {
+    Get.put(RequirementController());
     return GetBuilder<RequirementController>(builder: (controller) {
       if (controller.showStatus) {
-        AppliedRequirementDetailsList requirement =
-                  controller.selectedAppliedRequirement;
+        ArtistAppliedRequirementDetailsList requirement =
+            controller.selectedAppliedRequirement;
         DateTime shootingStartDate =
-                  DateTime.parse(requirement.shootingStartDate.toString());
+            DateTime.parse(requirement.shootingStartDate.toString());
 
         DateTime shootingEndDate =
-                  DateTime.parse(requirement.shootingEndDate.toString());
+            DateTime.parse(requirement.shootingEndDate.toString());
         DateTime requirementEndDate =
-                  DateTime.parse(requirement.requirementEndDate.toString());
-        DateFormat formatter = DateFormat('dd-MM-yyyy');
-        return SingleChildScrollView(
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.h),
-                  padding: EdgeInsets.all(8.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Align(
-                      //     alignment: Alignment.centerRight,
-                      //     child: Icon(CupertinoIcons.suit_heart)),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      ClipOval(
-                        // Image radius
-                        child: Image.network(
-                          requirement.refPhotoName!,
-                          fit: BoxFit.cover,
-                          height: 80.h,
-                          width: 80.h,
-                          errorBuilder: (BuildContext context, Object error,
-                              StackTrace? stackTrace) {
-                            // Return a dummy or placeholder image when an error occurs
-                            return Image.asset(
-                              "assets/images/app_bar_logo.png",
-                              height: 80.h,
-                              width: 80.h,
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Text(
-                        requirement.companyNameProductionhouse!,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),Container(
-                        padding: EdgeInsets.all(12.h),
-                        decoration: BoxDecoration(
-                          color: KalakarColors.white,
-                          border: Border.all(color: KalakarColors.backgroundGrey),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: rowDataToShow("Application Status : ", requirement.applyStatus.toString()),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(12.h),
-                        decoration: BoxDecoration(
-                          color: KalakarColors.white,
-                          border: Border.all(color: KalakarColors.backgroundGrey),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Column(
-                          children: [
-                            rowDataToShow(
-                                "Description : ", requirement.requirementDescription!),
-                            rowDataToShow("Looking For : ", requirement.lookingFor!),
-                            rowDataToShow("Role : ", requirement.defineRole!),
-                            rowDataToShow("Number Of Openings : ",
-                                requirement.nUmberOfOpenings!.toString()),
-                            if (controller.showStatus)
-                              rowDataToShow("Project Status : ",
-                                  requirement.requirementStatus!.toString()),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-
-
-                      Container(
-                        padding: EdgeInsets.all(12.h),
-                        decoration: BoxDecoration(
-                          color: KalakarColors.white,
-                          border: Border.all(color: KalakarColors.backgroundGrey),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Column(
-                          children: [
-                            rowDataToShow(
-                                "Shooting Location : ", requirement.shootingLocation!),
-                            rowDataToShow("Shooting Start Date : ",
-                                formatter.format(shootingStartDate)),
-                            rowDataToShow("Shooting End Date : ",
-                                formatter.format(shootingEndDate)),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-
-                      Container(
-                        padding: EdgeInsets.all(12.h),
-                        decoration: BoxDecoration(
-                          color: KalakarColors.white,
-                          border: Border.all(color: KalakarColors.backgroundGrey),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: rowDataToShow(
-                                      "Age : ",
-                                      requirement.age!.contains(".")
-                                          ? requirement.age!.split(".").first + " Years"
-                                          : requirement.age! + "Years"),
-                                ),
-                                Expanded(
-                                  child:
-                                      rowDataToShow("Gender : ", requirement.gender!),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child:
-                                      rowDataToShow("Height : ", requirement.height!.toString()),
-                                ),
-                                Expanded(
-                                  child:
-                                      rowDataToShow("Weight : ", requirement.weight!.toString()),
-                                )
-                              ],
-                            ),
-                            rowDataToShow("Experience : ",
-                                "${requirement.experiences!.toString()} Years"),
-                            rowDataToShow("Language : ", requirement.language!),
-                            rowDataToShow("Hair Color : ", requirement.hairColor!),
-                            rowDataToShow("Body Type  : ", requirement.bodyType!),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 16.h,
-                      ),
-
-                      Container(
-                          padding: EdgeInsets.all(12.h),
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border: Border.all(color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Column(children: [
-                            rowDataToShow("Special Skills Required  : ",
-                                requirement.specialSkillRequired!),
-                            rowDataToShow(
-                                "Comfortable In : ", requirement.comfortableIn!),
-                            rowDataToShow("Script For Audition : ",
-                                requirement.scriptForAuditions!),
-                            rowDataToShow("Requirement End Date : ",
-                                formatter.format(requirementEndDate)),
-                          ])),
-                      SizedBox(
-                        height: 24.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              controller.openSocialMedia(0, requirement.fbLink!);
-                            },
-                            child: SvgPicture.asset(
-                              "assets/svg/facebook.svg",
-                              height: 30.h,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controller.openSocialMedia(1, requirement.instalink!);
-                            },
-                            child: SvgPicture.asset(
-                              "assets/svg/instagram.svg",
-                              height: 30.h,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controller.openSocialMedia(2, requirement.wpLink!);
-                            },
-                            child: SvgPicture.asset(
-                              "assets/svg/whatsapp.svg",
-                              height: 30.h,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controller.openSocialMedia(3, requirement.ytLink!);
-                            },
-                            child: SvgPicture.asset(
-                              "assets/svg/youtube.svg",
-                              height: 30.h,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controller.openSocialMedia(4, requirement.emailLink!);
-                            },
-                            child: SvgPicture.asset(
-                              "assets/svg/email.svg",
-                              height: 30.h,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controller.openSocialMedia(5, requirement.websiteLink!);
-                            },
-                            child: SvgPicture.asset(
-                              "assets/svg/website.svg",
-                              height: 30.h,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 24.h,
-                      ),
-                      if (!controller.showStatus)
-                        CustomMobileButtonWidget(
-                            text: "Apply",
-                            onTap: () {
-                              controller.saveAppliedToRequirement(
-                                  requirement.requirementDetailsID!);
-                            },
-                            horizontalPadding: 16.h,
-                            verticalPadding: 8.h,
-                            fontSize: 16.sp,
-                            borderRadius: 40.r),
-                    ],
-                  ),
-                ),
-              );
-      } else {
-
-        ObjResponesRequirementDetailsList requirement =
-            controller.selectedRequirement;
-        DateTime shootingStartDate =
-        DateTime.parse(requirement.shootingStartDate.toString());
-
-        DateTime shootingEndDate =
-        DateTime.parse(requirement.shootingEndDate.toString());
-        DateTime requirementEndDate =
-        DateTime.parse(requirement.requirementEndDate.toString());
+            DateTime.parse(requirement.requirementEndDate.toString());
         DateFormat formatter = DateFormat('dd-MM-yyyy');
         return SingleChildScrollView(
           child: Container(
@@ -438,7 +179,21 @@ class RequirementViewPage extends StatelessWidget {
                 ),
                 Text(
                   requirement.companyNameProductionhouse!,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: rowDataToShow("Application Status : ",
+                      requirement.applyStatus.toString()),
                 ),
                 SizedBox(
                   height: 16.h,
@@ -452,8 +207,8 @@ class RequirementViewPage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      rowDataToShow(
-                          "Description : ", requirement.requirementDescription!),
+                      rowDataToShow("Description : ",
+                          requirement.requirementDescription!),
                       rowDataToShow("Looking For : ", requirement.lookingFor!),
                       rowDataToShow("Role : ", requirement.defineRole!),
                       rowDataToShow("Number Of Openings : ",
@@ -467,6 +222,7 @@ class RequirementViewPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
+
                 Container(
                   padding: EdgeInsets.all(12.h),
                   decoration: BoxDecoration(
@@ -476,8 +232,8 @@ class RequirementViewPage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      rowDataToShow(
-                          "Shooting Location : ", requirement.shootingLocation!),
+                      rowDataToShow("Shooting Location : ",
+                          requirement.shootingLocation!),
                       rowDataToShow("Shooting Start Date : ",
                           formatter.format(shootingStartDate)),
                       rowDataToShow("Shooting End Date : ",
@@ -504,24 +260,25 @@ class RequirementViewPage extends StatelessWidget {
                             child: rowDataToShow(
                                 "Age : ",
                                 requirement.age!.contains(".")
-                                    ? requirement.age!.split(".").first + " Years"
+                                    ? requirement.age!.split(".").first +
+                                        " Years"
                                     : requirement.age! + "Years"),
                           ),
                           Expanded(
                             child:
-                            rowDataToShow("Gender : ", requirement.gender!),
+                                rowDataToShow("Gender : ", requirement.gender!),
                           )
                         ],
                       ),
                       Row(
                         children: [
                           Expanded(
-                            child:
-                            rowDataToShow("Height : ", requirement.height!),
+                            child: rowDataToShow(
+                                "Height : ", requirement.height!.toString()),
                           ),
                           Expanded(
-                            child:
-                            rowDataToShow("Weight : ", requirement.weight!),
+                            child: rowDataToShow(
+                                "Weight : ", requirement.weight!.toString()),
                           )
                         ],
                       ),
@@ -635,9 +392,264 @@ class RequirementViewPage extends StatelessWidget {
             ),
           ),
         );
+      } else {
+        ObjResponesRequirementDetailsList requirement =
+            controller.selectedRequirement;
+        DateTime shootingStartDate =
+            DateTime.parse(requirement.shootingStartDate.toString());
+
+        DateTime shootingEndDate =
+            DateTime.parse(requirement.shootingEndDate.toString());
+        DateTime requirementEndDate =
+            DateTime.parse(requirement.requirementEndDate.toString());
+        DateFormat formatter = DateFormat('dd-MM-yyyy');
+        return SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.h),
+            padding: EdgeInsets.all(8.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Icon(CupertinoIcons.suit_heart)),
+                SizedBox(
+                  height: 8.h,
+                ),
+                ClipOval(
+                  // Image radius
+                  child: Image.network(
+                    requirement.refPhotoName!,
+                    fit: BoxFit.cover,
+                    height: 80.h,
+                    width: 80.h,
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace? stackTrace) {
+                      // Return a dummy or placeholder image when an error occurs
+                      return Image.asset(
+                        "assets/images/app_bar_logo.png",
+                        height: 80.h,
+                        width: 80.h,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Text(
+                  requirement.companyNameProductionhouse ?? "",
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    children: [
+                      rowDataToShow("Description : ",
+                          requirement.requirementDescription!),
+                      rowDataToShow("Looking For : ", requirement.lookingFor!),
+                      rowDataToShow("Role : ", requirement.defineRole!),
+                      rowDataToShow("Number Of Openings : ",
+                          requirement.nUmberOfOpenings!.toString()),
+                      if (controller.showStatus)
+                        rowDataToShow("Project Status : ",
+                            requirement.requirementStatus!.toString()),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    children: [
+                      rowDataToShow("Shooting Location : ",
+                          requirement.shootingLocation!),
+                      rowDataToShow("Shooting Start Date : ",
+                          formatter.format(shootingStartDate)),
+                      rowDataToShow("Shooting End Date : ",
+                          formatter.format(shootingEndDate)),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: rowDataToShow(
+                                "Age : ",
+                                requirement.age!.contains(".")
+                                    ? requirement.age!.split(".").first +
+                                        " Years"
+                                    : requirement.age! + "Years"),
+                          ),
+                          Expanded(
+                            child:
+                                rowDataToShow("Gender : ", requirement.gender!),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child:
+                                rowDataToShow("Height : ", requirement.height!),
+                          ),
+                          Expanded(
+                            child:
+                                rowDataToShow("Weight : ", requirement.weight!),
+                          )
+                        ],
+                      ),
+                      rowDataToShow("Experience : ",
+                          "${requirement.experiences!.toString()} Years"),
+                      rowDataToShow("Language : ", requirement.language!),
+                      rowDataToShow("Hair Color : ", requirement.hairColor!),
+                      rowDataToShow("Body Type  : ", requirement.bodyType!),
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                    padding: EdgeInsets.all(12.h),
+                    decoration: BoxDecoration(
+                      color: KalakarColors.white,
+                      border: Border.all(color: KalakarColors.backgroundGrey),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Column(children: [
+                      rowDataToShow("Special Skills Required  : ",
+                          requirement.specialSkillRequired!),
+                      rowDataToShow(
+                          "Comfortable In : ", requirement.comfortableIn!),
+                      rowDataToShow("Script For Audition : ",
+                          requirement.scriptForAuditions!),
+                      rowDataToShow("Requirement End Date : ",
+                          formatter.format(requirementEndDate)),
+                    ])),
+                SizedBox(
+                  height: 24.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(0, requirement.fbLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/facebook.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(1, requirement.instalink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/instagram.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(2, requirement.wpLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/whatsapp.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(3, requirement.ytLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/youtube.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(4, requirement.emailLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/email.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(5, requirement.websiteLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/website.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 24.h,
+                ),
+                if (!controller.showStatus && controller.isArtist)
+                  CustomMobileButtonWidget(
+                      text: KalakarConstants.apply,
+                      onTap: () {
+                        controller.saveAppliedToRequirement(
+                            requirement.requirementDetailsID!);
+                      },
+                      horizontalPadding: 16.h,
+                      verticalPadding: 8.h,
+                      fontSize: 16.sp,
+                      borderRadius: 40.r),
+                if (!controller.isArtist)
+                  CustomMobileButtonWidget(
+                      text: KalakarConstants.appliedProfiles,
+                      onTap: () {
+                        controller.getAppliedData();
+                      },
+                      horizontalPadding: 16.h,
+                      verticalPadding: 8.h,
+                      fontSize: 16.sp,
+                      borderRadius: 40.r),
+              ],
+            ),
+          ),
+        );
       }
     });
-
   }
 
   RequirementViewWebView(BuildContext context) {}
@@ -652,9 +664,11 @@ class RequirementViewPage extends StatelessWidget {
               title,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
             ),
-            Text(
-              titleData,
-              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14.sp),
+            Expanded(
+              child: Text(
+                titleData,
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14.sp),
+              ),
             ),
           ],
         ),
