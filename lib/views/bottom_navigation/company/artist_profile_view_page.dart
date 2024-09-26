@@ -639,10 +639,10 @@ class ArtistProfileViewPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                       text: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  1 ||
+                                  4 ||
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  2
+                                  1
                           ? KalakarConstants.selected
                           : KalakarConstants.select,
                       onTap: () {
@@ -652,14 +652,14 @@ class ArtistProfileViewPage extends StatelessWidget {
                             controller.selectedArtistProfileData
                                     .fKApplyStatusMasterID ==
                                 2) */
-                        controller.saveChangesAppliedRequirementStatus(2);
+                        controller.saveChangesAppliedRequirementStatus(1);
                       },
                       backgroundColor: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  1 ||
+                                  4 ||
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  2
+                                  1
                           ? KalakarColors.appBarBackground
                           : KalakarColors.backgroundGrey,
                       horizontalPadding: 4.h,
@@ -670,23 +670,23 @@ class ArtistProfileViewPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                       text: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  1 ||
+                                  4 ||
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
                                   2
                           ? KalakarConstants.rejected
                           : KalakarConstants.reject,
                       onTap: () {
-                        controller.saveChangesAppliedRequirementStatus(3);
+                        controller.saveChangesAppliedRequirementStatus(2);
                       },
                       horizontalPadding: 4.h,
                       verticalPadding: 8.h,
                       backgroundColor: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  1 ||
+                                  4 ||
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  3
+                                  2
                           ? KalakarColors.appBarBackground
                           : KalakarColors.backgroundGrey,
                       width: 100.w,
@@ -695,21 +695,21 @@ class ArtistProfileViewPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                       text: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  1 ||
+                                  4 ||
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  2
+                                  3
                           ? KalakarConstants.onHold
                           : KalakarConstants.hold,
                       onTap: () {
-                        controller.saveChangesAppliedRequirementStatus(4);
+                        controller.saveChangesAppliedRequirementStatus(3);
                       },
                       backgroundColor: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  1 ||
+                                  4 ||
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  4
+                                  3
                           ? KalakarColors.appBarBackground
                           : KalakarColors.backgroundGrey,
                       horizontalPadding: 4.h,

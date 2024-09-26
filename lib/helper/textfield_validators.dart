@@ -637,6 +637,21 @@ class Validator {
     }
     return null;
   }
+  //validate shooting Start Date
+  static String? validateStartAge(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Start Age';
+    }
+    return null;
+  }
+
+  //validate shooting Start Date
+  static String? validateEndAge(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter End Age';
+    }
+    return null;
+  }
 
   //validate shooting location
   static String? validateLocation(String? value) {
