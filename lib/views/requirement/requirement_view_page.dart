@@ -26,7 +26,7 @@ class RequirementViewPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => RequirementViewMobileView(),
+        mobile: (BuildContext context) => RequirementViewMobileView(context),
         tablet: (BuildContext context) => RequirementViewWebView(context),
       ),
       /*bottomNavigationBar: Container(
@@ -129,7 +129,7 @@ class RequirementViewPage extends StatelessWidget {
     );
   }
 
-  RequirementViewMobileView() {
+  RequirementViewMobileView(BuildContext context) {
     Get.put(RequirementController());
     return GetBuilder<RequirementController>(builder: (controller) {
       if (controller.showStatus) {
@@ -186,13 +186,16 @@ class RequirementViewPage extends StatelessWidget {
                   height: 16.h,
                 ),
                 Container(
+
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: rowDataToShow("Application Status : ",
+                  child: textSpanToShow(context, "Application Status : ",
                       requirement.applyStatus.toString()),
                 ),
                 SizedBox(
@@ -200,21 +203,26 @@ class RequirementViewPage extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      rowDataToShow("Description : ",
+                      textSpanToShow(context, "Description : ",
                           requirement.requirementDescription!),
-                      rowDataToShow("Looking For : ", requirement.lookingFor!),
-                      rowDataToShow("Role : ", requirement.defineRole!),
-                      rowDataToShow("Number Of Openings : ",
+                      textSpanToShow(
+                          context, "Looking For : ", requirement.lookingFor!),
+                      textSpanToShow(
+                          context, "Role : ", requirement.defineRole!),
+                      textSpanToShow(context, "Number Of Openings : ",
                           requirement.nUmberOfOpenings!.toString()),
                       if (controller.showStatus)
-                        rowDataToShow("Project Status : ",
+                        textSpanToShow(context, "Project Status : ",
                             requirement.requirementStatus!.toString()),
                     ],
                   ),
@@ -225,18 +233,21 @@ class RequirementViewPage extends StatelessWidget {
 
                 Container(
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      rowDataToShow("Shooting Location : ",
+                      textSpanToShow(context, "Shooting Location : ",
                           requirement.shootingLocation!),
-                      rowDataToShow("Shooting Start Date : ",
+                      textSpanToShow(context, "Shooting Start Date : ",
                           formatter.format(shootingStartDate)),
-                      rowDataToShow("Shooting End Date : ",
+                      textSpanToShow(context, "Shooting End Date : ",
                           formatter.format(shootingEndDate)),
                     ],
                   ),
@@ -247,17 +258,21 @@ class RequirementViewPage extends StatelessWidget {
 
                 Container(
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           Expanded(
-                            child: rowDataToShow(
+                            child: textSpanToShow(
+                                context,
                                 "Age : ",
                                 requirement.age!.contains(".")
                                     ? requirement.age!.split(".").first +
@@ -265,28 +280,31 @@ class RequirementViewPage extends StatelessWidget {
                                     : requirement.age! + "Years"),
                           ),
                           Expanded(
-                            child:
-                                rowDataToShow("Gender : ", requirement.gender!),
+                            child: textSpanToShow(
+                                context, "Gender : ", requirement.gender!),
                           )
                         ],
                       ),
                       Row(
                         children: [
                           Expanded(
-                            child: rowDataToShow(
-                                "Height : ", requirement.height!.toString()),
+                            child: textSpanToShow(context, "Height : ",
+                                requirement.height!.toString()),
                           ),
                           Expanded(
-                            child: rowDataToShow(
-                                "Weight : ", requirement.weight!.toString()),
+                            child: textSpanToShow(context, "Weight : ",
+                                requirement.weight!.toString()),
                           )
                         ],
                       ),
-                      rowDataToShow("Experience : ",
+                      textSpanToShow(context, "Experience : ",
                           "${requirement.experiences!.toString()} Years"),
-                      rowDataToShow("Language : ", requirement.language!),
-                      rowDataToShow("Hair Color : ", requirement.hairColor!),
-                      rowDataToShow("Body Type  : ", requirement.bodyType!),
+                      textSpanToShow(
+                          context, "Language : ", requirement.language!),
+                      textSpanToShow(
+                          context, "Hair Color : ", requirement.hairColor!),
+                      textSpanToShow(
+                          context, "Body Type  : ", requirement.bodyType!),
                     ],
                   ),
                 ),
@@ -297,19 +315,25 @@ class RequirementViewPage extends StatelessWidget {
 
                 Container(
                     padding: EdgeInsets.all(12.h),
+                    width: double.infinity,
+
                     decoration: BoxDecoration(
                       color: KalakarColors.white,
                       border: Border.all(color: KalakarColors.backgroundGrey),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: Column(children: [
-                      rowDataToShow("Special Skills Required  : ",
+                    child: Column(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                      textSpanToShow(context, "Special Skills Required  : ",
                           requirement.specialSkillRequired!),
-                      rowDataToShow(
-                          "Comfortable In : ", requirement.comfortableIn!),
-                      rowDataToShow("Script For Audition : ",
+                      textSpanToShow(context, "Comfortable In : ",
+                          requirement.comfortableIn!),
+                      textSpanToShow(context, "Script For Audition : ",
                           requirement.scriptForAuditions!),
-                      rowDataToShow("Requirement End Date : ",
+                      textSpanToShow(context, "Requirement End Date : ",
                           formatter.format(requirementEndDate)),
                     ])),
                 SizedBox(
@@ -447,21 +471,26 @@ class RequirementViewPage extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      rowDataToShow("Description : ",
+                      textSpanToShow(context, "Description : ",
                           requirement.requirementDescription!),
-                      rowDataToShow("Looking For : ", requirement.lookingFor!),
-                      rowDataToShow("Role : ", requirement.defineRole!),
-                      rowDataToShow("Number Of Openings : ",
+                      textSpanToShow(
+                          context, "Looking For : ", requirement.lookingFor!),
+                      textSpanToShow(
+                          context, "Role : ", requirement.defineRole!),
+                      textSpanToShow(context, "Number Of Openings : ",
                           requirement.nUmberOfOpenings!.toString()),
                       if (controller.showStatus)
-                        rowDataToShow("Project Status : ",
+                        textSpanToShow(context, "Project Status : ",
                             requirement.requirementStatus!.toString()),
                     ],
                   ),
@@ -471,18 +500,20 @@ class RequirementViewPage extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      rowDataToShow("Shooting Location : ",
+                      textSpanToShow(context, "Shooting Location : ",
                           requirement.shootingLocation!),
-                      rowDataToShow("Shooting Start Date : ",
+                      textSpanToShow(context, "Shooting Start Date : ",
                           formatter.format(shootingStartDate)),
-                      rowDataToShow("Shooting End Date : ",
+                      textSpanToShow(context, "Shooting End Date : ",
                           formatter.format(shootingEndDate)),
                     ],
                   ),
@@ -493,17 +524,20 @@ class RequirementViewPage extends StatelessWidget {
 
                 Container(
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           Expanded(
-                            child: rowDataToShow(
+                            child: textSpanToShow(
+                                context,
                                 "Age : ",
                                 requirement.age!.contains(".")
                                     ? requirement.age!.split(".").first +
@@ -511,28 +545,31 @@ class RequirementViewPage extends StatelessWidget {
                                     : requirement.age! + "Years"),
                           ),
                           Expanded(
-                            child:
-                                rowDataToShow("Gender : ", requirement.gender!),
+                            child: textSpanToShow(
+                                context, "Gender : ", requirement.gender!),
                           )
                         ],
                       ),
                       Row(
                         children: [
                           Expanded(
-                            child:
-                                rowDataToShow("Height : ", requirement.height!),
+                            child: textSpanToShow(
+                                context, "Height : ", requirement.height!),
                           ),
                           Expanded(
-                            child:
-                                rowDataToShow("Weight : ", requirement.weight!),
+                            child: textSpanToShow(
+                                context, "Weight : ", requirement.weight!),
                           )
                         ],
                       ),
-                      rowDataToShow("Experience : ",
+                      textSpanToShow(context, "Experience : ",
                           "${requirement.experiences!.toString()} Years"),
-                      rowDataToShow("Language : ", requirement.language!),
-                      rowDataToShow("Hair Color : ", requirement.hairColor!),
-                      rowDataToShow("Body Type  : ", requirement.bodyType!),
+                      textSpanToShow(
+                          context, "Language : ", requirement.language!),
+                      textSpanToShow(
+                          context, "Hair Color : ", requirement.hairColor!),
+                      textSpanToShow(
+                          context, "Body Type  : ", requirement.bodyType!),
                     ],
                   ),
                 ),
@@ -543,19 +580,23 @@ class RequirementViewPage extends StatelessWidget {
 
                 Container(
                     padding: EdgeInsets.all(12.h),
+                    width: double.infinity,
+
                     decoration: BoxDecoration(
                       color: KalakarColors.white,
                       border: Border.all(color: KalakarColors.backgroundGrey),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: Column(children: [
-                      rowDataToShow("Special Skills Required  : ",
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      textSpanToShow(context, "Special Skills Required  : ",
                           requirement.specialSkillRequired!),
-                      rowDataToShow(
-                          "Comfortable In : ", requirement.comfortableIn!),
-                      rowDataToShow("Script For Audition : ",
+                      textSpanToShow(context, "Comfortable In : ",
+                          requirement.comfortableIn!),
+                      textSpanToShow(context, "Script For Audition : ",
                           requirement.scriptForAuditions!),
-                      rowDataToShow("Requirement End Date : ",
+                      textSpanToShow(context, "Requirement End Date : ",
                           formatter.format(requirementEndDate)),
                     ])),
                 SizedBox(
@@ -638,7 +679,8 @@ class RequirementViewPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                       text: KalakarConstants.appliedProfiles,
                       onTap: () {
-                        controller.getAppliedData();
+                        controller
+                            .getAppliedData(requirement.requirementDetailsID!);
                       },
                       horizontalPadding: 16.h,
                       verticalPadding: 8.h,
@@ -654,23 +696,25 @@ class RequirementViewPage extends StatelessWidget {
 
   RequirementViewWebView(BuildContext context) {}
 
-  rowDataToShow(String title, String titleData) {
+  textSpanToShow(BuildContext context, String title, String titleData) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
-            ),
-            Expanded(
-              child: Text(
-                titleData,
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14.sp),
+        RichText(
+          text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(
+                text: title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
               ),
-            ),
-          ],
+              TextSpan(
+                text: titleData,
+                style:
+                    TextStyle(fontWeight: FontWeight.normal, fontSize: 14.sp),
+              ),
+            ],
+          ),
         ),
         SizedBox(
           height: 8.h,

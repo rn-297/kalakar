@@ -49,10 +49,10 @@ class AppliedArtistDetailsList {
   String? age;
   String? language;
   double? height;
-  int? weight;
+  double? weight;
   String? hairColor;
   String? bodyType;
-  int? experiences;
+  double? experiences;
   String? shootingStartDate;
   String? shootingEndDate;
   String? shootingLocation;
@@ -68,7 +68,7 @@ class AppliedArtistDetailsList {
   String? emailLink;
   String? websiteLink;
   String? refPhotoName;
-  int? salary;
+  double? salary;
   String? salaryType;
   String? requirementStatus;
   String? companyNameProductionhouse;
@@ -343,7 +343,7 @@ class EducationList {
   String? coursetype;
   String? courseStartDate;
   String? courseEndDate;
-  int? score;
+  double? score;
 
   EducationList(
       {this.artistProfileEducationID,
@@ -601,10 +601,10 @@ class GetArtistProfileModelForRequirememt {
   String? email;
   String? mobileNumber;
   String? gender;
-  int? age;
-  int? roleAge;
+  double? age;
+  double? roleAge;
   double? height;
-  int? weight;
+  double? weight;
   String? bio;
   String? fbLink;
   String? wpLink;

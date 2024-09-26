@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/file_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/data/models/artist/applied_requirement_list_class.dart';
 import 'package:kalakar/data/models/artist/review_details_class.dart';
@@ -60,8 +61,10 @@ class RequirementController extends GetxController {
   //searchTEControllers
   TextEditingController searchTitleTEController = TextEditingController();
   TextEditingController searchLocationTEController = TextEditingController();
-  TextEditingController searchShootingStartDateTEController = TextEditingController();
-  TextEditingController searchShootingEndDateTEController = TextEditingController();
+  TextEditingController searchShootingStartDateTEController =
+      TextEditingController();
+  TextEditingController searchShootingEndDateTEController =
+      TextEditingController();
   TextEditingController searchLanguageTEController = TextEditingController();
   TextEditingController searchStartAgeTEController = TextEditingController();
   TextEditingController searchEndAgeTEController = TextEditingController();
@@ -84,8 +87,7 @@ class RequirementController extends GetxController {
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
   List<ArtistAppliedRequirementDetailsList>
       artistAppliedRequirementDetailsList = [];
-  List<AppliedArtistDetailsList>
-      companyAppliedRequirementDetailsList = [];
+  List<AppliedArtistDetailsList> companyAppliedRequirementDetailsList = [];
   List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
   List<GetApplicationReviewList> reviewDetailsList = [];
   List<String> genderList = ["Male", "Female", "Other"];
@@ -124,7 +126,7 @@ class RequirementController extends GetxController {
       ArtistAppliedRequirementDetailsList();
 
   AppliedArtistDetailsList selectedArtistProfileData =
-  AppliedArtistDetailsList();
+      AppliedArtistDetailsList();
   ProjectDetailAndDocuments upcomingCompanyProject =
       ProjectDetailAndDocuments();
   GetApplicationReviewList selectedReviewData = GetApplicationReviewList();
@@ -170,9 +172,11 @@ class RequirementController extends GetxController {
 
   //global keys
   final _formRequirementKey = GlobalKey<FormState>();
+
   get formRequirementKey => _formRequirementKey;
 
   final _formArtistSearchRequirementKey = GlobalKey<FormState>();
+
   get formArtistSearchRequirementKey => _formArtistSearchRequirementKey;
 
   saveRequirementsDetails() async {
@@ -375,21 +379,40 @@ class RequirementController extends GetxController {
     }
   }
 
-  saveChangesAppliedRequirementStatus() async {
+  saveChangesAppliedRequirementStatus(int applyStatusID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Update Apply Status", "Applying Status for Opportunity");
       var fields = {
-        "artistAppliedForRequirementTransID": 0,
-        "fK_RequirementDetailsID": 0,
-        "fK_AccountID": 0,
-        "fK_ApplyStatusMasterID": 0
+        "artistAppliedForRequirementTransID":
+            selectedArtistProfileData.artistAppliedForRequirementTransID,
+        "fK_RequirementDetailsID":
+            selectedArtistProfileData.requirementDetailsID,
+        "fK_AccountID": loginTable.accountID,
+        "fK_ApplyStatusMasterID": applyStatusID
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveChangesAppliedRequirementStatusApi,
           jsonEncode(fields),
           loginTable.token);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
       if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Applying Status for Opportunity Success",
+              responseModel.message!);
+          getAppliedForRequirementCompany(
+              selectedArtistProfileData.requirementDetailsID!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Applying Status for Opportunity Failed", responseModel.message!);
+        }
       } else {}
     }
   }
@@ -437,13 +460,13 @@ class RequirementController extends GetxController {
     }
   }
 
-  getAppliedForRequirementCompany() async {
+  getAppliedForRequirementCompany(int requirementDetailsId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       isAppliedProfileLoading = true;
       var fields = {
-        "requirementDetailsID": 0,
+        "requirementDetailsID": requirementDetailsId,
         "fK_AccountID": loginTable.accountID
       };
       var response = await ApiClient.postDataToken(
@@ -464,6 +487,11 @@ class RequirementController extends GetxController {
       isAppliedProfileLoading = false;
       update();
     }
+  }
+
+  showDocument(String url, String type) {
+    FileController fileController = Get.put(FileController());
+    fileController.viewFile1(url, type);
   }
 
   Future<void> getImageFromCamera(BuildContext context, String type) async {
@@ -888,8 +916,8 @@ class RequirementController extends GetxController {
     Get.toNamed(RouteHelper.requirementViewPage);
   }
 
-  void getAppliedData() {
-    getAppliedForRequirementCompany();
+  void getAppliedData(int requirementDetails) {
+    getAppliedForRequirementCompany(requirementDetails);
     Get.toNamed(RouteHelper.appliedProfilesPage);
   }
 

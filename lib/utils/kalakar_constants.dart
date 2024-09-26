@@ -249,6 +249,12 @@ class KalakarConstants {
   static const String female = "Female";
   static const String apply = "Apply";
   static const String appliedProfiles = "Applied Profiles";
+  static const String select = "Select";
+  static const String reject = "Reject";
+  static const String hold = "Hold";
+  static const String selected = "Selected";
+  static const String rejected = "Rejected";
+  static const String onHold = "On Hold";
 
   //Profile
   static const String companyName = "Company Name / Production House";
@@ -312,6 +318,7 @@ class KalakarConstants {
   static const String expEndDate = "Experience End Date";
   static const String score = "Score";
   static const String hobby = "Hobby";
+  static const String hobbies = "Hobbies";
   static const String interestIn = "Interest In";
   static const String applyFor = "Apply For";
   static const String passport = "Passport";

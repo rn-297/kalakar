@@ -1894,7 +1894,7 @@ class ArtistProfileController extends GetxController {
 
     if (loginTable != null) {
       var body = {"token": loginTable.token, "accountID": loginTable.accountID};
-      var response = await ApiClient.postDataToken1(
+      var response = await ApiClient.postDataToken(
           KalakarConstants.checkTokenExpired,
           jsonEncode(body),
           loginTable.token);
