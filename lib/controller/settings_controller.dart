@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
@@ -8,6 +9,9 @@ import '../data/local_database/login_table.dart';
 
 class SettingsController extends GetxController {
   List<String> settingsList = [];
+  String referralCode = "";
+  String referredBy = "";
+  TextEditingController referralCodeTEController = TextEditingController();
 
   @override
   void onInit() {
@@ -20,6 +24,8 @@ class SettingsController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       print(loginTable!.accountType!);
+      referralCode = loginTable.referralCode.toString();
+      referredBy = loginTable.usedReferralCode.toString();
       if (loginTable!.accountType == KalakarConstants.artist) {
         settingsList = [
           KalakarConstants.myProfile,

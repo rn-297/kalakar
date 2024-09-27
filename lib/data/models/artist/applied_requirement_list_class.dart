@@ -1,3 +1,4 @@
+
 class ArtistAppliedRequirementDetailsClass {
   List<ArtistAppliedRequirementDetailsList>? objResponesRequirementDetailsList;
   bool? replayStatus;
@@ -48,8 +49,8 @@ class ArtistAppliedRequirementDetailsList {
   String? gender;
   String? age;
   String? language;
-  double? height;
-  double? weight;
+  String? height;
+  String? weight;
   String? hairColor;
   String? bodyType;
   double? experiences;

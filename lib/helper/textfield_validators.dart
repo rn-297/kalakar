@@ -479,6 +479,15 @@ class Validator {
     return null;
   }
 
+
+  //validate referral code
+  static String? validateReferralCode(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Referral Code';
+    }
+    return null;
+  }
+
   //validate Comfortable
   static String? validateComfortableIn(String? value) {
     if (value == null || value.isEmpty) {

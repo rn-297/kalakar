@@ -48,8 +48,8 @@ class AppliedArtistDetailsList {
   String? gender;
   String? age;
   String? language;
-  double? height;
-  double? weight;
+  String? height;
+  String? weight;
   String? hairColor;
   String? bodyType;
   double? experiences;

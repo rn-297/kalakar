@@ -465,6 +465,7 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       isAppliedProfileLoading = true;
+      update();
       var fields = {
         "requirementDetailsID": requirementDetailsId,
         "fK_AccountID": loginTable.accountID

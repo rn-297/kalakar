@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:kalakar/controller/settings_controller.dart';
+import 'package:kalakar/helper/common_widgets.dart';
+import 'package:kalakar/helper/textfield_validators.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../custom_widgets/button_mobile_widget.dart';
 import '../../helper/kalakar_colors.dart';
 import '../../utils/kalakar_constants.dart';
 
@@ -19,12 +25,11 @@ class ReferralCodePage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => referralCodeMobileView(),
+        mobile: (BuildContext context) => referralCodeMobileView(context),
         tablet: (BuildContext context) => referralCodeWebView(context),
       ),
     );
   }
-
 
   appbarMobileView() {
     return AppBar(
@@ -114,7 +119,100 @@ class ReferralCodePage extends StatelessWidget {
     );
   }
 
-  referralCodeMobileView() {return Column(children: [Text("This is Referral Code page")],);}
+  referralCodeMobileView(BuildContext context) {
+    return GetBuilder<SettingsController>(builder: (controller) {
+      return SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(12.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: controller.referredBy.isNotEmpty
+                    ? Text("Referred By : ${controller.referredBy}")
+                    : Column(
+                        children: [
+                          CommonWidgets.commonMobileTextField(
+                              controller: controller.referralCodeTEController,
+                              labelText: "Use Referral Code",
+                              obscureText: false,
+                              passwordVisibility: false,
+                              togglePasswordVisibility: () {},
+                              textInputType: TextInputType.text,
+                              validator: Validator.validateReferralCode),
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                          CustomMobileButtonWidget(
+                              text: "Get Details",
+                              onTap: () {
+                                // controller.saveChangesAppliedRequirementStatus(3);
+                              },
+                              horizontalPadding: 4.h,
+                              verticalPadding: 8.h,
+                              width: 100.w,
+                              fontSize: 16.sp,
+                              borderRadius: 40.r),
+                        ],
+                      ),
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+              Container(
+                padding: EdgeInsets.all(12.h),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: textSpanToShow(
+                    context, "Your Referral Code : ", controller.referralCode),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  textSpanToShow(BuildContext context, String title, String titleData) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(
+                text: title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp),
+              ),
+              TextSpan(
+                text: titleData,
+                style:
+                    TextStyle(fontWeight: FontWeight.normal, fontSize: 13.sp),
+              ),
+            ],
+          ),
+        ),
+        InkWell(
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: titleData,));
+              // copied successfully
+            },
+            child: Icon(Icons.copy,color: KalakarColors.headerText,))
+      ],
+    );
+  }
 
   referralCodeWebView(BuildContext context) {}
 }

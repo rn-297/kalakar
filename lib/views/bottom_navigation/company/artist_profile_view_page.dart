@@ -639,7 +639,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                       text: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  4 ||
+                                  4 ?KalakarConstants.select:
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
                                   1
@@ -670,7 +670,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                       text: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  4 ||
+                                  4 ?KalakarConstants.reject:
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
                                   2
@@ -695,7 +695,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                   CustomMobileButtonWidget(
                       text: controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
-                                  4 ||
+                                  4 ?KalakarConstants.hold:
                               controller.selectedArtistProfileData
                                       .fKApplyStatusMasterID ==
                                   3
