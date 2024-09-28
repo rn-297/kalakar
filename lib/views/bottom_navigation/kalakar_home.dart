@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:kalakar/data/models/artist/review_details_class.dart';
 import 'package:kalakar/data/models/artist/upcoming_company_projects.dart';
@@ -967,19 +968,21 @@ class KalakarHomePage extends StatelessWidget {
     return AppBar(
       toolbarHeight: 70.h,
       backgroundColor: KalakarColors.appBarBackground,
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            KalakarConstants.namskarKalakar,
-            style: TextStyle(color: KalakarColors.white, fontSize: 14.sp),
-          ),
-          Text(
-            "Rohan Warang",
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
-          ),
-        ],
-      ),
+      title: GetBuilder<ArtistProfileController>(builder: (controller) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              KalakarConstants.namskarKalakar,
+              style: TextStyle(color: KalakarColors.white, fontSize: 14.sp),
+            ),
+            Text(
+              "${controller.artistProfileDetails.firstName ?? ""} ${controller.artistProfileDetails.lastName ?? ""} ",
+              style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            ),
+          ],
+        );
+      }),
       actions: [
         Icon(
           Icons.notifications,
@@ -988,7 +991,7 @@ class KalakarHomePage extends StatelessWidget {
         SizedBox(
           width: 8.h,
         ),
-        Container(
+        /*Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -999,7 +1002,7 @@ class KalakarHomePage extends StatelessWidget {
                 image: AssetImage("assets/images/person.png"),
                 fit: BoxFit.fill),
           ),
-        ),
+        ),*/
         SizedBox(
           width: 20.w,
         )

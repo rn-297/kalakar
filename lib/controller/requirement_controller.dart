@@ -75,16 +75,21 @@ class RequirementController extends GetxController {
   String requirementPhoto = "";
   String? shootingStartDateText = "";
   String? shootingEndDateText = "";
+  String? searchShootingStartDateText = "";
+  String? searchShootingEndDateText = "";
   String? requirementEndDateText = "";
 
   //date time
   DateTime shootingStartDate = DateTime.now();
   DateTime shootingEndDate = DateTime.now();
+  DateTime searchShootingStartDate = DateTime.now();
+  DateTime searchShootingEndDate = DateTime.now();
   DateTime requirementEndDate = DateTime.now();
 
   //lists
   List<ObjResponesRequirementDetailsList> newRequirementDetailsList = [];
   List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
+  List<ObjResponesRequirementDetailsList> requirementDetailsSearchList = [];
   List<ArtistAppliedRequirementDetailsList>
       artistAppliedRequirementDetailsList = [];
   List<AppliedArtistDetailsList> companyAppliedRequirementDetailsList = [];
@@ -141,6 +146,7 @@ class RequirementController extends GetxController {
   bool isAppliedProfileLoading = false;
   bool isDocumentsLoading = false;
   bool showStatus = false;
+  bool isSearching = false;
 
   setDate(String type, DateTime date) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -157,6 +163,14 @@ class RequirementController extends GetxController {
         requirementEndDate = date;
         requirementEndDateText = formatter.format(date);
         requirementEndDateTEController.text = requirementEndDateText!;
+      case KalakarConstants.searchShootingStartDate:
+        searchShootingStartDate = date;
+        searchShootingStartDateText = formatter.format(date);
+        searchShootingStartDateTEController.text = searchShootingStartDateText!;
+      case KalakarConstants.searchShootingEndDate:
+        searchShootingEndDate = date;
+        searchShootingEndDateText = formatter.format(date);
+        searchShootingEndDateTEController.text = searchShootingEndDateText!;
     }
   }
 
@@ -326,24 +340,33 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      isSearching=true;
+      update();
+      final DateFormat format = DateFormat('yyyy-MM-dd');
       var fields = {
         "artistID": loginTable.accountID,
-        "location": "string",
-        "startShootingDate": "string",
-        "endShootingDate": "string",
-        "title": "string",
-        "language": "string",
-        "startAge": "0",
-        "endAge": "0",
+        "location": searchLocationTEController.text,
+        "startShootingDate": searchShootingStartDateTEController.text.isEmpty?"":format.format(searchShootingStartDate),
+        "endShootingDate": searchShootingEndDateTEController.text.isEmpty?"":format.format(searchShootingEndDate),
+        "title": searchTitleTEController.text,
+        "language": searchLanguageTEController.text,
+        "startAge": searchStartAgeTEController.text.isEmpty?"0":searchStartAgeTEController.text,
+        "endAge": searchEndAgeTEController.text.isEmpty?"0":searchEndAgeTEController.text,
         "requirementDetailsID": "0",
         "fK_CompanyProfileID": "0"
       };
       var response = await ApiClient.postDataToken(
-          KalakarConstants.getRequirementsDetailsCompanyApi,
+          KalakarConstants.searchRequirementsDetailsArtistsApi,
           jsonEncode(fields),
           loginTable.token);
       if (response.statusCode == 200) {
+        CompanyRequirementListClass companyRequirementListClass =
+            CompanyRequirementListClass.fromJson(jsonDecode(response.body));
+          requirementDetailsSearchList =
+              companyRequirementListClass.objResponesRequirementDetailsList!;
       } else {}
+      isSearching=false;
+      update();
     }
   }
 
@@ -518,14 +541,15 @@ class RequirementController extends GetxController {
     if (loginTable != null) {
       isArtist = loginTable.accountType == KalakarConstants.artist;
       if (isArtist) {
-        getArtistHomeRequirementDetails(false);
         getArtistHomeRequirementDetails(true);
-        getUpcomingProjectsDetails();
         getAppliedForRequirementArtist();
-        getReviewDetails();
       } else {
         getRequirementDetailsCompany(0);
       }
+      getUpcomingProjectsDetails();
+      getReviewDetails();
+      getArtistHomeRequirementDetails(false);
+
     } else {}
     update();
   }
@@ -926,5 +950,14 @@ class RequirementController extends GetxController {
       AppliedArtistDetailsList appliedProfileDetail) {
     selectedArtistProfileData = appliedProfileDetail;
     Get.toNamed(RouteHelper.artistProfileViewPage);
+  }
+
+  void clearSearchFilters() {
+    searchLocationTEController.text="";
+    searchLanguageTEController.text="";
+    searchShootingStartDateTEController.text="";
+    searchShootingEndDateTEController.text="";
+    searchStartAgeTEController.text="";
+    searchEndAgeTEController.text="";
   }
 }

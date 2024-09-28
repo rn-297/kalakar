@@ -119,6 +119,11 @@ class KalakarConstants {
       "/SuperAdmin/GetApplicationReview";
   static const String getArtistHomeProjectDocumentsApi =
       "/SuperAdmin/GetSuperAdminCompanyProjects_Documents";
+  static const String getReferralCodeDetailsApi =
+      "/Account/GetReferralCodeDetailsForReferralCode";
+
+  static const String useReferralCodeApi =
+      "/Account/UseReferralCode";
 
 
   //Strings
@@ -226,6 +231,8 @@ class KalakarConstants {
   static const String startDate = "Start Date";
   static const String endDate = "End Date";
   static const String shootingLocation = "Shooting Location";
+  static const String searchShootingStartDate = "Search Shooting Start Date";
+  static const String searchShootingEndDate = "Search Shooting End Date";
   static const String defineRole = "Define Role";
   static const String specialSkillRequired = "Special Skill Required";
   static const String comfortableIn = "Comfortable In";

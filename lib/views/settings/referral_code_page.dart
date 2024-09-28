@@ -128,40 +128,94 @@ class ReferralCodePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.all(12.h),
-                decoration: BoxDecoration(
-                  color: KalakarColors.white,
-                  border: Border.all(color: KalakarColors.backgroundGrey),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: controller.referredBy.isNotEmpty
-                    ? Text("Referred By : ${controller.referredBy}")
-                    : Column(
-                        children: [
-                          CommonWidgets.commonMobileTextField(
-                              controller: controller.referralCodeTEController,
-                              labelText: "Use Referral Code",
-                              obscureText: false,
-                              passwordVisibility: false,
-                              togglePasswordVisibility: () {},
-                              textInputType: TextInputType.text,
-                              validator: Validator.validateReferralCode),
-                          SizedBox(
-                            height: 16.h,
-                          ),
-                          CustomMobileButtonWidget(
-                              text: "Get Details",
-                              onTap: () {
-                                // controller.saveChangesAppliedRequirementStatus(3);
-                              },
-                              horizontalPadding: 4.h,
-                              verticalPadding: 8.h,
-                              width: 100.w,
-                              fontSize: 16.sp,
-                              borderRadius: 40.r),
-                        ],
-                      ),
-              ),
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: controller.referredBy.isNotEmpty
+                      ? textSpanToShow(
+                          context,
+                      "Referred By : ", controller.referredBy)
+                      : Column(
+                          children: [
+                            CommonWidgets.commonMobileTextField(
+                                controller: controller.referralCodeTEController,
+                                labelText: "Use Referral Code",
+                                obscureText: false,
+                                passwordVisibility: false,
+                                togglePasswordVisibility: () {},
+                                textInputType: TextInputType.text,
+                                validator: Validator.validateReferralCode),
+                            SizedBox(
+                              height: 16.h,
+                            ),
+                            CustomMobileButtonWidget(
+                                text: "Get Details",
+                                onTap: () {
+                                  controller.getReferralDetail();
+                                },
+                                horizontalPadding: 4.h,
+                                verticalPadding: 8.h,
+                                width: 100.w,
+                                fontSize: 16.sp,
+                                borderRadius: 40.r),
+                            if (controller.detailsLoaded)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Divider(
+                                    color: KalakarColors.backgroundGrey,
+                                    height: 30,
+                                  ),
+                                  Text(
+                                    "Referral Code Details :",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 16.h,
+                                  ),
+                                  textSpanToShow(
+                                      context,
+                                      "Referral Code : ",
+                                      controller.referralDetails.referralCode
+                                          .toString()),
+                                  textSpanToShow(
+                                      context,
+                                      "First Name : ",
+                                      controller.referralDetails.fistName
+                                          .toString()),
+                                  textSpanToShow(
+                                      context,
+                                      "Last Name : ",
+                                      controller.referralDetails.lastName
+                                          .toString()),
+                                  textSpanToShow(
+                                      context,
+                                      "Artist Price : ",
+                                      controller.referralDetails.artistPrice
+                                          .toString()),
+                                  textSpanToShow(
+                                      context,
+                                      "Company Price : ",
+                                      controller.referralDetails.companyPrice
+                                          .toString()),
+                                  CustomMobileButtonWidget(
+                                      text: "Use Referral Code",
+                                      onTap: () {
+                                        controller.applyReferralCode();
+                                      },
+                                      horizontalPadding: 4.h,
+                                      verticalPadding: 8.h,
+                                      fontSize: 16.sp,
+                                      borderRadius: 40.r),
+                                ],
+                              )
+                          ],
+                        )),
               SizedBox(
                 height: 24.h,
               ),
@@ -173,7 +227,7 @@ class ReferralCodePage extends StatelessWidget {
                   border: Border.all(color: KalakarColors.backgroundGrey),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
-                child: textSpanToShow(
+                child: textSpanToShow1(
                     context, "Your Referral Code : ", controller.referralCode),
               ),
             ],
@@ -183,7 +237,7 @@ class ReferralCodePage extends StatelessWidget {
     });
   }
 
-  textSpanToShow(BuildContext context, String title, String titleData) {
+  textSpanToShow1(BuildContext context, String title, String titleData) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,10 +260,43 @@ class ReferralCodePage extends StatelessWidget {
         ),
         InkWell(
             onTap: () async {
-              await Clipboard.setData(ClipboardData(text: titleData,));
+              await Clipboard.setData(ClipboardData(
+                text: titleData,
+              ));
               // copied successfully
             },
-            child: Icon(Icons.copy,color: KalakarColors.headerText,))
+            child: Icon(
+              Icons.copy,
+              color: KalakarColors.headerText,
+            ))
+      ],
+    );
+  }
+
+  textSpanToShow(BuildContext context, String title, String titleData) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(
+                text: title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp),
+              ),
+              TextSpan(
+                text: titleData,
+                style:
+                    TextStyle(fontWeight: FontWeight.normal, fontSize: 13.sp),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
       ],
     );
   }

@@ -1,17 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/data/models/referral_details_class.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 
+import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
+import '../data/models/generate_otp_model.dart';
 
 class SettingsController extends GetxController {
   List<String> settingsList = [];
   String referralCode = "";
   String referredBy = "";
+  ReferralDetailsClass referralDetails = ReferralDetailsClass();
   TextEditingController referralCodeTEController = TextEditingController();
+  bool detailsLoaded = false;
 
   @override
   void onInit() {
@@ -40,7 +47,6 @@ class SettingsController extends GetxController {
       } else {
         settingsList = [
           KalakarConstants.myProfile,
-          KalakarConstants.myApplications,
           KalakarConstants.myFavourites,
           KalakarConstants.aboutUs,
           KalakarConstants.help,
@@ -82,5 +88,63 @@ class SettingsController extends GetxController {
 
   void logOutMessage() {
     KalakarDialogs.logOutDialog();
+  }
+
+  getReferralDetail() async {
+    KalakarDialogs.loadingDialog(
+        "Getting Referral Code Data", "Getting Referral Code Data");
+    final body = {
+      "referralCode": referralCodeTEController.text,
+    };
+    var response = await ApiClient.postData(
+      KalakarConstants.getReferralCodeDetailsApi,
+      jsonEncode(body),
+    );
+    // print(response.statusCode);
+    // print(response);
+
+    if (Get.isDialogOpen!) {
+      Get.back();
+    }
+    if (response.statusCode == 200) {
+      ReferralDetailsClass referralDetailsClass =
+          ReferralDetailsClass.fromJson(jsonDecode(response.body));
+      referralDetails = referralDetailsClass;
+        detailsLoaded = true;
+    }
+    update();
+  }
+
+  Future<void> applyReferralCode() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Applying Referral Code Data", "Applying Referral Code Data");
+      final body = {
+        "referralCode": referralCodeTEController.text,
+        "accountID": loginTable.accountID,
+      };
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.useReferralCodeApi,
+          jsonEncode(body),loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Applying Referral Code Data Success", responseModel.message!);
+          setSettingsList();
+        } else {
+          KalakarDialogs.successDialog(
+              "Applying Referral Code Data Failed", responseModel.message!);
+        }
+      }
+    }
   }
 }
