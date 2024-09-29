@@ -1023,7 +1023,7 @@ class RequirementController extends GetxController {
   void setUpcomingProjectViewData(ResponseCompanyProjects upcomingProject) {
     isDocumentsLoading = true;
 
-    getUpcomingProjectDocumentDetails(upcomingProject.projectStatusID!);
+    getUpcomingProjectDocumentDetails(upcomingProject.companyProjectID!.toString());
     Get.toNamed(RouteHelper.upcomingProjectViewPage);
   }
 
