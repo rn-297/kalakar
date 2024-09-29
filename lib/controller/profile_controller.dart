@@ -68,6 +68,7 @@ class ProfileController extends GetxController {
   String? selectedProjectStatus = null;
   List<FileData> projectDocuments = [FileData(path: "", type: "Add")];
   int startTime = 90;
+  int companyProfileID = 0;
 
   bool isNetworkCompanyLogo = true;
   bool isProfileLoading = false;
@@ -122,6 +123,7 @@ class ProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null &&
         loginTable.accountType == KalakarConstants.company) {
+      companyProfileID=loginTable.profileId;
       getProfileData();
       getStateData();
       getProjectStatusData();

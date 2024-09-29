@@ -131,6 +131,7 @@ class RequirementController extends GetxController {
   //integers
 
   int selectedRequirementId = 0;
+  int selectedAppliedRequirementId = 0;
 
   //objects
   RequirementDetailsData selectedRequirement = RequirementDetailsData();
@@ -410,7 +411,7 @@ class RequirementController extends GetxController {
           loginTable.token);
       if (response.statusCode == 200) {
         CompanySearchArtistClass searchArtistClass =
-        CompanySearchArtistClass.fromJson(jsonDecode(response.body));
+            CompanySearchArtistClass.fromJson(jsonDecode(response.body));
         searchedArtistProfileList =
             searchArtistClass.getArtistProfileModellist!;
       } else {}
@@ -479,8 +480,9 @@ class RequirementController extends GetxController {
           KalakarDialogs.successDialog1(
               "Applying Status for Opportunity Success",
               responseModel.message!);
-          getAppliedForRequirementCompany(
-              selectedArtistProfileData.requirementDetailsID!);
+          selectedAppliedRequirementId =
+              selectedArtistProfileData.requirementDetailsID!;
+          getAppliedForRequirementCompany();
         } else {
           KalakarDialogs.successDialog(
               "Applying Status for Opportunity Failed", responseModel.message!);
@@ -522,7 +524,7 @@ class RequirementController extends GetxController {
           getArtistRequirementInFavorites(0);
           getArtistHomeRequirementDetails(false);
           getArtistHomeRequirementDetails(true);
-          getAppliedForRequirementCompany(0);
+          getAppliedForRequirementCompany();
           getArtistRequirementInFavorites(0);
         } else {
           KalakarDialogs.successDialog(
@@ -622,7 +624,7 @@ class RequirementController extends GetxController {
           getArtistRequirementInFavorites(0);
           getArtistHomeRequirementDetails(false);
           getArtistHomeRequirementDetails(true);
-          getAppliedForRequirementCompany(0);
+          getAppliedForRequirementCompany();
           getArtistRequirementInFavorites(0);
         } else {
           KalakarDialogs.successDialog(
@@ -632,14 +634,14 @@ class RequirementController extends GetxController {
     }
   }
 
-  getAppliedForRequirementCompany(int requirementDetailsId) async {
+  getAppliedForRequirementCompany() async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       isAppliedProfileLoading = true;
       update();
       var fields = {
-        "requirementDetailsID": requirementDetailsId,
+        "requirementDetailsID": selectedAppliedRequirementId,
         "fK_AccountID": loginTable.accountID
       };
       var response = await ApiClient.postDataToken(
@@ -690,6 +692,8 @@ class RequirementController extends GetxController {
     if (loginTable != null) {
       isArtist = loginTable.accountType == KalakarConstants.artist;
       if (isArtist) {
+        getArtistHomeRequirementDetails(false);
+
         getArtistHomeRequirementDetails(true);
         getAppliedForRequirementArtist();
       } else {
@@ -697,7 +701,6 @@ class RequirementController extends GetxController {
       }
       getUpcomingProjectsDetails();
       getReviewDetails();
-      getArtistHomeRequirementDetails(false);
     } else {}
     update();
   }
@@ -1023,7 +1026,8 @@ class RequirementController extends GetxController {
   void setUpcomingProjectViewData(ResponseCompanyProjects upcomingProject) {
     isDocumentsLoading = true;
 
-    getUpcomingProjectDocumentDetails(upcomingProject.companyProjectID!.toString());
+    getUpcomingProjectDocumentDetails(
+        upcomingProject.companyProjectID!.toString());
     Get.toNamed(RouteHelper.upcomingProjectViewPage);
   }
 
@@ -1091,7 +1095,8 @@ class RequirementController extends GetxController {
   }
 
   void getAppliedData(int requirementDetails) {
-    getAppliedForRequirementCompany(requirementDetails);
+    selectedAppliedRequirementId = requirementDetails;
+    getAppliedForRequirementCompany();
     Get.toNamed(RouteHelper.appliedProfilesPage);
   }
 

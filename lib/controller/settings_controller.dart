@@ -51,7 +51,6 @@ class SettingsController extends GetxController {
       } else {
         settingsList = [
           KalakarConstants.myProfile,
-          KalakarConstants.myFavourites,
           KalakarConstants.aboutUs,
           KalakarConstants.help,
           KalakarConstants.privacyPolicy,

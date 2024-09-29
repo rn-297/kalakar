@@ -785,7 +785,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                                 ? KalakarConstants.rejected
                                 : KalakarConstants.reject,
                         onTap: () {
-                          controller.saveChangesAppliedRequirementStatus(2);
+                          controller.saveChangesAppliedRequirementStatus(3);
                         },
                         horizontalPadding: 4.h,
                         verticalPadding: 8.h,
@@ -811,7 +811,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                                 ? KalakarConstants.onHold
                                 : KalakarConstants.hold,
                         onTap: () {
-                          controller.saveChangesAppliedRequirementStatus(3);
+                          controller.saveChangesAppliedRequirementStatus(2);
                         },
                         backgroundColor: controller.selectedArtistProfileData
                                         .fKApplyStatusMasterID ==

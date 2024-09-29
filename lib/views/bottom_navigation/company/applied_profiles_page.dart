@@ -120,141 +120,81 @@ class AppliedProfilesPage extends StatelessWidget {
 
   notificationsMobileView() {
     return GetBuilder<RequirementController>(builder: (controller) {
-      return SingleChildScrollView(
-        child: Padding(
-          padding:  EdgeInsets.all(16.h),
-          child: Column(
-            children: [
-              controller.isAppliedProfileLoading
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 5,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 8.h),
-                          padding: EdgeInsets.all(8.h),
-                          // width: Get.size.width / 2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: KalakarColors.white,
-                            border:
-                                Border.all(color: KalakarColors.backgroundGrey),
-                          ),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(50.r),
-                                child: Shimmer.fromColors(
-                                  baseColor: KalakarColors.blue10,
-                                  highlightColor: KalakarColors.blue20,
-                                  child: Container(
-                                    height: 40.h,
-                                    width: 40.h,
-                                    color: KalakarColors.white,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.h),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Shimmer.fromColors(
-                                        baseColor: KalakarColors.blue10,
-                                        highlightColor: KalakarColors.blue20,
-                                        child: Container(
-                                          height: 20.h,
-                                          width: 80.h,
-                                          color: KalakarColors.white,
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor: KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 20.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 16.w,
-                                          ),
-                                          SizedBox(
-                                            height: 20.h,
-                                            width: 150.w,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      })
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.companyAppliedRequirementDetailsList.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        AppliedArtistDetailsList appliedProfileDetail =
-                            controller.companyAppliedRequirementDetailsList[index];
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 8.h),
-                          padding: EdgeInsets.all(8.h),
-                          // width: Get.size.width / 2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: KalakarColors.white,
-                            border:
-                                Border.all(color: KalakarColors.backgroundGrey),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              controller.setArtistProfileDataToView(appliedProfileDetail);
-                            },
+      return RefreshIndicator(
+        onRefresh: ()async{
+          controller.getAppliedForRequirementCompany();
+        },
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding:  EdgeInsets.all(16.h),
+            child: Column(
+              children: [
+                controller.isAppliedProfileLoading
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 5,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 8.h),
+                            padding: EdgeInsets.all(8.h),
+                            // width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: KalakarColors.white,
+                              border:
+                                  Border.all(color: KalakarColors.backgroundGrey),
+                            ),
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(50.r),
-                                  child: Image.network(
-                                    appliedProfileDetail.profilePic!,
-                                    fit: BoxFit.cover,
-                                    height: 50.h,
-                                    errorBuilder: (BuildContext context,
-                                        Object error, StackTrace? stackTrace) {
-                                      // Return a dummy or placeholder image when an error occurs
-                                      return Image.asset(
-                                        "assets/images/app_logo2.PNG.png",
-                                        height: 50.h,
-                                        width: 50.h,
-                                      );
-                                    },
-                                    width: 50.h,
+                                  child: Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 40.h,
+                                      width: 40.h,
+                                      color: KalakarColors.white,
+                                    ),
                                   ),
                                 ),
                                 Expanded(
                                   flex: 3,
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.h),
+                                    padding: EdgeInsets.symmetric(horizontal: 8.h),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("${appliedProfileDetail.firstName!} ${appliedProfileDetail.middleName!} "),
-                                        Text(appliedProfileDetail.experiences!
-                                            .toString()),
-                                        SizedBox(
-                                          width: 16.w,
+                                        Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 80.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Shimmer.fromColors(
+                                              baseColor: KalakarColors.blue10,
+                                              highlightColor: KalakarColors.blue20,
+                                              child: Container(
+                                                height: 20.h,
+                                                width: 20.h,
+                                                color: KalakarColors.white,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 16.w,
+                                            ),
+                                            SizedBox(
+                                              height: 20.h,
+                                              width: 150.w,
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -262,10 +202,76 @@ class AppliedProfilesPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        );
-                      }),
-            ],
+                          );
+                        })
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.companyAppliedRequirementDetailsList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          AppliedArtistDetailsList appliedProfileDetail =
+                              controller.companyAppliedRequirementDetailsList[index];
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 8.h),
+                            padding: EdgeInsets.all(8.h),
+                            // width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: KalakarColors.white,
+                              border:
+                                  Border.all(color: KalakarColors.backgroundGrey),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                controller.setArtistProfileDataToView(appliedProfileDetail);
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.r),
+                                    child: Image.network(
+                                      appliedProfileDetail.profilePic!,
+                                      fit: BoxFit.cover,
+                                      height: 50.h,
+                                      errorBuilder: (BuildContext context,
+                                          Object error, StackTrace? stackTrace) {
+                                        // Return a dummy or placeholder image when an error occurs
+                                        return Image.asset(
+                                          "assets/images/app_logo2.PNG.png",
+                                          height: 50.h,
+                                          width: 50.h,
+                                        );
+                                      },
+                                      width: 50.h,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.h),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("${appliedProfileDetail.firstName!} ${appliedProfileDetail.middleName!} "),
+                                          Text(appliedProfileDetail.experiences!
+                                              .toString()),
+                                          SizedBox(
+                                            width: 16.w,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+              ],
+            ),
           ),
         ),
       );
