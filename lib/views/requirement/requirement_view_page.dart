@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -156,23 +157,49 @@ class RequirementViewPage extends StatelessWidget {
                 SizedBox(
                   height: 8.h,
                 ),
-                ClipOval(
-                  // Image radius
-                  child: Image.network(
-                    requirement.refPhotoName!,
-                    fit: BoxFit.cover,
-                    height: 80.h,
-                    width: 80.h,
-                    errorBuilder: (BuildContext context, Object error,
-                        StackTrace? stackTrace) {
-                      // Return a dummy or placeholder image when an error occurs
-                      return Image.asset(
-                        "assets/images/app_bar_logo.png",
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ClipOval(
+                      // Image radius
+                      child: Image.network(
+                        requirement.refPhotoName!,
+                        fit: BoxFit.cover,
                         height: 80.h,
                         width: 80.h,
-                      );
-                    },
-                  ),
+                        errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          // Return a dummy or placeholder image when an error occurs
+                          return Image.asset(
+                            "assets/images/app_bar_logo.png",
+                            height: 80.h,
+                            width: 80.h,
+                          );
+                        },
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          if (requirement.artistFavoritesRequirementTransID ==
+                              0) {
+                            controller.addRequirementInFavorites(
+                                requirement.requirementDetailsID!, true);
+                          } else {
+                            controller.removeFromFavourites(
+                                requirement.artistFavoritesRequirementTransID!, true);
+                          }
+                        },
+                        child: Icon(
+                          requirement.artistFavoritesRequirementTransID == 0
+                              ? CupertinoIcons.suit_heart
+                              : CupertinoIcons.heart_fill,
+                          color:
+                              requirement.artistFavoritesRequirementTransID == 0
+                                  ? Colors.black
+                                  : Colors.red,
+                        ))
+                  ],
                 ),
                 SizedBox(
                   height: 8.h,
@@ -186,10 +213,8 @@ class RequirementViewPage extends StatelessWidget {
                   height: 16.h,
                 ),
                 Container(
-
                   padding: EdgeInsets.all(12.h),
                   width: double.infinity,
-
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
@@ -204,7 +229,6 @@ class RequirementViewPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12.h),
                   width: double.infinity,
-
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
@@ -234,7 +258,6 @@ class RequirementViewPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12.h),
                   width: double.infinity,
-
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
@@ -259,7 +282,6 @@ class RequirementViewPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12.h),
                   width: double.infinity,
-
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
@@ -316,26 +338,23 @@ class RequirementViewPage extends StatelessWidget {
                 Container(
                     padding: EdgeInsets.all(12.h),
                     width: double.infinity,
-
                     decoration: BoxDecoration(
                       color: KalakarColors.white,
                       border: Border.all(color: KalakarColors.backgroundGrey),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Column(
-
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
-                      textSpanToShow(context, "Special Skills Required  : ",
-                          requirement.specialSkillRequired!),
-                      textSpanToShow(context, "Comfortable In : ",
-                          requirement.comfortableIn!),
-                      textSpanToShow(context, "Script For Audition : ",
-                          requirement.scriptForAuditions!),
-                      textSpanToShow(context, "Requirement End Date : ",
-                          formatter.format(requirementEndDate)),
-                    ])),
+                          textSpanToShow(context, "Special Skills Required  : ",
+                              requirement.specialSkillRequired!),
+                          textSpanToShow(context, "Comfortable In : ",
+                              requirement.comfortableIn!),
+                          textSpanToShow(context, "Script For Audition : ",
+                              requirement.scriptForAuditions!),
+                          textSpanToShow(context, "Requirement End Date : ",
+                              formatter.format(requirementEndDate)),
+                        ])),
                 SizedBox(
                   height: 24.h,
                 ),
@@ -403,13 +422,20 @@ class RequirementViewPage extends StatelessWidget {
                 ),
                 if (!controller.showStatus)
                   CustomMobileButtonWidget(
-                      text: "Apply",
+                      text: requirement.artistAppliedForRequirementTransID == 0
+                          ? "Apply"
+                          : "Applied",
                       onTap: () {
-                        controller.saveAppliedToRequirement(
-                            requirement.requirementDetailsID!);
+                        if (requirement.artistAppliedForRequirementTransID == 0)
+                          controller.saveAppliedToRequirement(
+                              requirement.requirementDetailsID!);
                       },
                       horizontalPadding: 16.h,
                       verticalPadding: 8.h,
+                      backgroundColor:
+                          requirement.artistAppliedForRequirementTransID == 0
+                              ? KalakarColors.appBarBackground
+                              : KalakarColors.backgroundGrey,
                       fontSize: 16.sp,
                       borderRadius: 40.r),
               ],
@@ -417,8 +443,7 @@ class RequirementViewPage extends StatelessWidget {
           ),
         );
       } else {
-        ObjResponesRequirementDetailsList requirement =
-            controller.selectedRequirement;
+        RequirementDetailsData requirement = controller.selectedRequirement;
         DateTime shootingStartDate =
             DateTime.parse(requirement.shootingStartDate.toString());
 
@@ -440,23 +465,49 @@ class RequirementViewPage extends StatelessWidget {
                 SizedBox(
                   height: 8.h,
                 ),
-                ClipOval(
-                  // Image radius
-                  child: Image.network(
-                    requirement.refPhotoName!,
-                    fit: BoxFit.cover,
-                    height: 80.h,
-                    width: 80.h,
-                    errorBuilder: (BuildContext context, Object error,
-                        StackTrace? stackTrace) {
-                      // Return a dummy or placeholder image when an error occurs
-                      return Image.asset(
-                        "assets/images/app_bar_logo.png",
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ClipOval(
+                      // Image radius
+                      child: Image.network(
+                        requirement.refPhotoName!,
+                        fit: BoxFit.cover,
                         height: 80.h,
                         width: 80.h,
-                      );
-                    },
-                  ),
+                        errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          // Return a dummy or placeholder image when an error occurs
+                          return Image.asset(
+                            "assets/images/app_bar_logo.png",
+                            height: 80.h,
+                            width: 80.h,
+                          );
+                        },
+                      ),
+                    ),
+                    controller.isArtist?InkWell(
+                        onTap: () {
+                          if (requirement.artistFavoritesRequirementTransID ==
+                              0) {
+                            controller.addRequirementInFavorites(
+                                requirement.requirementDetailsID!, true);
+                          } else {
+                            controller.removeFromFavourites(
+                                requirement.artistFavoritesRequirementTransID!, true);
+                          }
+                        },
+                        child: Icon(
+                          requirement.artistFavoritesRequirementTransID == 0
+                              ? CupertinoIcons.suit_heart
+                              : CupertinoIcons.heart_fill,
+                          color:
+                              requirement.artistFavoritesRequirementTransID == 0
+                                  ? Colors.black
+                                  : Colors.red,
+                        )):Container()
+                  ],
                 ),
                 SizedBox(
                   height: 8.h,
@@ -469,10 +520,24 @@ class RequirementViewPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
+                Column(children: [
+                  Container(
+                    padding: EdgeInsets.all(12.h),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: KalakarColors.white,
+                      border: Border.all(color: KalakarColors.backgroundGrey),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: textSpanToShow(context, "Application Status : ",
+                        requirement.applyStatus.toString()),
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),],),
                 Container(
                   padding: EdgeInsets.all(12.h),
                   width: double.infinity,
-
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
@@ -581,7 +646,6 @@ class RequirementViewPage extends StatelessWidget {
                 Container(
                     padding: EdgeInsets.all(12.h),
                     width: double.infinity,
-
                     decoration: BoxDecoration(
                       color: KalakarColors.white,
                       border: Border.all(color: KalakarColors.backgroundGrey),
@@ -590,15 +654,15 @@ class RequirementViewPage extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                      textSpanToShow(context, "Special Skills Required  : ",
-                          requirement.specialSkillRequired!),
-                      textSpanToShow(context, "Comfortable In : ",
-                          requirement.comfortableIn!),
-                      textSpanToShow(context, "Script For Audition : ",
-                          requirement.scriptForAuditions!),
-                      textSpanToShow(context, "Requirement End Date : ",
-                          formatter.format(requirementEndDate)),
-                    ])),
+                          textSpanToShow(context, "Special Skills Required  : ",
+                              requirement.specialSkillRequired!),
+                          textSpanToShow(context, "Comfortable In : ",
+                              requirement.comfortableIn!),
+                          textSpanToShow(context, "Script For Audition : ",
+                              requirement.scriptForAuditions!),
+                          textSpanToShow(context, "Requirement End Date : ",
+                              formatter.format(requirementEndDate)),
+                        ])),
                 SizedBox(
                   height: 24.h,
                 ),
@@ -666,13 +730,20 @@ class RequirementViewPage extends StatelessWidget {
                 ),
                 if (!controller.showStatus && controller.isArtist)
                   CustomMobileButtonWidget(
-                      text: KalakarConstants.apply,
+                      text: requirement.artistAppliedForRequirementTransID == 0
+                          ? KalakarConstants.apply
+                          : KalakarConstants.applied,
                       onTap: () {
-                        controller.saveAppliedToRequirement(
-                            requirement.requirementDetailsID!);
+                        if (requirement.artistAppliedForRequirementTransID == 0)
+                          controller.saveAppliedToRequirement(
+                              requirement.requirementDetailsID!);
                       },
                       horizontalPadding: 16.h,
                       verticalPadding: 8.h,
+                      backgroundColor:
+                          requirement.artistAppliedForRequirementTransID == 0
+                              ? KalakarColors.appBarBackground
+                              : KalakarColors.backgroundGrey,
                       fontSize: 16.sp,
                       borderRadius: 40.r),
                 if (!controller.isArtist)

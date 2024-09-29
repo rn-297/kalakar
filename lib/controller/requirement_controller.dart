@@ -9,6 +9,7 @@ import 'package:kalakar/data/models/artist/applied_requirement_list_class.dart';
 import 'package:kalakar/data/models/artist/review_details_class.dart';
 import 'package:kalakar/data/models/artist/upcoming_company_projects.dart';
 import 'package:kalakar/data/models/artist_master_data.dart';
+import 'package:kalakar/data/models/company/artist_search_for_company_class.dart';
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -68,6 +69,11 @@ class RequirementController extends GetxController {
   TextEditingController searchLanguageTEController = TextEditingController();
   TextEditingController searchStartAgeTEController = TextEditingController();
   TextEditingController searchEndAgeTEController = TextEditingController();
+  TextEditingController searchProfileTEController = TextEditingController();
+  TextEditingController searchApplyForTEController = TextEditingController();
+  TextEditingController searchMobileNumberTEController =
+      TextEditingController();
+  TextEditingController searchEmailTEController = TextEditingController();
 
   //strings
   String requirementId = "0";
@@ -87,9 +93,10 @@ class RequirementController extends GetxController {
   DateTime requirementEndDate = DateTime.now();
 
   //lists
-  List<ObjResponesRequirementDetailsList> newRequirementDetailsList = [];
-  List<ObjResponesRequirementDetailsList> requirementDetailsList = [];
-  List<ObjResponesRequirementDetailsList> requirementDetailsSearchList = [];
+  List<RequirementDetailsData> newRequirementDetailsList = [];
+  List<RequirementDetailsData> requirementDetailsList = [];
+  List<RequirementDetailsData> requirementDetailsSearchList = [];
+  List<RequirementDetailsData> artistRequirementsFavouritesList = [];
   List<ArtistAppliedRequirementDetailsList>
       artistAppliedRequirementDetailsList = [];
   List<AppliedArtistDetailsList> companyAppliedRequirementDetailsList = [];
@@ -116,6 +123,7 @@ class RequirementController extends GetxController {
   List<BodyTypeMasterList> bodyTypeMasterList = [];
   List<EyeColorMasterList> eyeColorMasterList = [];
   List<RequirementStatusMasterList> requirementStatusMasterList = [];
+  List<GetArtistProfileModellist> searchedArtistProfileList = [];
   List<AgeRangeMasterList> ageRangeMasterList = [];
   List<HeighRangeMasterList> heightRangeMasterList = [];
   List<WeightRangeMasterList> weightRangeMasterList = [];
@@ -125,13 +133,15 @@ class RequirementController extends GetxController {
   int selectedRequirementId = 0;
 
   //objects
-  ObjResponesRequirementDetailsList selectedRequirement =
-      ObjResponesRequirementDetailsList();
+  RequirementDetailsData selectedRequirement = RequirementDetailsData();
   ArtistAppliedRequirementDetailsList selectedAppliedRequirement =
       ArtistAppliedRequirementDetailsList();
 
   AppliedArtistDetailsList selectedArtistProfileData =
       AppliedArtistDetailsList();
+
+  GetArtistProfileModellist selectedSearchedArtistProfileData =
+      GetArtistProfileModellist();
   ProjectDetailAndDocuments upcomingCompanyProject =
       ProjectDetailAndDocuments();
   GetApplicationReviewList selectedReviewData = GetApplicationReviewList();
@@ -144,9 +154,12 @@ class RequirementController extends GetxController {
   bool isArtistHomeUpcomingProjectsLoading = false;
   bool isArtistHomeReviewsLoading = false;
   bool isAppliedProfileLoading = false;
+  bool isArtistAppliedRequirementsLoading = false;
+  bool isArtistRequirementsInFavouritesLoading = false;
   bool isDocumentsLoading = false;
   bool showStatus = false;
   bool isSearching = false;
+  bool isSearchedArtist = false;
 
   setDate(String type, DateTime date) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -340,18 +353,26 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      isSearching=true;
+      isSearching = true;
       update();
       final DateFormat format = DateFormat('yyyy-MM-dd');
       var fields = {
         "artistID": loginTable.accountID,
         "location": searchLocationTEController.text,
-        "startShootingDate": searchShootingStartDateTEController.text.isEmpty?"":format.format(searchShootingStartDate),
-        "endShootingDate": searchShootingEndDateTEController.text.isEmpty?"":format.format(searchShootingEndDate),
+        "startShootingDate": searchShootingStartDateTEController.text.isEmpty
+            ? ""
+            : format.format(searchShootingStartDate),
+        "endShootingDate": searchShootingEndDateTEController.text.isEmpty
+            ? ""
+            : format.format(searchShootingEndDate),
         "title": searchTitleTEController.text,
         "language": searchLanguageTEController.text,
-        "startAge": searchStartAgeTEController.text.isEmpty?"0":searchStartAgeTEController.text,
-        "endAge": searchEndAgeTEController.text.isEmpty?"0":searchEndAgeTEController.text,
+        "startAge": searchStartAgeTEController.text.isEmpty
+            ? "0"
+            : searchStartAgeTEController.text,
+        "endAge": searchEndAgeTEController.text.isEmpty
+            ? "0"
+            : searchEndAgeTEController.text,
         "requirementDetailsID": "0",
         "fK_CompanyProfileID": "0"
       };
@@ -362,10 +383,38 @@ class RequirementController extends GetxController {
       if (response.statusCode == 200) {
         CompanyRequirementListClass companyRequirementListClass =
             CompanyRequirementListClass.fromJson(jsonDecode(response.body));
-          requirementDetailsSearchList =
-              companyRequirementListClass.objResponesRequirementDetailsList!;
+        requirementDetailsSearchList =
+            companyRequirementListClass.objResponesRequirementDetailsList!;
       } else {}
-      isSearching=false;
+      isSearching = false;
+      update();
+    }
+  }
+
+  searchArtistDetailsCompany() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      isSearching = true;
+      update();
+      var fields = {
+        "fK_AccountID": loginTable.accountID,
+        "applyFor": searchApplyForTEController.text,
+        "profile": searchProfileTEController.text,
+        "mobileNumber": searchMobileNumberTEController.text,
+        "email": searchEmailTEController.text,
+      };
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.searchArtistForCompanyApi,
+          jsonEncode(fields),
+          loginTable.token);
+      if (response.statusCode == 200) {
+        CompanySearchArtistClass searchArtistClass =
+        CompanySearchArtistClass.fromJson(jsonDecode(response.body));
+        searchedArtistProfileList =
+            searchArtistClass.getArtistProfileModellist!;
+      } else {}
+      isSearching = false;
       update();
     }
   }
@@ -440,21 +489,74 @@ class RequirementController extends GetxController {
     }
   }
 
-  addRequirementInFavorites() async {
+  addRequirementInFavorites(int requirementId, bool doubleBack) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Adding To Favourites", "Adding To Favourites");
       var fields = {
         "artistFavoritesRequirementTransID": 0,
-        "fK_RequirementDetailsID": 0,
-        "fK_AccountID": 0
+        "fK_RequirementDetailsID": requirementId,
+        "fK_AccountID": loginTable.accountID
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.addRequirementInFavoritesApi,
           jsonEncode(fields),
           loginTable.token);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
       if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          if (doubleBack) {
+            KalakarDialogs.successDialog1(
+                "Adding To Favourites Success", responseModel.message!);
+          } else {
+            KalakarDialogs.successDialog(
+                "Adding To Favourites Success", responseModel.message!);
+          }
+
+          getArtistRequirementInFavorites(0);
+          getArtistHomeRequirementDetails(false);
+          getArtistHomeRequirementDetails(true);
+          getAppliedForRequirementCompany(0);
+          getArtistRequirementInFavorites(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Adding To Favourites Failed", responseModel.message!);
+        }
       } else {}
+    }
+  }
+
+  getArtistRequirementInFavorites(int requirementId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      isArtistRequirementsInFavouritesLoading = true;
+      update();
+      var fields = {
+        "fK_RequirementDetailsID": requirementId,
+        "fK_AccountID": loginTable.accountID
+      };
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getArtistFavouritesRequirementsApi,
+          jsonEncode(fields),
+          loginTable.token);
+
+      if (response.statusCode == 200) {
+        CompanyRequirementListClass companyRequirementListClass =
+            CompanyRequirementListClass.fromJson(jsonDecode(response.body));
+        if (companyRequirementListClass.replayStatus ?? false) {
+          artistRequirementsFavouritesList =
+              companyRequirementListClass.objResponesRequirementDetailsList!;
+        }
+      } else {}
+      isArtistRequirementsInFavouritesLoading = false;
+      update();
     }
   }
 
@@ -462,6 +564,8 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      isArtistAppliedRequirementsLoading = true;
+      update();
       var fields = {
         "requirementDetailsID": 0,
         "fK_AccountID": loginTable.accountID
@@ -478,8 +582,53 @@ class RequirementController extends GetxController {
           artistAppliedRequirementDetailsList =
               companyRequirementListClass.objResponesRequirementDetailsList!;
         }
-        update();
       } else {}
+      isArtistAppliedRequirementsLoading = false;
+
+      update();
+    }
+  }
+
+  Future<void> removeFromFavourites(int id, bool doubleBack) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Removing From Favourites Data", "Removing From Favourites Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = id.toString();
+
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteFromFavouritesDataApi, body, loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          if (doubleBack) {
+            KalakarDialogs.successDialog1(
+                "Removing From Favourites Success", responseModel.message!);
+          } else {
+            KalakarDialogs.successDialog(
+                "Removing From Favourites Success", responseModel.message!);
+          }
+
+          getArtistRequirementInFavorites(0);
+          getArtistHomeRequirementDetails(false);
+          getArtistHomeRequirementDetails(true);
+          getAppliedForRequirementCompany(0);
+          getArtistRequirementInFavorites(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Removing From Favourites Failed", responseModel.message!);
+        }
+      }
     }
   }
 
@@ -549,13 +698,11 @@ class RequirementController extends GetxController {
       getUpcomingProjectsDetails();
       getReviewDetails();
       getArtistHomeRequirementDetails(false);
-
     } else {}
     update();
   }
 
-  checkArtistAndSetData(
-      ObjResponesRequirementDetailsList requirementData) async {
+  checkArtistAndSetData(RequirementDetailsData requirementData) async {
     // LoginTable? loginTable = await HiveService.getLoginData();
     print(requirementData.companyNameProductionhouse);
 
@@ -565,8 +712,7 @@ class RequirementController extends GetxController {
     // setOpportunityData(requirementData);}
   }
 
-  void setOpportunityData(
-      ObjResponesRequirementDetailsList requirementData) async {
+  void setOpportunityData(RequirementDetailsData requirementData) async {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     selectedRequirementId = requirementData.requirementDetailsID!;
     requirementPhoto = requirementData.refPhotoName ?? "";
@@ -765,6 +911,7 @@ class RequirementController extends GetxController {
       } else {
         isArtistHomeRequirementsLoading = true;
       }
+      update();
       var body = {"fK_AccountID": loginTable.accountID, "isAll": iSAll};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeRequirementsApi,
@@ -798,6 +945,7 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       isArtistHomeUpcomingProjectsLoading = true;
+      update();
       var body = {"superAdminProjectID": "0", "fK_AccountID": "0"};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeUpcomingProjectsApi,
@@ -822,6 +970,7 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       isArtistHomeReviewsLoading = true;
+      update();
       var body = {"applicationReviewID": "0", "fK_AccountID": "0"};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeReviewApi,
@@ -865,7 +1014,7 @@ class RequirementController extends GetxController {
   }
 
   void setRequirementViewData(
-      ObjResponesRequirementDetailsList requirement, bool showStatus) {
+      RequirementDetailsData requirement, bool showStatus) {
     selectedRequirement = requirement;
     this.showStatus = showStatus;
     Get.toNamed(RouteHelper.requirementViewPage);
@@ -948,16 +1097,25 @@ class RequirementController extends GetxController {
 
   void setArtistProfileDataToView(
       AppliedArtistDetailsList appliedProfileDetail) {
+    isSearchedArtist = false;
     selectedArtistProfileData = appliedProfileDetail;
     Get.toNamed(RouteHelper.artistProfileViewPage);
   }
 
   void clearSearchFilters() {
-    searchLocationTEController.text="";
-    searchLanguageTEController.text="";
-    searchShootingStartDateTEController.text="";
-    searchShootingEndDateTEController.text="";
-    searchStartAgeTEController.text="";
-    searchEndAgeTEController.text="";
+    searchLocationTEController.text = "";
+    searchLanguageTEController.text = "";
+    searchShootingStartDateTEController.text = "";
+    searchShootingEndDateTEController.text = "";
+    searchStartAgeTEController.text = "";
+    searchEndAgeTEController.text = "";
+  }
+
+  void setArtistProfileDataToView1(
+      GetArtistProfileModellist appliedProfileDetail) {
+    isSearchedArtist = true;
+    selectedSearchedArtistProfileData = appliedProfileDetail;
+
+    Get.toNamed(RouteHelper.artistProfileViewPage);
   }
 }

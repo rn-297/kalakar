@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../controller/settings_controller.dart';
 import '../../helper/kalakar_colors.dart';
 import '../../utils/kalakar_constants.dart';
 
@@ -114,7 +116,40 @@ class AboutUsPage extends StatelessWidget {
     );
   }
 
-  aboutUsMobileView() {return Column(children: [Text("This is About Us page")],);}
+  aboutUsMobileView() {return SingleChildScrollView(
+    child: GetBuilder<SettingsController>(builder: (controller) {
+      return Padding(
+        padding:  EdgeInsets.all(32.h),
+        child: Column(
+          children: [
+            controller.settingsData.aboutUS!=null?Text(controller.settingsData.aboutUS!):Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 32.h,),
+                  Text("Unable To Get Help Details"),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.getSettingsData();
+                    },
+                    child: Column(
+                      children: [
+                        Icon(Icons.refresh),
+                        Text("Refresh"),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }),
+  );}
 
   aboutUsWebView(BuildContext context) {}
 }

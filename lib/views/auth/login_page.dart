@@ -87,7 +87,7 @@ class AuthPage extends StatelessWidget {
                   unselectedLabelStyle: TextStyle(
                       color: KalakarColors.textColor, fontSize: 16.sp),
                   labelPadding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorColor: KalakarColors.selectedBorder,
                   tabs: [

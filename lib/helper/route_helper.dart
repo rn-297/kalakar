@@ -12,13 +12,16 @@ import 'package:kalakar/views/bottom_navigation/artist/artist_interest_form_page
 import 'package:kalakar/views/bottom_navigation/artist/artist_portfolio_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_profile_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_search_requirement_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/favourites_requirements_page.dart';
 import 'package:kalakar/views/bottom_navigation/bottom_navigator.dart';
 import 'package:kalakar/views/bottom_navigation/company/all_projects_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/applied_profiles_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/artist_profile_view_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_profile_form.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_more_info.dart';
+import 'package:kalakar/views/bottom_navigation/company/company_search_artist_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/new_project_form.dart';
+import 'package:kalakar/views/bottom_navigation/upcoming_project_list_all_page.dart';
 import 'package:kalakar/views/requirement/requirement_form.dart';
 import 'package:kalakar/views/requirement/requirement_view_page.dart';
 import 'package:kalakar/views/requirement/review_view_page.dart';
@@ -59,16 +62,19 @@ class RouteHelper {
   static const String helpPage = '/kalakar_help';
   static const String privacyPolicyPage = '/kalakar_privacy_policy';
   static const String myApplicationsPage = '/kalakar_my_applications';
+  static const String myFavouritesPage = '/kalakar_my_favourites';
   static const String termsAndConditionsPage = '/kalakar_terms_and_conditions';
   static const String referralCodePage = '/kalakar_referral_code';
   static const String notificationPage = '/kalakar_notification_page';
   static const String requirementViewPage = '/kalakar_requirement_view';
   static const String applyForFormPage = '/kalakar_apply_for_form';
   static const String upcomingProjectViewPage = '/kalakar_upcoming_project_view';
+  static const String upcomingProjectListAllPage = '/kalakar_upcoming_project_list_all';
   static const String reviewViewPage = '/kalakar_review_view';
   static const String appliedProfilesPage = '/kalakar_applied_profiles';
   static const String artistProfileViewPage = '/kalakar_artist_profile_view';
   static const String artistSearchRequirementPage = '/kalakar_artist_search_requirement';
+  static const String companySearchArtistPage = '/kalakar_company_search_artist';
 
   static List<GetPage> routes = [
     GetPage(
@@ -200,6 +206,18 @@ class RouteHelper {
     GetPage(
       name: RouteHelper.artistSearchRequirementPage,
       page: () => ArtistSearchRequirementPage(),
+    ),
+    GetPage(
+      name: RouteHelper.companySearchArtistPage,
+      page: () => CompanySearchArtistPage(),
+    ),
+    GetPage(
+      name: RouteHelper.myFavouritesPage,
+      page: () => FavouritesRequirementsPage(),
+    ),
+    GetPage(
+      name: RouteHelper.upcomingProjectListAllPage,
+      page: () => UpcomingProjectListAllPage(),
     ),
   ];
 }

@@ -1,6 +1,5 @@
-
 class CompanyRequirementListClass {
-  List<ObjResponesRequirementDetailsList>? objResponesRequirementDetailsList;
+  List<RequirementDetailsData>? objResponesRequirementDetailsList;
   bool? replayStatus;
   String? message;
 
@@ -11,10 +10,10 @@ class CompanyRequirementListClass {
 
   CompanyRequirementListClass.fromJson(Map<String, dynamic> json) {
     if (json['objResponesRequirementDetailsList'] != null) {
-      objResponesRequirementDetailsList = <ObjResponesRequirementDetailsList>[];
+      objResponesRequirementDetailsList = <RequirementDetailsData>[];
       json['objResponesRequirementDetailsList'].forEach((v) {
         objResponesRequirementDetailsList!
-            .add(new ObjResponesRequirementDetailsList.fromJson(v));
+            .add(new RequirementDetailsData.fromJson(v));
       });
     }
     replayStatus = json['replayStatus'];
@@ -35,9 +34,13 @@ class CompanyRequirementListClass {
   }
 }
 
-class ObjResponesRequirementDetailsList {
+class RequirementDetailsData {
   String? userID;
   int? requirementDetailsID;
+  int? fKApplyStatusMasterID;
+  String? applyStatus;
+  int? artistAppliedForRequirementTransID;
+  int? artistFavoritesRequirementTransID;
   int? fKAccountID;
   int? fKCompanyProfileID;
   int? fKRequirementStatusMasterID;
@@ -74,9 +77,13 @@ class ObjResponesRequirementDetailsList {
   String? companyNameProductionhouse;
   String? companyLogo;
 
-  ObjResponesRequirementDetailsList(
+  RequirementDetailsData(
       {this.userID,
         this.requirementDetailsID,
+        this.fKApplyStatusMasterID,
+        this.applyStatus,
+        this.artistAppliedForRequirementTransID,
+        this.artistFavoritesRequirementTransID,
         this.fKAccountID,
         this.fKCompanyProfileID,
         this.fKRequirementStatusMasterID,
@@ -113,9 +120,15 @@ class ObjResponesRequirementDetailsList {
         this.companyNameProductionhouse,
         this.companyLogo});
 
-  ObjResponesRequirementDetailsList.fromJson(Map<String, dynamic> json) {
+  RequirementDetailsData.fromJson(Map<String, dynamic> json) {
     userID = json['userID'];
     requirementDetailsID = json['requirementDetailsID'];
+    fKApplyStatusMasterID = json['fK_ApplyStatusMasterID'];
+    applyStatus = json['applyStatus'];
+    artistAppliedForRequirementTransID =
+    json['artistAppliedForRequirementTransID'];
+    artistFavoritesRequirementTransID =
+    json['artistFavoritesRequirementTransID'];
     fKAccountID = json['fK_AccountID'];
     fKCompanyProfileID = json['fK_CompanyProfileID'];
     fKRequirementStatusMasterID = json['fK_RequirementStatusMasterID'];
@@ -157,6 +170,12 @@ class ObjResponesRequirementDetailsList {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['userID'] = this.userID;
     data['requirementDetailsID'] = this.requirementDetailsID;
+    data['fK_ApplyStatusMasterID'] = this.fKApplyStatusMasterID;
+    data['applyStatus'] = this.applyStatus;
+    data['artistAppliedForRequirementTransID'] =
+        this.artistAppliedForRequirementTransID;
+    data['artistFavoritesRequirementTransID'] =
+        this.artistFavoritesRequirementTransID;
     data['fK_AccountID'] = this.fKAccountID;
     data['fK_CompanyProfileID'] = this.fKCompanyProfileID;
     data['fK_RequirementStatusMasterID'] = this.fKRequirementStatusMasterID;

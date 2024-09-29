@@ -138,7 +138,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                       child: ClipOval(
                         // Image radius
                         child: Image.network(
-                          upcomingProject.projectCoverDoc!,
+                          upcomingProject.projectCoverDoc??"",
                           fit: BoxFit.cover,
                           height: 120.h,
                           width: 120.h,
@@ -186,7 +186,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                         border: Border.all(color: KalakarColors.backgroundGrey),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: ListView.builder(
+                      child: upcomingProject.projectDocuments!.isNotEmpty?ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: upcomingProject.projectDocuments!.length,
@@ -210,7 +210,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                                     fit: BoxFit.cover),
                               ),
                             ); //Container();
-                          }),
+                          }):Center(child: Text("No Projects Documnets Found")),
                     )
                   ],
                 ),

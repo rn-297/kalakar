@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/helper/route_helper.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -34,51 +35,50 @@ class CompanyHomePage extends StatelessWidget {
   }
 
   appbarMobileView() {
-    return GetBuilder<ProfileController>(
-      builder: (controller) {
-        return AppBar(
-          toolbarHeight: 70.h,
-          backgroundColor: KalakarColors.appBarBackground,
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 60.h,
-                width: 60.h,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage(controller.companyLogo)),
-                    border: Border.all(color: KalakarColors.headerText),
-                    borderRadius: BorderRadius.circular(50.r)),
-              ),
-              SizedBox(
-                width: 8.w,
-              ),
-              Text(
-                controller.profileData!.name??"",
-                style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
-              ),
-            ],
-          ),
-          actions: [
-            Icon(
-              Icons.notifications,
-              size: 35,
+    return GetBuilder<ProfileController>(builder: (controller) {
+      return AppBar(
+        toolbarHeight: 70.h,
+        backgroundColor: KalakarColors.appBarBackground,
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 60.h,
+              width: 60.h,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(controller.companyLogo)),
+                  border: Border.all(color: KalakarColors.headerText),
+                  borderRadius: BorderRadius.circular(50.r)),
             ),
             SizedBox(
-              width: 20.w,
-            )
+              width: 8.w,
+            ),
+            Text(
+              controller.profileData!.name ?? "",
+              style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            ),
           ],
-          bottom: PreferredSize(
-            preferredSize: Size(double.infinity, 70.h),
+        ),
+        actions: [
+          Icon(
+            Icons.notifications,
+            size: 35,
+          ),
+          SizedBox(
+            width: 20.w,
+          )
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 70.h),
+          child: InkWell(
+            onTap: () {
+              Get.toNamed(RouteHelper.companySearchArtistPage);
+            },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
               padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 5.0,
-                ),
-              ], borderRadius: BorderRadius.circular(50.r)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.r)),
               child: TextField(
                 //controller: controller,
                 style: TextStyle(color: KalakarColors.textColor),
@@ -106,6 +106,7 @@ class CompanyHomePage extends StatelessWidget {
                   hintText: KalakarConstants.searchArtist,
                   fillColor: KalakarColors.white,
                   filled: true,
+                  enabled: false,
                   contentPadding: EdgeInsetsDirectional.symmetric(
                     horizontal: 24,
                     vertical: 12,
@@ -118,99 +119,98 @@ class CompanyHomePage extends StatelessWidget {
               ),
             ),
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 
   appbarWebView() {
-    return GetBuilder<ProfileController>(
-        builder: (controller) {
-          return AppBar(
-            toolbarHeight: 70.h,
-            backgroundColor: KalakarColors.lightAppBarBackground,
-            title: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 60.h,
-                  width: 60.h,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(controller.companyLogo)),
-                      border: Border.all(color: KalakarColors.headerText),
-                      borderRadius: BorderRadius.circular(50.r)),
-                ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Text(
-                  controller.profileData!.name??"",
-                  style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
-                ),
-              ],
+    return GetBuilder<ProfileController>(builder: (controller) {
+      return AppBar(
+        toolbarHeight: 70.h,
+        backgroundColor: KalakarColors.lightAppBarBackground,
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 60.h,
+              width: 60.h,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(controller.companyLogo)),
+                  border: Border.all(color: KalakarColors.headerText),
+                  borderRadius: BorderRadius.circular(50.r)),
             ),
-            actions: [
-              Icon(
-                Icons.notifications,
-                size: 35,
+            SizedBox(
+              width: 8.w,
+            ),
+            Text(
+              controller.profileData!.name ?? "",
+              style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            ),
+          ],
+        ),
+        actions: [
+          Icon(
+            Icons.notifications,
+            size: 35,
+          ),
+          SizedBox(
+            width: 20.w,
+          )
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 70.h),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 5.0,
               ),
-              SizedBox(
-                width: 20.w,
-              )
-            ],
-            bottom: PreferredSize(
-              preferredSize: Size(double.infinity, 70.h),
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
-                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 5.0,
-                  ),
-                ], borderRadius: BorderRadius.circular(50.r)),
-                child: TextField(
-                  //controller: controller,
-                  style: TextStyle(color: KalakarColors.textColor),
-                  // obscureText: passwordVisibility,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50.r),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50.r),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50.r),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50.r),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
+            ], borderRadius: BorderRadius.circular(50.r)),
+            child: TextField(
+              //controller: controller,
+              style: TextStyle(color: KalakarColors.textColor),
+              // obscureText: passwordVisibility,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50.r),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50.r),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50.r),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50.r),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
 
-                    // labelText: KalakarConstants.searchAnything,
-                    // labelStyle: TextStyle(color: labelColor),
-                    hintText: KalakarConstants.searchArtist,
-                    fillColor: KalakarColors.white,
-                    filled: true,
-                    contentPadding: EdgeInsetsDirectional.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search_rounded,
-                      color: KalakarColors.buttonText,
-                    ),
-                  ),
+                // labelText: KalakarConstants.searchAnything,
+                // labelStyle: TextStyle(color: labelColor),
+                hintText: KalakarConstants.searchArtist,
+                fillColor: KalakarColors.white,
+                filled: true,
+                contentPadding: EdgeInsetsDirectional.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+                prefixIcon: Icon(
+                  Icons.search_rounded,
+                  color: KalakarColors.buttonText,
                 ),
               ),
             ),
-          );
-        }
-    );
+          ),
+        ),
+      );
+    });
   }
 
   companyHomeMobileView() {
@@ -317,7 +317,7 @@ class CompanyHomePage extends StatelessWidget {
         child: GetBuilder<RequirementController>(builder: (controller) {
           return Column(
             children: [
-             /* Row(
+              /* Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -698,130 +698,154 @@ class CompanyHomePage extends StatelessWidget {
                 height: Get.size.height / 4,
                 child: controller.isArtistHomeUpcomingProjectsLoading
                     ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(
-                          top: 8.h,
-                          bottom: 8.h,
-                          right: 8.h,
-                        ),
-                        // padding: EdgeInsets.all(8.h),
-                        width: Get.size.width / 2,
-                        decoration: BoxDecoration(
-                          color: KalakarColors.white,
-                          border: Border.all(
-                              color: KalakarColors.backgroundGrey),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Shimmer.fromColors(
-                                  baseColor: KalakarColors.blue10,
-                                  highlightColor: KalakarColors.blue20,
-                                  child: Container(
-                                    height: 80.h,
-                                    width: Get.size.width / 2,
-                                    color: KalakarColors.white,
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                color: KalakarColors.backgroundGrey,
-                                height: 20,
-                                thickness: 1,
-                                // indent: 20,
-                                // endIndent: 20,
-                              ),
-                              Shimmer.fromColors(
-                                baseColor: KalakarColors.blue10,
-                                highlightColor: KalakarColors.blue20,
-                                child: Container(
-                                  height: 20.h,
-                                  width: 80.h,
-                                  color: KalakarColors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    })
-                    : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount:
-                    controller.upcomingProjectsDetailsList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      ResponseCompanyProjects upcomingProject =
-                      controller.upcomingProjectsDetailsList[index];
-                      return InkWell(
-                        onTap: () {
-                          controller
-                              .setUpcomingProjectViewData(upcomingProject);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            top: 8.h,
-                            bottom: 8.h,
-                            right: 8.h,
-                          ),
-                          // padding: EdgeInsets.all(8.h),
-                          width: Get.size.width / 2,
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border: Border.all(
-                                color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    upcomingProject.projectCoverDoc!,
-                                    fit: BoxFit.cover,
-                                    height: (Get.size.width / 2) / 1.5,
-                                    errorBuilder: (BuildContext context,
-                                        Object error,
-                                        StackTrace? stackTrace) {
-                                      // Return a dummy or placeholder image when an error occurs
-                                      return Image.asset(
-                                        "assets/images/movie.png",
+                        shrinkWrap: true,
+                        itemCount: 5,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(
+                              top: 8.h,
+                              bottom: 8.h,
+                              right: 8.h,
+                            ),
+                            // padding: EdgeInsets.all(8.h),
+                            width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                              color: KalakarColors.white,
+                              border: Border.all(
+                                  color: KalakarColors.backgroundGrey),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
                                         height: 80.h,
-                                        fit: BoxFit.fitWidth,
-                                      );
-                                    },
+                                        width: Get.size.width / 2,
+                                        color: KalakarColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: KalakarColors.backgroundGrey,
+                                    height: 20,
+                                    thickness: 1,
+                                    // indent: 20,
+                                    // endIndent: 20,
+                                  ),
+                                  Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 20.h,
+                                      width: 80.h,
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        })
+                    : controller.upcomingProjectsDetailsList.isNotEmpty
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount:
+                                controller.upcomingProjectsDetailsList.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              ResponseCompanyProjects upcomingProject =
+                                  controller.upcomingProjectsDetailsList[index];
+                              return InkWell(
+                                onTap: () {
+                                  controller.setUpcomingProjectViewData(
+                                      upcomingProject);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                    top: 8.h,
+                                    bottom: 8.h,
+                                    right: 8.h,
+                                  ),
+                                  // padding: EdgeInsets.all(8.h),
+                                  width: Get.size.width / 2,
+                                  decoration: BoxDecoration(
+                                    color: KalakarColors.white,
+                                    border: Border.all(
+                                        color: KalakarColors.backgroundGrey),
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            upcomingProject.projectCoverDoc!,
+                                            fit: BoxFit.cover,
+                                            height: (Get.size.width / 2) / 1.5,
+                                            errorBuilder: (BuildContext context,
+                                                Object error,
+                                                StackTrace? stackTrace) {
+                                              // Return a dummy or placeholder image when an error occurs
+                                              return Image.asset(
+                                                "assets/images/movie.png",
+                                                height: 80.h,
+                                                fit: BoxFit.fitWidth,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Divider(
+                                          color: KalakarColors.backgroundGrey,
+                                          height: 20,
+                                          thickness: 1,
+                                          // indent: 20,
+                                          // endIndent: 20,
+                                        ),
+                                        Text(
+                                          upcomingProject.projectTitle!,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.sp,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Divider(
-                                  color: KalakarColors.backgroundGrey,
-                                  height: 20,
-                                  thickness: 1,
-                                  // indent: 20,
-                                  // endIndent: 20,
+                              );
+                            })
+                        : Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("No Upcoming Projects Found"),
+                                SizedBox(
+                                  height: 16.h,
                                 ),
-                                Text(
-                                  upcomingProject.projectTitle!,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.sp,
+                                InkWell(
+                                  onTap: () {
+                                    controller.getUpcomingProjectsDetails();
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Icon(Icons.refresh),
+                                      Text("Refresh"),
+                                    ],
                                   ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                )
                               ],
                             ),
                           ),
-                        ),
-                      );
-                    }),
               ),
               SizedBox(
                 height: 16.h,
@@ -832,186 +856,214 @@ class CompanyHomePage extends StatelessWidget {
               ),
               controller.isArtistHomeReviewsLoading
                   ? ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 8.h),
-                      padding: EdgeInsets.all(8.h),
-                      // width: Get.size.width / 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: KalakarColors.white,
-                        border:
-                        Border.all(color: KalakarColors.backgroundGrey),
-                      ),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50.r),
-                            child: Shimmer.fromColors(
-                              baseColor: KalakarColors.blue10,
-                              highlightColor: KalakarColors.blue20,
-                              child: Container(
-                                height: 40.h,
-                                width: 40.h,
-                                color: KalakarColors.white,
-                              ),
-                            ),
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 8.h),
+                          padding: EdgeInsets.all(8.h),
+                          // width: Get.size.width / 2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: KalakarColors.white,
+                            border:
+                                Border.all(color: KalakarColors.backgroundGrey),
                           ),
-                          Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: 8.h),
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  Shimmer.fromColors(
-                                    baseColor: KalakarColors.blue10,
-                                    highlightColor: KalakarColors.blue20,
-                                    child: Container(
-                                      height: 20.h,
-                                      width: 80.h,
-                                      color: KalakarColors.white,
-                                    ),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50.r),
+                                child: Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 40.h,
+                                    width: 40.h,
+                                    color: KalakarColors.white,
                                   ),
-                                  Row(
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 8.h),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Shimmer.fromColors(
                                         baseColor: KalakarColors.blue10,
-                                        highlightColor:
-                                        KalakarColors.blue20,
+                                        highlightColor: KalakarColors.blue20,
                                         child: Container(
                                           height: 20.h,
-                                          width: 20.h,
+                                          width: 80.h,
                                           color: KalakarColors.white,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 16.w,
-                                      ),
-                                      SizedBox(
-                                        height: 20.h,
-                                        width: 150.w,
-                                        child: ListView.builder(
-                                          itemCount: 5,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) {
-                                            return Shimmer.fromColors(
-                                              baseColor:
-                                              KalakarColors.blue10,
-                                              highlightColor:
-                                              KalakarColors.blue20,
-                                              child: Container(
-                                                height: 15.h,
-                                                width: 15.h,
-                                                color: KalakarColors.white,
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                      Row(
+                                        children: [
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor:
+                                                KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 20.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 16.w,
+                                          ),
+                                          SizedBox(
+                                            height: 20.h,
+                                            width: 150.w,
+                                            child: ListView.builder(
+                                              itemCount: 5,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: (context, index) {
+                                                return Shimmer.fromColors(
+                                                  baseColor:
+                                                      KalakarColors.blue10,
+                                                  highlightColor:
+                                                      KalakarColors.blue20,
+                                                  child: Container(
+                                                    height: 15.h,
+                                                    width: 15.h,
+                                                    color: KalakarColors.white,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  })
-                  : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.reviewDetailsList.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    GetApplicationReviewList reviewData =
-                    controller.reviewDetailsList[index];
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 8.h),
-                      padding: EdgeInsets.all(8.h),
-                      // width: Get.size.width / 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: KalakarColors.white,
-                        border:
-                        Border.all(color: KalakarColors.backgroundGrey),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          controller.setReviewDataToView(reviewData);
-                        },
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50.r),
-                              child: Image.network(
-                                reviewData.reviewByProfilePic!,
-                                fit: BoxFit.cover,
-                                height: 40.h,
-                                errorBuilder: (BuildContext context,
-                                    Object error, StackTrace? stackTrace) {
-                                  // Return a dummy or placeholder image when an error occurs
-                                  return Image.asset(
-                                    "assets/images/app_bar_logo.png",
-                                    height: 40.h,
-                                    width: 40.h,
-                                  );
-                                },
-                                width: 40.h,
+                        );
+                      })
+                  : controller.reviewDetailsList.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.reviewDetailsList.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            GetApplicationReviewList reviewData =
+                                controller.reviewDetailsList[index];
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 8.h),
+                              padding: EdgeInsets.all(8.h),
+                              // width: Get.size.width / 2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                color: KalakarColors.white,
+                                border: Border.all(
+                                    color: KalakarColors.backgroundGrey),
                               ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Padding(
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 8.h),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              child: InkWell(
+                                onTap: () {
+                                  controller.setReviewDataToView(reviewData);
+                                },
+                                child: Row(
                                   children: [
-                                    Text(reviewData.reviewBy!),
-                                    Row(
-                                      children: [
-                                        Text(reviewData.reviewStar!
-                                            .toString()),
-                                        SizedBox(
-                                          width: 16.w,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50.r),
+                                      child: Image.network(
+                                        reviewData.reviewByProfilePic!,
+                                        fit: BoxFit.cover,
+                                        height: 40.h,
+                                        errorBuilder: (BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace) {
+                                          // Return a dummy or placeholder image when an error occurs
+                                          return Image.asset(
+                                            "assets/images/app_bar_logo.png",
+                                            height: 40.h,
+                                            width: 40.h,
+                                          );
+                                        },
+                                        width: 40.h,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.h),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(reviewData.reviewBy!),
+                                            Row(
+                                              children: [
+                                                Text(reviewData.reviewStar!
+                                                    .toString()),
+                                                SizedBox(
+                                                  width: 16.w,
+                                                ),
+                                                SizedBox(
+                                                  height: 20.h,
+                                                  width: 150.w,
+                                                  child: ListView.builder(
+                                                    itemCount: reviewData
+                                                        .reviewStar!
+                                                        .toInt(),
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Icon(
+                                                        Icons.star,
+                                                        size: 15,
+                                                        color: CupertinoColors
+                                                            .systemYellow,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(
-                                          height: 20.h,
-                                          width: 150.w,
-                                          child: ListView.builder(
-                                            itemCount: reviewData
-                                                .reviewStar!
-                                                .toInt(),
-                                            scrollDirection:
-                                            Axis.horizontal,
-                                            itemBuilder: (context, index) {
-                                              return Icon(
-                                                Icons.star,
-                                                size: 15,
-                                                color: CupertinoColors
-                                                    .systemYellow,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                          ],
+                            );
+                          })
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 16.h,
+                              ),
+                              Text("No Reviews Found"),
+                              SizedBox(
+                                height: 16.h,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  controller.getReviewDetails();
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.refresh),
+                                    Text("Refresh"),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
             ],
           );
         }),
@@ -1042,7 +1094,7 @@ class CompanyHomePage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.all(8.h),
-                      width: Get.size.width/3,
+                      width: Get.size.width / 3,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -1058,7 +1110,7 @@ class CompanyHomePage extends StatelessWidget {
                         children: [
                           Container(
                             padding: EdgeInsets.all(8.h),
-                            width: Get.size.width/1.8,
+                            width: Get.size.width / 1.8,
                             decoration: BoxDecoration(
                                 color: KalakarColors.appBarBackground,
                                 borderRadius: BorderRadius.only(
@@ -1072,12 +1124,13 @@ class CompanyHomePage extends StatelessWidget {
                                   padding: EdgeInsets.all(8.h),
                                   decoration: BoxDecoration(
                                       color:
-                                      KalakarColors.white.withOpacity(0.5),
+                                          KalakarColors.white.withOpacity(0.5),
                                       borderRadius: BorderRadius.circular(8.r)),
                                   child: Text(
                                     "OP NO. 001",
-                                    style:
-                                    TextStyle(color: KalakarColors.white,fontSize: 15.sp),
+                                    style: TextStyle(
+                                        color: KalakarColors.white,
+                                        fontSize: 15.sp),
                                   ),
                                 ),
                                 SizedBox(
@@ -1094,14 +1147,18 @@ class CompanyHomePage extends StatelessWidget {
                                 ),
                                 Text(
                                   "Location",
-                                  style: TextStyle(color: KalakarColors.white,fontSize: 14.sp),
+                                  style: TextStyle(
+                                      color: KalakarColors.white,
+                                      fontSize: 14.sp),
                                 ),
                                 SizedBox(
                                   height: 8.h,
                                 ),
                                 Text(
                                   "20-28 Years",
-                                  style: TextStyle(color: KalakarColors.white,fontSize: 14.sp),
+                                  style: TextStyle(
+                                      color: KalakarColors.white,
+                                      fontSize: 14.sp),
                                 ),
                               ],
                             ),

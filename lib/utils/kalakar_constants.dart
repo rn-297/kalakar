@@ -66,6 +66,10 @@ class KalakarConstants {
       "/ArtistProfile/DeleteArtistProfile_Experience";
   static const String deleteArtistPortfolioDataApi =
       "/ArtistProfile/DeleteArtistProfile_Portfolio";
+  static const String deleteArtistApplyForDataApi =
+      "/ArtistProfile/DeleteArtistProfile_ApplyFor";
+  static const String deleteFromFavouritesDataApi =
+      "/RequirementDetails/Delete_ArtistFavoritesRequirementTrans";
 
   //company profile apis
   static const String saveCompanyProfileBasicsApi =
@@ -121,9 +125,15 @@ class KalakarConstants {
       "/SuperAdmin/GetSuperAdminCompanyProjects_Documents";
   static const String getReferralCodeDetailsApi =
       "/Account/GetReferralCodeDetailsForReferralCode";
-
+  static const String getArtistFavouritesRequirementsApi =
+      "/RequirementDetails/GetArtistFavoritesRequirement_Artist";
   static const String useReferralCodeApi =
       "/Account/UseReferralCode";
+  static const String getSettingsDataApi =
+      "/Account/Get_AppSettingsData";
+
+  static const String searchArtistForCompanyApi =
+      "/CompanyProfile/GetSearchArtistProfile_Company";
 
 
   //Strings
@@ -255,6 +265,7 @@ class KalakarConstants {
   static const String male = "Male";
   static const String female = "Female";
   static const String apply = "Apply";
+  static const String applied = "Applied";
   static const String appliedProfiles = "Applied Profiles";
   static const String select = "Select";
   static const String reject = "Reject";

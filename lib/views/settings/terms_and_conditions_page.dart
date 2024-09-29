@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:kalakar/controller/settings_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../helper/kalakar_colors.dart';
@@ -7,6 +9,7 @@ import '../../utils/kalakar_constants.dart';
 
 class TermsAndConditionsPage extends StatelessWidget {
   const TermsAndConditionsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +26,6 @@ class TermsAndConditionsPage extends StatelessWidget {
       ),
     );
   }
-
 
   appbarMobileView() {
     return AppBar(
@@ -113,7 +115,46 @@ class TermsAndConditionsPage extends StatelessWidget {
     );
   }
 
-  termsAndConditionsMobileView() {return Column(children: [Text("This is Terms and conditions page")],);}
+  termsAndConditionsMobileView() {
+    return SingleChildScrollView(
+      child: GetBuilder<SettingsController>(builder: (controller) {
+        return Padding(
+          padding: EdgeInsets.all(32.h),
+          child: Column(
+            children: [
+              controller.settingsData.termsAndConditions != null
+                  ? Text(controller.settingsData.termsAndConditions!)
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 32.h,
+                          ),
+                          Text("Unable To Get Help Details"),
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              controller.getSettingsData();
+                            },
+                            child: Column(
+                              children: [
+                                Icon(Icons.refresh),
+                                Text("Refresh"),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
 
   termsAndConditionsWebView(BuildContext context) {}
 }

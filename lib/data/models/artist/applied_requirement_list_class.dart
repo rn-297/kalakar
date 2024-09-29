@@ -79,6 +79,10 @@ class ArtistAppliedRequirementDetailsList {
   String? profilePic;
   int? fKApplyStatusMasterID;
   String? applyStatus;
+  int?   artistFavoritesRequirementTransID;
+  int? artistAppliedForRequirementTransID;
+
+
 
   ArtistAppliedRequirementDetailsList(
       {this.userID,
@@ -123,7 +127,8 @@ class ArtistAppliedRequirementDetailsList {
         this.middleName,
         this.profilePic,
         this.fKApplyStatusMasterID,
-        this.applyStatus});
+        this.applyStatus,  this.artistFavoritesRequirementTransID,
+       this.artistAppliedForRequirementTransID});
 
   ArtistAppliedRequirementDetailsList.fromJson(Map<String, dynamic> json) {
     userID = json['userID'];
@@ -169,6 +174,8 @@ class ArtistAppliedRequirementDetailsList {
     profilePic = json['profilePic'];
     fKApplyStatusMasterID = json['fK_ApplyStatusMasterID'];
     applyStatus = json['applyStatus'];
+    artistFavoritesRequirementTransID = json['artistFavoritesRequirementTransID'];
+    artistAppliedForRequirementTransID = json['artistAppliedForRequirementTransID'];
   }
 
   Map<String, dynamic> toJson() {
@@ -216,6 +223,8 @@ class ArtistAppliedRequirementDetailsList {
     data['profilePic'] = this.profilePic;
     data['fK_ApplyStatusMasterID'] = this.fKApplyStatusMasterID;
     data['applyStatus'] = this.applyStatus;
+    data['artistFavoritesRequirementTransID'] = this.artistFavoritesRequirementTransID;
+    data['artistAppliedForRequirementTransID'] = this.artistAppliedForRequirementTransID;
     return data;
   }
 }

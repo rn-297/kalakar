@@ -28,10 +28,11 @@ void main() async {
   Get.put(AuthPageController());
   Get.put(ProfileController());
   Get.put(FileController());
+  Get.put(RequirementController());
 
 
   Get.lazyPut(() => RequirementController());
-  Get.put(RequirementController());
+  Get.lazyPut(() => SettingsController());
 
 
   runApp(const MyApp());

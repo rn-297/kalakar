@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/navigation_controller.dart';
 import 'package:kalakar/data/models/referral_details_class.dart';
+import 'package:kalakar/data/models/settings_data_class.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
@@ -19,12 +21,14 @@ class SettingsController extends GetxController {
   ReferralDetailsClass referralDetails = ReferralDetailsClass();
   TextEditingController referralCodeTEController = TextEditingController();
   bool detailsLoaded = false;
+  SettingsDataClass settingsData = SettingsDataClass();
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     setSettingsList();
+    getSettingsData();
   }
 
   void setSettingsList() async {
@@ -61,8 +65,17 @@ class SettingsController extends GetxController {
 
   void gotoNextPage(String settingsName) {
     switch (settingsName) {
+      case KalakarConstants.myProfile:
+        BottomNavigationController bottomNavigationController =
+            Get.put(BottomNavigationController());
+        bottomNavigationController.selectedIndex = 2;
+        bottomNavigationController.update();
+        break;
       case KalakarConstants.myApplications:
         Get.toNamed(RouteHelper.myApplicationsPage);
+        break;
+      case KalakarConstants.myFavourites:
+        Get.toNamed(RouteHelper.myFavouritesPage);
         break;
       case KalakarConstants.aboutUs:
         Get.toNamed(RouteHelper.aboutUsPage);
@@ -110,7 +123,7 @@ class SettingsController extends GetxController {
       ReferralDetailsClass referralDetailsClass =
           ReferralDetailsClass.fromJson(jsonDecode(response.body));
       referralDetails = referralDetailsClass;
-        detailsLoaded = true;
+      detailsLoaded = true;
     }
     update();
   }
@@ -126,7 +139,8 @@ class SettingsController extends GetxController {
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.useReferralCodeApi,
-          jsonEncode(body),loginTable.token);
+          jsonEncode(body),
+          loginTable.token);
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -147,4 +161,35 @@ class SettingsController extends GetxController {
       }
     }
   }
+
+  Future<void> getSettingsData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+
+      final body = {
+        "fK_UserTypeID":
+            loginTable.accountType == KalakarConstants.artist ? "2" : "1",
+      };
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getSettingsDataApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        SettingsDataClass settingsDataClass =
+            SettingsDataClass.fromJson(jsonDecode(response.body));
+        if (settingsDataClass.replayStatus ?? false) {
+          settingsData=settingsDataClass;
+          update();
+        } else {}
+      }
+    }
+  }
+
+  void openSocialMedia(int i) {}
 }

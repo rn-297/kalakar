@@ -536,6 +536,14 @@ class Validator {
     return null;
   }
 
+  //validate role profile
+  static String? validateProfile(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Profile';
+    }
+    return null;
+  }
+
   //validate Education Type
   static String? validateHobby(String? value) {
     if (value == null || value.isEmpty) {

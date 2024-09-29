@@ -130,6 +130,16 @@ class ArtistProfileController extends GetxController {
   DateTime expStartDate = DateTime.now();
   DateTime expEndDate = DateTime.now();
 
+  //bool
+  bool isArtistProfileBasicLoading=false;
+  bool isArtistProfileEducationLoading=false;
+  bool isArtistProfileComfortableInLoading=false;
+  bool isArtistProfileHobbiesLoading=false;
+  bool isArtistProfileInterestedInLoading=false;
+  bool isArtistProfileApplyForLoading=false;
+  bool isArtistProfilePortfolioLoading=false;
+  bool isArtistProfileExperienceLoading=false;
+
   //artist profile details
   ArtistProfileDetailsClass artistProfileDetails = ArtistProfileDetailsClass();
 
@@ -573,7 +583,7 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Apply For Data Success", responseModel.message!);
-          getArtistProfileComfortableIn(0);
+          getArtistProfileApplyFor(0);
         } else {
           KalakarDialogs.successDialog(
               "Saving Apply For Data Failed", responseModel.message!);
@@ -715,6 +725,8 @@ class ArtistProfileController extends GetxController {
   Future<void> getArtistProfileBasic() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfileBasicLoading=true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID
@@ -733,10 +745,12 @@ class ArtistProfileController extends GetxController {
 
         if (responseModel.replayStatus ?? false) {
           artistProfileDetails = responseModel;
-
           setArtistProfileData();
         }
       }
+      isArtistProfileBasicLoading=false;
+
+      update();
     }
   }
 
@@ -1035,6 +1049,8 @@ class ArtistProfileController extends GetxController {
   Future<void> getArtistProfileEducation(int recordID) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfileEducationLoading=true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID,
@@ -1053,7 +1069,6 @@ class ArtistProfileController extends GetxController {
             ArtistEducationListClass.fromJson(jsonDecode(response.body));
         if (artistEducationListClass.replayStatus ?? false) {
           artistEducationList = artistEducationListClass.educationList!;
-          update();
         }
 
         // print("response successful ${response.body}");
@@ -1061,12 +1076,18 @@ class ArtistProfileController extends GetxController {
         //   content: Text("response successful ${response.body}"),
         // );
       }
+      isArtistProfileEducationLoading=false;
+
+      update();
+
     }
   }
 
   Future<void> getArtistProfileHobbies(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfileHobbiesLoading=true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID,
@@ -1083,19 +1104,25 @@ class ArtistProfileController extends GetxController {
         ArtistHobbiesListClass artistHobbiesListClass =
             ArtistHobbiesListClass.fromJson(jsonDecode(response.body));
         artistHobbiesList = artistHobbiesListClass.hobbiesList!;
-        update();
+
 
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
         // );
       }
+      isArtistProfileHobbiesLoading=false;
+
+      update();
+
     }
   }
 
   Future<void> getArtistProfileApplyFor(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfileApplyForLoading=true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID,
@@ -1112,18 +1139,24 @@ class ArtistProfileController extends GetxController {
         ApplyForListClass applyForListClass =
             ApplyForListClass.fromJson(jsonDecode(response.body));
         artistApplyForList = applyForListClass.applyList!;
-        update();
+
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
         // );
       }
+      isArtistProfileApplyForLoading=false;
+
+      update();
+
     }
   }
 
   Future<void> getArtistProfileInterest(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfileInterestedInLoading=true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID,
@@ -1140,18 +1173,24 @@ class ArtistProfileController extends GetxController {
         ArtistInterestedInClass artistInterestedInClass =
             ArtistInterestedInClass.fromJson(jsonDecode(response.body));
         artistInterestedInList = artistInterestedInClass.interestList!;
-        update();
+
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
         // );
       }
+      isArtistProfileInterestedInLoading=false;
+
+      update();
+
     }
   }
 
   Future<void> getArtistProfileComfortableIn(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfileComfortableInLoading=true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID,
@@ -1171,13 +1210,17 @@ class ArtistProfileController extends GetxController {
         if (artistComfortableInListClass.replayStatus ?? false) {
           artistComfortableInList =
               artistComfortableInListClass.comfortableInList!;
-          update();
+
         }
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
         // );
       }
+      isArtistProfileComfortableInLoading=false;
+
+      update();
+
     }
   }
 
@@ -1228,6 +1271,8 @@ class ArtistProfileController extends GetxController {
   Future<void> getArtistExperience(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfileExperienceLoading=true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID,
@@ -1246,19 +1291,25 @@ class ArtistProfileController extends GetxController {
             ArtistExperienceListClass.fromJson(jsonDecode(response.body));
         if (artistExperienceListClass.replayStatus ?? false) {
           artistExperienceList = artistExperienceListClass.experienceList!;
-          update();
+
         }
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
         // );
       }
+
+      isArtistProfileExperienceLoading=false;
+      update();
+
+
     }
   }
 
   Future<void> getArtistPortFolio(int recordId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistProfilePortfolioLoading=true;update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID,
@@ -1290,13 +1341,14 @@ class ArtistProfileController extends GetxController {
             }
           }
           artistPortfolioList = list;
-          update();
         }
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
         // );
       }
+      isArtistProfilePortfolioLoading=false;update();
+
     }
   }
 
@@ -1887,7 +1939,43 @@ class ArtistProfileController extends GetxController {
     update();
   }
 
-  void deleteApplyFor() {}
+  Future<void> deleteApplyFor() async {
+
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Deleting Apply For Data", "Deleting apply For Data");
+      final body = <String, String>{};
+      body['userID'] = loginTable.userID;
+      body['fK_AccountID'] = loginTable.accountID;
+      body['recordID'] = artistApplyForId;
+
+      var response = await ApiClient.deleteDataToken(
+          KalakarConstants.deleteArtistApplyForDataApi,
+          body,
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+        ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Deleting Apply For Data Success", responseModel.message!);
+          getArtistProfileApplyFor(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Deleting Apply For Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
+
+
 
   Future<void> checkTokenExpired() async {
     LoginTable? loginTable = await HiveService.getLoginData();

@@ -42,13 +42,12 @@ class OpportunityPage extends StatelessWidget {
             children: [
               // Text(KalakarConstants.opportunitiesText),
               !controller.isArtist && controller.requirementDetailsList.isEmpty
-                  ?Column(
-                children: [
-                  SizedBox(
-                    height: 16.h,
-                  ),
-
-                       Column(
+                  ? Column(
+                      children: [
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Column(
                           children: [
                             CustomMobileButtonWidget(
                                 text: KalakarConstants.createRequirement,
@@ -63,18 +62,18 @@ class OpportunityPage extends StatelessWidget {
                                 borderRadius: 50.r),
                           ],
                         ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                ],
-              ):Container(),
+                        SizedBox(
+                          height: 24.h,
+                        ),
+                      ],
+                    )
+                  : Container(),
               controller.isRequirementsLoading
-                  ?  ListView.builder(
+                  ? ListView.builder(
                       itemCount: 6,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-
                         return Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 12.h, horizontal: 4.h),
@@ -114,17 +113,21 @@ class OpportunityPage extends StatelessWidget {
                                         children: [
                                           Shimmer.fromColors(
                                             baseColor: KalakarColors.blue10,
-                                            highlightColor: KalakarColors.blue20,
+                                            highlightColor:
+                                                KalakarColors.blue20,
                                             child: Container(
                                               height: 20.h,
                                               width: 80.h,
                                               color: KalakarColors.white,
                                             ),
                                           ),
-                                          SizedBox(height: 8.h,),
+                                          SizedBox(
+                                            height: 8.h,
+                                          ),
                                           Shimmer.fromColors(
                                             baseColor: KalakarColors.blue10,
-                                            highlightColor: KalakarColors.blue20,
+                                            highlightColor:
+                                                KalakarColors.blue20,
                                             child: Container(
                                               height: 20.h,
                                               width: 80.h,
@@ -136,12 +139,12 @@ class OpportunityPage extends StatelessWidget {
                                           ),
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Shimmer.fromColors(
                                                 baseColor: KalakarColors.blue10,
-                                                highlightColor: KalakarColors.blue20,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
                                                 child: Container(
                                                   height: 20.h,
                                                   width: 80.h,
@@ -150,7 +153,8 @@ class OpportunityPage extends StatelessWidget {
                                               ),
                                               Shimmer.fromColors(
                                                 baseColor: KalakarColors.blue10,
-                                                highlightColor: KalakarColors.blue20,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
                                                 child: Container(
                                                   height: 20.h,
                                                   width: 80.h,
@@ -161,12 +165,12 @@ class OpportunityPage extends StatelessWidget {
                                           ),
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Shimmer.fromColors(
                                                 baseColor: KalakarColors.blue10,
-                                                highlightColor: KalakarColors.blue20,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
                                                 child: Container(
                                                   height: 20.h,
                                                   width: 80.h,
@@ -175,7 +179,8 @@ class OpportunityPage extends StatelessWidget {
                                               ),
                                               Shimmer.fromColors(
                                                 baseColor: KalakarColors.blue10,
-                                                highlightColor: KalakarColors.blue20,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
                                                 child: Container(
                                                   height: 20.h,
                                                   width: 80.h,
@@ -192,122 +197,159 @@ class OpportunityPage extends StatelessWidget {
                           ),
                         );
                       })
-              :ListView.builder(
-                      itemCount: controller.requirementDetailsList.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        ObjResponesRequirementDetailsList requirementData =
-                            controller.requirementDetailsList[index];
-                        final DateFormat formatter = DateFormat('dd-MM-yyyy');
-                        DateTime shootingDate =
-                            DateTime.parse(requirementData!.shootingStartDate!);
-                        String date = formatter.format(shootingDate);
-                        print(requirementData.requirementDetailsID);
-                        return Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: 12.h, horizontal: 4.h),
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border: Border.all(
-                                color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              controller.checkArtistAndSetData(requirementData);
-                            },
-                            child: IntrinsicHeight(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 2,
-                                      child: requirementData.refPhotoName ==
-                                              null
-                                          ? Container(
-                                              margin: EdgeInsets.all(2.h),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(8.r),
-                                                  ),
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      "assets/images/movie.png",
-                                                    ),
-                                                    fit: BoxFit.fill,
-                                                  )),
-                                            ) //requirementData.companyLogo ?? "",
-                                          : Container(
-                                              margin: EdgeInsets.all(2.h),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(8.r),
-                                                  ),
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      requirementData
-                                                              .refPhotoName ??
-                                                          "",
-                                                    ),
-                                                    fit: BoxFit.fill,
-                                                  )),
-                                            )),
-                                  Expanded(
-                                      flex: 4,
-                                      child: Padding(
-                                        padding: EdgeInsets.all(8.h),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              requirementData
-                                                  .requirementTitle!,
-                                              style: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  color: KalakarColors
-                                                      .headerText,
-                                                  fontWeight:
-                                                  FontWeight.bold),
-                                            ),
-                                            SizedBox(height: 8.h,),
-                                            Text(requirementData
-                                                    .requirementDescription! ??
-                                                "",overflow: TextOverflow.ellipsis,maxLines: 2,),
-                                            SizedBox(
-                                              height: 8.h,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(requirementData
-                                                    .shootingLocation!),
-                                                Text(date),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(requirementData.gender!),
-                                                Text(requirementData.age!
-                                                    .split(".")[0]),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ],
+                  : controller.requirementDetailsList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: controller.requirementDetailsList.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            RequirementDetailsData requirementData =
+                                controller.requirementDetailsList[index];
+                            final DateFormat formatter =
+                                DateFormat('dd-MM-yyyy');
+                            DateTime shootingDate = DateTime.parse(
+                                requirementData!.shootingStartDate!);
+                            String date = formatter.format(shootingDate);
+                            print(requirementData.requirementDetailsID);
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 12.h, horizontal: 4.h),
+                              decoration: BoxDecoration(
+                                color: KalakarColors.white,
+                                border: Border.all(
+                                    color: KalakarColors.backgroundGrey),
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
-                            ),
+                              child: InkWell(
+                                onTap: () {
+                                  controller
+                                      .checkArtistAndSetData(requirementData);
+                                },
+                                child: IntrinsicHeight(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          flex: 2,
+                                          child: requirementData.refPhotoName ==
+                                                  null
+                                              ? Container(
+                                                  margin: EdgeInsets.all(2.h),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(8.r),
+                                                      ),
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                          "assets/images/movie.png",
+                                                        ),
+                                                        fit: BoxFit.fill,
+                                                      )),
+                                                ) //requirementData.companyLogo ?? "",
+                                              : Container(
+                                                  margin: EdgeInsets.all(2.h),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(8.r),
+                                                      ),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          requirementData
+                                                                  .refPhotoName ??
+                                                              "",
+                                                        ),
+                                                        fit: BoxFit.fill,
+                                                      )),
+                                                )),
+                                      Expanded(
+                                          flex: 4,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(8.h),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  requirementData
+                                                      .requirementTitle!,
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: KalakarColors
+                                                          .headerText,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  height: 8.h,
+                                                ),
+                                                Text(
+                                                  requirementData
+                                                          .requirementDescription! ??
+                                                      "",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                                SizedBox(
+                                                  height: 8.h,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(requirementData
+                                                        .shootingLocation!),
+                                                    Text(date),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(requirementData
+                                                        .gender!),
+                                                    Text(requirementData.age!
+                                                        .split(".")[0]),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          })
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("No New Opportunities Found"),
+                              SizedBox(
+                                height: 16.h,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  if(controller.isArtist){
+                                    controller.getArtistHomeRequirementDetails(true);
+                                  }else{
+                                    controller.getRequirementDetailsCompany(0);
+                                  }
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.refresh),
+                                    Text("Refresh"),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                        );
-                      })
+                        ),
             ],
           );
         }),
@@ -427,15 +469,16 @@ class OpportunityPage extends StatelessWidget {
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
-        if(!controller.isArtist)InkWell(
-          onTap: () {
-            controller.emptyOpportunityData();
-          },
-          child: Icon(
-            Icons.add,
-            size: 30.h,
+        if (!controller.isArtist)
+          InkWell(
+            onTap: () {
+              controller.emptyOpportunityData();
+            },
+            child: Icon(
+              Icons.add,
+              size: 30.h,
+            ),
           ),
-        ),
         SizedBox(
           width: 16.h,
         )

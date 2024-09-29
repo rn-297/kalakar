@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/settings_controller.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
@@ -144,26 +145,91 @@ class SettingsPage extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Text(KalakarConstants.followUsOn),
+            if (controller.settingsData.fbLink != "" ||
+                controller.settingsData.instaLink != "" ||
+                controller.settingsData.ytLink != "" ||
+                controller.settingsData.emailLink != "" ||
+                controller.settingsData.whatsAppLink != "" ||
+                controller.settingsData.websiteLink != "" ||
+                controller.settingsData.xOrTwitterlink != "")
+              Text(KalakarConstants.followUsOn),
             Container(
               height: 60.h,
-              child: ListView.builder(
-                  itemCount: 4,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.all(8.h),
-                      margin: EdgeInsets.all(8.h),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(color: KalakarColors.textColor)),
-                      child: Icon(
-                        Icons.connected_tv_sharp,
-                        size: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (controller.settingsData.fbLink != "")
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(0);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/facebook.svg",
+                        height: 30.h,
                       ),
-                    );
-                  }),
+                    ),
+                  if (controller.settingsData.instaLink != "")
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(1);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/instagram.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  if (controller.settingsData.whatsAppLink != "")
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(2);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/whatsapp.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  if (controller.settingsData.ytLink != "")
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(3);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/youtube.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  if (controller.settingsData.emailLink != "")
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(4);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/email.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  if (controller.settingsData.websiteLink != "")
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(5);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/website.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  if (controller.settingsData.xOrTwitterlink != "")
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(5);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/twitter.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                ],
+              ),
             ),
             SizedBox(
               height: 20.h,

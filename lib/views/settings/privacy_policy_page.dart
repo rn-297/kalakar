@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:kalakar/controller/settings_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../helper/kalakar_colors.dart';
@@ -19,8 +21,8 @@ class PrivacyPolicyPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => aboutUsMobileView(),
-        tablet: (BuildContext context) => aboutUsWebView(context),
+        mobile: (BuildContext context) => privacyPolicyMobileView(),
+        tablet: (BuildContext context) => privacyPolicyWebView(context),
       ),
     );
   }
@@ -113,11 +115,42 @@ class PrivacyPolicyPage extends StatelessWidget {
     );
   }
 
-  aboutUsMobileView() {
-    return Column(
-      children: [Text("This is Privacy Policy page")],
+  privacyPolicyMobileView() {
+    return SingleChildScrollView(
+      child: GetBuilder<SettingsController>(builder: (controller) {
+        return Padding(
+          padding:  EdgeInsets.all(32.h),
+          child: Column(
+            children: [
+              controller.settingsData.privacyPolicy!=null?Text(controller.settingsData.privacyPolicy!):Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 32.h,),
+                    Text("Unable To Get Privacy Policy Details"),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.getSettingsData();
+                      },
+                      child: Column(
+                        children: [
+                          Icon(Icons.refresh),
+                          Text("Refresh"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
-  aboutUsWebView(BuildContext context) {}
+  privacyPolicyWebView(BuildContext context) {}
 }
