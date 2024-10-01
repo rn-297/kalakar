@@ -10,10 +10,21 @@ import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:kalakar/push_notification/PushNotificationService.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Permission.notification.isDenied.then(
+    (bool value) {
+      if (value) {
+        Permission.notification.request();
+      }
+    },
+  );
+  await PushNotificationService().setupInteractedMessage();
+  PushNotificationService.getNotificationToken();
   await Hive.initFlutter();
   Hive.registerAdapter(LoginTableAdapter());
   await Hive.openBox<LoginTable>("loginBox");
@@ -30,10 +41,8 @@ void main() async {
   Get.put(FileController());
   Get.put(RequirementController());
 
-
   Get.lazyPut(() => RequirementController());
   Get.lazyPut(() => SettingsController());
-
 
   runApp(const MyApp());
 }

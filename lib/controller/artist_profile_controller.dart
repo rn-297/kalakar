@@ -1488,6 +1488,8 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null &&
         loginTable.accountType == KalakarConstants.artist) {
+      getStateData();
+
       final apiCalls = [
         getArtistProfileMaster(),
         getArtistProfileBasic(),
@@ -1499,6 +1501,7 @@ class ArtistProfileController extends GetxController {
         getArtistExperience(0),
         getArtistDocuments(),
         getArtistPortFolio(0)
+
       ];
 
       // Process only 2 API calls at a time

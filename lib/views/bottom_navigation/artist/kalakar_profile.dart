@@ -60,12 +60,11 @@ class KalakarProfilePage extends StatelessWidget {
           triggerMode: RefreshIndicatorTriggerMode.anywhere,
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
-            child: Column(
+            child: controller.artistProfileID!=0?Column(
               children: [
                 controller.isArtistProfileBasicLoading
                     ? basicsLoadingMobile()
-                    : controller.artistProfileID != 0
-                        ? profileDetails.firstName != null
+                    :profileDetails.firstName != null
                             ? Column(
                                 children: [
                                   Row(
@@ -365,31 +364,7 @@ class KalakarProfilePage extends StatelessWidget {
                                   ],
                                 ),
                               )
-                        : Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 32.h,
-                                ),
-                                Text(" Profile Data Not Added"),
-                                SizedBox(
-                                  height: 16.h,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Get.toNamed(RouteHelper.artistProfileForm);
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Icon(Icons.add),
-                                      Text("Add"),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                        ,
 
                 SizedBox(
                   height: 24.h,
@@ -980,14 +955,7 @@ class KalakarProfilePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 24.h,
-                ),
-                Divider(
-                  thickness: 1.0,
-                  height: 10.h,
-                ),
-                SizedBox(
-                  height: 8.h,
+                  height: 16.h,
                 ),
                 Container(
                   padding: EdgeInsets.all(16.h),
@@ -1167,13 +1135,7 @@ class KalakarProfilePage extends StatelessWidget {
                 //     thickness: 1.0,
                 //   ),
                 // ),
-                SizedBox(
-                  height: 8.h,
-                ),
-                Divider(
-                  height: 10.h,
-                  thickness: 1.0,
-                ),
+
                 SizedBox(
                   height: 16.h,
                 ),
@@ -1325,7 +1287,31 @@ class KalakarProfilePage extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ):Center(
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 32.h,
+              ),
+              Text(" Profile Data Not Added"),
+              SizedBox(
+                height: 16.h,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(RouteHelper.artistProfileForm);
+                },
+                child: Column(
+                  children: [
+                    Icon(Icons.add),
+                    Text("Add"),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
           ),
         );
       }),

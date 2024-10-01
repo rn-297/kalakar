@@ -36,11 +36,11 @@ class CustomDropdownSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownSearch<String>(
       validator: validator,
-      items: items,
+      items: (filter, infiniteScrollProps)=>items,
       selectedItem: selectedItem,
-      dropdownDecoratorProps: DropDownDecoratorProps(
+      decoratorProps: DropDownDecoratorProps(
         baseStyle: TextStyle(color: KalakarColors.textColor,),
-          dropdownSearchDecoration: InputDecoration(
+          decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
               ),
@@ -50,7 +50,6 @@ class CustomDropdownSearch extends StatelessWidget {
               contentPadding: contentPadding)),
       compareFn: (i, s) => i.toLowerCase() == s.toLowerCase(),
       popupProps: PopupPropsMultiSelection.modalBottomSheet(
-        isFilterOnline: false,
         showSelectedItems: true,
         showSearchBox: true,
         searchFieldProps: TextFieldProps(
@@ -75,7 +74,7 @@ class CustomDropdownSearch extends StatelessWidget {
   }
 
   Widget _customPopupItemBuilderExample2(
-      BuildContext context, String item, bool isSelected) {
+      BuildContext context, String item, bool isSelected,bool a) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.w),
 

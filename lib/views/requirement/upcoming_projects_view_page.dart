@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../data/models/artist/upcoming_company_projects.dart';
 import '../../data/models/company/project_details_documents_class.dart';
@@ -127,9 +128,117 @@ class UpcomingProjectsViewPage extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(16.h),
           child: controller.isDocumentsLoading
-              ? Center(child: CircularProgressIndicator())
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Center(
+                      child: ClipOval(
+                        // Image radius
+                        child: Shimmer.fromColors(
+                          baseColor: KalakarColors.blue10,
+                          highlightColor: KalakarColors.blue20,
+                          child: Container(
+                            height: 120.h,
+                            width: 120.h,
+                            color: KalakarColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(12.h),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: KalakarColors.white,
+                        border: Border.all(color: KalakarColors.backgroundGrey),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Shimmer.fromColors(
+                            baseColor: KalakarColors.blue10,
+                            highlightColor: KalakarColors.blue20,
+                            child: Container(
+                              height: 20.h,
+                              width: 120.h,
+                              color: KalakarColors.white,
+                            ),
+                          ),
+                          SizedBox(height: 2.h,),
+                          Shimmer.fromColors(
+                            baseColor: KalakarColors.blue10,
+                            highlightColor: KalakarColors.blue20,
+                            child: Container(
+                              height: 20.h,
+                              width: 120.h,
+                              color: KalakarColors.white,
+                            ),
+                          ),
+                          SizedBox(height: 2.h,),
+
+                          Shimmer.fromColors(
+                            baseColor: KalakarColors.blue10,
+                            highlightColor: KalakarColors.blue20,
+                            child: Container(
+                              height: 20.h,
+                              width: 120.h,
+                              color: KalakarColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(12.h),
+                      height: 180.h,
+                      decoration: BoxDecoration(
+                        color: KalakarColors.white,
+                        border: Border.all(color: KalakarColors.backgroundGrey),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child:ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  3,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 165.h,
+                                  width: 125.h,
+                                  margin: EdgeInsets.only(right: 8.h),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    border: Border.all(
+                                        color: KalakarColors.backgroundGrey),
+
+                                  ),
+                                  child: Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 165.h,
+                                      width: 125.h,
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ); //Container();
+                              })
+                          ),
+
+                  ],
+                )
               : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 8.h,
@@ -138,7 +247,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                       child: ClipOval(
                         // Image radius
                         child: Image.network(
-                          upcomingProject.projectCoverDoc??"",
+                          upcomingProject.projectCoverDoc ?? "",
                           fit: BoxFit.cover,
                           height: 120.h,
                           width: 120.h,
@@ -186,31 +295,40 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                         border: Border.all(color: KalakarColors.backgroundGrey),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: upcomingProject.projectDocuments!.isNotEmpty?ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: upcomingProject.projectDocuments!.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 165.h,
-                              width: 125.h,
-                              margin: EdgeInsets.only(right: 8.h),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(8.r),
-                                border: Border.all(color: KalakarColors.backgroundGrey),
-                                image: DecorationImage(
-                                    image: upcomingProject.projectDocuments![index]
-                                            .projectDocuments.toString()
-                                            .startsWith("http")
-                                        ? NetworkImage(upcomingProject.projectDocuments![index]
-                                            .projectDocuments.toString())
-                                        : FileImage(File(upcomingProject.projectDocuments![index]
-                                            .projectDocuments.toString())) as ImageProvider,
-                                    fit: BoxFit.cover),
-                              ),
-                            ); //Container();
-                          }):Center(child: Text("No Projects Documnets Found")),
+                      child: upcomingProject.projectDocuments!.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  upcomingProject.projectDocuments!.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 165.h,
+                                  width: 125.h,
+                                  margin: EdgeInsets.only(right: 8.h),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    border: Border.all(
+                                        color: KalakarColors.backgroundGrey),
+                                    image: DecorationImage(
+                                        image: upcomingProject
+                                                .projectDocuments![index]
+                                                .projectDocuments
+                                                .toString()
+                                                .startsWith("http")
+                                            ? NetworkImage(upcomingProject
+                                                .projectDocuments![index]
+                                                .projectDocuments
+                                                .toString())
+                                            : FileImage(File(upcomingProject
+                                                .projectDocuments![index]
+                                                .projectDocuments
+                                                .toString())) as ImageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ); //Container();
+                              })
+                          : Center(child: Text("No Projects Documnets Found")),
                     )
                   ],
                 ),

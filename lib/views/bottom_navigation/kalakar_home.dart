@@ -49,418 +49,447 @@ class KalakarHomePage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               if(controller.newRequirementDetailsList.isNotEmpty)Column(
                   children: [
-                    Text(
-                      KalakarConstants.newOpportunities,
-                      style: TextStyle(fontSize: 16.sp),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          KalakarConstants.newOpportunities,
+                          style: TextStyle(fontSize: 16.sp),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            BottomNavigationController bottomNController =
+                                Get.put(BottomNavigationController());
+                            bottomNController.selectedIndex = 1;
+                            bottomNController.update();
+                          },
+                          child: Text(
+                            KalakarConstants.seeAll,
+                            style: TextStyle(fontSize: 16.sp),
+                          ),
+                        )
+                      ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        BottomNavigationController bottomNController =
-                            Get.put(BottomNavigationController());
-                        bottomNController.selectedIndex = 1;
-                        bottomNController.update();
-                      },
-                      child: Text(
-                        KalakarConstants.seeAll,
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                    )
+                    SizedBox(
+                      height: Get.size.height / 2.8,
+                      child:  controller.newRequirementDetailsList.isNotEmpty
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      controller.newRequirementDetailsList.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    RequirementDetailsData requirement =
+                                        controller.newRequirementDetailsList[index];
+                                    DateTime shootingStartDate = DateTime.parse(
+                                        requirement.shootingStartDate.toString());
+                                    DateFormat formatter = DateFormat('dd-MM-yyyy');
+                                    return InkWell(
+                                      onTap: () {
+                                        controller.setRequirementViewData(
+                                            requirement, false);
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            right: 8.h, top: 8.h, bottom: 8.h),
+                                        padding: EdgeInsets.all(8.h),
+                                        width: Get.size.width / 2,
+                                        decoration: BoxDecoration(
+                                          color: KalakarColors.white,
+                                          border: Border.all(
+                                              color: KalakarColors.backgroundGrey),
+                                          borderRadius: BorderRadius.circular(8.r),
+                                        ),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Align(
+                                                  alignment: Alignment.centerRight,
+                                                  child: InkWell(
+                                                      onTap: () {
+                                                        if(requirement.artistFavoritesRequirementTransID ==
+                                                            0)controller
+                                                            .addRequirementInFavorites(
+                                                                requirement
+                                                                    .requirementDetailsID!,false);
+                                                      },
+                                                      child: Icon(
+                                                        requirement.artistFavoritesRequirementTransID ==
+                                                                0
+                                                            ? CupertinoIcons
+                                                                .suit_heart
+                                                            : CupertinoIcons
+                                                                .heart_fill,
+                                                        color: requirement
+                                                                    .artistFavoritesRequirementTransID ==
+                                                                0
+                                                            ? Colors.black
+                                                            : Colors.red,
+                                                      ))),
+                                              SizedBox(
+                                                height: 8.h,
+                                              ),
+                                              ClipOval(
+                                                // Image radius
+                                                child: Image.network(
+                                                  requirement.refPhotoName!,
+                                                  fit: BoxFit.cover,
+                                                  height: 80.h,
+                                                  width: 80.h,
+                                                  errorBuilder: (BuildContext context,
+                                                      Object error,
+                                                      StackTrace? stackTrace) {
+                                                    // Return a dummy or placeholder image when an error occurs
+                                                    return Image.asset(
+                                                      "assets/images/app_bar_logo.png",
+                                                      height: 80.h,
+                                                      width: 80.h,
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 8.h,
+                                              ),
+                                              Text(requirement
+                                                  .companyNameProductionhouse!),
+                                              Divider(
+                                                color: KalakarColors.backgroundGrey,
+                                                height: 20,
+                                                thickness: 2,
+                                                // indent: 20,
+                                                // endIndent: 20,
+                                              ),
+                                              Container(
+                                                color: KalakarColors.white,
+                                                padding: EdgeInsets.all(4.h),
+                                                child: InkWell(
+                                                    child: Container(
+                                                  margin: EdgeInsets.all(4.h),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 4.h,
+                                                      horizontal: 16.w),
+                                                  decoration:
+                                                      BoxDecoration(boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey,
+                                                      blurRadius: 5.0,
+                                                    ),
+                                                  ], color: KalakarColors.white),
+                                                  child:
+                                                      Text(requirement.lookingFor!),
+                                                )),
+                                              ),
+                                              SizedBox(
+                                                height: 8.h,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Icon(Icons.cake),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Text(
+                                                        requirement.age!.contains(".")
+                                                            ? requirement.age!
+                                                                    .split(".")
+                                                                    .first +
+                                                                " Years"
+                                                            : requirement.age! +
+                                                                " Years"),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 8.h,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Icon(Icons.person),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Text(requirement.gender!),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 8.h,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Icon(Icons.location_on),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Text(requirement
+                                                        .shootingLocation!),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 8.h,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Icon(Icons.calendar_month),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Text(formatter
+                                                        .format(shootingStartDate)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  })
+                              : Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("No New Opportunities Found"),
+                                      SizedBox(
+                                        height: 16.h,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          controller
+                                              .getArtistHomeRequirementDetails(false);
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Icon(Icons.refresh),
+                                            Text("Refresh"),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                    ),
                   ],
                 ),
-                Container(
-                  height: Get.size.height / 2.8,
-                  child: controller.isArtistHomeRequirementsLoading
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 5,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: EdgeInsets.only(
-                                  right: 8.h, top: 8.h, bottom: 8.h),
-                              padding: EdgeInsets.all(8.h),
-                              width: Get.size.width / 2,
-                              decoration: BoxDecoration(
-                                color: KalakarColors.white,
-                                border: Border.all(
-                                    color: KalakarColors.backgroundGrey),
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    // Align(
-                                    //     alignment: Alignment.centerRight,
-                                    //     child: Icon(CupertinoIcons.suit_heart)),
-                                    SizedBox(
-                                      height: 8.h,
+                if(controller.isArtistHomeRequirementsLoading)Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        KalakarConstants.newOpportunities,
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          BottomNavigationController bottomNController =
+                          Get.put(BottomNavigationController());
+                          bottomNController.selectedIndex = 1;
+                          bottomNController.update();
+                        },
+                        child: Text(
+                          KalakarConstants.seeAll,
+                          style: TextStyle(fontSize: 16.sp),
+                        ),
+                      )
+                    ],
+                  ),
+                    SizedBox(
+                      height: Get.size.height / 2.8,
+                      child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(
+                              right: 8.h, top: 8.h, bottom: 8.h),
+                          padding: EdgeInsets.all(8.h),
+                          width: Get.size.width / 2,
+                          decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            border: Border.all(
+                                color: KalakarColors.backgroundGrey),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                // Align(
+                                //     alignment: Alignment.centerRight,
+                                //     child: Icon(CupertinoIcons.suit_heart)),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                ClipOval(
+                                  // Image radius
+                                  child: Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 80.h,
+                                      width: 80.h,
+                                      color: KalakarColors.white,
                                     ),
-                                    ClipOval(
-                                      // Image radius
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 30.h,
+                                    width: 100.h,
+                                    color: KalakarColors.white,
+                                  ),
+                                ),
+                                Divider(
+                                  color: KalakarColors.backgroundGrey,
+                                  height: 20,
+                                  thickness: 2,
+                                  // indent: 20,
+                                  // endIndent: 20,
+                                ),
+                                Container(
+                                  color: KalakarColors.white,
+                                  padding: EdgeInsets.all(4.h),
+                                  child: Container(
+                                    margin: EdgeInsets.all(4.h),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 4.h, horizontal: 16.w),
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 5.0,
+                                      ),
+                                    ], color: KalakarColors.white),
+                                    child: Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 20.h,
+                                        width: 80.h,
+                                        color: KalakarColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.cake),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
                                       child: Shimmer.fromColors(
                                         baseColor: KalakarColors.blue10,
                                         highlightColor: KalakarColors.blue20,
                                         child: Container(
-                                          height: 80.h,
+                                          height: 20.h,
                                           width: 80.h,
                                           color: KalakarColors.white,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    Shimmer.fromColors(
-                                      baseColor: KalakarColors.blue10,
-                                      highlightColor: KalakarColors.blue20,
-                                      child: Container(
-                                        height: 30.h,
-                                        width: 100.h,
-                                        color: KalakarColors.white,
-                                      ),
-                                    ),
-                                    Divider(
-                                      color: KalakarColors.backgroundGrey,
-                                      height: 20,
-                                      thickness: 2,
-                                      // indent: 20,
-                                      // endIndent: 20,
-                                    ),
-                                    Container(
-                                      color: KalakarColors.white,
-                                      padding: EdgeInsets.all(4.h),
-                                      child: Container(
-                                        margin: EdgeInsets.all(4.h),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 4.h, horizontal: 16.w),
-                                        decoration: BoxDecoration(boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey,
-                                            blurRadius: 5.0,
-                                          ),
-                                        ], color: KalakarColors.white),
-                                        child: Shimmer.fromColors(
-                                          baseColor: KalakarColors.blue10,
-                                          highlightColor: KalakarColors.blue20,
-                                          child: Container(
-                                            height: 20.h,
-                                            width: 80.h,
-                                            color: KalakarColors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Icon(Icons.cake),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor: KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(child: Container())
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Icon(Icons.person),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor: KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(child: Container())
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Icon(Icons.location_on),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor: KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(child: Container())
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Icon(Icons.calendar_month),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor: KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(child: Container())
-                                      ],
-                                    ),
+                                    Expanded(child: Container())
                                   ],
                                 ),
-                              ),
-                            );
-                          })
-                      : controller.newRequirementDetailsList.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount:
-                                  controller.newRequirementDetailsList.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                RequirementDetailsData requirement =
-                                    controller.newRequirementDetailsList[index];
-                                DateTime shootingStartDate = DateTime.parse(
-                                    requirement.shootingStartDate.toString());
-                                DateFormat formatter = DateFormat('dd-MM-yyyy');
-                                return InkWell(
-                                  onTap: () {
-                                    controller.setRequirementViewData(
-                                        requirement, false);
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        right: 8.h, top: 8.h, bottom: 8.h),
-                                    padding: EdgeInsets.all(8.h),
-                                    width: Get.size.width / 2,
-                                    decoration: BoxDecoration(
-                                      color: KalakarColors.white,
-                                      border: Border.all(
-                                          color: KalakarColors.backgroundGrey),
-                                      borderRadius: BorderRadius.circular(8.r),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.person),
                                     ),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                  onTap: () {
-                                                    if(requirement.artistFavoritesRequirementTransID ==
-                                                        0)controller
-                                                        .addRequirementInFavorites(
-                                                            requirement
-                                                                .requirementDetailsID!,false);
-                                                  },
-                                                  child: Icon(
-                                                    requirement.artistFavoritesRequirementTransID ==
-                                                            0
-                                                        ? CupertinoIcons
-                                                            .suit_heart
-                                                        : CupertinoIcons
-                                                            .heart_fill,
-                                                    color: requirement
-                                                                .artistFavoritesRequirementTransID ==
-                                                            0
-                                                        ? Colors.black
-                                                        : Colors.red,
-                                                  ))),
-                                          SizedBox(
-                                            height: 8.h,
-                                          ),
-                                          ClipOval(
-                                            // Image radius
-                                            child: Image.network(
-                                              requirement.refPhotoName!,
-                                              fit: BoxFit.cover,
-                                              height: 80.h,
-                                              width: 80.h,
-                                              errorBuilder: (BuildContext context,
-                                                  Object error,
-                                                  StackTrace? stackTrace) {
-                                                // Return a dummy or placeholder image when an error occurs
-                                                return Image.asset(
-                                                  "assets/images/app_bar_logo.png",
-                                                  height: 80.h,
-                                                  width: 80.h,
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 8.h,
-                                          ),
-                                          Text(requirement
-                                              .companyNameProductionhouse!),
-                                          Divider(
-                                            color: KalakarColors.backgroundGrey,
-                                            height: 20,
-                                            thickness: 2,
-                                            // indent: 20,
-                                            // endIndent: 20,
-                                          ),
-                                          Container(
-                                            color: KalakarColors.white,
-                                            padding: EdgeInsets.all(4.h),
-                                            child: InkWell(
-                                                child: Container(
-                                              margin: EdgeInsets.all(4.h),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 4.h,
-                                                  horizontal: 16.w),
-                                              decoration:
-                                                  BoxDecoration(boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey,
-                                                  blurRadius: 5.0,
-                                                ),
-                                              ], color: KalakarColors.white),
-                                              child:
-                                                  Text(requirement.lookingFor!),
-                                            )),
-                                          ),
-                                          SizedBox(
-                                            height: 8.h,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: Icon(Icons.cake),
-                                              ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                    requirement.age!.contains(".")
-                                                        ? requirement.age!
-                                                                .split(".")
-                                                                .first +
-                                                            " Years"
-                                                        : requirement.age! +
-                                                            " Years"),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 8.h,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: Icon(Icons.person),
-                                              ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(requirement.gender!),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 8.h,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: Icon(Icons.location_on),
-                                              ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(requirement
-                                                    .shootingLocation!),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 8.h,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: Icon(Icons.calendar_month),
-                                              ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(formatter
-                                                    .format(shootingStartDate)),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                    Expanded(
+                                      flex: 2,
+                                      child: Shimmer.fromColors(
+                                        baseColor: KalakarColors.blue10,
+                                        highlightColor: KalakarColors.blue20,
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 80.h,
+                                          color: KalakarColors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              })
-                          : Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("No New Opportunities Found"),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      controller
-                                          .getArtistHomeRequirementDetails(false);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Icon(Icons.refresh),
-                                        Text("Refresh"),
-                                      ],
+                                    Expanded(child: Container())
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.location_on),
                                     ),
-                                  )
-                                ],
-                              ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Shimmer.fromColors(
+                                        baseColor: KalakarColors.blue10,
+                                        highlightColor: KalakarColors.blue20,
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 80.h,
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(child: Container())
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(Icons.calendar_month),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Shimmer.fromColors(
+                                        baseColor: KalakarColors.blue10,
+                                        highlightColor: KalakarColors.blue20,
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 80.h,
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(child: Container())
+                                  ],
+                                ),
+                              ],
                             ),
-                ),
+                          ),
+                        );
+                      }),
+                    )
+                    ],),
                 SizedBox(
                   height: 16.h,
                 ),

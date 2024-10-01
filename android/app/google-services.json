@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1036285532666",
+    "firebase_url": "https://test-771d1.firebaseio.com",
+    "project_id": "test-771d1",
+    "storage_bucket": "test-771d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036285532666:android:e4a6f9c2384c4ecfd0ec43",
+        "android_client_info": {
+          "package_name": "com.example.kalakar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036285532666-gqqf46u7vh5k3u48iopba7vg2mkdcc7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJujK6baIRwr3pdJkxKhPT29aSofC35IE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036285532666-gqqf46u7vh5k3u48iopba7vg2mkdcc7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
