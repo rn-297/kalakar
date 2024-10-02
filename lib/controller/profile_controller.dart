@@ -123,7 +123,7 @@ class ProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null &&
         loginTable.accountType == KalakarConstants.company) {
-      companyProfileID=loginTable.profileId;
+      companyProfileID = loginTable.profileId;
       getProfileData();
       getStateData();
       getProjectStatusData();
@@ -278,6 +278,7 @@ class ProfileController extends GetxController {
   setProfileFormData() {
     print(profileData!.verificationStatus);
     isNetworkCompanyLogo = true;
+    companyProfileID = profileData!.companyProfileID ?? 0;
     companyLogo = profileData!.companyLogo ?? "";
     companyNameTEController.text =
         profileData!.companyNameProductionhouse ?? "";

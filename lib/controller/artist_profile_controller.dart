@@ -760,6 +760,7 @@ class ArtistProfileController extends GetxController {
 
   setArtistProfileData() {
     if (artistProfileDetails != null) {
+      artistProfileID = artistProfileDetails.artistProfileID!;
       artistProfileImage = artistProfileDetails.profilePic!;
       firstNameTEController.text = artistProfileDetails.firstName!;
       middleNameTEController.text = artistProfileDetails.middleName!;
@@ -1501,7 +1502,6 @@ class ArtistProfileController extends GetxController {
         getArtistExperience(0),
         getArtistDocuments(),
         getArtistPortFolio(0)
-
       ];
 
       // Process only 2 API calls at a time

@@ -9,6 +9,7 @@ import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/login_data_model.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/helper/write_log.dart';
+import 'package:kalakar/push_notification/PushNotificationService.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 
@@ -327,7 +328,8 @@ class AuthPageController extends GetxController {
     KalakarDialogs.loadingDialog("Logging", "Signing In");
     var body = {
       "password": signInPassword.text,
-      "emailOrMobileNumber": signInEmailOrMobile.text
+      "emailOrMobileNumber": signInEmailOrMobile.text,
+      "loginToken":await PushNotificationService.getNotificationToken(),
     };
 
     var response = await ApiClient.postData(

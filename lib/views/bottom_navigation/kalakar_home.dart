@@ -49,7 +49,7 @@ class KalakarHomePage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-               if(controller.newRequirementDetailsList.isNotEmpty)Column(
+               if(controller.newRequirementDetailsList.isNotEmpty&& !controller.isArtistHomeRequirementsLoading)Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -81,9 +81,10 @@ class PushNotificationService {
         importance: Importance.max,
       );
 
-  static getNotificationToken() async {
+  static Future<String>getNotificationToken() async {
     var firebaseToken = await FirebaseMessaging.instance.getToken();
     print(firebaseToken);
+    return firebaseToken??"";
     // MySharedPreference.setFirebaseToken(firebaseToken.toString());
   }
 }
