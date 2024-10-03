@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
@@ -133,7 +134,24 @@ class AuthPageController extends GetxController {
     }
   }
 
-  void signInWithGoogle() {}
+  void signInWithGoogle()async {
+    const List<String> scopes = <String>[
+      'email',
+    ];
+
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      // Optional clientId
+      // clientId: 'your-client_id.apps.googleusercontent.com',
+      scopes: scopes,
+    );
+      try {
+        var data=await _googleSignIn.signIn();
+        print(data);
+      } catch (error) {
+        print(error);
+      }
+
+  }
 
   ///API CALLS
   Future<void> getOtpApi(OTPType otpType) async {

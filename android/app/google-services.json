@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1036285532666-rr4pn5rvd2nveamqpbcs0htmvq9ll2mr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kalakar",
+            "certificate_hash": "688a623ef764243e207e0fbe4289350bd77491fe"
+          }
+        },
+        {
           "client_id": "1036285532666-gqqf46u7vh5k3u48iopba7vg2mkdcc7b.apps.googleusercontent.com",
           "client_type": 3
         }

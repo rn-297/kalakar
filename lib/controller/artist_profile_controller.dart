@@ -122,6 +122,7 @@ class ArtistProfileController extends GetxController {
   String artistExperienceId = "0";
   String artistPortfolioId = "0";
   String artistApplyForId = "0";
+  String porFolioFileType = "";
 
   //date time
   DateTime artistDOB = DateTime.now();
@@ -844,8 +845,13 @@ class ArtistProfileController extends GetxController {
         if (portFolioImageOrVideo.isNotEmpty) {
           PickerHelper.showOrPickDocBottomSheet(
               documentType, context, controller);
-        } else {
-          PickerHelper.showImageVideoBottomSheet(context, controller);
+        } else if(porFolioFileType=="IMAGE"){
+          PickerHelper.showImageBottomSheet(context, controller);
+        }else if(porFolioFileType=="IMAGE"){
+          PickerHelper.showVideoBottomSheet(context, controller);
+
+        }else{
+          validatePortfolioForm();
         }
         break;
       case KalakarConstants.roleImage:
@@ -861,7 +867,7 @@ class ArtistProfileController extends GetxController {
           PickerHelper.showOrPickDocBottomSheet(
               documentType, context, controller);
         } else {
-          PickerHelper.showImageBottomSheet(context, controller);
+          PickerHelper.showVideoBottomSheet(context, controller);
         }
         break;
     }
@@ -876,14 +882,16 @@ class ArtistProfileController extends GetxController {
       case KalakarConstants.portfolio1:
         print("here2");
 
-        if (fileTypeTEController.text == "IMAGE") {
+        if (porFolioFileType == "IMAGE") {
           print("here3");
 
           PickerHelper.showImageBottomSheet(context, controller);
-        } else {
+        } else if (porFolioFileType == "VIDEO") {
           print("here4");
 
           PickerHelper.showVideoBottomSheet(context, controller);
+        }else{
+          validatePortfolioForm();
         }
 
         break;
@@ -966,6 +974,7 @@ class ArtistProfileController extends GetxController {
         if (kIsWeb) {
           utils.openLink(expRoleVideo);
         } else {
+          print(expRoleVideo);
           fileController.viewFile1(expRoleVideo, documentType);
         }
         break;
@@ -988,6 +997,8 @@ class ArtistProfileController extends GetxController {
 
   Future<void> getVideoFromCamera(BuildContext context) async {
     File? file = await PickerHelper.pickVideoFromCamera(context);
+    print(documentType);
+    print(file!.path);
     if (file != null) {
       if (documentType == KalakarConstants.portfolio1) {
         portFolioImageOrVideo = file.path;
@@ -1003,11 +1014,15 @@ class ArtistProfileController extends GetxController {
 
   Future<void> getVideoFromGallery(BuildContext context) async {
     File? file = await PickerHelper.pickVideoFromGallery(context);
+    print(documentType);
+    print(file!.path);
     if (file != null) {
       if (documentType == KalakarConstants.portfolio1) {
         portFolioImageOrVideo = file.path;
+        filePathTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.roleVideo) {
         expRoleVideo = file.path;
+        roleVideoTEController.text = file.path.split("/").last;
       }
     }
     update();
@@ -1035,7 +1050,7 @@ class ArtistProfileController extends GetxController {
       } else if (documentType == KalakarConstants.aadharCard) {
         adharCardImage = file.path;
         adharCardTEController.text = adharCardImage.split("/").last;
-      } else if (documentType == KalakarConstants.portfolio) {
+      } else if (documentType == KalakarConstants.portfolio1) {
         portFolioImageOrVideo = file.path;
         filePathTEController.text = portFolioImageOrVideo.split("/").last;
       } else if (documentType == KalakarConstants.roleImage) {
@@ -1860,6 +1875,7 @@ class ArtistProfileController extends GetxController {
 
   void setFileTypeValue(String selectedItem) {
     fileTypeTEController.text = selectedItem;
+    porFolioFileType = selectedItem;
   }
 
   void editArtistPortfolio(PortfolioList? artistPortfolio) {
@@ -1874,6 +1890,7 @@ class ArtistProfileController extends GetxController {
       artistPortfolioId = "0";
       fileTypeTEController.text = "";
       filePathTEController.text = "";
+      portFolioImageOrVideo="";
     }
     Get.toNamed(RouteHelper.artistPortfolio);
   }
