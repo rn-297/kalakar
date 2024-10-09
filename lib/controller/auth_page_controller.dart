@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
@@ -37,6 +38,7 @@ class AuthPageController extends GetxController {
   bool signInPasswordValue = true;
   bool isOtpSent = false;
   String oTP = "";
+  String googleAuthToken = "";
 
   bool createMobileNumberEditable = true;
   bool createEmailEditable = true;
@@ -134,23 +136,69 @@ class AuthPageController extends GetxController {
     }
   }
 
-  void signInWithGoogle()async {
-    const List<String> scopes = <String>[
-      'email',
-    ];
+  void signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    GoogleSignIn _googleSignIn = GoogleSignIn(
-      // Optional clientId
-      // clientId: 'your-client_id.apps.googleusercontent.com',
-      scopes: scopes,
-    );
-      try {
-        var data=await _googleSignIn.signIn();
-        print(data);
-      } catch (error) {
-        print(error);
+    if (googleUser != null) {
+      GoogleSignInAuthentication auth = await googleUser.authentication;
+      print(auth.idToken);
+      String? idToken = auth.idToken;
+      await Clipboard.setData(ClipboardData(
+        text: idToken!,
+      ));
+      KalakarDialogs.loadingDialog("Signing In", "Signing In ...");
+      var body = {
+        "googleAuthIDToken": idToken,
+        "loginNotificationToken":
+            await PushNotificationService.getNotificationToken()
+      };
+
+      var response = await ApiClient.postData(
+          KalakarConstants.getGoogleLoginApi, jsonEncode(body));
+      print(response.statusCode);
+      if (Get.isDialogOpen!) {
+        Get.back();
       }
 
+      if (response.statusCode == 200) {
+        LoginDataClass loginDataClass =
+            LoginDataClass.fromJson(jsonDecode(response.body));
+        if (loginDataClass.replayStatus!) {
+          LoginTable loginTable = LoginTable(
+            loginDataClass.accountID ?? "",
+            loginDataClass.email ?? "",
+            loginDataClass.mobileNumber ?? "",
+            loginDataClass.accountType ?? "",
+            loginDataClass.fistName ?? "",
+            loginDataClass.lastName ?? "",
+            loginDataClass.token ?? "",
+            loginDataClass.userID ?? "",
+            loginDataClass.verificationStatus ?? "",
+            loginDataClass.verificationStatusID ?? 0,
+            loginDataClass.isverifiedContacts ?? false,
+            loginDataClass.profileID ?? 0,
+            loginDataClass.referralCode ?? "",
+            loginDataClass.usedReferralCode ?? "",
+            loginDataClass.totalReferralAmount ?? 0.0,
+            loginDataClass.usedReferralAmount ?? 0.0,
+          );
+          HiveService.saveLoginData(loginTable);
+          signInEmailOrMobile.clear();
+          signInPassword.clear();
+          KalakarDialogs.goHomePage("Login Success", loginDataClass.message!,
+              loginDataClass.accountType!);
+        } else {
+          if (loginDataClass.message == "NewUser") {
+            googleAuthToken = idToken!;
+            createFirstName.text = loginDataClass.fistName ?? "";
+            createLastName.text = loginDataClass.lastName ?? "";
+            createWhatsappNumber.text = loginDataClass.mobileNumber ?? "";
+            createEmail.text = loginDataClass.email ?? "";
+            Get.offNamed(RouteHelper.googleNewUserPage);
+          }
+        }
+      }
+    }
   }
 
   ///API CALLS
@@ -347,7 +395,7 @@ class AuthPageController extends GetxController {
     var body = {
       "password": signInPassword.text,
       "emailOrMobileNumber": signInEmailOrMobile.text,
-      "loginToken":await PushNotificationService.getNotificationToken(),
+      "loginToken": await PushNotificationService.getNotificationToken(),
     };
 
     var response = await ApiClient.postData(
@@ -367,20 +415,23 @@ class AuthPageController extends GetxController {
           LoginDataClass.fromJson(jsonDecode(response.body));
       if (loginDataClass.replayStatus!) {
         LoginTable loginTable = LoginTable(
-            loginDataClass.accountID ?? "",
-            loginDataClass.email ?? "",
-            loginDataClass.mobileNumber ?? "",
-            loginDataClass.accountType ?? "",
-            loginDataClass.fistName ?? "",
-            loginDataClass.lastName ?? "",
-            loginDataClass.token ?? "",
-            loginDataClass.userID ?? "",
-            loginDataClass.verificationStatus ?? "",
-            loginDataClass.verificationStatusID ?? 0,
-            loginDataClass.isverifiedContacts ?? false,
-            loginDataClass.profileID ?? 0,
-            loginDataClass.referralCode ?? "",
-            loginDataClass.usedReferralCode ?? "");
+          loginDataClass.accountID ?? "",
+          loginDataClass.email ?? "",
+          loginDataClass.mobileNumber ?? "",
+          loginDataClass.accountType ?? "",
+          loginDataClass.fistName ?? "",
+          loginDataClass.lastName ?? "",
+          loginDataClass.token ?? "",
+          loginDataClass.userID ?? "",
+          loginDataClass.verificationStatus ?? "",
+          loginDataClass.verificationStatusID ?? 0,
+          loginDataClass.isverifiedContacts ?? false,
+          loginDataClass.profileID ?? 0,
+          loginDataClass.referralCode ?? "",
+          loginDataClass.usedReferralCode ?? "",
+          loginDataClass.totalReferralAmount!.toDouble() ?? 0.0,
+          loginDataClass.usedReferralAmount!.toDouble() ?? 0.0,
+        );
         HiveService.saveLoginData(loginTable);
         signInEmailOrMobile.clear();
         signInPassword.clear();

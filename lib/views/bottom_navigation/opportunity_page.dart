@@ -268,7 +268,7 @@ class OpportunityPage extends StatelessWidget {
                                                                     .refPhotoName ??
                                                                 "",
                                                           ),
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.cover,
                                                         )),
                                                   )),
                                         Expanded(
@@ -282,6 +282,9 @@ class OpportunityPage extends StatelessWidget {
                                                   Text(
                                                     requirementData
                                                         .requirementTitle!,
+                                                    overflow:
+                                                    TextOverflow.ellipsis,
+                                                    maxLines: 2,
                                                     style: TextStyle(
                                                         fontSize: 16.sp,
                                                         color: KalakarColors

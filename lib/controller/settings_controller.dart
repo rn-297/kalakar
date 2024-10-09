@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/navigation_controller.dart';
+import 'package:kalakar/data/models/notification_settings_class.dart';
 import 'package:kalakar/data/models/referral_details_class.dart';
 import 'package:kalakar/data/models/settings_data_class.dart';
 import 'package:kalakar/helper/route_helper.dart';
+import 'package:kalakar/push_notification/PushNotificationService.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 
@@ -13,14 +15,17 @@ import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
 import '../data/models/generate_otp_model.dart';
+import '../data/models/login_data_model.dart';
 
 class SettingsController extends GetxController {
   List<String> settingsList = [];
   String referralCode = "";
   String referredBy = "";
+  String totalReferralAmount = "";
   ReferralDetailsClass referralDetails = ReferralDetailsClass();
   TextEditingController referralCodeTEController = TextEditingController();
   bool detailsLoaded = false;
+  bool isNotification = false;
   SettingsDataClass settingsData = SettingsDataClass();
 
   @override
@@ -29,14 +34,14 @@ class SettingsController extends GetxController {
     super.onInit();
     setSettingsList();
     getSettingsData();
+    getNotificationData();
   }
 
   void setSettingsList() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       print(loginTable!.accountType!);
-      referralCode = loginTable.referralCode.toString();
-      referredBy = loginTable.usedReferralCode.toString();
+
       if (loginTable!.accountType == KalakarConstants.artist) {
         settingsList = [
           KalakarConstants.myProfile,
@@ -164,7 +169,6 @@ class SettingsController extends GetxController {
   Future<void> getSettingsData() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-
       final body = {
         "fK_UserTypeID":
             loginTable.accountType == KalakarConstants.artist ? "2" : "1",
@@ -183,12 +187,98 @@ class SettingsController extends GetxController {
         SettingsDataClass settingsDataClass =
             SettingsDataClass.fromJson(jsonDecode(response.body));
         if (settingsDataClass.replayStatus ?? false) {
-          settingsData=settingsDataClass;
+          settingsData = settingsDataClass;
           update();
         } else {}
       }
     }
   }
 
-  void openSocialMedia(int i) {}
+
+  Future<void> getReferralData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {
+        "accountID": loginTable.accountID
+      };
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getAccountData,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        LoginDataClass loginDataClass =
+        LoginDataClass.fromJson(jsonDecode(response.body));
+        if (loginDataClass.replayStatus ?? false) {
+          totalReferralAmount = loginDataClass.totalReferralAmount!.toString();
+          referralCode = loginDataClass.referralCode.toString();
+          referredBy = loginDataClass.usedReferralCode.toString();
+          update();
+        } else {}
+      }
+    }
+  }
+
+  void openSocialMedia(String url) {}
+
+  void setNotificationValue(bool val) {
+    PushNotificationService.getNotificationToken();
+    setNotificationData(val);
+  }
+
+  Future<void> getNotificationData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {"accountID": loginTable.accountID};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getNotificationDataApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+
+
+      if (response.statusCode == 200) {
+        NotificationSettingsClass notificationSettingsClass =
+            NotificationSettingsClass.fromJson(jsonDecode(response.body));
+        if (notificationSettingsClass.replayStatus!) {
+          isNotification = notificationSettingsClass.isNotificationOn??true;
+          update();
+        }
+      }
+    }
+  }
+
+  Future<void> setNotificationData(bool val) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Setting Notification Data", "Setting Notification Data");
+      final body = {"isNotificationOn": val,
+        "accountID": loginTable.accountID};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.setNotificationDataApi,
+          jsonEncode(body),
+          loginTable.token);
+      print(response.statusCode);
+      print(response);
+
+      if(Get.isDialogOpen!){
+        Get.back();
+      }
+
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel=ResponseModel.fromJson(jsonDecode(response.body));
+        if(responseModel.replayStatus??false){
+          getNotificationData();
+        }
+      }
+    }
+  }
 }

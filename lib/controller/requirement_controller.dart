@@ -375,7 +375,7 @@ class RequirementController extends GetxController {
             ? "0"
             : searchEndAgeTEController.text,
         "requirementDetailsID": "0",
-        "fK_CompanyProfileID": "0"
+        "fK_CompanyProfileID": loginTable.accountID
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.searchRequirementsDetailsArtistsApi,

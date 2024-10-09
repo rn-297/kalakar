@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 // import 'package:appinio_video_player/appinio_video_player.dart';
+import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -26,9 +27,8 @@ class _ViewFilePageState extends State<ViewFilePage> {
 
   int count = 0;
   late PdfControllerPinch pdfController;
-  late VideoPlayerController videoController;
-
-  // late CustomVideoPlayerController customVideoPlayerController;
+  late CachedVideoPlayerController videoPlayerController;
+  late CustomVideoPlayerController _customVideoPlayerController;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _ViewFilePageState extends State<ViewFilePage> {
   @override
   void dispose() {
     try {
-      videoController.dispose();
+      _customVideoPlayerController.dispose();
     } catch (e) {
       // print(e);
     }
@@ -86,10 +86,10 @@ class _ViewFilePageState extends State<ViewFilePage> {
                             ? isInitialized.value
                                 ? AspectRatio(
                                     aspectRatio: 1 / 1,
-                                    // child: CustomVideoPlayer(
-                                    //   customVideoPlayerController:
-                                    //       customVideoPlayerController,
-                                    // ),
+                                    child: CustomVideoPlayer(
+                                      customVideoPlayerController:
+                                          _customVideoPlayerController,
+                                    ),
                                   )
                                 : Center(child: CircularProgressIndicator())
                             : Center(
@@ -112,16 +112,12 @@ class _ViewFilePageState extends State<ViewFilePage> {
     FileController fileController = Get.put(FileController());
     final String _localFilePath = fileController.filePath;
     try {
-      videoController =
-          await VideoPlayerController.contentUri(Uri.parse(filePath))
-            ..initialize().then((value) => {
-                  setState(() {}),
-                });
-
-      // customVideoPlayerController = await CustomVideoPlayerController(
-      //     context: context,
-      //     videoPlayerController: videoController,
-      //     customVideoPlayerSettings: CustomVideoPlayerSettings());
+      videoPlayerController = CachedVideoPlayerController.network(_localFilePath)
+        ..initialize().then((value) => setState(() {}));
+      _customVideoPlayerController = CustomVideoPlayerController(
+        context: context,
+        videoPlayerController: videoPlayerController,
+      );
       setState(() {
         isInitialized.value = true;
         // print("Done");
@@ -184,4 +180,6 @@ class _ViewFilePageState extends State<ViewFilePage> {
     // print(fileType.value);
     fileType.refresh();
   }
+
+
 }

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:kalakar/helper/file_viewer/file_viewer.dart';
 import 'package:kalakar/views/auth/forgot_password.dart';
+import 'package:kalakar/views/auth/google_new_user_page.dart';
 import 'package:kalakar/views/auth/login_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_apply_for_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_comfortable_in_form_page.dart';
@@ -75,6 +76,7 @@ class RouteHelper {
   static const String artistProfileViewPage = '/kalakar_artist_profile_view';
   static const String artistSearchRequirementPage = '/kalakar_artist_search_requirement';
   static const String companySearchArtistPage = '/kalakar_company_search_artist';
+  static const String googleNewUserPage = '/kalakar_google_new_user_page';
 
   static List<GetPage> routes = [
     GetPage(
@@ -218,6 +220,10 @@ class RouteHelper {
     GetPage(
       name: RouteHelper.upcomingProjectListAllPage,
       page: () => UpcomingProjectListAllPage(),
+    ),
+    GetPage(
+      name: RouteHelper.googleNewUserPage,
+      page: () => GoogleNewUserPage(),
     ),
   ];
 }

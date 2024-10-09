@@ -15,6 +15,8 @@ class LoginDataClass {
   int? verificationStatusID;
   int? profileID;
   bool? isverifiedContacts;
+  double? totalReferralAmount;
+  double? usedReferralAmount;
 
   LoginDataClass(
       {this.replayStatus,
@@ -32,7 +34,9 @@ class LoginDataClass {
         this.verificationStatus,
         this.verificationStatusID,
         this.profileID,
-        this.isverifiedContacts});
+        this.isverifiedContacts,
+        this.totalReferralAmount,
+        this.usedReferralAmount});
 
   LoginDataClass.fromJson(Map<String, dynamic> json) {
     replayStatus = json['replayStatus'];
@@ -51,6 +55,8 @@ class LoginDataClass {
     verificationStatusID = json['verificationStatusID'];
     profileID = json['profileID'];
     isverifiedContacts = json['isverifiedContacts'];
+    totalReferralAmount = json['totalReferralAmount'];
+    usedReferralAmount = json['usedReferralAmount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +77,8 @@ class LoginDataClass {
     data['verificationStatusID'] = this.verificationStatusID;
     data['profileID'] = this.profileID;
     data['isverifiedContacts'] = this.isverifiedContacts;
+    data['totalReferralAmount'] = this.totalReferralAmount;
+    data['usedReferralAmount'] = this.usedReferralAmount;
     return data;
   }
 }

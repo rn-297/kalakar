@@ -1,10 +1,26 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 class PushNotificationService {
 // It is assumed that all messages contain a data field with the key 'type'
   Future<void> setupInteractedMessage() async {
-    await Firebase.initializeApp();
+    await Permission.notification.isDenied.then(
+          (bool value) {
+        if (value) {
+          Permission.notification.request();
+        }
+      },
+    );
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: "AIzaSyDJujK6baIRwr3pdJkxKhPT29aSofC35IE",
+          appId: "1:1036285532666:android:e4a6f9c2384c4ecfd0ec43",
+          messagingSenderId: "1036285532666",
+          projectId: "test-771d1",
+
+        )
+    );
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       // Get.toNamed(NOTIFICATIONS_ROUTE);
       if (message.data['type'] == 'chat') {
@@ -57,6 +73,7 @@ class PushNotificationService {
               channel.id,
               channel.name,
               channelDescription: channel.description,
+              playSound: true,
               icon: android.smallIcon,
             ),
           ),

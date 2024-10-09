@@ -520,7 +520,7 @@ class RequirementViewPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                Column(children: [
+                if(controller.isArtist)Column(children: [
                   Container(
                     padding: EdgeInsets.all(12.h),
                     width: double.infinity,

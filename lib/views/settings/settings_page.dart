@@ -161,7 +161,7 @@ class SettingsPage extends StatelessWidget {
                   if (controller.settingsData.fbLink != "")
                     InkWell(
                       onTap: () {
-                        controller.openSocialMedia(0);
+                        controller.openSocialMedia(controller.settingsData.fbLink!);
                       },
                       child: SvgPicture.asset(
                         "assets/svg/facebook.svg",
@@ -171,7 +171,7 @@ class SettingsPage extends StatelessWidget {
                   if (controller.settingsData.instaLink != "")
                     InkWell(
                       onTap: () {
-                        controller.openSocialMedia(1);
+                        controller.openSocialMedia(controller.settingsData.instaLink!);
                       },
                       child: SvgPicture.asset(
                         "assets/svg/instagram.svg",
@@ -181,7 +181,7 @@ class SettingsPage extends StatelessWidget {
                   if (controller.settingsData.whatsAppLink != "")
                     InkWell(
                       onTap: () {
-                        controller.openSocialMedia(2);
+                        controller.openSocialMedia(controller.settingsData.whatsAppLink!);
                       },
                       child: SvgPicture.asset(
                         "assets/svg/whatsapp.svg",
@@ -191,7 +191,7 @@ class SettingsPage extends StatelessWidget {
                   if (controller.settingsData.ytLink != "")
                     InkWell(
                       onTap: () {
-                        controller.openSocialMedia(3);
+                        controller.openSocialMedia(controller.settingsData.ytLink!);
                       },
                       child: SvgPicture.asset(
                         "assets/svg/youtube.svg",
@@ -201,7 +201,7 @@ class SettingsPage extends StatelessWidget {
                   if (controller.settingsData.emailLink != "")
                     InkWell(
                       onTap: () {
-                        controller.openSocialMedia(4);
+                        controller.openSocialMedia(controller.settingsData.emailLink!);
                       },
                       child: SvgPicture.asset(
                         "assets/svg/email.svg",
@@ -211,7 +211,7 @@ class SettingsPage extends StatelessWidget {
                   if (controller.settingsData.websiteLink != "")
                     InkWell(
                       onTap: () {
-                        controller.openSocialMedia(5);
+                        controller.openSocialMedia(controller.settingsData.websiteLink!);
                       },
                       child: SvgPicture.asset(
                         "assets/svg/website.svg",
@@ -221,7 +221,7 @@ class SettingsPage extends StatelessWidget {
                   if (controller.settingsData.xOrTwitterlink != "")
                     InkWell(
                       onTap: () {
-                        controller.openSocialMedia(5);
+                        controller.openSocialMedia(controller.settingsData.xOrTwitterlink!);
                       },
                       child: SvgPicture.asset(
                         "assets/svg/twitter.svg",

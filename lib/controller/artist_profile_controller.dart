@@ -847,7 +847,7 @@ class ArtistProfileController extends GetxController {
               documentType, context, controller);
         } else if(porFolioFileType=="IMAGE"){
           PickerHelper.showImageBottomSheet(context, controller);
-        }else if(porFolioFileType=="IMAGE"){
+        }else if(porFolioFileType=="VIDEO"){
           PickerHelper.showVideoBottomSheet(context, controller);
 
         }else{
@@ -934,6 +934,7 @@ class ArtistProfileController extends GetxController {
 
   showDocument(String documentType) {
     FileController fileController = Get.put(FileController());
+    print(documentType);
     switch (documentType) {
       case KalakarConstants.passport:
         if (kIsWeb) {
@@ -956,7 +957,7 @@ class ArtistProfileController extends GetxController {
           fileController.viewFile1(adharCardImage, documentType);
         }
         break;
-      case KalakarConstants.portfolio:
+      case KalakarConstants.portfolio1:
         if (kIsWeb) {
           utils.openLink(portFolioImageOrVideo);
         } else {
@@ -1876,6 +1877,7 @@ class ArtistProfileController extends GetxController {
   void setFileTypeValue(String selectedItem) {
     fileTypeTEController.text = selectedItem;
     porFolioFileType = selectedItem;
+    update();
   }
 
   void editArtistPortfolio(PortfolioList? artistPortfolio) {

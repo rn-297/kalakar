@@ -302,29 +302,37 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                               itemCount:
                                   upcomingProject.projectDocuments!.length,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  height: 165.h,
-                                  width: 125.h,
-                                  margin: EdgeInsets.only(right: 8.h),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    border: Border.all(
-                                        color: KalakarColors.backgroundGrey),
-                                    image: DecorationImage(
-                                        image: upcomingProject
-                                                .projectDocuments![index]
-                                                .projectDocuments
-                                                .toString()
-                                                .startsWith("http")
-                                            ? NetworkImage(upcomingProject
-                                                .projectDocuments![index]
-                                                .projectDocuments
-                                                .toString())
-                                            : FileImage(File(upcomingProject
-                                                .projectDocuments![index]
-                                                .projectDocuments
-                                                .toString())) as ImageProvider,
-                                        fit: BoxFit.cover),
+                                return InkWell(
+                                  onTap: (){
+                                    controller.showDocument(upcomingProject
+                                        .projectDocuments![index]
+                                        .projectDocuments
+                                        .toString(), KalakarConstants.upcomingProject);
+                                  },
+                                  child: Container(
+                                    height: 165.h,
+                                    width: 125.h,
+                                    margin: EdgeInsets.only(right: 8.h),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(
+                                          color: KalakarColors.backgroundGrey),
+                                      image: DecorationImage(
+                                          image: upcomingProject
+                                                  .projectDocuments![index]
+                                                  .projectDocuments
+                                                  .toString()
+                                                  .startsWith("http")
+                                              ? NetworkImage(upcomingProject
+                                                  .projectDocuments![index]
+                                                  .projectDocuments
+                                                  .toString())
+                                              : FileImage(File(upcomingProject
+                                                  .projectDocuments![index]
+                                                  .projectDocuments
+                                                  .toString())) as ImageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
                                   ),
                                 ); //Container();
                               })

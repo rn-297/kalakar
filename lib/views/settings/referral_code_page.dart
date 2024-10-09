@@ -121,116 +121,137 @@ class ReferralCodePage extends StatelessWidget {
 
   referralCodeMobileView(BuildContext context) {
     return GetBuilder<SettingsController>(builder: (controller) {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
+      return RefreshIndicator(
+        onRefresh: ()async{controller.getReferralData();},
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.all(16.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    padding: EdgeInsets.all(12.h),
+                    decoration: BoxDecoration(
+                      color: KalakarColors.white,
+                      border: Border.all(color: KalakarColors.backgroundGrey),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: controller.referredBy.isNotEmpty
+                        ? textSpanToShow(
+                            context,
+                        "Referred By : ", controller.referredBy)
+                        : Column(
+                            children: [
+                              CommonWidgets.commonMobileTextField(
+                                  controller: controller.referralCodeTEController,
+                                  labelText: "Use Referral Code",
+                                  obscureText: false,
+                                  passwordVisibility: false,
+                                  togglePasswordVisibility: () {},
+                                  textInputType: TextInputType.text,
+                                  validator: Validator.validateReferralCode),
+                              SizedBox(
+                                height: 16.h,
+                              ),
+                              CustomMobileButtonWidget(
+                                  text: "Get Details",
+                                  onTap: () {
+                                    controller.getReferralDetail();
+                                  },
+                                  horizontalPadding: 4.h,
+                                  verticalPadding: 8.h,
+                                  width: 100.w,
+                                  fontSize: 16.sp,
+                                  borderRadius: 40.r),
+                              if (controller.detailsLoaded)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Divider(
+                                      color: KalakarColors.backgroundGrey,
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      "Referral Code Details :",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 16.h,
+                                    ),
+                                    textSpanToShow(
+                                        context,
+                                        "Referral Code : ",
+                                        controller.referralDetails.referralCode
+                                            .toString()),
+                                    textSpanToShow(
+                                        context,
+                                        "First Name : ",
+                                        controller.referralDetails.fistName
+                                            .toString()),
+                                    textSpanToShow(
+                                        context,
+                                        "Last Name : ",
+                                        controller.referralDetails.lastName
+                                            .toString()),
+                                    textSpanToShow(
+                                        context,
+                                        "Artist Price : ",
+                                        controller.referralDetails.artistPrice
+                                            .toString()),
+                                    textSpanToShow(
+                                        context,
+                                        "Company Price : ",
+                                        controller.referralDetails.companyPrice
+                                            .toString()),
+                                    CustomMobileButtonWidget(
+                                        text: "Use Referral Code",
+                                        onTap: () {
+                                          controller.applyReferralCode();
+                                        },
+                                        horizontalPadding: 4.h,
+                                        verticalPadding: 8.h,
+                                        fontSize: 16.sp,
+                                        borderRadius: 40.r),
+                                  ],
+                                )
+                            ],
+                          )),
+                SizedBox(
+                  height: 24.h,
+                ),
+                Container(
                   padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: KalakarColors.white,
                     border: Border.all(color: KalakarColors.backgroundGrey),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: controller.referredBy.isNotEmpty
-                      ? textSpanToShow(
-                          context,
-                      "Referred By : ", controller.referredBy)
-                      : Column(
-                          children: [
-                            CommonWidgets.commonMobileTextField(
-                                controller: controller.referralCodeTEController,
-                                labelText: "Use Referral Code",
-                                obscureText: false,
-                                passwordVisibility: false,
-                                togglePasswordVisibility: () {},
-                                textInputType: TextInputType.text,
-                                validator: Validator.validateReferralCode),
-                            SizedBox(
-                              height: 16.h,
-                            ),
-                            CustomMobileButtonWidget(
-                                text: "Get Details",
-                                onTap: () {
-                                  controller.getReferralDetail();
-                                },
-                                horizontalPadding: 4.h,
-                                verticalPadding: 8.h,
-                                width: 100.w,
-                                fontSize: 16.sp,
-                                borderRadius: 40.r),
-                            if (controller.detailsLoaded)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Divider(
-                                    color: KalakarColors.backgroundGrey,
-                                    height: 30,
-                                  ),
-                                  Text(
-                                    "Referral Code Details :",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.sp),
-                                  ),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  textSpanToShow(
-                                      context,
-                                      "Referral Code : ",
-                                      controller.referralDetails.referralCode
-                                          .toString()),
-                                  textSpanToShow(
-                                      context,
-                                      "First Name : ",
-                                      controller.referralDetails.fistName
-                                          .toString()),
-                                  textSpanToShow(
-                                      context,
-                                      "Last Name : ",
-                                      controller.referralDetails.lastName
-                                          .toString()),
-                                  textSpanToShow(
-                                      context,
-                                      "Artist Price : ",
-                                      controller.referralDetails.artistPrice
-                                          .toString()),
-                                  textSpanToShow(
-                                      context,
-                                      "Company Price : ",
-                                      controller.referralDetails.companyPrice
-                                          .toString()),
-                                  CustomMobileButtonWidget(
-                                      text: "Use Referral Code",
-                                      onTap: () {
-                                        controller.applyReferralCode();
-                                      },
-                                      horizontalPadding: 4.h,
-                                      verticalPadding: 8.h,
-                                      fontSize: 16.sp,
-                                      borderRadius: 40.r),
-                                ],
-                              )
-                          ],
-                        )),
-              SizedBox(
-                height: 24.h,
-              ),
-              Container(
-                padding: EdgeInsets.all(12.h),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: KalakarColors.white,
-                  border: Border.all(color: KalakarColors.backgroundGrey),
-                  borderRadius: BorderRadius.circular(8.r),
+                  child: textSpanToShow1(
+                      context, "Your Referral Code : ", controller.referralCode),
                 ),
-                child: textSpanToShow1(
-                    context, "Your Referral Code : ", controller.referralCode),
-              ),
-            ],
+                SizedBox(
+                  height: 24.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: textSpanToShow(
+                      context,
+                      "Referral Points : ",
+                      controller.totalReferralAmount
+                          .toString()),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -296,6 +317,7 @@ class ReferralCodePage extends StatelessWidget {
         ),
         SizedBox(
           height: 8.h,
+          width: double.infinity,
         ),
       ],
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:kalakar/controller/settings_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../helper/kalakar_colors.dart';
@@ -114,9 +116,37 @@ class NotificationsPage extends StatelessWidget {
   }
 
   notificationsMobileView() {
-    return Column(
-      children: [Text("This is Notifications page")],
-    );
+    return GetBuilder<SettingsController>(builder: (controller) {
+      return Padding(
+        padding: EdgeInsets.all(24.h),
+        child: Column(
+          children: [
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 8.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Notifications",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18.sp),
+                    ),
+                    Switch(
+                        value: controller.isNotification,
+                        onChanged: (val) {
+                          controller.setNotificationValue(val);
+                        })
+                  ],
+                ))
+          ],
+        ),
+      );
+    });
   }
 
   notificationsWebView(BuildContext context) {}

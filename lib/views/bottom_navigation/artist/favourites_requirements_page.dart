@@ -304,7 +304,7 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                                           image: AssetImage(
                                                             "assets/images/movie.png",
                                                           ),
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.cover,
                                                         )),
                                                   ) //requirementData.companyLogo ?? "",
                                                 : Container(
@@ -320,7 +320,7 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                                                     .refPhotoName ??
                                                                 "",
                                                           ),
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.cover,
                                                         )),
                                                   )),
                                         Expanded(
@@ -334,6 +334,9 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                                   Text(
                                                     requirementData
                                                         .requirementTitle!,
+                                                    overflow:
+                                                    TextOverflow.ellipsis,
+                                                    maxLines: 2,
                                                     style: TextStyle(
                                                         fontSize: 16.sp,
                                                         color: KalakarColors

@@ -9,6 +9,8 @@ class KalakarConstants {
   static const String setNewPasswordApi = "/Account/SetForgotPassword";
   static const String getChangePasswordApi = "/Account/ChangePassword";
   static const String getLoginApi = "/Account/AccountLogin";
+  static const String getGoogleLoginApi = "/Account/AccountLogin_Google";
+  static const String getCreateGoogleLoginApi = "/Account/CreateAccount_Google";
   static const String noInternetMessage = "No Internet Connection !!!";
   static const String somethingWentWrongMsg = "Something Went Wrong";
 
@@ -131,9 +133,15 @@ class KalakarConstants {
       "/Account/UseReferralCode";
   static const String getSettingsDataApi =
       "/Account/Get_AppSettingsData";
+  static const String getNotificationDataApi =
+      "/Account/Get_AccountNotification";
+  static const String setNotificationDataApi =
+      "/Account/Set_AccountNotification";
 
   static const String searchArtistForCompanyApi =
       "/CompanyProfile/GetSearchArtistProfile_Company";
+  static const String getAccountData =
+      "/Account/Get_AccountLogin_Infodata";
 
 
   //Strings
