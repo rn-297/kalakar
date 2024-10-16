@@ -55,7 +55,8 @@ class KalakarConstants {
       "/ArtistProfile/GetArtistProfile_Documents";
   static const String getArtistPortfolioApi =
       "/ArtistProfile/GetArtistProfile_Portfolio";
-  static const String getArtistExperienceApi = "/ArtistProfile/GetArtistProfile_Experience";
+  static const String getArtistExperienceApi =
+      "/ArtistProfile/GetArtistProfile_Experience";
   static const String deleteArtistEducationDataApi =
       "/ArtistProfile/DeleteArtistProfile_Education";
   static const String deleteArtistHobbyDataApi =
@@ -129,10 +130,8 @@ class KalakarConstants {
       "/Account/GetReferralCodeDetailsForReferralCode";
   static const String getArtistFavouritesRequirementsApi =
       "/RequirementDetails/GetArtistFavoritesRequirement_Artist";
-  static const String useReferralCodeApi =
-      "/Account/UseReferralCode";
-  static const String getSettingsDataApi =
-      "/Account/Get_AppSettingsData";
+  static const String useReferralCodeApi = "/Account/UseReferralCode";
+  static const String getSettingsDataApi = "/Account/Get_AppSettingsData";
   static const String getNotificationDataApi =
       "/Account/Get_AccountNotification";
   static const String setNotificationDataApi =
@@ -140,9 +139,7 @@ class KalakarConstants {
 
   static const String searchArtistForCompanyApi =
       "/CompanyProfile/GetSearchArtistProfile_Company";
-  static const String getAccountData =
-      "/Account/Get_AccountLogin_Infodata";
-
+  static const String getAccountData = "/Account/Get_AccountLogin_Infodata";
 
   //Strings
   static const String usernameHint = "E-mail Id or Contact Number";
@@ -171,6 +168,7 @@ class KalakarConstants {
   static const String welcomeBack = "Welcome back";
   static const String newKalakaarAccount = "New Kalakaar Account";
   static const String signIn = "Sign In";
+  static const String saveAndSignIn = "Save And Sign In";
   static const String orSignInWith = "Or sign in with";
   static const String continueWithGoogle = "Continue with Google";
   static const String signupText =
@@ -202,6 +200,7 @@ class KalakarConstants {
   static const String experienceLevel = "Experience Level";
   static const String moreInfo = "More Info";
   static const String experience = "EXPERIENCE :";
+  static const String opportunityEndDate = "Opportunity End date";
   static const String age = "Age";
   static const String height = "Height";
   static const String weight = "Weight";
@@ -237,6 +236,8 @@ class KalakarConstants {
   static const String requirementTitle = "Requirement Title";
   static const String requirementStatus = "Requirement Status";
   static const String description = "Description";
+  static const String referenceLook = "Reference Look";
+  static const String script = "Script";
   static const String lookingFor = "Looking For";
   static const String noOfOpenings = "Number Of Openings";
   static const String gender = "Gender";
@@ -251,8 +252,12 @@ class KalakarConstants {
   static const String shootingLocation = "Shooting Location";
   static const String searchShootingStartDate = "Search Shooting Start Date";
   static const String searchShootingEndDate = "Search Shooting End Date";
+  static const String shootingStartDate = "Shooting Start Date";
+  static const String shootingEndDate = "Shooting End Date";
+  static const String character = "Character";
   static const String defineRole = "Define Role";
   static const String specialSkillRequired = "Special Skill Required";
+  static const String specialSkills = "Special Skills";
   static const String comfortableIn = "Comfortable In";
   static const String scriptForAudition = "Script For Audition";
   static const String requirementEndDate = "Requirement End Date";
@@ -353,7 +358,7 @@ class KalakarConstants {
 
   static const String roleName = "Role Name";
   static const String skillsUsed = "Skill Used";
-  static const String roleProfile = "roleProfile";
+  static const String roleProfile = "Role Profile";
   static const String fileType = "File Type";
   static const String filePath = "File Path";
   static const String profilePhoto = "Profile Photo";
@@ -372,9 +377,6 @@ class KalakarConstants {
   static const String deleteExperience = "Delete Experience";
   static const String save = "Save";
   static const String delete = "Delete";
-
-
-
 
 // static const String roleProfile = "roleProfile";
 }

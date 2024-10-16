@@ -24,8 +24,8 @@ class ArtistHobbiesFormPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => educationFormMobileView(context),
-        tablet: (BuildContext context) => educationFormWebView(),
+        mobile: (BuildContext context) => hobbiesFormMobileView(context),
+        tablet: (BuildContext context) => hobbiesFormWebView(),
       ),
     );
   }
@@ -78,7 +78,7 @@ class ArtistHobbiesFormPage extends StatelessWidget {
     );
   }
 
-  educationFormMobileView(BuildContext context) {
+  hobbiesFormMobileView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
       return Padding(
@@ -86,12 +86,13 @@ class ArtistHobbiesFormPage extends StatelessWidget {
           child: Form(
             key: controller.formHobbiesKey,
             child: Column(children: [
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.hobbyTEController,
                   labelText: KalakarConstants.hobby,
                   obscureText: false,
                   textInputType: TextInputType.text,
                   passwordVisibility: false,
+                  hintText: "Enter Hobby",
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
                   validator: Validator.validateHobby),
@@ -142,5 +143,5 @@ class ArtistHobbiesFormPage extends StatelessWidget {
     }));
   }
 
-  educationFormWebView() {}
+  hobbiesFormWebView() {}
 }

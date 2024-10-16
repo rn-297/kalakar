@@ -31,6 +31,7 @@ class Validator {
 
   // Validate Mobile Number
   static String? validateMobileNumber(String? value) {
+    print(value);
     if (value == null || value.isEmpty) {
       return 'Please Enter Mobile Number';
     }

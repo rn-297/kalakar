@@ -248,9 +248,16 @@ class MyApplicationsPage extends StatelessWidget {
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.h),
                     decoration: BoxDecoration(
-                      color: KalakarColors.white,
-                      border: Border.all(color: KalakarColors.backgroundGrey),
+                      color: KalakarColors.backgroundTurquoise,
+                      border: Border.all(
+                          color: KalakarColors.backgroundGrey),
                       borderRadius: BorderRadius.circular(8.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.4),
+                          blurRadius: 2.0,
+                        ),
+                      ],
                     ),
                     child: InkWell(
                       onTap: () {
@@ -263,7 +270,6 @@ class MyApplicationsPage extends StatelessWidget {
                                 flex: 2,
                                 child: requirementData.refPhotoName == null
                                     ? Container(
-                                        margin: EdgeInsets.all(2.h),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(8.r),
@@ -276,7 +282,6 @@ class MyApplicationsPage extends StatelessWidget {
                                             )),
                                       ) //requirementData.companyLogo ?? "",
                                     : Container(
-                                        margin: EdgeInsets.all(2.h),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(8.r),

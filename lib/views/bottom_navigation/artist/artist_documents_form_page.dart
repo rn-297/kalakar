@@ -26,8 +26,8 @@ class ArtistDocumentsFormPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => educationFormMobileView(context),
-        tablet: (BuildContext context) => educationFormWebView(),
+        mobile: (BuildContext context) => documentsFormMobileView(context),
+        tablet: (BuildContext context) => documentsFormWebView(),
       ),
     );
   }
@@ -80,7 +80,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
     );
   }
 
-  educationFormMobileView(BuildContext context) {
+  documentsFormMobileView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
       return Padding(
@@ -94,7 +94,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                   controller.pickOrShowDocument(
                       KalakarConstants.passport, context, controller);
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.passportTEController,
                     labelText: KalakarConstants.passport,
                     obscureText: false,
@@ -115,7 +115,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                   controller.pickOrShowDocument(
                       KalakarConstants.filmCorporationCard, context, controller);
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.filmCorporationCrdTEController,
                     labelText: KalakarConstants.filmCorporationCard,
                     obscureText: false,
@@ -135,7 +135,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                   controller.pickOrShowDocument(
                       KalakarConstants.aadharCard, context, controller);
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.adharCardTEController,
                     labelText: KalakarConstants.aadharCard,
                     obscureText: false,
@@ -165,5 +165,5 @@ class ArtistDocumentsFormPage extends StatelessWidget {
     }));
   }
 
-  educationFormWebView() {}
+  documentsFormWebView() {}
 }

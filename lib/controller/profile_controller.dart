@@ -56,6 +56,7 @@ class ProfileController extends GetxController {
   TextEditingController projectStatusTEController = TextEditingController();
 
   String oTP = "";
+  String companyName = "";
   String companyLogo = "";
   String documentType = "";
   String filmCorporationCardPath = "";
@@ -116,7 +117,8 @@ class ProfileController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getRequireData();
+    // getRequireData();
+    getCompanyName();
   }
 
   getRequireData() async {
@@ -1033,5 +1035,13 @@ class ProfileController extends GetxController {
         }
       }
     } else {}
+  }
+
+  Future<void> getCompanyName() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      companyName=loginTable.fistName+" "+loginTable.lastName;
+    }
   }
 }

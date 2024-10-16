@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class CompanySearchArtistClass {
   List<GetArtistProfileModellist>? getArtistProfileModellist;
   bool? replayStatus;
@@ -470,6 +472,8 @@ class ExperienceList {
   String? companyName;
   String? roleImage;
   String? roleVideo;
+  Uint8List? thumbnail;
+
 
   ExperienceList(
       {this.artistProfileExperienceID,

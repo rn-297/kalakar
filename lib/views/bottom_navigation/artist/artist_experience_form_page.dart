@@ -25,8 +25,8 @@ class ArtistExperienceFormPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => educationFormMobileView(context),
-        tablet: (BuildContext context) => educationFormWebView(),
+        mobile: (BuildContext context) => experienceFormMobileView(context),
+        tablet: (BuildContext context) => experienceFormWebView(),
       ),
     );
   }
@@ -79,7 +79,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
     );
   }
 
-  educationFormMobileView(BuildContext context) {
+  experienceFormMobileView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
       return Padding(
@@ -87,11 +87,12 @@ class ArtistExperienceFormPage extends StatelessWidget {
           child: Form(
             key: controller.formExperienceKey,
             child: Column(children: [
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.companyNameTEController,
                   labelText: KalakarConstants.companyName,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter Company Name",
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -99,11 +100,12 @@ class ArtistExperienceFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.roleNameTEController,
                   labelText: KalakarConstants.roleName,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter Role Name",
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -118,7 +120,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
                     controller.setDate(KalakarConstants.expStartDate, date);
                   }
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.expStartDateTEController,
                     labelText: KalakarConstants.startDate,
                     obscureText: false,
@@ -139,7 +141,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
                     controller.setDate(KalakarConstants.expEndDate, date);
                   }
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.expEndDateTEController,
                     labelText: KalakarConstants.endDate,
                     obscureText: false,
@@ -153,11 +155,12 @@ class ArtistExperienceFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.skillsUsedTEController,
                   labelText: KalakarConstants.skillsUsed,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter Skills Used",
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -165,11 +168,13 @@ class ArtistExperienceFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.roleProfileTEController,
                   labelText: KalakarConstants.roleProfile,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter Role Profile",
+
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -182,7 +187,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
                   controller.pickOrShowDocument(
                       KalakarConstants.roleImage, context, controller);
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.roleImageTEController,
                     labelText: KalakarConstants.roleImage,
                     obscureText: false,
@@ -202,7 +207,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
                   controller.pickOrShowDocument(
                       KalakarConstants.roleVideo, context, controller);
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.roleVideoTEController,
                     labelText: KalakarConstants.roleVideo,
                     obscureText: false,
@@ -262,5 +267,5 @@ class ArtistExperienceFormPage extends StatelessWidget {
     }));
   }
 
-  educationFormWebView() {}
+  experienceFormWebView() {}
 }

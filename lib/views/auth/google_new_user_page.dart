@@ -5,6 +5,7 @@ import 'package:kalakar/controller/auth_page_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../custom_widgets/button_mobile_widget.dart';
+import '../../custom_widgets/toggle_button.dart';
 import '../../helper/common_widgets.dart';
 import '../../helper/kalakar_colors.dart';
 import '../../helper/textfield_validators.dart';
@@ -25,8 +26,8 @@ class GoogleNewUserPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => privacyPolicyMobileView(),
-        tablet: (BuildContext context) => privacyPolicyWebView(context),
+        mobile: (BuildContext context) => googleNewUserMobileView(),
+        tablet: (BuildContext context) => googleNewUserWebView(context),
       ),
     );
   }
@@ -119,17 +120,17 @@ class GoogleNewUserPage extends StatelessWidget {
     );
   }
 
-  privacyPolicyMobileView() {
+  googleNewUserMobileView() {
     return SingleChildScrollView(
       child:GetBuilder<AuthPageController>(builder: (authPageController){
         return Padding(
-          padding:  EdgeInsets.all(32.h),
+          padding:  EdgeInsets.symmetric(horizontal:32.h,vertical: 16.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Form(
-                key: authPageController.formGetOtpKey,
+                key: authPageController.formGoogleSignInKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -178,7 +179,7 @@ class GoogleNewUserPage extends StatelessWidget {
                         controller: authPageController.createEmail,
                         labelText: KalakarConstants.email,
                         obscureText: false,
-                        editable: authPageController.createEmailEditable,
+                        editable: false,
                         textInputType: TextInputType.emailAddress,
                         passwordVisibility: false,
                         togglePasswordVisibility: () {},
@@ -199,13 +200,51 @@ class GoogleNewUserPage extends StatelessWidget {
                       height: 14.h,
                     ),
 
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 28.h),
+                        child: Text(
+                          "User Type",
+                          style: TextStyle(
+                              color: KalakarColors.textColor,
+                              fontSize: 14.sp),
+                        )),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    SlidingButton(
+                      //Custom Slide animation Button
+                      active: authPageController.userType,
+                      selectedColor: KalakarColors.headerText,
+                      unSelectedColor: KalakarColors.textColor,
+                      // buttonBackgroundColor: Colors.green,
+                      // buttonBorderColor: Colors.lightGreen,
+                      // buttonBackgroundColor: Colors.purple,
+                      // buttonBorderColor: Colors.purpleAccent,
+                      // buttonBackgroundColor: Colors.orange,
+                      // buttonBorderColor: Colors.orangeAccent,
+                      buttonBackgroundColor: KalakarColors.buttonBackground,
+                      buttonBorderColor: KalakarColors.buttonBackground,
+
+                      onChanged: (int index) {
+                        print(index);
+                        authPageController.setUserType(index);
+                      },
+
+                      list: [
+                        KalakarConstants.artist,
+                        KalakarConstants.company
+                      ],
+
+                      buttonBorderRadius: BorderRadius.circular(50.r),
+                    ),
+          SizedBox(height: 32.h,),
                     Center(
                       child: CustomMobileButtonWidget(
-                        text: KalakarConstants.signIn,
+                        text: KalakarConstants.saveAndSignIn,
                         onTap: () {
-                          authPageController.signInCall();
+                          authPageController.createGoogleAccount();
                         },
-                        horizontalPadding: 50.0,
+                        horizontalPadding: 30.0,
                         verticalPadding: 8.0,
                         fontSize: 20.0,
                         backgroundColor: KalakarColors.buttonBackground,
@@ -226,15 +265,9 @@ class GoogleNewUserPage extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              Center(
-                  child: Text(
-                    KalakarConstants.orSignupWith,
-                    style: TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
-                  )),
 
-              SizedBox(
-                height: 40.h,
-              )
+
+
             ],
           ),
         );
@@ -242,5 +275,5 @@ class GoogleNewUserPage extends StatelessWidget {
     );
   }
 
-  privacyPolicyWebView(BuildContext context) {}
+  googleNewUserWebView(BuildContext context) {}
 }

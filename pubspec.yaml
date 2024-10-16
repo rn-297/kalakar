@@ -120,11 +120,19 @@ flutter:
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-     - family: Lato
-       fonts:
-         - asset: fonts/Lato-Bold.ttf
-         - asset: fonts/Lato-Light.ttf
-         - asset: fonts/Lato-Regular.ttf
+#     - family: Lato
+#       fonts:
+#         - asset: fonts/Lato-Bold.ttf
+#         - asset: fonts/Lato-Light.ttf
+#         - asset: fonts/Lato-Regular.ttf
+#           weight: 700
+
+    - family: Montserrat
+      fonts:
+         - asset: fonts/Montserrat-Bold.ttf
+         - asset: fonts/Montserrat-Light.ttf
+         - asset: fonts/Montserrat-Medium.ttf
+         - asset: fonts/Montserrat-Regular.ttf
            weight: 700
   #
   # For details regarding fonts from package dependencies,

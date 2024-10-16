@@ -1,3 +1,6 @@
+
+import 'dart:typed_data';
+
 class CompanyAppliedRequirementDetailsClass {
   List<AppliedArtistDetailsList>? objResponesRequirementDetailsList;
   bool? replayStatus;
@@ -518,6 +521,7 @@ class ExperienceList {
   String? companyName;
   String? roleImage;
   String? roleVideo;
+  Uint8List? thumbnail;
 
   ExperienceList(
       {this.artistProfileExperienceID,
@@ -565,6 +569,7 @@ class PortfolioList {
   int? fKAccountID;
   int? fileType;
   String? filePath;
+  Uint8List? thumbnail;
 
   PortfolioList(
       {this.artistProfilePortfolioID,

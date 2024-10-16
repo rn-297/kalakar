@@ -143,11 +143,13 @@ class ReferralCodePage extends StatelessWidget {
                         "Referred By : ", controller.referredBy)
                         : Column(
                             children: [
-                              CommonWidgets.commonMobileTextField(
+                              CommonWidgets.commonMobileTextField1(
                                   controller: controller.referralCodeTEController,
                                   labelText: "Use Referral Code",
                                   obscureText: false,
                                   passwordVisibility: false,
+                                  hintText: "Enter Referral Code",
+                                  borderRadius: 12.r,
                                   togglePasswordVisibility: () {},
                                   textInputType: TextInputType.text,
                                   validator: Validator.validateReferralCode),

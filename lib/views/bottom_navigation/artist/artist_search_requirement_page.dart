@@ -464,10 +464,16 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                               margin: EdgeInsets.symmetric(
                                   vertical: 8.h, horizontal: 4.h),
                               decoration: BoxDecoration(
-                                color: KalakarColors.white,
+                                color: KalakarColors.backgroundTurquoise,
                                 border: Border.all(
                                     color: KalakarColors.backgroundGrey),
                                 borderRadius: BorderRadius.circular(8.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.4),
+                                    blurRadius: 2.0,
+                                  ),
+                                ],
                               ),
                               child: InkWell(
                                 onTap: () {
@@ -482,7 +488,7 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                           child: requirementData.refPhotoName ==
                                                   null
                                               ? Container(
-                                                  margin: EdgeInsets.all(2.h),
+                                                  margin: EdgeInsets.all(1.h),
                                                   decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.all(
@@ -492,11 +498,11 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                                         image: AssetImage(
                                                           "assets/images/movie.png",
                                                         ),
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
                                                       )),
                                                 ) //requirementData.companyLogo ?? "",
                                               : Container(
-                                                  margin: EdgeInsets.all(2.h),
+                                                  margin: EdgeInsets.all(1.h),
                                                   decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.all(
@@ -508,7 +514,7 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                                                   .refPhotoName ??
                                                               "",
                                                         ),
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
                                                       )),
                                                 )),
                                       Expanded(
@@ -522,6 +528,8 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                                 Text(
                                                   requirementData
                                                       .requirementTitle!,
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                       fontSize: 16.sp,
                                                       color: KalakarColors

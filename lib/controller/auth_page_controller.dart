@@ -39,6 +39,7 @@ class AuthPageController extends GetxController {
   bool isOtpSent = false;
   String oTP = "";
   String googleAuthToken = "";
+  String createUserType = "Artist";
 
   bool createMobileNumberEditable = true;
   bool createEmailEditable = true;
@@ -69,6 +70,7 @@ class AuthPageController extends GetxController {
   final _formGetForgotOtpKey = GlobalKey<FormState>();
   final _formSetForgotPassKey = GlobalKey<FormState>();
   final _formSignInKey = GlobalKey<FormState>();
+  final _formGoogleSignInKey = GlobalKey<FormState>();
 
   String accountType = "Artist";
 
@@ -83,6 +85,8 @@ class AuthPageController extends GetxController {
 
   get formCreateAccountKey => _formCreateAccountKey;
 
+  get formGoogleSignInKey => _formGoogleSignInKey;
+
   void getStartedCall() {
     if (_formGetOtpKey.currentState!.validate() &&
         validateOtp() &&
@@ -93,6 +97,7 @@ class AuthPageController extends GetxController {
 
   void setUserType(int index) {
     userType = index;
+    createUserType = index == 0 ? "Artist" : "Company";
     update();
   }
 
@@ -143,9 +148,11 @@ class AuthPageController extends GetxController {
       GoogleSignInAuthentication auth = await googleUser.authentication;
       print(auth.idToken);
       String? idToken = auth.idToken;
-      await Clipboard.setData(ClipboardData(
-        text: idToken!,
-      ));
+      // await Clipboard.setData(ClipboardData(
+      //   text: idToken!,
+      // ));
+
+      await GoogleSignIn().signOut();
       KalakarDialogs.loadingDialog("Signing In", "Signing In ...");
       var body = {
         "googleAuthIDToken": idToken,
@@ -156,6 +163,7 @@ class AuthPageController extends GetxController {
       var response = await ApiClient.postData(
           KalakarConstants.getGoogleLoginApi, jsonEncode(body));
       print(response.statusCode);
+      print(response.body);
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -163,7 +171,7 @@ class AuthPageController extends GetxController {
       if (response.statusCode == 200) {
         LoginDataClass loginDataClass =
             LoginDataClass.fromJson(jsonDecode(response.body));
-        if (loginDataClass.replayStatus!) {
+        if (loginDataClass.message == "Login Success.") {
           LoginTable loginTable = LoginTable(
             loginDataClass.accountID ?? "",
             loginDataClass.email ?? "",
@@ -187,15 +195,13 @@ class AuthPageController extends GetxController {
           signInPassword.clear();
           KalakarDialogs.goHomePage("Login Success", loginDataClass.message!,
               loginDataClass.accountType!);
-        } else {
-          if (loginDataClass.message == "NewUser") {
-            googleAuthToken = idToken!;
-            createFirstName.text = loginDataClass.fistName ?? "";
-            createLastName.text = loginDataClass.lastName ?? "";
-            createWhatsappNumber.text = loginDataClass.mobileNumber ?? "";
-            createEmail.text = loginDataClass.email ?? "";
-            Get.offNamed(RouteHelper.googleNewUserPage);
-          }
+        } else if (loginDataClass.message == "NewUser") {
+          googleAuthToken = idToken!;
+          createFirstName.text = loginDataClass.fistName ?? "";
+          createLastName.text = loginDataClass.lastName ?? "";
+          createWhatsappNumber.text = loginDataClass.mobileNumber ?? "";
+          createEmail.text = loginDataClass.email ?? "";
+          Get.offNamed(RouteHelper.googleNewUserPage);
         }
       }
     }
@@ -489,5 +495,62 @@ class AuthPageController extends GetxController {
         Get.offNamed(RouteHelper.login);
       }
     });
+  }
+
+  Future<void> createGoogleAccount() async {
+    if (_formGoogleSignInKey.currentState!.validate()) {
+      KalakarDialogs.loadingDialog("Signing In", "Signing In ...");
+      var body = {
+        "vcrMobileNumber": createWhatsappNumber.text,
+        "vcrEmail": createEmail.text,
+        "fistName": createFirstName.text,
+        "lastName": createLastName.text,
+        "accountType": createUserType,
+        "userName": createEmail.text,
+        "googleAuthIDToken": googleAuthToken,
+        "loginNotificationToken":
+            await PushNotificationService.getNotificationToken()
+      };
+
+      var response = await ApiClient.postData(
+          KalakarConstants.getCreateGoogleLoginApi, jsonEncode(body));
+      print(response.statusCode);
+      print(response.body);
+
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        LoginDataClass loginDataClass =
+            LoginDataClass.fromJson(jsonDecode(response.body));
+        if (loginDataClass.replayStatus!) {
+          LoginTable loginTable = LoginTable(
+            loginDataClass.accountID ?? "",
+            loginDataClass.email ?? "",
+            loginDataClass.mobileNumber ?? "",
+            loginDataClass.accountType ?? "",
+            loginDataClass.fistName ?? "",
+            loginDataClass.lastName ?? "",
+            loginDataClass.token ?? "",
+            loginDataClass.userID ?? "",
+            loginDataClass.verificationStatus ?? "",
+            loginDataClass.verificationStatusID ?? 0,
+            loginDataClass.isverifiedContacts ?? false,
+            loginDataClass.profileID ?? 0,
+            loginDataClass.referralCode ?? "",
+            loginDataClass.usedReferralCode ?? "",
+            loginDataClass.totalReferralAmount ?? 0.0,
+            loginDataClass.usedReferralAmount ?? 0.0,
+          );
+          HiveService.saveLoginData(loginTable);
+
+          KalakarDialogs.goHomePage("Login Success", loginDataClass.message!,
+              loginDataClass.accountType!);
+        } else {
+          KalakarDialogs.successDialog("Login Failed", loginDataClass.message!);
+        }
+      }
+    }
   }
 }

@@ -43,25 +43,27 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                 key: controller.formCompanyProfileMoreInfoOtpKey,
                 child: Column(
                   children: [
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField1(
                         controller: controller.emailTEController,
                         labelText: KalakarConstants.email,
                         obscureText: false,
                         textInputType: TextInputType.emailAddress,
                         passwordVisibility: false,
                         editable: controller.emailEditable,
+                        hintText: "Enter Email Id",
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
                         validator: Validator.validateEmail),
                     SizedBox(
                       height: 16.h,
                     ),
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField1(
                         controller: controller.mobileNumberTEController,
                         labelText: KalakarConstants.mobileNumber,
                         obscureText: false,
                         editable: controller.mobileNumberEditable,
                         textInputType: TextInputType.number,
+                        hintText: "Enter Mobile Number",
                         passwordVisibility: false,
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
@@ -140,12 +142,13 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                 key: controller.formCompanyProfileMoreInfoDocumentsKey,
                 child: Column(
                   children: [
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField1(
                         controller: controller.nameTEController,
                         labelText: KalakarConstants.name,
                         obscureText: false,
                         textInputType: TextInputType.text,
                         passwordVisibility: false,
+                        hintText: "Enter First Name",
                         // isSuffixIcon: true,
                         // editable: true,
                         borderRadius: 12.r,
@@ -154,11 +157,12 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     SizedBox(
                       height: 16.h,
                     ),
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField1(
                         controller: controller.ownerCeoNameTEController,
                         labelText: KalakarConstants.adminCeo,
                         obscureText: false,
                         textInputType: TextInputType.text,
+                        hintText: "Enter Admin / CEO ",
                         passwordVisibility: false,
                         // isSuffixIcon: true,
                         editable: true,
@@ -175,7 +179,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                             context,
                             controller);
                       },
-                      child: CommonWidgets.commonMobileTextField(
+                      child: CommonWidgets.commonMobileTextField1(
                           controller:
                               controller.filmCorporationCardTEController,
                           labelText: KalakarConstants.filmCorporationCard,
@@ -198,7 +202,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                             context,
                             controller);
                       },
-                      child: CommonWidgets.commonMobileTextField(
+                      child: CommonWidgets.commonMobileTextField1(
                           controller: controller.adminAadharCardTEController,
                           labelText: KalakarConstants.adminAadharCard,
                           obscureText: false,
@@ -220,7 +224,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                             context,
                             controller);
                       },
-                      child: CommonWidgets.commonMobileTextField(
+                      child: CommonWidgets.commonMobileTextField1(
                           controller:
                               controller.addressProofOfCompanyTEController,
                           labelText: KalakarConstants.addressProofOfCompany,
@@ -241,7 +245,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                         controller.pickOrShowDocument(
                             KalakarConstants.selfieUpload, context, controller);
                       },
-                      child: CommonWidgets.commonMobileTextField(
+                      child: CommonWidgets.commonMobileTextField1(
                           controller: controller.selfieUploadTEController,
                           labelText: KalakarConstants.selfieUpload,
                           obscureText: false,

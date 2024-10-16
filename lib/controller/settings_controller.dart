@@ -32,9 +32,9 @@ class SettingsController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    setSettingsList();
-    getSettingsData();
-    getNotificationData();
+    // setSettingsList();
+    // getSettingsData();
+    // getNotificationData();
   }
 
   void setSettingsList() async {

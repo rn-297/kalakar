@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/controller/artist_profile_controller.dart';
+import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/controller/requirement_controller.dart';
+import 'package:kalakar/controller/settings_controller.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
@@ -12,10 +16,17 @@ import 'package:kalakar/views/settings/settings_page.dart';
 
 class BottomNavigationController extends GetxController {
   int selectedIndex = 0;
+  int homeCount = 0;
+  int profileCount = 0;
+  int opportunityCount = 0;
+  int settingsCount = 0;
   String accountType = "Company";
-  List<Widget> navigatorArtistPages = <Widget>[
-
-  ];
+  List<Widget> navigatorArtistPages = <Widget>[];
+  ArtistProfileController artistProfileController =
+      Get.put(ArtistProfileController());
+  RequirementController requirementController =
+      Get.put(RequirementController());
+  SettingsController settingsController = Get.put(SettingsController());
 
   @override
   onInit() {
@@ -33,14 +44,45 @@ class BottomNavigationController extends GetxController {
   }
 
   Widget getSelectedArtistPage() {
+    print("watlelch");
     List<Widget> tempList = [];
+
     if (accountType == KalakarConstants.artist) {
+      print("here1");
       tempList.addAll([
         KalakarHomePage(),
         OpportunityPage(),
         KalakarProfilePage(),
         SettingsPage()
       ]);
+      print(selectedIndex);
+      print(homeCount);
+
+      if (selectedIndex == 0 && homeCount == 0) {
+        print("here");
+        requirementController.getArtistHomeRequirementDetails(false);
+        requirementController.getUpcomingProjectsDetails();
+        requirementController.getReviewDetails();
+        homeCount = 1;
+      } else if (selectedIndex == 1 && opportunityCount == 0) {
+        requirementController.getArtistHomeRequirementDetails(true);
+        opportunityCount = 1;
+      } else if (selectedIndex == 2 && profileCount == 0) {
+        artistProfileController.getArtistProfileMaster();
+        artistProfileController.getArtistProfileBasic();
+        artistProfileController.getArtistProfileEducation(0);
+        artistProfileController.getArtistProfileComfortableIn(0);
+        artistProfileController.getArtistProfileHobbies(0);
+        artistProfileController.getArtistProfileInterest(0);
+        artistProfileController.getArtistProfileApplyFor(0);
+        artistProfileController.getArtistExperience(0);
+        artistProfileController.getArtistPortFolio(0);
+        artistProfileController.getArtistDocuments();
+        profileCount = 1;
+      }else if(selectedIndex == 3 && settingsCount == 0){
+        requirementController.getAppliedForRequirementArtist();
+        requirementController.getArtistRequirementInFavorites(0);
+      }
     } else if (accountType == KalakarConstants.company) {
       tempList.addAll([
         CompanyHomePage(),
@@ -48,7 +90,28 @@ class BottomNavigationController extends GetxController {
         CompanyProfilePage(),
         SettingsPage()
       ]);
+
+      if (selectedIndex == 0 && homeCount == 0) {
+        requirementController.getUpcomingProjectsDetails();
+        requirementController.getReviewDetails();
+        homeCount = 1;
+      } else if (selectedIndex == 1 && opportunityCount == 0) {
+        requirementController.getRequirementDetailsCompany(0);
+        opportunityCount = 1;
+      } else if (selectedIndex == 2 && profileCount == 0) {
+        ProfileController profileController = Get.put(ProfileController());
+        profileController.getRequireData();
+        profileCount = 1;
+      }
     }
+    if (selectedIndex == 3 && settingsCount == 0) {
+      settingsController.setSettingsList();
+      settingsController.getSettingsData();
+      settingsController.getNotificationData();
+      settingsController.getReferralData();
+      settingsCount = 1;
+    }
+
     tempList.addAll([]);
     navigatorArtistPages = tempList;
     update();
@@ -57,8 +120,12 @@ class BottomNavigationController extends GetxController {
 
   void getLoginData() async {
     LoginTable? loginTable = await HiveService.getLoginData();
-    print(loginTable!.accountType!);
+    print("account  type ${loginTable!.accountType!}");
     accountType = loginTable!.accountType;
+    homeCount=0;
+     profileCount = 0;
+     opportunityCount = 0;
+     settingsCount = 0;
     update();
   }
 }

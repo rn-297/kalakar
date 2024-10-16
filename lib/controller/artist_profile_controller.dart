@@ -26,6 +26,7 @@ import '../data/models/artist/artist_portfolio_list_class.dart';
 import '../data/models/artist_master_data.dart';
 import '../data/models/csv_model_class.dart';
 import '../data/models/file_data_model.dart';
+import '../data/models/login_data_model.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
 import '../helper/state_city_pincode_helper/state_city_pincode_helper.dart';
@@ -200,6 +201,8 @@ class ArtistProfileController extends GetxController {
   List<DocumentsList> artistDocumentsList = [];
   List<ExperienceList> artistExperienceList = [];
   List<PortfolioList> artistPortfolioList = [];
+  List<PortfolioList> artistPortfolioImagesList = [];
+  List<PortfolioList> artistPortfolioVideosList = [];
   List<String> genderList = ["Male", "Female", "Other"];
   List<String> interestInList = ["Films", "Web series", "Advertise"];
   List<String> fileTypeList = ["IMAGE", "VIDEO"];
@@ -231,8 +234,8 @@ class ArtistProfileController extends GetxController {
   @override
   onInit() {
     super.onInit();
-    checkTokenExpired();
-    checkIfArtist();
+    // checkTokenExpired();
+    // checkIfArtist();
   }
 
   setDate(String type, DateTime date) {
@@ -399,7 +402,11 @@ class ArtistProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog1(
               "Saving Profile Data Success", responseModel.message!);
-          getArtistProfileBasic();
+          if (artistProfileID == 0) {
+            getAccountData();
+          } else {
+            getArtistProfileBasic();
+          }
         } else {
           KalakarDialogs.successDialog(
               "Saving Profile Data Failed", responseModel.message!);
@@ -742,7 +749,7 @@ class ArtistProfileController extends GetxController {
           jsonEncode(body),
           loginTable.token);
       print(response.statusCode);
-      print(response);
+      print(response.body);
 
       if (response.statusCode == 200) {
         ArtistProfileDetailsClass responseModel =
@@ -761,6 +768,7 @@ class ArtistProfileController extends GetxController {
 
   setArtistProfileData() {
     if (artistProfileDetails != null) {
+      artistProfileID = artistProfileDetails.artistProfileID!;
       artistProfileID = artistProfileDetails.artistProfileID!;
       artistProfileImage = artistProfileDetails.profilePic!;
       firstNameTEController.text = artistProfileDetails.firstName!;
@@ -845,12 +853,11 @@ class ArtistProfileController extends GetxController {
         if (portFolioImageOrVideo.isNotEmpty) {
           PickerHelper.showOrPickDocBottomSheet(
               documentType, context, controller);
-        } else if(porFolioFileType=="IMAGE"){
+        } else if (porFolioFileType == "IMAGE") {
           PickerHelper.showImageBottomSheet(context, controller);
-        }else if(porFolioFileType=="VIDEO"){
+        } else if (porFolioFileType == "VIDEO") {
           PickerHelper.showVideoBottomSheet(context, controller);
-
-        }else{
+        } else {
           validatePortfolioForm();
         }
         break;
@@ -890,7 +897,7 @@ class ArtistProfileController extends GetxController {
           print("here4");
 
           PickerHelper.showVideoBottomSheet(context, controller);
-        }else{
+        } else {
           validatePortfolioForm();
         }
 
@@ -1340,6 +1347,8 @@ class ArtistProfileController extends GetxController {
             ArtistPortfolioListClass.fromJson(jsonDecode(response.body));
         if (artistPortfolioListClass.replayStatus ?? false) {
           List<PortfolioList> list = artistPortfolioListClass.portfolioList!;
+          List<PortfolioList> imagesList = [];
+          List<PortfolioList> videosList = [];
           for (int i = 0; i < list.length; i++) {
             if (list[i].fileType == 2) {
               list[i].thumbnail = await VideoThumbnail.thumbnailData(
@@ -1350,8 +1359,13 @@ class ArtistProfileController extends GetxController {
                 // Set a maximum height for the thumbnail
                 quality: 75,
               );
+              videosList.add(list[i]);
+            } else {
+              imagesList.add(list[i]);
             }
           }
+          artistPortfolioImagesList=imagesList;
+          artistPortfolioVideosList=videosList;
           artistPortfolioList = list;
         }
         // print("response successful ${response.body}");
@@ -1892,7 +1906,7 @@ class ArtistProfileController extends GetxController {
       artistPortfolioId = "0";
       fileTypeTEController.text = "";
       filePathTEController.text = "";
-      portFolioImageOrVideo="";
+      portFolioImageOrVideo = "";
     }
     Get.toNamed(RouteHelper.artistPortfolio);
   }
@@ -2011,6 +2025,47 @@ class ArtistProfileController extends GetxController {
             checkIfArtist();
           }
         }
+      }
+    }
+  }
+
+  Future<void> getAccountData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {"accountID": loginTable.accountID};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getAccountData, jsonEncode(body), loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        LoginDataClass loginDataClass =
+            LoginDataClass.fromJson(jsonDecode(response.body));
+        if (loginDataClass.replayStatus ?? false) {
+          LoginTable loginTable1 = LoginTable(
+            loginDataClass.accountID ?? "",
+            loginDataClass.email ?? "",
+            loginDataClass.mobileNumber ?? "",
+            loginDataClass.accountType ?? "",
+            loginDataClass.fistName ?? "",
+            loginDataClass.lastName ?? "",
+            loginTable.token,
+            loginDataClass.userID ?? "",
+            loginDataClass.verificationStatus ?? "",
+            loginDataClass.verificationStatusID ?? 0,
+            loginDataClass.isverifiedContacts ?? false,
+            loginDataClass.profileID ?? 0,
+            loginDataClass.referralCode ?? "",
+            loginDataClass.usedReferralCode ?? "",
+            loginDataClass.totalReferralAmount!.toDouble() ?? 0.0,
+            loginDataClass.usedReferralAmount!.toDouble() ?? 0.0,
+          );
+          HiveService.saveLoginData(loginTable1);
+          getArtistProfileBasic();
+        } else {}
       }
     }
   }

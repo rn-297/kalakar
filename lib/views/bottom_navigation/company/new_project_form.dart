@@ -11,6 +11,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
+import '../../../custom_widgets/custom_dropdown_search1.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/picker_helper.dart';
@@ -97,31 +98,33 @@ class NewProjectFormPage extends StatelessWidget {
                 key: controller.formNewProjectKey,
                 child: Column(
                   children: [
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField1(
                         controller: controller.projectTitleTEController,
                         labelText: KalakarConstants.projectTitle,
                         obscureText: false,
                         textInputType: TextInputType.text,
                         passwordVisibility: false,
+                        hintText: "Enter Project Title",
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
                         validator: Validator.validateProjectTitle),
                     SizedBox(
                       height: 16.h,
                     ),
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField1(
                         controller: controller.projectDescriptionTEController,
                         labelText: KalakarConstants.projectDescription,
                         obscureText: false,
                         textInputType: TextInputType.text,
                         passwordVisibility: false,
+                        hintText: "Enter Project Description",
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
                         validator: Validator.validateProjectDescription),
                     SizedBox(
                       height: 16.h,
                     ),
-                    CustomDropdownSearch(
+                    CustomDropdownSearch1(
                       validator: Validator.validateProjectStatus,
                       items: controller.projectStatusStringList,
                       titleText: KalakarConstants.projectStatus,

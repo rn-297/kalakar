@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
@@ -88,7 +89,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
           child: Form(
             key: controller.formComfortableInKey,
             child: Column(children: [
-              CustomDropdownSearch(
+              CustomDropdownSearch1(
                 validator: Validator.validateComfortableIn,
                 items: controller.comfortableInList,
                 titleText: KalakarConstants.comfortableIn,

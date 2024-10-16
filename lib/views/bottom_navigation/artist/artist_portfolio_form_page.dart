@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
@@ -25,8 +26,8 @@ class ArtistPortfolioFormPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => educationFormMobileView(context),
-        tablet: (BuildContext context) => educationFormWebView(),
+        mobile: (BuildContext context) => portfolioFormMobileView(context),
+        tablet: (BuildContext context) => portfolioFormWebView(),
       ),
     );
   }
@@ -79,7 +80,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
     );
   }
 
-  educationFormMobileView(BuildContext context) {
+  portfolioFormMobileView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
       return Padding(
@@ -87,7 +88,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
           child: Form(
             key: controller.formPortFolioKey,
             child: Column(children: [
-              CustomDropdownSearch(
+              CustomDropdownSearch1(
                 validator: Validator.validateInterestedIn,
                 items: controller.fileTypeList,
                 titleText: KalakarConstants.fileType,
@@ -106,7 +107,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
                   controller.pickOrShowDocument(KalakarConstants.portfolio1,
                       context, controller);
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.filePathTEController,
                     labelText: KalakarConstants.filePath,
                     obscureText: false,
@@ -162,5 +163,5 @@ class ArtistPortfolioFormPage extends StatelessWidget {
     }));
   }
 
-  educationFormWebView() {}
+  portfolioFormWebView() {}
 }

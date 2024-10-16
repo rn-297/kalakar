@@ -55,8 +55,8 @@ class LoginDataClass {
     verificationStatusID = json['verificationStatusID'];
     profileID = json['profileID'];
     isverifiedContacts = json['isverifiedContacts'];
-    totalReferralAmount = json['totalReferralAmount'];
-    usedReferralAmount = json['usedReferralAmount'];
+    totalReferralAmount = json['totalReferralAmount']*1.0;
+    usedReferralAmount = json['usedReferralAmount']*1.0;
   }
 
   Map<String, dynamic> toJson() {

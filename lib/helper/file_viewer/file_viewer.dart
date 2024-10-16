@@ -112,14 +112,16 @@ class _ViewFilePageState extends State<ViewFilePage> {
     FileController fileController = Get.put(FileController());
     final String _localFilePath = fileController.filePath;
     try {
-      videoPlayerController = CachedVideoPlayerController.network(_localFilePath)
-        ..initialize().then((value) => setState(() {}));
+      videoPlayerController =
+          CachedVideoPlayerController.network(_localFilePath)
+            ..initialize().then((value) => setState(() {
+                  isInitialized.value = true;
+                }));
       _customVideoPlayerController = CustomVideoPlayerController(
         context: context,
         videoPlayerController: videoPlayerController,
       );
       setState(() {
-        isInitialized.value = true;
         // print("Done");
       });
     } catch (e) {
@@ -180,6 +182,4 @@ class _ViewFilePageState extends State<ViewFilePage> {
     // print(fileType.value);
     fileType.refresh();
   }
-
-
 }

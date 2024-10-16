@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
 import 'package:kalakar/helper/date_picker_helper.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -105,11 +106,12 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.requirementTitleTEController,
                     labelText: KalakarConstants.requirementTitle,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Requirement Title",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -117,7 +119,7 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateRequirementStatus,
                   items: controller.requirementStatusList,
                   titleText: KalakarConstants.requirementStatus,
@@ -133,10 +135,12 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.descriptionTEController,
                     labelText: KalakarConstants.description,
                     obscureText: false,
+                    hintText: "Enter Description",
+
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -146,10 +150,11 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.lookingForTEController,
                     labelText: KalakarConstants.lookingFor,
                     obscureText: false,
+                    hintText: "Enter Looking For",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -158,11 +163,12 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.noOfOpeningsTEController,
                     labelText: KalakarConstants.noOfOpenings,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Number Of Openings",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -221,7 +227,7 @@ class RequirementFormPage extends StatelessWidget {
                     ),
                   ],
                 ),*/
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateGender,
                   items: controller.genderList,
                   titleText: KalakarConstants.gender,
@@ -236,7 +242,7 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateAge,
                   items: controller.ageRangeList,
                   titleText: KalakarConstants.age,
@@ -251,11 +257,13 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.languageTEController,
                     labelText: KalakarConstants.language,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Language",
+
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -266,7 +274,7 @@ class RequirementFormPage extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomDropdownSearch(
+                      child: CustomDropdownSearch1(
                         validator: Validator.validateHeight,
                         items: controller.heightRangeList,
                         titleText: KalakarConstants.height,
@@ -283,7 +291,7 @@ class RequirementFormPage extends StatelessWidget {
                       width: 16.w,
                     ),
                     Expanded(
-                      child: CustomDropdownSearch(
+                      child: CustomDropdownSearch1(
                         validator: Validator.validateWeight,
                         items: controller.weightRangeList,
                         titleText: KalakarConstants.weight,
@@ -301,7 +309,7 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateHairColor,
                   items: controller.hairColorList,
                   titleText: KalakarConstants.hairColor,
@@ -316,7 +324,7 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateBodyType,
                   items: controller.bodyTypeList,
                   titleText: KalakarConstants.bodyType,
@@ -331,11 +339,12 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.experienceTEController,
                     labelText: KalakarConstants.experiences,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Experience",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -355,7 +364,7 @@ class RequirementFormPage extends StatelessWidget {
                                 KalakarConstants.startDate, date);
                           }
                         },
-                        child: CommonWidgets.commonMobileTextField(
+                        child: CommonWidgets.commonMobileTextField1(
                             controller: controller.startDateTEController,
                             labelText: KalakarConstants.startDate,
                             obscureText: false,
@@ -379,7 +388,7 @@ class RequirementFormPage extends StatelessWidget {
                             controller.setDate(KalakarConstants.endDate, date);
                           }
                         },
-                        child: CommonWidgets.commonMobileTextField(
+                        child: CommonWidgets.commonMobileTextField1(
                             controller: controller.endDateTEController,
                             labelText: KalakarConstants.endDate,
                             obscureText: false,
@@ -396,23 +405,27 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.shootingLocationTEController,
                     labelText: KalakarConstants.shootingLocation,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Shooting Location",
+
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateShootingLocation),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.defineRoleTEController,
                     labelText: KalakarConstants.defineRole,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Define Role",
+
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     maxLines: 3,
@@ -421,10 +434,11 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.splSkillRequiredTEController,
                     labelText: KalakarConstants.specialSkillRequired,
                     obscureText: false,
+                    hintText: "Enter Special Kills Required",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -433,7 +447,7 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateComfortableIn,
                   items: controller.comfortableInList,
                   titleText: KalakarConstants.comfortableIn,
@@ -449,12 +463,13 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.scriptForAuditionTEController,
                     labelText: KalakarConstants.scriptForAudition,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Script For Audition",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateScriptForAudition),
@@ -469,7 +484,7 @@ class RequirementFormPage extends StatelessWidget {
                           KalakarConstants.requirementEndDate, date);
                     }
                   },
-                  child: CommonWidgets.commonMobileTextField(
+                  child: CommonWidgets.commonMobileTextField1(
                       controller: controller.requirementEndDateTEController,
                       labelText: KalakarConstants.requirementEndDate,
                       obscureText: false,
@@ -483,11 +498,12 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.fbLinkTEController,
                     labelText: KalakarConstants.fbLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Facebook Link",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -495,11 +511,12 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.wpLinkTEController,
                     labelText: KalakarConstants.wpLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter WhatsApp Link",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -507,48 +524,52 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.ytLinkTEController,
                     labelText: KalakarConstants.ytLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter YouTube Link",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.instaLinkTEController,
                     labelText: KalakarConstants.instaLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Instagram Link",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.emailLinkTEController,
                     labelText: KalakarConstants.emailLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Email Link",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.websiteLinkTEController,
                     labelText: KalakarConstants.websiteLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Web Site Link",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),

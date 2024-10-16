@@ -269,7 +269,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(12.h),
                       decoration: BoxDecoration(
-                        color: KalakarColors.white,
+                        color: KalakarColors.turquoise15,
                         border: Border.all(color: KalakarColors.backgroundGrey),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
@@ -290,8 +290,9 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(12.h),
                       height: 180.h,
+                      width: double.infinity,
                       decoration: BoxDecoration(
-                        color: KalakarColors.white,
+                        color: KalakarColors.appBarBackground1,
                         border: Border.all(color: KalakarColors.backgroundGrey),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
@@ -353,7 +354,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp,color: KalakarColors.headerText),
             ),
             Text(
               titleData,

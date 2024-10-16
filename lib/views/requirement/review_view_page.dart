@@ -126,7 +126,7 @@ class ReviewViewPage extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(12.h),
             decoration: BoxDecoration(
-              color: KalakarColors.white,
+              color: KalakarColors.appBarBackground1,
               border: Border.all(color: KalakarColors.backgroundGrey),
               borderRadius: BorderRadius.circular(8.r),
             ),
@@ -156,7 +156,7 @@ class ReviewViewPage extends StatelessWidget {
               Row(
                 children: [
 
-                  Text("Rating : ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),),
+                  Text("Rating : ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp,color: KalakarColors.headerText),),
                   Text(reviewData.reviewStar!.toString()),
                   SizedBox(
                     width: 16.w,
@@ -198,7 +198,7 @@ class ReviewViewPage extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp,color: KalakarColors.headerText),
             ),
             Text(
               titleData,

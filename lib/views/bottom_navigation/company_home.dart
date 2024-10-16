@@ -38,7 +38,7 @@ class CompanyHomePage extends StatelessWidget {
     return GetBuilder<ProfileController>(builder: (controller) {
       return AppBar(
         toolbarHeight: 70.h,
-        backgroundColor: KalakarColors.appBarBackground,
+        backgroundColor: KalakarColors.appBarBackground1,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -55,7 +55,7 @@ class CompanyHomePage extends StatelessWidget {
               width: 8.w,
             ),
             Text(
-              controller.profileData!.name ?? "",
+              controller.companyName ?? "",
               style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
             ),
           ],

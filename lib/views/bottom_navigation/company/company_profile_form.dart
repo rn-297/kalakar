@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/custom_widgets/custom_dropdown_search.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/helper/picker_helper.dart';
 import 'package:kalakar/helper/textfield_validators.dart';
@@ -106,11 +107,13 @@ class CompanyProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.companyNameTEController,
                     labelText: KalakarConstants.companyName,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Company Name",
+
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -118,24 +121,26 @@ class CompanyProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.adminNameTEController,
                     labelText: KalakarConstants.authoriseAdminName,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Admin Name",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateAuthorizeAdminName),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.addressTEController,
                     labelText: KalakarConstants.address,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Address",
                     maxLines: 3,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -143,7 +148,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateState,
                   items: controller.stateList,
                   titleText: KalakarConstants.selectState,
@@ -189,7 +194,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: controller.districtValidator),*/
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validateDistrict,
                   items: controller.cityList,
                   titleText: KalakarConstants.selectDistrict,
@@ -214,7 +219,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: controller.stateValidator),*/
-                CustomDropdownSearch(
+                CustomDropdownSearch1(
                   validator: Validator.validatePostalCode,
                   items: controller.pinCodeList,
                   titleText: KalakarConstants.selectPinCode,
@@ -229,36 +234,40 @@ class CompanyProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.bioTEController,
                     labelText: KalakarConstants.bio,
                     obscureText: false,
                     maxLines: 3,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Bio",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateBio),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.fbLinkTEController,
                     labelText: KalakarConstants.fbLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
+                    hintText: "Enter Facebook Link",
+
                     togglePasswordVisibility: () {},
                     validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.instaLinkTEController,
                     labelText: KalakarConstants.instaLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Instagram Link",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -266,11 +275,12 @@ class CompanyProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.wpLinkTEController,
                     labelText: KalakarConstants.wpLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter WhatsApp Link",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -278,37 +288,41 @@ class CompanyProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.ytLinkTEController,
                     labelText: KalakarConstants.ytLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter YouTube Link",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.emailLinkTEController,
                     labelText: KalakarConstants.emailLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Email Link",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.websiteTEController,
                     labelText: KalakarConstants.websiteLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
+                    hintText: "Enter Email Link",
+
                     togglePasswordVisibility: () {},
                     validator: null),
                 SizedBox(

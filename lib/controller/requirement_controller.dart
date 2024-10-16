@@ -13,11 +13,13 @@ import 'package:kalakar/data/models/company/artist_search_for_company_class.dart
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';
 import '../data/local_database/login_table.dart';
-import '../data/models/company/company_applied_details_class.dart';
+import '../data/models/company/company_applied_details_class.dart'
+    as company_artist;
 import '../data/models/company/project_details_documents_class.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
@@ -84,6 +86,8 @@ class RequirementController extends GetxController {
   String? searchShootingStartDateText = "";
   String? searchShootingEndDateText = "";
   String? requirementEndDateText = "";
+  String? artistName = "";
+  String? companyName = "";
 
   //date time
   DateTime shootingStartDate = DateTime.now();
@@ -99,7 +103,8 @@ class RequirementController extends GetxController {
   List<RequirementDetailsData> artistRequirementsFavouritesList = [];
   List<ArtistAppliedRequirementDetailsList>
       artistAppliedRequirementDetailsList = [];
-  List<AppliedArtistDetailsList> companyAppliedRequirementDetailsList = [];
+  List<company_artist.AppliedArtistDetailsList>
+      companyAppliedRequirementDetailsList = [];
   List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
   List<GetApplicationReviewList> reviewDetailsList = [];
   List<String> genderList = ["Male", "Female", "Other"];
@@ -138,8 +143,8 @@ class RequirementController extends GetxController {
   ArtistAppliedRequirementDetailsList selectedAppliedRequirement =
       ArtistAppliedRequirementDetailsList();
 
-  AppliedArtistDetailsList selectedArtistProfileData =
-      AppliedArtistDetailsList();
+  company_artist.AppliedArtistDetailsList selectedArtistProfileData =
+      company_artist.AppliedArtistDetailsList();
 
   GetArtistProfileModellist selectedSearchedArtistProfileData =
       GetArtistProfileModellist();
@@ -194,8 +199,8 @@ class RequirementController extends GetxController {
     super.onInit();
     // print("date time : ${DateTime(2024, DateTime.august, 15)}");
     // print("date time : ${DateTime(2024, DateTime.august, 20)}");
-    artistProfileMaster();
-    checkIsArtist();
+    // artistProfileMaster();
+    // checkIsArtist();
   }
 
   //global keys
@@ -649,11 +654,56 @@ class RequirementController extends GetxController {
           jsonEncode(fields),
           loginTable.token);
       if (response.statusCode == 200) {
-        CompanyAppliedRequirementDetailsClass
+        company_artist.CompanyAppliedRequirementDetailsClass
             companyAppliedRequirementDetailsClass =
-            CompanyAppliedRequirementDetailsClass.fromJson(
+            company_artist.CompanyAppliedRequirementDetailsClass.fromJson(
                 jsonDecode(response.body));
         if (companyAppliedRequirementDetailsClass.replayStatus ?? false) {
+          List<company_artist.AppliedArtistDetailsList> list =
+              companyAppliedRequirementDetailsClass
+                  .objResponesRequirementDetailsList!;
+          for (int j = 0; j < list.length; j++) {
+            List<company_artist.PortfolioList> list1 = list[j].portfolioList!;
+            for (int i = 0; i < list1.length; i++) {
+              if (list1[i].fileType == 2) {
+                list1[i].thumbnail = await VideoThumbnail.thumbnailData(
+                  video: list1[i].filePath!,
+                  // Replace with your video URL
+                  imageFormat: ImageFormat.JPEG,
+                  maxHeight: 150,
+                  // Set a maximum height for the thumbnail
+                  quality: 75,
+                );
+              }
+            }
+            companyAppliedRequirementDetailsClass
+                .objResponesRequirementDetailsList![j].portfolioList = list1;
+
+
+          }
+
+          List<company_artist.AppliedArtistDetailsList> list2 =
+              companyAppliedRequirementDetailsClass
+                  .objResponesRequirementDetailsList!;
+          for (int j = 0; j < list2.length; j++) {
+            List<company_artist.ExperienceList> list1 = list2[j].experienceList!;
+            for (int i = 0; i < list1.length; i++) {
+              if (list1[i].roleVideo == 2) {
+                list1[i].thumbnail = await VideoThumbnail.thumbnailData(
+                  video: list1[i].roleVideo!,
+                  // Replace with your video URL
+                  imageFormat: ImageFormat.JPEG,
+                  maxHeight: 150,
+                  // Set a maximum height for the thumbnail
+                  quality: 75,
+                );
+              }
+            }
+            companyAppliedRequirementDetailsClass
+                .objResponesRequirementDetailsList![j].experienceList = list1;
+
+
+          }
           companyAppliedRequirementDetailsList =
               companyAppliedRequirementDetailsClass
                   .objResponesRequirementDetailsList!;
@@ -690,11 +740,9 @@ class RequirementController extends GetxController {
   void checkIsArtist() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      isArtist = loginTable.accountType == KalakarConstants.artist;
       if (isArtist) {
         getArtistHomeRequirementDetails(false);
 
-        getArtistHomeRequirementDetails(true);
         getAppliedForRequirementArtist();
       } else {
         getRequirementDetailsCompany(0);
@@ -909,6 +957,9 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      artistName="${loginTable.fistName} ${loginTable.lastName} ";
+      isArtist = loginTable.accountType == KalakarConstants.artist;
+
       if (iSAll) {
         isRequirementsLoading = true;
       } else {
@@ -1101,7 +1152,7 @@ class RequirementController extends GetxController {
   }
 
   void setArtistProfileDataToView(
-      AppliedArtistDetailsList appliedProfileDetail) {
+      company_artist.AppliedArtistDetailsList appliedProfileDetail) {
     isSearchedArtist = false;
     selectedArtistProfileData = appliedProfileDetail;
     Get.toNamed(RouteHelper.artistProfileViewPage);

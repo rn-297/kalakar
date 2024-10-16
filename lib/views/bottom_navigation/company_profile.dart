@@ -43,7 +43,7 @@ class CompanyProfilePage extends StatelessWidget {
         // print(profileDta!.verificationStatus);
         return RefreshIndicator(
           onRefresh: ()async{
-            controller.onInit();
+            controller.getRequireData();
           },
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),

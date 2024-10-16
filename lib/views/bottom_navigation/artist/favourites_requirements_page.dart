@@ -276,10 +276,16 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                 margin: EdgeInsets.symmetric(
                                     vertical: 8.h, horizontal: 4.h),
                                 decoration: BoxDecoration(
-                                  color: KalakarColors.white,
+                                  color: KalakarColors.backgroundTurquoise,
                                   border: Border.all(
                                       color: KalakarColors.backgroundGrey),
                                   borderRadius: BorderRadius.circular(8.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.4),
+                                      blurRadius: 2.0,
+                                    ),
+                                  ],
                                 ),
                                 child: InkWell(
                                   onTap: () {

@@ -140,6 +140,8 @@ class ArtistProfileViewPage extends StatelessWidget {
             controller.selectedArtistProfileData.experienceList!;
         List<PortfolioList> artistPortfolioData =
             controller.selectedArtistProfileData.portfolioList!;
+        DateFormat formatter = DateFormat('dd-MM-yyyy');
+        DateTime dob = DateTime.parse(artistData.dateOfBirth.toString());
         return SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.h),
@@ -200,7 +202,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                       textSpanToShow(context, "Alternate Mobile Number : ",
                           artistData.alternateMobileNumber!),
                       textSpanToShow(
-                          context, "Date Of Birth : ", artistData.dateOfBirth!),
+                          context, "Date Of Birth : ", formatter.format(dob)),
                       textSpanToShow(context, "Address : ",
                           "${artistData.address1!.toString()}, ${artistData.address2!.toString()}, ${artistData.district!.toString()}, ${artistData.state!.toString()},  ${artistData.postalcode!.toString()}, "),
                     ],
@@ -715,7 +717,12 @@ class ArtistProfileViewPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8.r),
                                     border: Border.all(
                                         color: KalakarColors.backgroundGrey),
-                                    image: DecorationImage(
+                                    image: artistPortfolioData[index].fileType==2?DecorationImage(
+                                        image:  MemoryImage(
+                                            artistPortfolioData[index]
+                                                .thumbnail!)
+                                                as ImageProvider,
+                                        fit: BoxFit.cover):DecorationImage(
                                         image: artistPortfolioData[index]
                                                 .filePath!
                                                 .startsWith("http")
@@ -781,7 +788,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                             ? KalakarConstants.reject
                             : controller.selectedArtistProfileData
                                         .fKApplyStatusMasterID ==
-                                    2
+                                    3
                                 ? KalakarConstants.rejected
                                 : KalakarConstants.reject,
                         onTap: () {
@@ -794,7 +801,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                                     4 ||
                                 controller.selectedArtistProfileData
                                         .fKApplyStatusMasterID ==
-                                    2
+                                    3
                             ? KalakarColors.appBarBackground
                             : KalakarColors.backgroundGrey,
                         width: 100.w,
@@ -807,7 +814,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                             ? KalakarConstants.hold
                             : controller.selectedArtistProfileData
                                         .fKApplyStatusMasterID ==
-                                    3
+                                    2
                                 ? KalakarConstants.onHold
                                 : KalakarConstants.hold,
                         onTap: () {
@@ -818,7 +825,7 @@ class ArtistProfileViewPage extends StatelessWidget {
                                     4 ||
                                 controller.selectedArtistProfileData
                                         .fKApplyStatusMasterID ==
-                                    3
+                                    2
                             ? KalakarColors.appBarBackground
                             : KalakarColors.backgroundGrey,
                         horizontalPadding: 4.h,

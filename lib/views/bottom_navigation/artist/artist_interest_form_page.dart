@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
@@ -87,7 +88,7 @@ class ArtistInterestFormPage extends StatelessWidget {
           child: Form(
             key: controller.formInterestedInKey,
             child: Column(children: [
-              CustomDropdownSearch(
+              CustomDropdownSearch1(
                 validator: Validator.validateInterestedIn,
                 items: controller.interestInList,
                 titleText: KalakarConstants.interestIn,

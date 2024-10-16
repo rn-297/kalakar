@@ -88,11 +88,12 @@ class ArtistEducationFormPage extends StatelessWidget {
           child: Form(
             key: controller.formEducationKey,
             child: Column(children: [
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.educationTypeTEController,
                   labelText: KalakarConstants.educationType,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter Education Type",
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -100,11 +101,13 @@ class ArtistEducationFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.universityOrInstituteTEController,
                   labelText: KalakarConstants.universityOrInstitute,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter University or Institute",
+
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -112,11 +115,13 @@ class ArtistEducationFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.courseTEController,
                   labelText: KalakarConstants.course,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter Course",
+
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -124,10 +129,11 @@ class ArtistEducationFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.specializationTEController,
                   labelText: KalakarConstants.specialization,
                   obscureText: false,
+                  hintText: "Enter Specialization",
                   textInputType: TextInputType.text,
                   passwordVisibility: false,
                   borderRadius: 12.r,
@@ -136,11 +142,13 @@ class ArtistEducationFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.courseTypeTEController,
                   labelText: KalakarConstants.courseType,
                   obscureText: false,
                   textInputType: TextInputType.text,
+                  hintText: "Enter Course Type",
+
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -155,7 +163,7 @@ class ArtistEducationFormPage extends StatelessWidget {
                     controller.setDate(KalakarConstants.courseStartDate, date);
                   }
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.courseStartDateTEController,
                     labelText: KalakarConstants.courseStartDate,
                     obscureText: false,
@@ -176,7 +184,7 @@ class ArtistEducationFormPage extends StatelessWidget {
                     controller.setDate(KalakarConstants.courseEndDate, date);
                   }
                 },
-                child: CommonWidgets.commonMobileTextField(
+                child: CommonWidgets.commonMobileTextField1(
                     controller: controller.courseEndDateTEController,
                     labelText: KalakarConstants.courseEndDate,
                     obscureText: false,
@@ -190,10 +198,11 @@ class ArtistEducationFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.scoreTEController,
                   labelText: KalakarConstants.score,
                   obscureText: false,
+                  hintText: "Enter Score",
                   textInputType: TextInputType.text,
                   passwordVisibility: false,
                   borderRadius: 12.r,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
@@ -88,7 +89,7 @@ class ArtistApplyForFormPage extends StatelessWidget {
               child: Form(
                 key: controller.formApplyForKey,
                 child: Column(children: [
-                  CustomDropdownSearch(
+                  CustomDropdownSearch1(
                     validator: Validator.validateApplyFor,
                     items: controller.applyForList,
                     titleText: KalakarConstants.applyFor,
@@ -106,7 +107,7 @@ class ArtistApplyForFormPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      if(controller.artistApplyForMasterId != "0")
+                      if(controller.artistApplyForId != "0")
                         CustomMobileButtonWidget(
                           width: 125.w,
                           onTap: () {
