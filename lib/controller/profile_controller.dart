@@ -25,6 +25,8 @@ import '../data/models/company/get_profile_data_class.dart';
 import '../data/models/csv_model_class.dart';
 import '../helper/route_helper.dart';
 import '../views/dialogs/kalakar_dialogs.dart';
+import 'package:http/http.dart' as http;
+
 
 class ProfileController extends GetxController {
   TextEditingController companyNameTEController = TextEditingController();
@@ -1041,7 +1043,16 @@ class ProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      companyName=loginTable.fistName+" "+loginTable.lastName;
+      companyName="${loginTable.fistName??""} ${loginTable.lastName??""}";
+    }
+  }
+
+  Future<bool> checkImageValidity(String url) async {
+    try {
+      final response = await http.head(Uri.parse(url));
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
     }
   }
 }

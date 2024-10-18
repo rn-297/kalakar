@@ -414,7 +414,7 @@ class AuthPage extends StatelessWidget {
             ),
             Center(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
+                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 8.h),
                 decoration: BoxDecoration(
                     // color: KalakarColors.background,
                     border: Border.all(color: KalakarColors.border),
@@ -428,7 +428,7 @@ class AuthPage extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    width: 16.w,
+                    width: 12.w,
                   ),
                   Text(
                     KalakarConstants.continueWithGoogle,
@@ -598,7 +598,7 @@ class AuthPage extends StatelessWidget {
                     },
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 50.w, vertical: 8.h),
+                          EdgeInsets.symmetric(horizontal: 40.w, vertical: 8.h),
                       decoration: BoxDecoration(
                           // color: KalakarColors.background,
                           border: Border.all(color: KalakarColors.border),

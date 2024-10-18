@@ -35,6 +35,7 @@ class CompanyHomePage extends StatelessWidget {
   }
 
   appbarMobileView() {
+    Get.put(ProfileController());
     return GetBuilder<ProfileController>(builder: (controller) {
       return AppBar(
         toolbarHeight: 70.h,
@@ -42,14 +43,30 @@ class CompanyHomePage extends StatelessWidget {
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 60.h,
-              width: 60.h,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(controller.companyLogo)),
-                  border: Border.all(color: KalakarColors.headerText),
-                  borderRadius: BorderRadius.circular(50.r)),
+            FutureBuilder<bool>(
+              future: controller.checkImageValidity(controller.companyLogo),
+              builder: (context,snapshot) {
+                 if (snapshot.hasError || !snapshot.data!) {
+                  return Container(
+                    width: 60.h,
+                    height: 60.h,
+                    decoration: BoxDecoration(
+
+                    border: Border.all(color: KalakarColors.headerText),
+                      borderRadius: BorderRadius.circular(50.r)
+                    ),
+                    child: Icon(Icons.person, color: Colors.grey,size: 50.h,),
+                  );
+                } else { return Container(
+                  height: 60.h,
+                  width: 60.h,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(controller.companyLogo)),
+                      border: Border.all(color: KalakarColors.headerText),
+                      borderRadius: BorderRadius.circular(50.r)),
+                );}
+              }
             ),
             SizedBox(
               width: 8.w,
@@ -61,10 +78,10 @@ class CompanyHomePage extends StatelessWidget {
           ],
         ),
         actions: [
-          Icon(
-            Icons.notifications,
-            size: 35,
-          ),
+          // Icon(
+          //   Icons.notifications,
+          //   size: 35,
+          // ),
           SizedBox(
             width: 20.w,
           )

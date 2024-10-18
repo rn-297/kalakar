@@ -209,6 +209,7 @@ class KalakarConstants {
   static const String district = "District";
   static const String state = "State";
   static const String kalakarId = "Kalakaar ID :";
+  static const String companyId = "Company ID :";
   static const String openOpportunities = "Open Opportunities";
   static const String appliedArtist = "Applied Artist";
   static const String createNewOpportunity = "CREATE NEW OPPORTUNITY";
@@ -221,6 +222,7 @@ class KalakarConstants {
   static const String myProfile = "My Profile";
   static const String myApplications = "My Applications";
   static const String myFavourites = "My Favourites";
+  static const String about = "ABOUT";
   static const String aboutUs = "About Us";
   static const String help = "Help";
   static const String privacyPolicy = "Privacy Policy";
@@ -292,7 +294,8 @@ class KalakarConstants {
   static const String companyLogo = "Company Logo";
   static const String authoriseAdminName = "Authorise Admin Name";
   static const String address = "Address";
-  static const String pinCode = "Postal Code / PIN Code";
+  static const String postalCode = "Postal Code / PIN Code";
+  static const String pinCode = "Pin Code";
   static const String whatsappLink = "WhatsApp Link";
   static const String sendProfileForVerification =
       "Send Profile For Verification";

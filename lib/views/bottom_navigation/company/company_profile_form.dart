@@ -226,7 +226,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                   selectedItem: controller.pinCodeTEController.text.isEmpty
                       ? null
                       : controller.pinCodeTEController.text,
-                  labelText: KalakarConstants.pinCode,
+                  labelText: KalakarConstants.postalCode,
                   onItemSelected: (selectedItem) {
                     controller.setPinCodeData(selectedItem);
                   },
@@ -479,7 +479,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                                 controller.pinCodeTEController.text.isEmpty
                                     ? null
                                     : controller.pinCodeTEController.text,
-                            labelText: KalakarConstants.pinCode,
+                            labelText: KalakarConstants.postalCode,
                             onItemSelected: (selectedItem) {
                               controller.setPinCodeData(selectedItem);
                             },

@@ -492,7 +492,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                   selectedItem: controller.postalCodeTEController.text.isEmpty
                       ? null
                       : controller.postalCodeTEController.text,
-                  labelText: KalakarConstants.pinCode,
+                  labelText: KalakarConstants.postalCode,
                   onItemSelected: (selectedItem) {
                     controller.setPinCodeData(selectedItem);
                   },
@@ -879,7 +879,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                   selectedItem: controller.postalCodeTEController.text.isEmpty
                       ? null
                       : controller.postalCodeTEController.text,
-                  labelText: KalakarConstants.pinCode,
+                  labelText: KalakarConstants.postalCode,
                   onItemSelected: (selectedItem) {
                     controller.setPinCodeData(selectedItem);
                   },
