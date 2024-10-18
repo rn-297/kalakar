@@ -96,6 +96,7 @@ class BottomNavigationController extends GetxController {
         requirementController.getReviewDetails();
         homeCount = 1;
       } else if (selectedIndex == 1 && opportunityCount == 0) {
+        requirementController.artistProfileMaster();
         requirementController.getRequirementDetailsCompany(0);
         opportunityCount = 1;
       } else if (selectedIndex == 2 && profileCount == 0) {

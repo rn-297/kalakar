@@ -191,6 +191,7 @@ abstract class ApiClient extends GetxService {
 
   static postFormDataToken(String uri, Map<String, String>? fields,
       Map<String, File?>? files, String accessToken) async {
+    print(fields);
     try {
       print(KalakarConstants.baseURL + uri);
       var connectivityResult = await Connectivity().checkConnectivity();
@@ -222,8 +223,7 @@ abstract class ApiClient extends GetxService {
                                             filename: file.path.split("/").last,
                                             contentType: mime.MediaType("document", "pdf"))
                                         :*/
-                              await Http.MultipartFile.fromPath(key, file.path,
-                                  filename: "image.jpg");
+                              await Http.MultipartFile.fromPath(key, file.path);
               request.files.add(multipartFile);
             } else {
               request.fields[key] = "";

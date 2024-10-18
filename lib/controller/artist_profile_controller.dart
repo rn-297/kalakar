@@ -704,7 +704,8 @@ class ArtistProfileController extends GetxController {
       Map<String, File> files = {
         'FilePath': File(portFolioImageOrVideo),
       };
-      print(body);
+      print("123123123  ${body}");
+      print("123123123  ${files}");
 
       var response = await ApiClient.postFormDataToken(
           KalakarConstants.saveArtistProfilePortfolioApi,

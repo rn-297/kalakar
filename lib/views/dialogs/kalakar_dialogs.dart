@@ -77,6 +77,7 @@ class KalakarDialogs {
       Get.delete<ProfileController>();
       Get.delete<RequirementController>();
       Get.delete<SettingsController>();
+      Get.offNamed(RouteHelper.bottomNavigationPage);
 
     });
     Get.defaultDialog(
