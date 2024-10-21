@@ -1675,7 +1675,7 @@ class RequirementViewPage extends StatelessWidget {
                               text: KalakarConstants.appliedProfiles,
                               onTap: () {
                                 controller.getAppliedData(
-                                    requirement.requirementDetailsID!);
+                                    requirement);
                               },
                               horizontalPadding: 16.h,
                               verticalPadding: 8.h,

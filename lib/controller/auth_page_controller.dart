@@ -189,6 +189,7 @@ class AuthPageController extends GetxController {
             loginDataClass.usedReferralCode ?? "",
             loginDataClass.totalReferralAmount ?? 0.0,
             loginDataClass.usedReferralAmount ?? 0.0,
+            loginDataClass.profilePic ?? "",
           );
           HiveService.saveLoginData(loginTable);
           signInEmailOrMobile.clear();
@@ -437,6 +438,8 @@ class AuthPageController extends GetxController {
           loginDataClass.usedReferralCode ?? "",
           loginDataClass.totalReferralAmount!.toDouble() ?? 0.0,
           loginDataClass.usedReferralAmount!.toDouble() ?? 0.0,
+          loginDataClass.profilePic ?? "",
+
         );
         HiveService.saveLoginData(loginTable);
         signInEmailOrMobile.clear();
@@ -542,6 +545,8 @@ class AuthPageController extends GetxController {
             loginDataClass.usedReferralCode ?? "",
             loginDataClass.totalReferralAmount ?? 0.0,
             loginDataClass.usedReferralAmount ?? 0.0,
+            loginDataClass.profilePic ?? "",
+
           );
           HiveService.saveLoginData(loginTable);
 

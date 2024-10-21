@@ -3,11 +3,8 @@ class CompanyProjectClass {
   bool? replayStatus;
   String? message;
 
-
   CompanyProjectClass(
-      {this.lResponseCompanyProjects,
-        this.replayStatus,
-        this.message});
+      {this.lResponseCompanyProjects, this.replayStatus, this.message});
 
   CompanyProjectClass.fromJson(Map<String, dynamic> json) {
     if (json['_ResponseCompanyProjects'] != null) {
@@ -38,6 +35,7 @@ class CompanyProjectsData {
   String? projectStatus;
   String? projectStatusID;
   String? projectTitle;
+  String? projectSubTitle;
   String? projectCoverDoc;
 
   CompanyProjectsData(
@@ -46,6 +44,7 @@ class CompanyProjectsData {
         this.projectStatus,
         this.projectStatusID,
         this.projectTitle,
+        this.projectSubTitle,
         this.projectCoverDoc});
 
   CompanyProjectsData.fromJson(Map<String, dynamic> json) {
@@ -54,6 +53,7 @@ class CompanyProjectsData {
     projectStatus = json['projectStatus'];
     projectStatusID = json['projectStatusID'];
     projectTitle = json['projectTitle'];
+    projectSubTitle = json['projectSubTitle'];
     projectCoverDoc = json['projectCoverDoc'];
   }
 
@@ -64,6 +64,7 @@ class CompanyProjectsData {
     data['projectStatus'] = this.projectStatus;
     data['projectStatusID'] = this.projectStatusID;
     data['projectTitle'] = this.projectTitle;
+    data['projectSubTitle'] = this.projectSubTitle;
     data['projectCoverDoc'] = this.projectCoverDoc;
     return data;
   }

@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
@@ -117,10 +118,24 @@ class NewProjectFormPage extends StatelessWidget {
                         obscureText: false,
                         textInputType: TextInputType.text,
                         passwordVisibility: false,
+                        maxLines: 3,
                         hintText: "Enter Project Description",
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
                         validator: Validator.validateProjectDescription),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    CommonWidgets.commonMobileTextField1(
+                        controller: controller.projectTypeTEController,
+                        labelText: KalakarConstants.projectType,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        hintText: "Hindi Movie/ Television Series",
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: Validator.validateProjectType),
                     SizedBox(
                       height: 16.h,
                     ),
@@ -176,90 +191,121 @@ class NewProjectFormPage extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(10.h),
-                      height: 140 .h,
+                      height: 140.h,
                       width: double.infinity,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.projectDocuments.length,
-                          itemBuilder: (context, index) {
-                            return controller.projectDocuments[index].type ==
-                                    "Add"
-                                ? InkWell(
-                                    onTap: () {
-                                      controller.addPhotosAndVideos(
-                                          context, controller);
-                                    },
-                                    child: Center(
-                                      child: Container(
-                                        height: 125.h,
-                                        width: 80.h,
+                      child: controller.isProjectDocumentLoading
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.projectDocuments.length,
+                              itemBuilder: (context, index) {
+                                return  Container(
                                         margin: EdgeInsets.only(right: 15.w),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                          border: Border.all(),
+                                        child: Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 125.h,
+                                            width: 80.h,
+                                            decoration: BoxDecoration(
+                                                color: KalakarColors.white,
+                                                borderRadius:
+                                                BorderRadius.circular(8.r)),
+                                          ),
                                         ),
+                                      ); //Container();
+                              })
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.projectDocuments.length,
+                              itemBuilder: (context, index) {
+                                return controller
+                                            .projectDocuments[index].type ==
+                                        "Add"
+                                    ? InkWell(
+                                        onTap: () {
+                                          controller.addPhotosAndVideos(
+                                              context, controller);
+                                        },
                                         child: Center(
-                                            child: Icon(
-                                          Icons.add,
-                                          size: 35,
-                                        )),
-                                      ),
-                                    ),
-                                  )
-                                : Container(
-                                    margin: EdgeInsets.only(right: 15.w),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height: 125.h,
-                                          width: 80.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            image: DecorationImage(
-                                                image: controller
-                                                        .projectDocuments[index]
-                                                        .path
-                                                        .startsWith("http")
-                                                    ? NetworkImage(controller
-                                                        .projectDocuments[index]
-                                                        .path)
-                                                    : FileImage(File(controller
-                                                        .projectDocuments[index]
-                                                        .path)) as ImageProvider,
-                                                fit: BoxFit.cover),
+                                          child: Container(
+                                            height: 125.h,
+                                            width: 80.h,
+                                            margin:
+                                                EdgeInsets.only(right: 15.w),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              border: Border.all(),
+                                            ),
+                                            child: Center(
+                                                child: Icon(
+                                              Icons.add,
+                                              size: 35,
+                                            )),
                                           ),
                                         ),
-                                        Positioned(
-                                          right: 2,
-                                          top: 2,
-                                          child: InkWell(
-                                            onTap: () {
-                                              controller.deleteProjectDocuments(
-                                                  controller
-                                                      .selectedCompanyProject!
-                                                      .companyProjectID!,
-                                                  controller
-                                                      .projectDocuments[index]
-                                                      .documentId);
-                                            },
-                                            child: Container(
-                                                padding: EdgeInsets.all(4.h),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50.r),
-                                                    color: KalakarColors.white
-                                                        .withOpacity(.5)),
-                                                child: Icon(Icons.delete)),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ); //Container();
-                          }),
+                                      )
+                                    : Container(
+                                        margin: EdgeInsets.only(right: 15.w),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              height: 125.h,
+                                              width: 80.h,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                                image: DecorationImage(
+                                                    image: controller
+                                                            .projectDocuments[
+                                                                index]
+                                                            .path
+                                                            .startsWith("http")
+                                                        ? NetworkImage(controller
+                                                            .projectDocuments[
+                                                                index]
+                                                            .path)
+                                                        : FileImage(File(controller
+                                                                .projectDocuments[
+                                                                    index]
+                                                                .path))
+                                                            as ImageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              right: 2,
+                                              top: 2,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  controller.deleteProjectDocuments(
+                                                      controller
+                                                          .selectedCompanyProject!
+                                                          .companyProjectID!,
+                                                      controller
+                                                          .projectDocuments[
+                                                              index]
+                                                          .documentId);
+                                                },
+                                                child: Container(
+                                                    padding:
+                                                        EdgeInsets.all(4.h),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50.r),
+                                                        color: KalakarColors
+                                                            .white
+                                                            .withOpacity(.5)),
+                                                    child: Icon(Icons.delete)),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ); //Container();
+                              }),
                     )
                   ],
                 ),

@@ -27,7 +27,6 @@ import '../helper/route_helper.dart';
 import '../views/dialogs/kalakar_dialogs.dart';
 import 'package:http/http.dart' as http;
 
-
 class ProfileController extends GetxController {
   TextEditingController companyNameTEController = TextEditingController();
   TextEditingController adminNameTEController = TextEditingController();
@@ -53,6 +52,7 @@ class ProfileController extends GetxController {
       TextEditingController();
   TextEditingController selfieUploadTEController = TextEditingController();
   TextEditingController projectTitleTEController = TextEditingController();
+  TextEditingController projectTypeTEController = TextEditingController();
   TextEditingController projectDescriptionTEController =
       TextEditingController();
   TextEditingController projectStatusTEController = TextEditingController();
@@ -60,6 +60,7 @@ class ProfileController extends GetxController {
   String oTP = "";
   String companyName = "";
   String companyLogo = "";
+  String profilePic = "";
   String documentType = "";
   String filmCorporationCardPath = "";
   String adminAadharCardPath = "";
@@ -82,6 +83,7 @@ class ProfileController extends GetxController {
   bool mobileNumberEditable = true;
   bool emailEditable = true;
   bool isDocumentLoading = false;
+  bool isProjectDocumentLoading = false;
 
   List<CSVData> stateCityPinCodeList = [];
   List<String> stateList = [];
@@ -90,6 +92,8 @@ class ProfileController extends GetxController {
   List<GetProjectStatusMasterlist> projectStatusList = [];
   List<String> projectStatusStringList = [];
   List<CompanyProjectsData> companyAllProjects = [];
+  List<CompanyProjectsData> companyNewProjects = [];
+  List<CompanyProjectsData> companyUpcomingProjects = [];
   CompanyProjectsData? selectedCompanyProject = CompanyProjectsData();
 
   ProfileGetDataClass? profileData = ProfileGetDataClass();
@@ -358,6 +362,12 @@ class ProfileController extends GetxController {
         if (responseModel.replayStatus ?? false) {
           if (projectId == '0') {
             companyAllProjects = responseModel.lResponseCompanyProjects!;
+            companyNewProjects = companyAllProjects
+                .where((element) => element.projectStatusID == "1")
+                .toList();
+            companyUpcomingProjects = companyAllProjects
+                .where((element) => element.projectStatusID == "2")
+                .toList();
           } else {
             selectedCompanyProject = responseModel.lResponseCompanyProjects![0];
           }
@@ -837,6 +847,7 @@ class ProfileController extends GetxController {
         'ProjectDescription': projectDescriptionTEController.text.trim(),
         'ProjectStatusID': selectedProjectStatusId,
         'ProjectTitle': projectTitleTEController.text.trim(),
+        'ProjectSubTitle': projectTypeTEController.text.trim(),
       };
       print(fields);
 
@@ -871,7 +882,7 @@ class ProfileController extends GetxController {
             ResponseModel.fromJson(jsonDecode(response.body));
 
         if (responseModel.replayStatus ?? false) {
-          KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
+          KalakarDialogs.successDialog1("Profile Saved", responseModel.message!);
           getProfileData();
           getCompanyProjects("0");
           if (companyProjectId != "0") {
@@ -892,11 +903,14 @@ class ProfileController extends GetxController {
   }
 
   void openProjectDetails(CompanyProjectsData companyProject) {
+    projectDocuments=[];
+    update();
     companyProjectId = companyProject.companyProjectID.toString();
     selectedCompanyProject = companyProject;
     projectCoverPath = companyProject.projectCoverDoc!;
     projectTitleTEController.text = companyProject.projectTitle!;
     projectDescriptionTEController.text = companyProject.projectDescription!;
+    projectTypeTEController.text = companyProject.projectSubTitle!;
     selectedProjectStatus = getProjectStatus(companyProject.projectStatusID);
     print(selectedProjectStatus);
     selectedProjectStatusId = projectStatusList
@@ -930,6 +944,8 @@ class ProfileController extends GetxController {
 
     if (loginTable != null) {
       // Example fields (if any)
+      isProjectDocumentLoading=true;
+      update();
       var fields = {
         'companyProjectID': "$companyProjectID",
         'fK_AccountID': loginTable.accountID,
@@ -962,6 +978,7 @@ class ProfileController extends GetxController {
                 .add(FileData(path: path, type: type, documentId: documentId));
           }
         }
+        isProjectDocumentLoading=false;
         update();
       }
     } else {}
@@ -1043,7 +1060,8 @@ class ProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      companyName="${loginTable.fistName??""} ${loginTable.lastName??""}";
+      companyName = "${loginTable.fistName ?? ""} ${loginTable.lastName ?? ""}";
+      profilePic =loginTable.profilePic;
     }
   }
 

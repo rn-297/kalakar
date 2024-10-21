@@ -576,10 +576,11 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),
-                /*CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField1(
                     controller: controller.salaryTEController,
                     labelText: KalakarConstants.salary,
                     obscureText: false,
+                    hintText: "Enter Salary",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -588,22 +589,26 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.salaryTypeTEController,
-                    labelText: KalakarConstants.salaryType,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
+                CustomDropdownSearch1(
+                  validator: null,
+                  items: controller.salaryTypeList,
+                  titleText: KalakarConstants.salaryType,
+                  selectedItem:
+                  controller.salaryTypeTEController.text.isEmpty
+                      ? null
+                      : controller.salaryTypeTEController.text,
+                  labelText: KalakarConstants.salaryType,
+                  onItemSelected: (selectedItem) {
+                    controller.setSalaryTypeValue(selectedItem);
+                  },
+                ),
                 SizedBox(
                   height: 24.h,
-                ),*/
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    if(controller.selectedRequirementId != "0")
+                    if(controller.selectedRequirementId != 0)
                       CustomMobileButtonWidget(
                           text: KalakarConstants.deleteRequirement,
                           onTap: () {

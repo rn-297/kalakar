@@ -27,6 +27,7 @@ class BottomNavigationController extends GetxController {
   RequirementController requirementController =
       Get.put(RequirementController());
   SettingsController settingsController = Get.put(SettingsController());
+  ProfileController companyProfileController = Get.put(ProfileController());
 
   @override
   onInit() {
@@ -92,13 +93,14 @@ class BottomNavigationController extends GetxController {
       ]);
 
       if (selectedIndex == 0 && homeCount == 0) {
-        requirementController.getUpcomingProjectsDetails();
-        requirementController.getReviewDetails();
+        // requirementController.getUpcomingProjectsDetails();
+        // requirementController.getReviewDetails();
+        requirementController.getRequirementDetailsCompany(0);
+        requirementController.artistProfileMaster();
+        companyProfileController.getCompanyName();
+        opportunityCount = 1;
         homeCount = 1;
       } else if (selectedIndex == 1 && opportunityCount == 0) {
-        requirementController.artistProfileMaster();
-        requirementController.getRequirementDetailsCompany(0);
-        opportunityCount = 1;
       } else if (selectedIndex == 2 && profileCount == 0) {
         ProfileController profileController = Get.put(ProfileController());
         profileController.getRequireData();

@@ -240,6 +240,14 @@ class Validator {
     return null;
   }
 
+  // validate project Description
+  static String? validateProjectType(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Project Type';
+    }
+    return null;
+  }
+
   // validate project Status
   static String? validateProjectStatus(String? value) {
     if (value == null) {

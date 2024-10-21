@@ -7,6 +7,7 @@ class LoginDataClass {
   String? accountType;
   String? fistName;
   String? lastName;
+  String? profilePic;
   String? token;
   String? userID;
   String? referralCode;
@@ -27,6 +28,7 @@ class LoginDataClass {
         this.accountType,
         this.fistName,
         this.lastName,
+        this.profilePic,
         this.token,
         this.userID,
         this.referralCode,
@@ -47,6 +49,7 @@ class LoginDataClass {
     accountType = json['accountType'];
     fistName = json['fistName'];
     lastName = json['lastName'];
+    profilePic = json['profilePic'];
     token = json['token'];
     userID = json['userID'];
     referralCode = json['referralCode'];
@@ -69,6 +72,7 @@ class LoginDataClass {
     data['accountType'] = this.accountType;
     data['fistName'] = this.fistName;
     data['lastName'] = this.lastName;
+    data['profilePic'] = this.profilePic;
     data['token'] = this.token;
     data['userID'] = this.userID;
     data['referralCode'] = this.referralCode;

@@ -479,7 +479,7 @@ class KalakarHomePage extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             flex: 1,
-                                            child: Icon(Icons.cake),
+                                            child: Icon(Icons.cake,color: KalakarColors.orange,),
                                           ),
                                           Expanded(
                                             flex: 2,
@@ -504,7 +504,7 @@ class KalakarHomePage extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             flex: 1,
-                                            child: Icon(Icons.person),
+                                            child: Icon(Icons.person,color: KalakarColors.orange,),
                                           ),
                                           Expanded(
                                             flex: 2,
@@ -529,7 +529,7 @@ class KalakarHomePage extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             flex: 1,
-                                            child: Icon(Icons.location_on),
+                                            child: Icon(Icons.location_on,color: KalakarColors.orange,),
                                           ),
                                           Expanded(
                                             flex: 2,
@@ -638,19 +638,24 @@ class KalakarHomePage extends StatelessWidget {
                                         baseColor: KalakarColors.blue10,
                                         highlightColor: KalakarColors.blue20,
                                         child: Container(
-                                          height: 80.h,
+                                          height:
+                                          (Get.size.width / 2) / 1.5,
                                           width: Get.size.width / 2,
                                           color: KalakarColors.white,
                                         ),
                                       ),
                                     ),
-                                    Divider(
-                                      color: KalakarColors.backgroundGrey,
-                                      height: 20,
-                                      thickness: 1,
-                                      // indent: 20,
-                                      // endIndent: 20,
+                                   SizedBox(height: 4.h,),
+                                    Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 20.h,
+                                        width: 80.h,
+                                        color: KalakarColors.white,
+                                      ),
                                     ),
+                                    SizedBox(height: 2,),
                                     Shimmer.fromColors(
                                       baseColor: KalakarColors.blue10,
                                       highlightColor: KalakarColors.blue20,
@@ -725,7 +730,7 @@ class KalakarHomePage extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 20.h,
+                                            height: 12.h,
                                             // indent: 20,
                                             // endIndent: 20,
                                           ),
@@ -741,7 +746,7 @@ class KalakarHomePage extends StatelessWidget {
                                           ),
 
                                           Text(
-                                            upcomingProject.projectTitle!,
+                                            upcomingProject.projectSubTitle!,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 14.sp,
@@ -790,100 +795,134 @@ class KalakarHomePage extends StatelessWidget {
                 SizedBox(height: 16.h,),
                 controller.isArtistHomeReviewsLoading
                     ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 8.h),
-                            padding: EdgeInsets.all(8.h),
-                            // width: Get.size.width / 2,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: KalakarColors.white,
-                              border: Border.all(
-                                  color: KalakarColors.backgroundGrey),
+                    shrinkWrap: true,
+                    itemCount: 3,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 8.h),
+                        padding: EdgeInsets.all(8.h),
+                        // width: Get.size.width / 2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: KalakarColors.appBarBackground1,
+                          border: Border.all(
+                              color: KalakarColors.headerText),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 3.0,
                             ),
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(50.r),
-                                  child: Shimmer.fromColors(
+                          ],
+                        ),
+                        child: Row(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Shimmer.fromColors(
+                                baseColor: KalakarColors.blue10,
+                                highlightColor:
+                                KalakarColors.blue20,
+                                child: Container(
+                                  height: 60.h,
+                                  width: 60.h,
+                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(30.r), color: KalakarColors.white,),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 24.h,),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                children: [
+                                  Shimmer.fromColors(
                                     baseColor: KalakarColors.blue10,
-                                    highlightColor: KalakarColors.blue20,
+                                    highlightColor:
+                                    KalakarColors.blue20,
                                     child: Container(
-                                      height: 40.h,
-                                      width: 40.h,
-                                      color: KalakarColors.white,
+                                      height: 20.h,
+                                      width: 60.h,
+                                      decoration: BoxDecoration( color: KalakarColors.white,),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.h),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Shimmer.fromColors(
-                                          baseColor: KalakarColors.blue10,
-                                          highlightColor: KalakarColors.blue20,
-                                          child: Container(
-                                            height: 20.h,
-                                            width: 80.h,
-                                            color: KalakarColors.white,
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Shimmer.fromColors(
-                                              baseColor: KalakarColors.blue10,
-                                              highlightColor:
-                                                  KalakarColors.blue20,
-                                              child: Container(
+                                  SizedBox(height:4.h),
+                                  Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor:
+                                    KalakarColors.blue20,
+                                    child: Container(
+                                      height: 14.h,
+                                      width: 60.h,
+                                      decoration: BoxDecoration( color: KalakarColors.white,),
+                                    ),
+                                  ),
+                                  SizedBox(height:8.h),
+
+                                  Container(
+                                    padding: EdgeInsets.all(8.h),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12.r),
+                                        color: KalakarColors
+                                            .white,
+                                        boxShadow: [BoxShadow(
+                                            color: KalakarColors.blue20,
+                                            blurRadius: 2.0,
+                                            offset: Offset(0,2)
+                                        ),]
+                                    ),
+                                    child: Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor:
+                                      KalakarColors.blue20,
+                                      child: Container(
+                                        height: 15.h,
+                                        width: 60.h,
+                                        decoration: BoxDecoration( color: KalakarColors.white,),
+                                      ),
+                                    ),
+                                  )
+                                  /* Row(
+                                            children: [
+                                              Text(reviewData.reviewStar!
+                                                  .toString()),
+                                              SizedBox(
+                                                width: 16.w,
+                                              ),
+                                              SizedBox(
                                                 height: 20.h,
-                                                width: 20.h,
-                                                color: KalakarColors.white,
+                                                width: 150.w,
+                                                child: ListView.builder(
+                                                  itemCount: reviewData
+                                                      .reviewStar!
+                                                      .toInt(),
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Icon(
+                                                      Icons.star,
+                                                      size: 15,
+                                                      color: CupertinoColors
+                                                          .systemYellow,
+                                                    );
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 16.w,
-                                            ),
-                                            SizedBox(
-                                              height: 20.h,
-                                              width: 150.w,
-                                              child: ListView.builder(
-                                                itemCount: 5,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemBuilder: (context, index) {
-                                                  return Shimmer.fromColors(
-                                                    baseColor:
-                                                        KalakarColors.blue10,
-                                                    highlightColor:
-                                                        KalakarColors.blue20,
-                                                    child: Container(
-                                                      height: 15.h,
-                                                      width: 15.h,
-                                                      color:
-                                                          KalakarColors.white,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                            ],
+                                          ),*/
+                                ],
+                              ),
                             ),
-                          );
-                        })
+                          ],
+                        ),
+                      );
+                    })
                     : controller.reviewDetailsList.isNotEmpty
                         ? ListView.builder(
                             shrinkWrap: true,

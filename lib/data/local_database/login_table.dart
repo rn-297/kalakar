@@ -34,6 +34,8 @@ class LoginTable {
   final double totalReferralAmount;
   @HiveField(15)
   final double usedReferralAmount;
+  @HiveField(16)
+  final String profilePic;
 
    LoginTable(
     this.accountID,
@@ -52,6 +54,7 @@ class LoginTable {
     this.usedReferralCode,
     this.totalReferralAmount,
     this.usedReferralAmount,
+    this.profilePic,
 
   );
 }

@@ -2063,6 +2063,8 @@ class ArtistProfileController extends GetxController {
             loginDataClass.usedReferralCode ?? "",
             loginDataClass.totalReferralAmount!.toDouble() ?? 0.0,
             loginDataClass.usedReferralAmount!.toDouble() ?? 0.0,
+            loginDataClass.profilePic ?? "",
+
           );
           HiveService.saveLoginData(loginTable1);
           getArtistProfileBasic();

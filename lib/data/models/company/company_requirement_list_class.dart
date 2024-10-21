@@ -35,7 +35,7 @@ class CompanyRequirementListClass {
 }
 
 class RequirementDetailsData {
-  String? userID;
+  int? userID;
   int? requirementDetailsID;
   int? fKApplyStatusMasterID;
   String? applyStatus;
@@ -57,6 +57,7 @@ class RequirementDetailsData {
   String? bodyType;
   double? experiences;
   String? shootingStartDate;
+  String? createdDate;
   String? shootingEndDate;
   String? shootingLocation;
   String? defineRole;
@@ -76,6 +77,8 @@ class RequirementDetailsData {
   String? requirementStatus;
   String? companyNameProductionhouse;
   String? companyLogo;
+  String? appliedCount;
+  List<AppliedProfilePics>? appliedProfilePics;
 
   RequirementDetailsData(
       {this.userID,
@@ -100,6 +103,7 @@ class RequirementDetailsData {
         this.bodyType,
         this.experiences,
         this.shootingStartDate,
+        this.createdDate,
         this.shootingEndDate,
         this.shootingLocation,
         this.defineRole,
@@ -118,7 +122,9 @@ class RequirementDetailsData {
         this.salaryType,
         this.requirementStatus,
         this.companyNameProductionhouse,
-        this.companyLogo});
+        this.companyLogo,
+        this.appliedCount,
+        this.appliedProfilePics});
 
   RequirementDetailsData.fromJson(Map<String, dynamic> json) {
     userID = json['userID'];
@@ -145,6 +151,7 @@ class RequirementDetailsData {
     bodyType = json['bodyType'];
     experiences = json['experiences'];
     shootingStartDate = json['shootingStartDate'];
+    createdDate = json['createdDate'];
     shootingEndDate = json['shootingEndDate'];
     shootingLocation = json['shootingLocation'];
     defineRole = json['defineRole'];
@@ -164,6 +171,13 @@ class RequirementDetailsData {
     requirementStatus = json['requirementStatus'];
     companyNameProductionhouse = json['companyNameProductionhouse'];
     companyLogo = json['companyLogo'];
+    appliedCount = json['appliedCount'];
+    if (json['appliedProfilePics'] != null) {
+      appliedProfilePics = <AppliedProfilePics>[];
+      json['appliedProfilePics'].forEach((v) {
+        appliedProfilePics!.add(new AppliedProfilePics.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -192,6 +206,7 @@ class RequirementDetailsData {
     data['bodyType'] = this.bodyType;
     data['experiences'] = this.experiences;
     data['shootingStartDate'] = this.shootingStartDate;
+    data['createdDate'] = this.createdDate;
     data['shootingEndDate'] = this.shootingEndDate;
     data['shootingLocation'] = this.shootingLocation;
     data['defineRole'] = this.defineRole;
@@ -211,6 +226,27 @@ class RequirementDetailsData {
     data['requirementStatus'] = this.requirementStatus;
     data['companyNameProductionhouse'] = this.companyNameProductionhouse;
     data['companyLogo'] = this.companyLogo;
+    data['appliedCount'] = this.appliedCount;
+    if (this.appliedProfilePics != null) {
+      data['appliedProfilePics'] =
+          this.appliedProfilePics!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class AppliedProfilePics {
+  String? appliedProfilePics;
+
+  AppliedProfilePics({this.appliedProfilePics});
+
+  AppliedProfilePics.fromJson(Map<String, dynamic> json) {
+    appliedProfilePics = json['appliedProfilePics'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['appliedProfilePics'] = this.appliedProfilePics;
     return data;
   }
 }

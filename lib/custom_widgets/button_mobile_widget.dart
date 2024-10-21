@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,6 +19,7 @@ class CustomMobileButtonWidget extends StatelessWidget {
   final bool showIcon;
   final IconData icon;
   final Color iconColor;
+  final FontWeight fontWeight;
 
   CustomMobileButtonWidget(
       {required this.text,
@@ -31,6 +34,7 @@ class CustomMobileButtonWidget extends StatelessWidget {
       this.width = 200,
       this.icon = Icons.save,
       this.iconColor = KalakarColors.headerText,
+      this.fontWeight = FontWeight.bold,
       this.showIcon = false});
 
   @override
@@ -61,7 +65,7 @@ class CustomMobileButtonWidget extends StatelessWidget {
                 style: TextStyle(
                   color: textColor,
                   fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: fontWeight,
                 ),
               ),
               if (showIcon)

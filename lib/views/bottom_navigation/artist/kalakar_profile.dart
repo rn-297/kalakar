@@ -428,7 +428,7 @@ class KalakarProfilePage extends StatelessWidget {
                                           child: Container(
                                             height: 155.h,
                                             width: 100.h,
-                                            color: KalakarColors.white,
+                                            decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(8.r)),
                                           ),
                                         ),
                                       ],
@@ -592,7 +592,7 @@ class KalakarProfilePage extends StatelessWidget {
                                           child: Container(
                                             height: 155.h,
                                             width: 100.h,
-                                            color: KalakarColors.white,
+                                            decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(8.r)),
                                           ),
                                         ),
                                       ],
@@ -1866,16 +1866,16 @@ class KalakarProfilePage extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(
-              child: Center(
-                child: Shimmer.fromColors(
-                  baseColor: KalakarColors.blue10,
-                  highlightColor: KalakarColors.blue20,
-                  child: Container(
-                    height: 80.h,
-                    width: 80.h,
-                    color: KalakarColors.white,
-                  ),
+            Center(
+              child: Shimmer.fromColors(
+                baseColor: KalakarColors.blue10,
+                highlightColor: KalakarColors.blue20,
+                child: Container(
+                  margin: EdgeInsets.all(20.h),
+                  height: 80.h,
+                  width: 80.h,
+
+                  decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(50.r)),
                 ),
               ),
             ),
@@ -1887,17 +1887,28 @@ class KalakarProfilePage extends StatelessWidget {
                       baseColor: KalakarColors.blue10,
                       highlightColor: KalakarColors.blue20,
                       child: Container(
-                        height: 20.h,
-                        width: 80.h,
+                        height: 15.h,
+                        width: 120.h,
                         color: KalakarColors.white,
                       ),
                     ),
+                    SizedBox(height:4.h),
                     Shimmer.fromColors(
                       baseColor: KalakarColors.blue10,
                       highlightColor: KalakarColors.blue20,
                       child: Container(
                         height: 30.h,
-                        width: 80.h,
+                        width: 120.h,
+                        color: KalakarColors.white,
+                      ),
+                    ),
+                    SizedBox(height:4.h),
+                    Shimmer.fromColors(
+                      baseColor: KalakarColors.blue10,
+                      highlightColor: KalakarColors.blue20,
+                      child: Container(
+                        height: 15.h,
+                        width: 120.h,
                         color: KalakarColors.white,
                       ),
                     )
@@ -1917,63 +1928,35 @@ class KalakarProfilePage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Shimmer.fromColors(
-                          baseColor: KalakarColors.blue10,
-                          highlightColor: KalakarColors.blue20,
-                          child: Container(
-                            height: 20.h,
-                            width: 2.h,
-                            color: KalakarColors.white,
-                          ),
-                        ),
-                        Shimmer.fromColors(
-                          baseColor: KalakarColors.blue10,
-                          highlightColor: KalakarColors.blue20,
-                          child: Container(
-                            height: 20.h,
-                            width: 50.h,
-                            color: KalakarColors.white,
-                          ),
-                        )
-                      ],
+                    Shimmer.fromColors(
+                      baseColor: KalakarColors.blue10,
+                      highlightColor: KalakarColors.blue20,
+                      child: Container(
+                        height: 15.h,
+                        width: 50.h,
+                        color: KalakarColors.white,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Shimmer.fromColors(
-                          baseColor: KalakarColors.blue10,
-                          highlightColor: KalakarColors.blue20,
-                          child: Container(
-                            height: 20.h,
-                            width: 50.h,
-                            color: KalakarColors.white,
-                          ),
-                        )
-                      ],
+                    SizedBox(height: 4.h,),
+                    Shimmer.fromColors(
+                      baseColor: KalakarColors.blue10,
+                      highlightColor: KalakarColors.blue20,
+                      child: Container(
+                        height: 15.h,
+                        width: 50.h,
+                        color: KalakarColors.white,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Shimmer.fromColors(
-                          baseColor: KalakarColors.blue10,
-                          highlightColor: KalakarColors.blue20,
-                          child: Container(
-                            height: 20.h,
-                            width: 80.h,
-                            color: KalakarColors.white,
-                          ),
-                        ),
-                        Shimmer.fromColors(
-                          baseColor: KalakarColors.blue10,
-                          highlightColor: KalakarColors.blue20,
-                          child: Container(
-                            height: 20.h,
-                            width: 50.h,
-                            color: KalakarColors.white,
-                          ),
-                        )
-                      ],
-                    ),
+                    SizedBox(height: 4.h,),
+                    Shimmer.fromColors(
+                      baseColor: KalakarColors.blue10,
+                      highlightColor: KalakarColors.blue20,
+                      child: Container(
+                        height: 15.h,
+                        width: 50.h,
+                        color: KalakarColors.white,
+                      ),
+                    )
                   ],
                 ),
                 DashedDottedDivider(
@@ -1998,6 +1981,7 @@ class KalakarProfilePage extends StatelessWidget {
                             color: KalakarColors.white,
                           ),
                         ),
+                        SizedBox(width: 2.w,),
                         Shimmer.fromColors(
                           baseColor: KalakarColors.blue10,
                           highlightColor: KalakarColors.blue20,
@@ -2009,6 +1993,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 2.w,),
                     Row(
                       children: [
                         Shimmer.fromColors(
@@ -2019,7 +2004,7 @@ class KalakarProfilePage extends StatelessWidget {
                             width: 50.h,
                             color: KalakarColors.white,
                           ),
-                        ),
+                        ),SizedBox(width: 2.w,),
                         Shimmer.fromColors(
                           baseColor: KalakarColors.blue10,
                           highlightColor: KalakarColors.blue20,
@@ -2031,6 +2016,7 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 2.w,),
                     Row(
                       children: [
                         Shimmer.fromColors(
@@ -2041,7 +2027,7 @@ class KalakarProfilePage extends StatelessWidget {
                             width: 50.h,
                             color: KalakarColors.white,
                           ),
-                        ),
+                        ),SizedBox(width: 2.w,),
                         Shimmer.fromColors(
                           baseColor: KalakarColors.blue10,
                           highlightColor: KalakarColors.blue20,
@@ -2059,10 +2045,10 @@ class KalakarProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 24.h,
-        ),
-        Row(
+        // SizedBox(
+        //   height: 24.h,
+        // ),
+        /*Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
@@ -2075,16 +2061,17 @@ class KalakarProfilePage extends StatelessWidget {
                       highlightColor: KalakarColors.blue20,
                       child: Container(
                         height: 20.h,
-                        width: 80.h,
+                        width: 50.h,
                         color: KalakarColors.white,
                       ),
                     ),
+                    SizedBox(height: 2.w,),
                     Shimmer.fromColors(
                       baseColor: KalakarColors.blue10,
                       highlightColor: KalakarColors.blue20,
                       child: Container(
                         height: 35.h,
-                        width: 80.h,
+                        width: 150.h,
                         color: KalakarColors.white,
                       ),
                     ),
@@ -2096,7 +2083,7 @@ class KalakarProfilePage extends StatelessWidget {
                 child: IntrinsicWidth(
               child: Column(
                 children: [
-                  /*InkWell(
+                  *//*InkWell(
                               child: CustomMobileButtonWidget(
                                 onTap: () {},
                                 borderRadius: 50.r,
@@ -2108,21 +2095,22 @@ class KalakarProfilePage extends StatelessWidget {
                             ),
                             SizedBox(
                               height: 16.h,
-                            ),*/
+                            ),*//*
                   Shimmer.fromColors(
                     baseColor: KalakarColors.blue10,
                     highlightColor: KalakarColors.blue20,
                     child: Container(
                       height: 30.h,
                       width: 80.h,
-                      color: KalakarColors.white,
+                      decoration:BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(15.r)) ,
+
                     ),
                   ),
                 ],
               ),
             ))
           ],
-        ),
+        ),*/
         SizedBox(
           height: 24.h,
         ),

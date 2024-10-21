@@ -76,6 +76,7 @@ class RequirementController extends GetxController {
   TextEditingController searchMobileNumberTEController =
       TextEditingController();
   TextEditingController searchEmailTEController = TextEditingController();
+  TextEditingController searchKalakarTEController = TextEditingController();
 
   //strings
   String requirementId = "0";
@@ -99,12 +100,17 @@ class RequirementController extends GetxController {
   //lists
   List<RequirementDetailsData> newRequirementDetailsList = [];
   List<RequirementDetailsData> requirementDetailsList = [];
+  List<RequirementDetailsData> openRequirementDetailsList = [];
+  List<RequirementDetailsData> draftRequirementDetailsList = [];
+  List<RequirementDetailsData> closedRequirementDetailsList = [];
   List<RequirementDetailsData> requirementDetailsSearchList = [];
   List<RequirementDetailsData> artistRequirementsFavouritesList = [];
   List<ArtistAppliedRequirementDetailsList>
       artistAppliedRequirementDetailsList = [];
   List<company_artist.AppliedArtistDetailsList>
       companyAppliedRequirementDetailsList = [];
+  List<company_artist.AppliedArtistDetailsList>
+      filterAppliedRequirementDetailsList = [];
   List<ResponseCompanyProjects> upcomingProjectsDetailsList = [];
   List<GetApplicationReviewList> reviewDetailsList = [];
   List<String> genderList = ["Male", "Female", "Other"];
@@ -117,6 +123,14 @@ class RequirementController extends GetxController {
     "Gray and white"
   ];
   List<String> bodyTypeList = ["Good Looking", "Slim", "Muscular"];
+  List<String> salaryTypeList = [
+    "Hourly",
+    "Daily",
+    "Weekly",
+    "Monthly",
+    "Annually",
+    "Other"
+  ];
   List<String> eyeColorList = ["Light Brown", "Black", "White"];
   List<String> requirementStatusList = ["Save as Draft", "Published", "Closed"];
   List<String> ageRangeList = ["1-2 Years", "2-3 Years", "3-5 Years"];
@@ -217,10 +231,10 @@ class RequirementController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Uploading Requirement Data", "Saving Requirement Data");
       LoginTable? loginTable = await HiveService.getLoginData();
-      ProfileController profileController = Get.put(ProfileController());
-      int? profileId = profileController.profileData!.companyProfileID;
 
       if (loginTable != null) {
+        int? profileId = loginTable.profileId;
+
         Map<String, String> fields = {
           'UserID': loginTable.userID,
           'RequirementDetailsID': selectedRequirementId.toString(),
@@ -254,8 +268,8 @@ class RequirementController extends GetxController {
           'EmailLink': emailLinkTEController.text.trim(),
           'WebsiteLink': websiteLinkTEController.text.trim(),
           'RefPhotoName': "image",
-          'Salary': "0",
-          'SalaryType': "0",
+          'Salary': salaryTEController.text.trim(),
+          'SalaryType': salaryTypeTEController.text.trim(),
         };
         print(fields);
 
@@ -347,6 +361,15 @@ class RequirementController extends GetxController {
         if (companyRequirementListClass.replayStatus ?? false) {
           requirementDetailsList =
               companyRequirementListClass.objResponesRequirementDetailsList!;
+          openRequirementDetailsList = requirementDetailsList
+              .where((element) => element.fKRequirementStatusMasterID == 2)
+              .toList();
+          draftRequirementDetailsList = requirementDetailsList
+              .where((element) => element.fKRequirementStatusMasterID == 1)
+              .toList();
+          closedRequirementDetailsList = requirementDetailsList
+              .where((element) => element.fKRequirementStatusMasterID == 1)
+              .toList();
           update();
         }
       } else {}
@@ -678,15 +701,14 @@ class RequirementController extends GetxController {
             }
             companyAppliedRequirementDetailsClass
                 .objResponesRequirementDetailsList![j].portfolioList = list1;
-
-
           }
 
           List<company_artist.AppliedArtistDetailsList> list2 =
               companyAppliedRequirementDetailsClass
                   .objResponesRequirementDetailsList!;
           for (int j = 0; j < list2.length; j++) {
-            List<company_artist.ExperienceList> list1 = list2[j].experienceList!;
+            List<company_artist.ExperienceList> list1 =
+                list2[j].experienceList!;
             for (int i = 0; i < list1.length; i++) {
               if (list1[i].roleVideo == 2) {
                 list1[i].thumbnail = await VideoThumbnail.thumbnailData(
@@ -701,10 +723,11 @@ class RequirementController extends GetxController {
             }
             companyAppliedRequirementDetailsClass
                 .objResponesRequirementDetailsList![j].experienceList = list1;
-
-
           }
           companyAppliedRequirementDetailsList =
+              companyAppliedRequirementDetailsClass
+                  .objResponesRequirementDetailsList!;
+          filterAppliedRequirementDetailsList =
               companyAppliedRequirementDetailsClass
                   .objResponesRequirementDetailsList!;
         }
@@ -907,8 +930,8 @@ class RequirementController extends GetxController {
     instaLinkTEController.text = "";
     emailLinkTEController.text = "";
     websiteLinkTEController.text = "";
-    salaryTEController.text = "0";
-    salaryTypeTEController.text = "0";
+    salaryTEController.text = "";
+    salaryTypeTEController.text = "";
     Get.toNamed(RouteHelper.requirementFormPage);
   }
 
@@ -957,7 +980,7 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      artistName="${loginTable.fistName} ${loginTable.lastName} ";
+      artistName = "${loginTable.fistName} ${loginTable.lastName} ";
       isArtist = loginTable.accountType == KalakarConstants.artist;
 
       if (iSAll) {
@@ -1009,8 +1032,8 @@ class RequirementController extends GetxController {
       print(response);
 
       if (response.statusCode == 200) {
-        UpcomigProjectClass upcomigProjectClass =
-            UpcomigProjectClass.fromJson(jsonDecode(response.body));
+        UpcomingProjectClass upcomigProjectClass =
+            UpcomingProjectClass.fromJson(jsonDecode(response.body));
         upcomingProjectsDetailsList =
             upcomigProjectClass.lResponseCompanyProjects!;
       }
@@ -1145,8 +1168,9 @@ class RequirementController extends GetxController {
     Get.toNamed(RouteHelper.requirementViewPage);
   }
 
-  void getAppliedData(int requirementDetails) {
-    selectedAppliedRequirementId = requirementDetails;
+  void getAppliedData(RequirementDetailsData requirementDetails) {
+    selectedRequirement = requirementDetails;
+    selectedAppliedRequirementId = requirementDetails.requirementDetailsID!;
     getAppliedForRequirementCompany();
     Get.toNamed(RouteHelper.appliedProfilesPage);
   }
@@ -1173,5 +1197,28 @@ class RequirementController extends GetxController {
     selectedSearchedArtistProfileData = appliedProfileDetail;
 
     Get.toNamed(RouteHelper.artistProfileViewPage);
+  }
+
+  void setSalaryTypeValue(String selectedItem) {
+    salaryTypeTEController.text = selectedItem;
+  }
+
+  void filterAppliedRequirementDetailsListData() {
+    if (searchKalakarTEController.text.isNotEmpty) {
+      filterAppliedRequirementDetailsList = companyAppliedRequirementDetailsList
+              .where((requirement) =>
+                  requirement.firstName
+                      .toString()
+                      .toLowerCase()
+                      .contains(searchKalakarTEController.text.toLowerCase()) ||
+                  requirement.middleName
+                      .toString()
+                      .toLowerCase()
+                      .contains(searchKalakarTEController.text.toLowerCase()))
+              .toList();
+    } else {
+filterAppliedRequirementDetailsList=companyAppliedRequirementDetailsList;
+    }
+    update();
   }
 }

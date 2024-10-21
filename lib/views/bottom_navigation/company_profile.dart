@@ -55,62 +55,70 @@ class CompanyProfilePage extends StatelessWidget {
                 controller.isProfileLoading
                     ? Column(
                         children: [
-                          Shimmer.fromColors(
-                            baseColor: KalakarColors.blue10,
-                            highlightColor: KalakarColors.blue20,
-                            child: Container(
-                              height: 80.h,
-                              width: 80.h,
-                              margin: EdgeInsets.all(20.h),
-                              color: KalakarColors.white,
-                            ),
-                          ),
-                          Shimmer.fromColors(
-                            baseColor: KalakarColors.blue10,
-                            highlightColor: KalakarColors.blue20,
-                            child: Container(
-                              height: 20.h,
-                              width: 80.h,
-                              color: KalakarColors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Shimmer.fromColors(
                                 baseColor: KalakarColors.blue10,
                                 highlightColor: KalakarColors.blue20,
                                 child: Container(
-                                  height: 40.h,
-                                  width: 150.h,
-                                  color: KalakarColors.white,
+                                  height: 100.h,
+                                  width: 100.h,
+                                  margin: EdgeInsets.all(8.h),
+                                  decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(50.r)),
                                 ),
                               ),
-                              Shimmer.fromColors(
-                                baseColor: KalakarColors.blue10,
-                                highlightColor: KalakarColors.blue20,
-                                child: Container(
-                                  height: 40.h,
-                                  width: 40.h,
-                                  color: KalakarColors.white,
-                                ),
+                              SizedBox(
+                                width: 8.h,
                               ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 15.h,
+                                        width: 150.h,
+                                        decoration: BoxDecoration(
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 20.h,
+                                        width: 150.h,
+                                        decoration: BoxDecoration(
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 15.h,
+                                        width: 150.h,
+                                        decoration: BoxDecoration(
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Shimmer.fromColors(
-                            baseColor: KalakarColors.blue10,
-                            highlightColor: KalakarColors.blue20,
-                            child: Container(
-                              height: 20.h,
-                              width: 120.h,
-                              color: KalakarColors.white,
-                            ),
                           ),
                           Column(
                             children: [
@@ -121,16 +129,19 @@ class CompanyProfilePage extends StatelessWidget {
                                 baseColor: KalakarColors.blue10,
                                 highlightColor: KalakarColors.blue20,
                                 child: Container(
-                                  height: 30.h,
-                                  width: 80.h,
-                                  color: KalakarColors.white,
+                                  height: 35.h,
+                                  width: 150.h,
+                                  decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(50.r)),
                                 ),
                               ),
                               SizedBox(
                                 height: 16.h,
                               )
                             ],
-                          ),
+                          )
                         ],
                       )
                     : controller.companyProfileID != 0
@@ -149,7 +160,7 @@ class CompanyProfilePage extends StatelessWidget {
                                           border: Border.all(
                                               color: KalakarColors.headerText),
                                           borderRadius:
-                                              BorderRadius.circular(50),
+                                              BorderRadius.circular(60.r),
                                           image: DecorationImage(
                                               image: NetworkImage(
                                                   profileDta!.companyLogo ??
@@ -239,6 +250,7 @@ class CompanyProfilePage extends StatelessWidget {
                                               textColor:
                                                   KalakarColors.headerText,
                                               borderRadius: 50.0,
+                                              width: 250.w,
                                               boxShadow: [
                                                 BoxShadow(
                                                   color: Colors.grey,
@@ -321,30 +333,255 @@ class CompanyProfilePage extends StatelessWidget {
                 ),
 
                 controller.isProfileLoading
-                    ? Column(
-                        children: [
-                          Shimmer.fromColors(
-                            baseColor: KalakarColors.blue10,
-                            highlightColor: KalakarColors.blue20,
-                            child: Container(
+                    ? Padding(
+                        padding: EdgeInsets.all(8.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 20.h,
+                                width: 150.h,
+                                decoration: BoxDecoration(
+                                  color: KalakarColors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 20.h,
+                                      width: 150.h,
+                                      decoration: BoxDecoration(
+                                        color: KalakarColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 4.h,
+                                ),
+                                Expanded(
+                                  child: Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 20.h,
+                                      width: 150.h,
+                                      decoration: BoxDecoration(
+                                        color: KalakarColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 20.h,
+                                width: 150.h,
+                                decoration: BoxDecoration(
+                                  color: KalakarColors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 16.h,
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 20.h,
+                                    width: 50.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(8.h),
+                              decoration: BoxDecoration(
+                                  color: KalakarColors.white,
+                                  borderRadius: BorderRadius.circular(8.h),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: KalakarColors.blue20,
+                                        blurRadius: 2.0,
+                                        offset: Offset(0, 2)),
+                                  ]),
+                              child: Shimmer.fromColors(
+                                baseColor: KalakarColors.blue10,
+                                highlightColor: KalakarColors.blue20,
+                                child: Container(
+                                  height: 15.h,
+                                  width: 150.h,
+                                  decoration: BoxDecoration(
+                                    color: KalakarColors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 30.h,
+                                    width: 30.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 30.h,
+                                    width: 30.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 30.h,
+                                    width: 30.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 30.h,
+                                    width: 30.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 30.h,
+                                    width: 30.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 30.h,
+                                    width: 30.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              color: Colors.green.shade900,
                               height: 30.h,
-                              width: 40.h,
-                              color: KalakarColors.white,
                             ),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Shimmer.fromColors(
-                            baseColor: KalakarColors.blue10,
-                            highlightColor: KalakarColors.blue20,
-                            child: Container(
-                              height: 20.h,
-                              width: 100.h,
-                              color: KalakarColors.white,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 15.h,
+                                      width: 150.h,
+                                      decoration: BoxDecoration(
+                                        color: KalakarColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 15.h,
+                                    width: 150.h,
+                                    decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
+                            SizedBox(height: 4.h),
+                            Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 20.h,
+                                width: 150.h,
+                                decoration: BoxDecoration(
+                                  color: KalakarColors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 20.h,
+                                width: 150.h,
+                                decoration: BoxDecoration(
+                                  color: KalakarColors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       )
                     : profileDta != null
                         ? Padding(
@@ -355,9 +592,10 @@ class CompanyProfilePage extends StatelessWidget {
                                 textSpanToShow(
                                     context,
                                     "${KalakarConstants.address} : ",
-                                    profileDta.address!,
+                                    profileDta.address??"",
                                     Icons.location_on),
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       child: textSpanToShow(
@@ -383,7 +621,6 @@ class CompanyProfilePage extends StatelessWidget {
                                     "${KalakarConstants.pinCode} : ",
                                     profileDta.postalcode!,
                                     CupertinoIcons.pin),
-
                                 SizedBox(
                                   height: 8.h,
                                 ),
@@ -400,7 +637,9 @@ class CompanyProfilePage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 4.h,),
+                                SizedBox(
+                                  height: 4.h,
+                                ),
                                 Container(
                                   width: double.infinity,
                                   padding: EdgeInsets.all(8.h),
@@ -414,13 +653,16 @@ class CompanyProfilePage extends StatelessWidget {
                                             offset: Offset(0, 2)),
                                       ]),
                                   child: Text(
-                                    "                ${profileDta.bio!}",style: TextStyle(fontSize: 14.sp),),
+                                    "                ${profileDta.bio!}",
+                                    style: TextStyle(fontSize: 14.sp),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 16.h,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     InkWell(
                                       onTap: () {
@@ -478,7 +720,10 @@ class CompanyProfilePage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Divider(color: Colors.green.shade900,height: 30.h,),
+                                Divider(
+                                  color: Colors.green.shade900,
+                                  height: 30.h,
+                                ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -502,7 +747,7 @@ class CompanyProfilePage extends StatelessWidget {
                                         ))
                                   ],
                                 ),
-                                SizedBox(height:4.h),
+                                SizedBox(height: 4.h),
                                 textSpanToShow(
                                     context,
                                     "${KalakarConstants.email} : ",
@@ -513,8 +758,6 @@ class CompanyProfilePage extends StatelessWidget {
                                     "${KalakarConstants.mobileNumber} : ",
                                     profileDta.mobileNumber!,
                                     Icons.call),
-
-
                               ],
                             ),
                           )
@@ -536,85 +779,189 @@ class CompanyProfilePage extends StatelessWidget {
                   ),
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.w),
-                      child: CustomMobileButtonWidget(
-                        text: KalakarConstants.createProject,
-                        onTap: () {
-                          controller.createNewProject();
-                        },
-                        horizontalPadding: 20.w,
-                        verticalPadding: 8.h,
-                        fontSize: 14.sp,
-                        backgroundColor: KalakarColors.buttonBackground,
-                        textColor: KalakarColors.headerText,
-                        borderRadius: 50.0,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
+                controller.isProfileLoading
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.w),
+                            child: Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 35.h,
+                                width: 150.h,
+                                decoration: BoxDecoration(
+                                    color: KalakarColors.white,
+                                    borderRadius: BorderRadius.circular(25.r)),
+                              ),
+                            ),
+                          ),
+                          Shimmer.fromColors(
+                            baseColor: KalakarColors.blue10,
+                            highlightColor: KalakarColors.blue20,
+                            child: Container(
+                              height: 35.h,
+                              width: 50.h,
+                              decoration: BoxDecoration(
+                                color: KalakarColors.white,
+                              ),
+                            ),
                           ),
                         ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.w),
+                            child: CustomMobileButtonWidget(
+                              text: KalakarConstants.createProject,
+                              onTap: () {
+                                controller.createNewProject();
+                              },
+                              horizontalPadding: 20.w,
+                              verticalPadding: 8.h,
+                              fontSize: 14.sp,
+                              backgroundColor: KalakarColors.buttonBackground,
+                              textColor: KalakarColors.headerText,
+                              borderRadius: 50.0,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 5.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              InkWell(
+                                  onTap: () {
+                                    Get.toNamed(RouteHelper.allProjects);
+                                  },
+                                  child: Text(KalakarConstants.viewAll)),
+                              Icon(Icons.double_arrow_rounded),
+                            ],
+                          )
+                        ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              Get.toNamed(RouteHelper.allProjects);
-                            },
-                            child: Text(KalakarConstants.viewAll)),
-                        Icon(Icons.double_arrow_rounded),
-                      ],
-                    )
-                  ],
+                Padding(
+                  padding: EdgeInsets.all(12.w),
+                  child: Divider(
+                    height: 10.h,
+                    color: Colors.green.shade900,
+                    thickness: 1.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Center(
+                  child: Text(
+                    KalakarConstants.newProjects,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: KalakarColors.orange),
+                  ),
                 ),
                 SizedBox(
                   height: 8.h,
                 ),
                 Container(
-                  alignment: Alignment.centerLeft,
-                  height: 250.h,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.companyAllProjects.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            controller.openProjectDetails(
-                                controller.companyAllProjects[index]);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(16.h),
-                            margin: EdgeInsets.only(right: 16.h),
-                            width: 200.h,
-                            decoration: BoxDecoration(
+                  alignment: Alignment.center,
+                  height: 160.h,
+                  padding: EdgeInsets.all(4.h),
+                  decoration: BoxDecoration(
+                      color: KalakarColors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade100,
+                          blurRadius: 5.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(2.r)),
+                  child: controller.isProfileLoading
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              // padding: EdgeInsets.all(16.h),
+                              margin: EdgeInsets.only(right: 16.h),
+                              width: 100.h,
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
-                                border: Border.all(
-                                    color: KalakarColors.backgroundGrey)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  height: 118.h,
-                                  width: 120.h,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(60.h),
-                                      image: DecorationImage(
-                                          image: NetworkImage(controller
-                                              .companyAllProjects[index]
-                                              .projectCoverDoc!))),
+                                // border: Border.all(
+                                //     color: KalakarColors.backgroundGrey)
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 150.h,
+                                      width: 100.h,
+                                      decoration: BoxDecoration(
+                                          color: KalakarColors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12.r)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          })
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.companyNewProjects.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                controller.openProjectDetails(
+                                    controller.companyNewProjects[index]);
+                              },
+                              child: Container(
+                                // padding: EdgeInsets.all(16.h),
+                                margin: EdgeInsets.only(
+                                    right:
+                                        controller.companyNewProjects.length > 1
+                                            ? 16.h
+                                            : 0.0),
+                                width: 100.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  // border: Border.all(
+                                  //     color: KalakarColors.backgroundGrey)
                                 ),
-                                SizedBox(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      height: 150.h,
+                                      width: 100.h,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                          image: DecorationImage(
+                                              image: NetworkImage(controller
+                                                  .companyNewProjects[index]
+                                                  .projectCoverDoc!),
+                                              fit: BoxFit.cover)),
+                                    ),
+                                    /*SizedBox(
                                   height: 16.h,
                                 ),
                                 Text(
                                   controller
-                                      .companyAllProjects[index].projectTitle!,
+                                      .companyNewProjects[index].projectTitle!,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: TextStyle(
@@ -625,89 +972,155 @@ class CompanyProfilePage extends StatelessWidget {
                                   height: 4.h,
                                 ),
                                 Text(
-                                  controller.companyAllProjects[index]
+                                  controller.companyNewProjects[index]
                                       .projectDescription!,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.bold),
+                                ),*/
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
+                              ),
+                            );
+                          }),
+                ),
+                SizedBox(
+                  height: 24.h,
+                ),
+                Center(
+                  child: Text(
+                    KalakarConstants.upcomingProject,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: KalakarColors.orange),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  height: 160.h,
+                  padding: EdgeInsets.all(4.h),
+                  decoration: BoxDecoration(
+                      color: KalakarColors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade100,
+                          blurRadius: 5.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(2.r)),
+                  child: controller.isProfileLoading
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              // padding: EdgeInsets.all(16.h),
+                              margin: EdgeInsets.only(right: 16.h),
+                              width: 100.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                // border: Border.all(
+                                //     color: KalakarColors.backgroundGrey)
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Shimmer.fromColors(
+                                    baseColor: KalakarColors.blue10,
+                                    highlightColor: KalakarColors.blue20,
+                                    child: Container(
+                                      height: 150.h,
+                                      width: 100.h,
+                                      decoration: BoxDecoration(
+                                          color: KalakarColors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12.r)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          })
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.companyUpcomingProjects.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                controller.openProjectDetails(
+                                    controller.companyUpcomingProjects[index]);
+                              },
+                              child: Container(
+                                // padding: EdgeInsets.all(16.h),
+                                margin: EdgeInsets.only(
+                                    right: controller.companyUpcomingProjects
+                                                .length >
+                                            1
+                                        ? 16.h
+                                        : 0.0),
+                                width: 100.h,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r)),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      height: 150.h,
+                                      width: 100.h,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                          image: DecorationImage(
+                                              image: NetworkImage(controller
+                                                  .companyUpcomingProjects[
+                                                      index]
+                                                  .projectCoverDoc!),
+                                              fit: BoxFit.cover)),
+                                    ),
+                                    /*SizedBox(
+                                  height: 16.h,
+                                ),
+                                Text(
+                                  controller.companyUpcomingProjects[index]
+                                      .projectTitle!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 4.h,
+                                ),
+                                Text(
+                                  controller.companyUpcomingProjects[index]
+                                      .projectDescription!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),*/
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                Divider(
-                  height: 10.h,
-                  thickness: 3.0,
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        controller.openSocialMedia(0);
-                      },
-                      child: SvgPicture.asset(
-                        "assets/svg/facebook.svg",
-                        height: 30.h,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.openSocialMedia(1);
-                      },
-                      child: SvgPicture.asset(
-                        "assets/svg/instagram.svg",
-                        height: 30.h,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.openSocialMedia(2);
-                      },
-                      child: SvgPicture.asset(
-                        "assets/svg/whatsapp.svg",
-                        height: 30.h,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.openSocialMedia(3);
-                      },
-                      child: SvgPicture.asset(
-                        "assets/svg/youtube.svg",
-                        height: 30.h,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.openSocialMedia(4);
-                      },
-                      child: SvgPicture.asset(
-                        "assets/svg/email.svg",
-                        height: 30.h,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.openSocialMedia(5);
-                      },
-                      child: SvgPicture.asset(
-                        "assets/svg/website.svg",
-                        height: 30.h,
-                      ),
-                    ),
-                  ],
-                ),
+
                 SizedBox(
                   height: 24.h,
                 ),
@@ -1099,6 +1512,7 @@ class CompanyProfilePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
               icon,

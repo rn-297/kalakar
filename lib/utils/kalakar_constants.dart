@@ -188,11 +188,12 @@ class KalakarConstants {
   static const String namskarKalakar = "Namskar Kalakaar";
   static const String searchAnything = "Search Anything";
   static const String searchArtist = "SEARCH ARTIST";
+  static const String searchKalakar = "Search Kalakar";
   static const String searchRequirement = "Search Opportunities";
   static const String newOpportunities = "New Opportunities :";
   static const String seeAll = "See all >>";
   static const String upcomingProjects = "Upcoming Projects :";
-  static const String upcomingProject = "Upcoming Project";
+  static const String upcomingProject = "Upcoming Projects";
   static const String reviews = "REVIEWS :";
   static const String review = "Review";
   static const String portfolio = "PORTFOLIO :";
@@ -205,6 +206,7 @@ class KalakarConstants {
   static const String height = "Height";
   static const String weight = "Weight";
   static const String bio = "Bio :";
+  static const String about1 = "About :";
   static const String city = "City";
   static const String district = "District";
   static const String state = "State";
@@ -213,7 +215,7 @@ class KalakarConstants {
   static const String openOpportunities = "Open Opportunities";
   static const String appliedArtist = "Applied Artist";
   static const String createNewOpportunity = "CREATE NEW OPPORTUNITY";
-  static const String completedOpportunities = "CREATE NEW OPPORTUNITY";
+  static const String completedOpportunities = "Completed Opportunities";
   static const String draft = "Draft";
   static const String completed = "Completed";
   static const String edit = "Edit";
@@ -282,6 +284,7 @@ class KalakarConstants {
   static const String apply = "Apply";
   static const String applied = "Applied";
   static const String appliedProfiles = "Applied Profiles";
+  static const String opportunityApplicants = "Opportunity Applicants";
   static const String select = "Select";
   static const String reject = "Reject";
   static const String hold = "Hold";
@@ -321,11 +324,13 @@ class KalakarConstants {
   static const String projectStatus = "Project Status";
   static const String addPhotosAndVideos = "Add Photos And Videos";
   static const String saveNewProject = "Save Project";
+  static const String newProjects = "New Projects";
   static const String deleteProject = "Delete Project";
   static const String selectState = "Select State";
   static const String selectDistrict = "Select District";
   static const String selectPinCode = "Select Pin Code";
   static const String projectDocuments = "Project Documents";
+  static const String projectType = "Project Type";
   static const String artistDocuments = "Artist Documents";
 
   //artist

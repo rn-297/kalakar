@@ -82,6 +82,7 @@ class CommonWidgets {
     bool editable = true,
     bool isSuffixIcon = false,
     IconData suffixIcon = Icons.upload_file_outlined,
+    int minLine=1,
     int maxLines = 1,
     String? hintText=null,
     double borderRadius = 50.0,
@@ -96,6 +97,7 @@ class CommonWidgets {
       keyboardType: textInputType,
       enabled: editable,
       maxLines: maxLines,
+      minLines: minLine,
 
       // Added validator
       decoration: InputDecoration(
