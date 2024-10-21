@@ -144,7 +144,7 @@ class CompanyProfilePage extends StatelessWidget {
                           )
                         ],
                       )
-                    : controller.companyProfileID != 0
+                    : (controller.companyProfileID != 0||controller.isArtist)
                         ? profileDta != null
                             ? Column(
                                 children: [
@@ -601,7 +601,7 @@ class CompanyProfilePage extends StatelessWidget {
                                       child: textSpanToShow(
                                           context,
                                           "${KalakarConstants.state} : ",
-                                          profileDta.state!,
+                                          profileDta.state??"",
                                           Icons.map_outlined),
                                     ),
                                     SizedBox(
@@ -611,7 +611,7 @@ class CompanyProfilePage extends StatelessWidget {
                                       child: textSpanToShow(
                                           context,
                                           "${KalakarConstants.district} : ",
-                                          profileDta.district!,
+                                          profileDta.district??'',
                                           Icons.location_searching),
                                     )
                                   ],
@@ -619,7 +619,7 @@ class CompanyProfilePage extends StatelessWidget {
                                 textSpanToShow(
                                     context,
                                     "${KalakarConstants.pinCode} : ",
-                                    profileDta.postalcode!,
+                                    profileDta.postalcode??'',
                                     CupertinoIcons.pin),
                                 SizedBox(
                                   height: 8.h,
@@ -653,7 +653,7 @@ class CompanyProfilePage extends StatelessWidget {
                                             offset: Offset(0, 2)),
                                       ]),
                                   child: Text(
-                                    "                ${profileDta.bio!}",
+                                    "                ${profileDta.bio??""}",
                                     style: TextStyle(fontSize: 14.sp),
                                   ),
                                 ),
@@ -735,7 +735,7 @@ class CompanyProfilePage extends StatelessWidget {
                                             color: KalakarColors.orange),
                                       ),
                                     ),
-                                    InkWell(
+                                    controller.isArtist?Container():InkWell(
                                         onTap: () {
                                           controller.setProfileFormData();
                                           Get.toNamed(RouteHelper
@@ -810,7 +810,7 @@ class CompanyProfilePage extends StatelessWidget {
                           ),
                         ],
                       )
-                    : Row(
+                    :  !controller.isArtist?Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
@@ -845,15 +845,15 @@ class CompanyProfilePage extends StatelessWidget {
                             ],
                           )
                         ],
-                      ),
-                Padding(
+                      ):Container(),
+                !controller.isArtist?Padding(
                   padding: EdgeInsets.all(12.w),
                   child: Divider(
                     height: 10.h,
                     color: Colors.green.shade900,
                     thickness: 1.0,
                   ),
-                ),
+                ):Container(),
                 SizedBox(
                   height: 8.h,
                 ),
@@ -1552,6 +1552,8 @@ class CompanyProfilePage extends StatelessWidget {
   }
 
   appBarMobileView() {
+    ProfileController profileController = Get.put(ProfileController());
+
     return AppBar(
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
@@ -1560,9 +1562,8 @@ class CompanyProfilePage extends StatelessWidget {
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
-        InkWell(
+        if(!profileController.isArtist)InkWell(
           onTap: () {
-            ProfileController profileController = Get.put(ProfileController());
             profileController.setProfileFormData();
             Get.toNamed(RouteHelper.companyProfileFormPage);
           },

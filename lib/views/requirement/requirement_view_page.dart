@@ -511,21 +511,25 @@ class RequirementViewPage extends StatelessWidget {
                             height: 8.h,
                           ),
                           ClipOval(
-                            // Image radius
-                            child: Image.network(
-                              requirement.companyLogo!,
-                              fit: BoxFit.cover,
-                              height: 70.h,
-                              width: 70.h,
-                              errorBuilder: (BuildContext context, Object error,
-                                  StackTrace? stackTrace) {
-                                // Return a dummy or placeholder image when an error occurs
-                                return Image.asset(
-                                  "assets/images/app_bar_logo.png",
-                                  height: 70.h,
-                                  width: 70.h,
-                                );
+                            child: InkWell(
+                              onTap: (){
+                                controller.getCompanyProfileData();
                               },
+                              child: Image.network(
+                                requirement.companyLogo!,
+                                fit: BoxFit.cover,
+                                height: 70.h,
+                                width: 70.h,
+                                errorBuilder: (BuildContext context, Object error,
+                                    StackTrace? stackTrace) {
+                                  // Return a dummy or placeholder image when an error occurs
+                                  return Image.asset(
+                                    "assets/images/app_bar_logo.png",
+                                    height: 70.h,
+                                    width: 70.h,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -1144,20 +1148,25 @@ class RequirementViewPage extends StatelessWidget {
                         ),
                         ClipOval(
                           // Image radius
-                          child: Image.network(
-                            requirement.companyLogo!,
-                            fit: BoxFit.cover,
-                            height: 70.h,
-                            width: 70.h,
-                            errorBuilder: (BuildContext context, Object error,
-                                StackTrace? stackTrace) {
-                              // Return a dummy or placeholder image when an error occurs
-                              return Image.asset(
-                                "assets/images/app_bar_logo.png",
-                                height: 70.h,
-                                width: 70.h,
-                              );
+                          child: InkWell(
+                            onTap: (){
+                              controller.getCompanyProfileData();
                             },
+                            child: Image.network(
+                              requirement.companyLogo!,
+                              fit: BoxFit.cover,
+                              height: 70.h,
+                              width: 70.h,
+                              errorBuilder: (BuildContext context, Object error,
+                                  StackTrace? stackTrace) {
+                                // Return a dummy or placeholder image when an error occurs
+                                return Image.asset(
+                                  "assets/images/app_bar_logo.png",
+                                  height: 70.h,
+                                  width: 70.h,
+                                );
+                              },
+                            ),
                           ),
                         ),
                         SizedBox(

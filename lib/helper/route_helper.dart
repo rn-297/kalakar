@@ -20,6 +20,7 @@ import 'package:kalakar/views/bottom_navigation/company/applied_profiles_page.da
 import 'package:kalakar/views/bottom_navigation/company/artist_profile_view_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_profile_form.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_more_info.dart';
+import 'package:kalakar/views/bottom_navigation/company/company_project_view_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_search_artist_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/new_project_form.dart';
 import 'package:kalakar/views/bottom_navigation/upcoming_project_list_all_page.dart';
@@ -35,6 +36,7 @@ import 'package:kalakar/views/settings/privacy_policy_page.dart';
 import 'package:kalakar/views/settings/referral_code_page.dart';
 import 'package:kalakar/views/settings/terms_and_conditions_page.dart';
 
+import '../views/bottom_navigation/company_profile.dart';
 import '../views/splash/splash_screen.dart';
 
 class RouteHelper {
@@ -45,6 +47,7 @@ class RouteHelper {
   static const String bottomNavigationPage = '/kalakar_bottom_navigation';
   static const String requirementFormPage = '/kalakar_requirement_form';
   static const String companyProfileFormPage = '/kalakar_company_form';
+  static const String companyProfilePage = '/kalakar_company_profile_page';
   static const String companyMoreInfoFormPage =
       '/kalakar_company_more_info_form';
   static const String newProjectFormPage = '/kalakar_new_project_form';
@@ -70,6 +73,7 @@ class RouteHelper {
   static const String requirementViewPage = '/kalakar_requirement_view';
   static const String applyForFormPage = '/kalakar_apply_for_form';
   static const String upcomingProjectViewPage = '/kalakar_upcoming_project_view';
+  static const String companyProjectViewPage = '/kalakar_company_project_view';
   static const String upcomingProjectListAllPage = '/kalakar_upcoming_project_list_all';
   static const String reviewViewPage = '/kalakar_review_view';
   static const String appliedProfilesPage = '/kalakar_applied_profiles';
@@ -100,6 +104,10 @@ class RouteHelper {
       page: () => RequirementFormPage(),
     ),
     GetPage(
+      name: companyProfilePage,
+      page: () => CompanyProfilePage(),
+    ),
+    GetPage(
       name: companyProfileFormPage,
       page: () => CompanyProfileFormPage(),
     ),
@@ -114,6 +122,10 @@ class RouteHelper {
     GetPage(
       name: fileViewer,
       page: () => ViewFilePage(),
+    ),
+    GetPage(
+      name: companyProjectViewPage,
+      page: () => CompanyProjectsViewPage(),
     ),
     GetPage(
       name: allProjects,

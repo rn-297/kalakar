@@ -1427,7 +1427,12 @@ class ArtistProfileController extends GetxController {
     switch (index) {
       case 0:
         try {
-          launchUrl(Uri.parse(artistProfileDetails!.fbLink!));
+          if (artistProfileDetails!.fbLink!.isNotEmpty) {
+            launchUrl(Uri.parse(artistProfileDetails!.fbLink!));
+          } else {
+            KalakarDialogs.successDialog1(
+                "Facebook Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -1435,7 +1440,12 @@ class ArtistProfileController extends GetxController {
         break;
       case 1:
         try {
-          launchUrl(Uri.parse(artistProfileDetails!.instalink!));
+          if (artistProfileDetails!.instalink!.isNotEmpty) {
+            launchUrl(Uri.parse(artistProfileDetails!.instalink!));
+          } else {
+            KalakarDialogs.successDialog1(
+                "Instagram Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -1443,7 +1453,12 @@ class ArtistProfileController extends GetxController {
         break;
       case 2:
         try {
-          launchUrl(Uri.parse(artistProfileDetails!.wpLink!));
+          if (artistProfileDetails!.wpLink!.isNotEmpty) {
+            launchUrl(Uri.parse(artistProfileDetails!.wpLink!));
+          } else {
+            KalakarDialogs.successDialog1(
+                "WhatsApp Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -1451,7 +1466,12 @@ class ArtistProfileController extends GetxController {
         break;
       case 3:
         try {
-          launchUrl(Uri.parse(artistProfileDetails!.ytLink!));
+          if (artistProfileDetails!.ytLink!.isNotEmpty) {
+            launchUrl(Uri.parse(artistProfileDetails!.ytLink!));
+          } else {
+            KalakarDialogs.successDialog1(
+                "YouTube Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -1459,14 +1479,25 @@ class ArtistProfileController extends GetxController {
         break;
       case 4:
         try {
-          launchUrl(Uri.parse(artistProfileDetails!.emailLink!));
+          if (artistProfileDetails!.emailLink!.isNotEmpty) {
+            launchUrl(Uri.parse(artistProfileDetails!.emailLink!));
+          } else {
+            KalakarDialogs.successDialog1(
+                "YouTube Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
         break;
       case 5:
         try {
-          launchUrl(Uri.parse(artistProfileDetails!.websiteLink!));
+          if (artistProfileDetails!.websiteLink!.isNotEmpty) {
+            launchUrl(Uri.parse(artistProfileDetails!.websiteLink!));
+          } else {
+            KalakarDialogs.successDialog1(
+                "YouTube Link", "Link Not Added");
+          }
+
         } catch (e) {
           print(e);
         }

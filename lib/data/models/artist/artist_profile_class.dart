@@ -89,7 +89,7 @@ class ArtistProfileDetailsClass {
     mobileNumber = json['mobileNumber'];
     gender = json['gender'];
     age = json['age']*1.0;
-    roleAge = json['roleAge'];
+    roleAge = json['roleAge']*1.0;
     height = json['height'];
     weight = json['weight'];
     bio = json['bio'];

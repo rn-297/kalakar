@@ -167,6 +167,9 @@ class AppliedProfilesPage extends StatelessWidget {
     return GetBuilder<RequirementController>(builder: (controller) {
       DateTime completedDate = DateTime.parse(
           controller.selectedRequirement.shootingEndDate.toString());
+
+      DateTime createdDate = DateTime.parse(
+          controller.selectedRequirement.createdDate.toString());
       DateFormat formatter = DateFormat('dd MMM yyyy');
       return RefreshIndicator(
         onRefresh: () async {
@@ -183,7 +186,99 @@ class AppliedProfilesPage extends StatelessWidget {
                 SizedBox(
                   height: 8.h,
                 ),
-                Container(
+                controller.selectedRequirement.fKRequirementStatusMasterID!=3?Container(
+                  margin: EdgeInsets.only(
+                    bottom:8.h,
+                  ),
+                  padding: EdgeInsets.all(16.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: Colors.grey.shade300)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                                controller.selectedRequirement.defineRole!,
+
+                                style: TextStyle(
+                                    fontSize: 20.sp, fontWeight: FontWeight.bold),
+                              )),
+                          Text(
+                              "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("${controller.selectedRequirement.age}"),
+                          Text("${controller.selectedRequirement.shootingLocation}"),
+                          Text("${controller.selectedRequirement.gender}"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      Text(
+                        "${controller.selectedRequirement.requirementDescription}",
+
+                      ),
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      Divider(
+                        color: Colors.grey.shade200,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "Created ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: formatter.format(createdDate),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: KalakarColors.orange),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // CustomMobileButtonWidget(
+                          //   text: "Edit",
+                          //   onTap: () {
+                          //     controller
+                          //         .setOpportunityData(controller.selectedRequirement);
+                          //   },
+                          //   horizontalPadding: 10.w,
+                          //   verticalPadding: 6.h,
+                          //   fontSize: 12.sp,
+                          //   borderRadius: 50.r,
+                          //   boxShadow: [],
+                          //   width: 70.w,
+                          //   textColor: KalakarColors.white,
+                          //   fontWeight: FontWeight.normal,
+                          // )
+                        ],
+                      )
+                    ],
+                  ),
+                ):Container(
                   margin: EdgeInsets.symmetric(
                     vertical: 8.h,
                   ),
@@ -403,7 +498,7 @@ class AppliedProfilesPage extends StatelessWidget {
                                       children: [
                                         Text(
                                             "${appliedProfileDetail.firstName!} ${appliedProfileDetail.middleName!} "),
-                                        Text(appliedProfileDetail.emailLink
+                                        Text(appliedProfileDetail.email
                                             .toString()),
                                         SizedBox(
                                           width: 16.w,

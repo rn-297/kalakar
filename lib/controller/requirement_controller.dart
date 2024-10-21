@@ -1221,4 +1221,11 @@ filterAppliedRequirementDetailsList=companyAppliedRequirementDetailsList;
     }
     update();
   }
+
+  void getCompanyProfileData() {
+    ProfileController profileController = Get.put(ProfileController());
+    profileController.getProfileDataForArtist(selectedRequirement.fKAccountID!);
+    profileController.getCompanyProjectsForArtist(selectedRequirement.fKAccountID!);
+    Get.toNamed(RouteHelper.companyProfilePage);
+  }
 }

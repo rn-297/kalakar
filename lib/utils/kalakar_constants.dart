@@ -318,6 +318,7 @@ class KalakarConstants {
   static const String viewAll = "View All";
   static const String createProject = "Create Project";
   static const String projects = "Projects";
+  static const String project = "Project";
   static const String projectCover = "Project Cover";
   static const String projectTitle = "Project Title";
   static const String projectDescription = "Project Description";

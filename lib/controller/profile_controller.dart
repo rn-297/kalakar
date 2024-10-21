@@ -76,6 +76,7 @@ class ProfileController extends GetxController {
 
   bool isNetworkCompanyLogo = true;
   bool isProfileLoading = false;
+  bool isArtist = false;
   bool otpError = false;
   bool isOtpSent = false;
   bool isContactVerified = false;
@@ -95,6 +96,7 @@ class ProfileController extends GetxController {
   List<CompanyProjectsData> companyNewProjects = [];
   List<CompanyProjectsData> companyUpcomingProjects = [];
   CompanyProjectsData? selectedCompanyProject = CompanyProjectsData();
+  ProjectDetailAndDocuments projectDetailAndDocumentsForArtist=ProjectDetailAndDocuments();
 
   ProfileGetDataClass? profileData = ProfileGetDataClass();
 
@@ -165,11 +167,41 @@ class ProfileController extends GetxController {
     update();
   }
 
+  void getProfileDataForArtist(int id) async {
+    print("here");
+    isProfileLoading = true;
+    update();
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("userId ${loginTable?.userID}");
+    if (loginTable != null) {
+      isArtist = loginTable.accountType == KalakarConstants.artist;
+      var body = {"fK_AccountID": id};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getCompanyProfileDetailsApi,
+          jsonEncode(body),
+          loginTable.token);
+
+      if (response.statusCode == 200) {
+        ProfileGetDataClass profileGetDataClass =
+            ProfileGetDataClass.fromJson(jsonDecode(response.body));
+        if (profileGetDataClass.replayStatus ?? false) {
+          profileData = profileGetDataClass;
+        } else {}
+      }
+    } else {}
+    isProfileLoading = false;
+    update();
+  }
+
   Future<void> openSocialMedia(int index) async {
     switch (index) {
       case 0:
         try {
-          launchUrl(Uri.parse(profileData!.fbLink!));
+          if (profileData!.fbLink!.isNotEmpty) {
+            launchUrl(Uri.parse(profileData!.fbLink!));
+          } else {
+            KalakarDialogs.successDialog("Facebook Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -177,7 +209,11 @@ class ProfileController extends GetxController {
         break;
       case 1:
         try {
-          launchUrl(Uri.parse(profileData!.instalink!));
+          if (profileData!.instalink!.isNotEmpty) {
+            launchUrl(Uri.parse(profileData!.instalink!));
+          } else {
+            KalakarDialogs.successDialog("Instagram Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -185,7 +221,11 @@ class ProfileController extends GetxController {
         break;
       case 2:
         try {
-          launchUrl(Uri.parse(profileData!.wpLink!));
+          if (profileData!.wpLink!.isNotEmpty) {
+            launchUrl(Uri.parse(profileData!.wpLink!));
+          } else {
+            KalakarDialogs.successDialog("WhatsApp Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -193,7 +233,11 @@ class ProfileController extends GetxController {
         break;
       case 3:
         try {
-          launchUrl(Uri.parse(profileData!.ytLink!));
+          if (profileData!.ytLink!.isNotEmpty) {
+            launchUrl(Uri.parse(profileData!.ytLink!));
+          } else {
+            KalakarDialogs.successDialog("YouTube Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -201,14 +245,22 @@ class ProfileController extends GetxController {
         break;
       case 4:
         try {
-          launchUrl(Uri.parse(profileData!.emailLink!));
+          if (profileData!.emailLink!.isNotEmpty) {
+            launchUrl(Uri.parse(profileData!.emailLink!));
+          } else {
+            KalakarDialogs.successDialog("Email Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
         break;
       case 5:
         try {
-          launchUrl(Uri.parse(profileData!.websiteLink!));
+          if (profileData!.websiteLink!.isNotEmpty) {
+            launchUrl(Uri.parse(profileData!.websiteLink!));
+          } else {
+            KalakarDialogs.successDialog("Website Link", "Link Not Added");
+          }
         } catch (e) {
           print(e);
         }
@@ -371,6 +423,39 @@ class ProfileController extends GetxController {
           } else {
             selectedCompanyProject = responseModel.lResponseCompanyProjects![0];
           }
+        } else {}
+      }
+    }
+    update();
+  }
+
+  void getCompanyProjectsForArtist(int id) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      var body = {
+        "fK_AccountID": id,
+        "companyProjectID": "0"
+      };
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getCompanyProfileProjectsApi,
+          jsonEncode(body),
+          loginTable.token);
+
+      if (response.statusCode == 200) {
+        CompanyProjectClass responseModel =
+            CompanyProjectClass.fromJson(jsonDecode(response.body));
+
+        if (responseModel.replayStatus ?? false) {
+            companyAllProjects = responseModel.lResponseCompanyProjects!;
+            companyNewProjects = companyAllProjects
+                .where((element) => element.projectStatusID == "1")
+                .toList();
+            companyUpcomingProjects = companyAllProjects
+                .where((element) => element.projectStatusID == "2")
+                .toList();
+
         } else {}
       }
     }
@@ -882,7 +967,8 @@ class ProfileController extends GetxController {
             ResponseModel.fromJson(jsonDecode(response.body));
 
         if (responseModel.replayStatus ?? false) {
-          KalakarDialogs.successDialog1("Profile Saved", responseModel.message!);
+          KalakarDialogs.successDialog1(
+              "Profile Saved", responseModel.message!);
           getProfileData();
           getCompanyProjects("0");
           if (companyProjectId != "0") {
@@ -903,23 +989,28 @@ class ProfileController extends GetxController {
   }
 
   void openProjectDetails(CompanyProjectsData companyProject) {
-    projectDocuments=[];
-    update();
-    companyProjectId = companyProject.companyProjectID.toString();
-    selectedCompanyProject = companyProject;
-    projectCoverPath = companyProject.projectCoverDoc!;
-    projectTitleTEController.text = companyProject.projectTitle!;
-    projectDescriptionTEController.text = companyProject.projectDescription!;
-    projectTypeTEController.text = companyProject.projectSubTitle!;
-    selectedProjectStatus = getProjectStatus(companyProject.projectStatusID);
-    print(selectedProjectStatus);
-    selectedProjectStatusId = projectStatusList
-        .where((element) => element.projectStatus == selectedProjectStatus)
-        .first
-        .projectStatusID
-        .toString();
-    getProjectDocuments(companyProject.companyProjectID.toString());
-    Get.toNamed(RouteHelper.newProjectFormPage);
+    if (isArtist) {
+getProjectDocumentsForArtist(companyProject.companyProjectID!.toString(),profileData!.fKAccountID!);
+Get.toNamed(RouteHelper.companyProjectViewPage);
+    } else {
+      projectDocuments = [];
+      update();
+      companyProjectId = companyProject.companyProjectID.toString();
+      selectedCompanyProject = companyProject;
+      projectCoverPath = companyProject.projectCoverDoc!;
+      projectTitleTEController.text = companyProject.projectTitle!;
+      projectDescriptionTEController.text = companyProject.projectDescription!;
+      projectTypeTEController.text = companyProject.projectSubTitle!;
+      selectedProjectStatus = getProjectStatus(companyProject.projectStatusID);
+      print(selectedProjectStatus);
+      selectedProjectStatusId = projectStatusList
+          .where((element) => element.projectStatus == selectedProjectStatus)
+          .first
+          .projectStatusID
+          .toString();
+      getProjectDocuments(companyProject.companyProjectID.toString());
+      Get.toNamed(RouteHelper.newProjectFormPage);
+    }
   }
 
   String? getProjectStatus(String? projectStatusID) {
@@ -944,7 +1035,7 @@ class ProfileController extends GetxController {
 
     if (loginTable != null) {
       // Example fields (if any)
-      isProjectDocumentLoading=true;
+      isProjectDocumentLoading = true;
       update();
       var fields = {
         'companyProjectID': "$companyProjectID",
@@ -978,7 +1069,37 @@ class ProfileController extends GetxController {
                 .add(FileData(path: path, type: type, documentId: documentId));
           }
         }
-        isProjectDocumentLoading=false;
+        isProjectDocumentLoading = false;
+        update();
+      }
+    } else {}
+  }
+
+  Future<void> getProjectDocumentsForArtist(String companyProjectID,int id) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      // Example fields (if any)
+      isProjectDocumentLoading = true;
+      update();
+      var fields = {
+        'companyProjectID': "$companyProjectID",
+        'fK_AccountID': id,
+      };
+
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getCompanyProfileProjectDocumentsApi,
+          jsonEncode(fields),
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        ProjectDetailAndDocuments projectDetailAndDocuments =
+            ProjectDetailAndDocuments.fromJson(jsonDecode(response.body));
+        projectDetailAndDocumentsForArtist=projectDetailAndDocuments;
+        isProjectDocumentLoading = false;
+
         update();
       }
     } else {}
@@ -1061,7 +1182,7 @@ class ProfileController extends GetxController {
 
     if (loginTable != null) {
       companyName = "${loginTable.fistName ?? ""} ${loginTable.lastName ?? ""}";
-      profilePic =loginTable.profilePic;
+      profilePic = loginTable.profilePic;
     }
   }
 
@@ -1072,5 +1193,10 @@ class ProfileController extends GetxController {
     } catch (e) {
       return false;
     }
+  }
+
+  void showDocument1(String url, String type) {
+    FileController fileController = Get.put(FileController());
+    fileController.viewFile1(url, type);
   }
 }

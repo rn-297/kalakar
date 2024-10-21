@@ -81,11 +81,14 @@ class AppliedArtistDetailsList {
   String? profilePic;
   int? fKApplyStatusMasterID;
   String? applyStatus;
+  int? artistFavoritesRequirementTransID;
   int? artistAppliedForRequirementTransID;
   int? fKAccountIDArtist;
   String? artistGender;
   String? artistState;
   String? district;
+  String? email;
+  String? mobileNumber;
   List<EducationList>? educationList;
   List<HobbiesList>? hobbiesList;
   List<InterestList>? interestList;
@@ -139,11 +142,14 @@ class AppliedArtistDetailsList {
         this.profilePic,
         this.fKApplyStatusMasterID,
         this.applyStatus,
+        this.artistFavoritesRequirementTransID,
         this.artistAppliedForRequirementTransID,
         this.fKAccountIDArtist,
         this.artistGender,
         this.artistState,
         this.district,
+        this.email,
+        this.mobileNumber,
         this.educationList,
         this.hobbiesList,
         this.interestList,
@@ -197,12 +203,16 @@ class AppliedArtistDetailsList {
     profilePic = json['profilePic'];
     fKApplyStatusMasterID = json['fK_ApplyStatusMasterID'];
     applyStatus = json['applyStatus'];
+    artistFavoritesRequirementTransID =
+    json['artistFavoritesRequirementTransID'];
     artistAppliedForRequirementTransID =
     json['artistAppliedForRequirementTransID'];
     fKAccountIDArtist = json['fK_AccountID_Artist'];
     artistGender = json['artistGender'];
     artistState = json['artistState'];
     district = json['district'];
+    email = json['email'];
+    mobileNumber = json['mobileNumber'];
     if (json['educationList'] != null) {
       educationList = <EducationList>[];
       json['educationList'].forEach((v) {
@@ -297,12 +307,16 @@ class AppliedArtistDetailsList {
     data['profilePic'] = this.profilePic;
     data['fK_ApplyStatusMasterID'] = this.fKApplyStatusMasterID;
     data['applyStatus'] = this.applyStatus;
+    data['artistFavoritesRequirementTransID'] =
+        this.artistFavoritesRequirementTransID;
     data['artistAppliedForRequirementTransID'] =
         this.artistAppliedForRequirementTransID;
     data['fK_AccountID_Artist'] = this.fKAccountIDArtist;
     data['artistGender'] = this.artistGender;
     data['artistState'] = this.artistState;
     data['district'] = this.district;
+    data['email'] = this.email;
+    data['mobileNumber'] = this.mobileNumber;
     if (this.educationList != null) {
       data['educationList'] =
           this.educationList!.map((v) => v.toJson()).toList();
@@ -569,7 +583,7 @@ class PortfolioList {
   int? fKAccountID;
   int? fileType;
   String? filePath;
-  Uint8List? thumbnail;
+  Uint8List?thumbnail;
 
   PortfolioList(
       {this.artistProfilePortfolioID,
