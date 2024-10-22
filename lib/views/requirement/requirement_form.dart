@@ -74,32 +74,40 @@ class RequirementFormPage extends StatelessWidget {
             child: Column(
               children: [
                 Center(
-                  child: Stack(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: 100.h,
-                        width: 100.h,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: controller.requirementPhoto
-                                        .startsWith("http")
-                                    ? NetworkImage(controller.requirementPhoto)
-                                    : FileImage(
-                                        File(controller.requirementPhoto),
-                                      ) as ImageProvider,
-                                fit: BoxFit.fill),
-                            border: Border.all(color: KalakarColors.textColor),
-                            borderRadius: BorderRadius.circular(50.r)),
+                      Text("Reference Look :",style: TextStyle(color: KalakarColors.headerText),),
+                      SizedBox(width: 24.w,),
+                      Stack(
+                        children: [
+                          Container(
+                            height: 100.h,
+                            width: 100.h,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: controller.requirementPhoto
+                                            .startsWith("http")
+                                        ? NetworkImage(controller.requirementPhoto)
+                                        : FileImage(
+                                            File(controller.requirementPhoto),
+                                          ) as ImageProvider,
+                                    fit: BoxFit.fill),
+                                border: Border.all(color: KalakarColors.textColor),
+                                borderRadius: BorderRadius.circular(50.r)),
+                          ),
+                          Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: InkWell(
+                                  onTap: () {
+                                    PickerHelper.showImageBottomSheet(
+                                        context, controller);
+                                  },
+                                  child: Icon(Icons.camera_alt_outlined)))
+                        ],
                       ),
-                      Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: InkWell(
-                              onTap: () {
-                                PickerHelper.showImageBottomSheet(
-                                    context, controller);
-                              },
-                              child: Icon(Icons.camera_alt_outlined)))
+                      SizedBox(width: 24.w,),
                     ],
                   ),
                 ),
@@ -227,36 +235,44 @@ class RequirementFormPage extends StatelessWidget {
                     ),
                   ],
                 ),*/
-                CustomDropdownSearch1(
-                  validator: Validator.validateGender,
-                  items: controller.genderList,
-                  titleText: KalakarConstants.gender,
-                  selectedItem: controller.genderTEController.text.isEmpty
-                      ? null
-                      : controller.genderTEController.text,
-                  labelText: KalakarConstants.gender,
-                  onItemSelected: (selectedItem) {
-                    controller.setGenderValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdownSearch1(
+                        validator: Validator.validateAge,
+                        items: controller.ageRangeList,
+                        titleText: KalakarConstants.age,
+                        selectedItem: controller.ageTEController.text.isEmpty
+                            ? null
+                            : controller.ageTEController.text,
+                        labelText: KalakarConstants.age,
+                        onItemSelected: (selectedItem) {
+                          controller.setAgeRangeValue(selectedItem);
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 16.w,),
+                    Expanded(
+                      child: CustomDropdownSearch1(
+                        validator: Validator.validateGender,
+                        items: controller.genderList,
+                        titleText: KalakarConstants.gender,
+                        selectedItem: controller.genderTEController.text.isEmpty
+                            ? null
+                            : controller.genderTEController.text,
+                        labelText: KalakarConstants.gender,
+                        onItemSelected: (selectedItem) {
+                          controller.setGenderValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch1(
-                  validator: Validator.validateAge,
-                  items: controller.ageRangeList,
-                  titleText: KalakarConstants.age,
-                  selectedItem: controller.ageTEController.text.isEmpty
-                      ? null
-                      : controller.ageTEController.text,
-                  labelText: KalakarConstants.age,
-                  onItemSelected: (selectedItem) {
-                    controller.setAgeRangeValue(selectedItem);
-                  },
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
+
+
                 CommonWidgets.commonMobileTextField1(
                     controller: controller.languageTEController,
                     labelText: KalakarConstants.language,

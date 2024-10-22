@@ -1483,7 +1483,7 @@ class CompanyHomePage extends StatelessWidget {
                       children: [
                         Expanded(
                             child: Text(
-                          requirementDetailsData.defineRole!,
+                          requirementDetailsData.lookingFor!,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -1690,7 +1690,7 @@ class CompanyHomePage extends StatelessWidget {
                         children: [
                           Expanded(
                               child: Text(
-                            requirementDetailsData.defineRole!,
+                            requirementDetailsData.lookingFor!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

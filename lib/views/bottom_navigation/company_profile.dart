@@ -751,7 +751,7 @@ class CompanyProfilePage extends StatelessWidget {
                                 textSpanToShow(
                                     context,
                                     "${KalakarConstants.email} : ",
-                                    profileDta.email!,
+                                    profileDta.email??"",
                                     CupertinoIcons.at),
                                 textSpanToShow(
                                     context,

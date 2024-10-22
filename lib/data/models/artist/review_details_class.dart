@@ -35,6 +35,7 @@ class GetApplicationReviewList {
   String? reviewBy;
   double? reviewStar;
   String? review;
+  String? reviewerWork;
 
   GetApplicationReviewList(
       {this.applicationReviewID,
@@ -42,7 +43,8 @@ class GetApplicationReviewList {
         this.reviewByProfilePic,
         this.reviewBy,
         this.reviewStar,
-        this.review});
+        this.review,
+        this.reviewerWork});
 
   GetApplicationReviewList.fromJson(Map<String, dynamic> json) {
     applicationReviewID = json['applicationReviewID'];
@@ -51,6 +53,7 @@ class GetApplicationReviewList {
     reviewBy = json['reviewBy'];
     reviewStar = json['reviewStar'];
     review = json['review'];
+    reviewerWork = json['reviewerWork'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +64,7 @@ class GetApplicationReviewList {
     data['reviewBy'] = this.reviewBy;
     data['reviewStar'] = this.reviewStar;
     data['review'] = this.review;
+    data['reviewerWork'] = this.reviewerWork;
     return data;
   }
 }

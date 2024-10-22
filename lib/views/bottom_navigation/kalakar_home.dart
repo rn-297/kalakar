@@ -995,7 +995,7 @@ class KalakarHomePage extends StatelessWidget {
                                             ),
                                             SizedBox(height:4.h),
                                             Text(
-                                              reviewData.reviewBy!,
+                                              reviewData.reviewerWork!,
                                               style: TextStyle(
                                                 fontSize: 10.sp,
                                                 color: KalakarColors.orange,

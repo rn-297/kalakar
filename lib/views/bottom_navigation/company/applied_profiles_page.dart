@@ -203,7 +203,7 @@ class AppliedProfilesPage extends StatelessWidget {
                         children: [
                           Expanded(
                               child: Text(
-                                controller.selectedRequirement.defineRole!,
+                                controller.selectedRequirement.lookingFor!,
 
                                 style: TextStyle(
                                     fontSize: 20.sp, fontWeight: FontWeight.bold),
@@ -295,7 +295,7 @@ class AppliedProfilesPage extends StatelessWidget {
                         children: [
                           Expanded(
                               child: Text(
-                            controller.selectedRequirement.defineRole!,
+                            controller.selectedRequirement.lookingFor!,
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,

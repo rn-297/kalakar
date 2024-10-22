@@ -535,12 +535,17 @@ class RequirementViewPage extends StatelessWidget {
                           SizedBox(
                             height: 8.h,
                           ),
-                          Text(
-                            requirement.companyNameProductionhouse ?? "",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.sp,
-                                color: KalakarColors.headerText),
+                          InkWell(
+                            onTap: (){
+                              controller.getCompanyProfileData();
+                            },
+                            child: Text(
+                              requirement.companyNameProductionhouse ?? "",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.sp,
+                                  color: KalakarColors.headerText),
+                            ),
                           ),
                           SizedBox(
                             height: 8.h,
@@ -1172,12 +1177,17 @@ class RequirementViewPage extends StatelessWidget {
                         SizedBox(
                           height: 8.h,
                         ),
-                        Text(
-                          requirement.companyNameProductionhouse ?? "",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.sp,
-                              color: KalakarColors.headerText),
+                        InkWell(
+                          onTap: (){
+                            controller.getCompanyProfileData();
+                          },
+                          child: Text(
+                            requirement.companyNameProductionhouse ?? "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.sp,
+                                color: KalakarColors.headerText),
+                          ),
                         ),
                         SizedBox(
                           height: 8.h,
