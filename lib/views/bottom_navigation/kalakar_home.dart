@@ -705,10 +705,10 @@ class KalakarHomePage extends StatelessWidget {
                                       ],
                                       borderRadius: BorderRadius.circular(8.r),
                                     ),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                             child: Image.network(
@@ -729,34 +729,39 @@ class KalakarHomePage extends StatelessWidget {
                                               },
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 12.h,
-                                            // indent: 20,
-                                            // endIndent: 20,
-                                          ),
-                                          Text(
-                                            upcomingProject.projectTitle!,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18.sp,
-                                                color:
-                                                    KalakarColors.headerText),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 12.h,
+                                          // indent: 20,
+                                          // endIndent: 20,
+                                        ),
+                                        Text(
+                                          upcomingProject.projectTitle!,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18.sp,
+                                              color:
+                                                  KalakarColors.headerText),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
 
-                                          Text(
-                                            upcomingProject.projectSubTitle!,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14.sp,
-                                                color:
-                                                    KalakarColors.orange),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
+                                        Text(
+                                          upcomingProject.projectSubTitle!,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14.sp,
+                                              color:
+                                                  KalakarColors.orange),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(
+                                          height: 12.h,
+                                          // indent: 20,
+                                          // endIndent: 20,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 );

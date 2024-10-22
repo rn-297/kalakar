@@ -125,24 +125,25 @@ class CompanySearchArtistPage extends StatelessWidget {
                           height: 16.h,
                           thickness: 2,
                         ),
-                        CommonWidgets.commonMobileTextField(
+                        CommonWidgets.commonMobileTextField1(
                             controller: controller.searchLocationTEController,
                             labelText: KalakarConstants.applyFor,
                             obscureText: false,
+                            borderRadius: 12.r,
                             hintText: "Search Apply For",
                             passwordVisibility: false,
-                            contentPadding: EdgeInsetsDirectional.symmetric(
-                                horizontal: 24, vertical: 8.h),
+
                             togglePasswordVisibility: () {},
                             textInputType: TextInputType.text,
                             validator: Validator.validateApplyFor),
                         SizedBox(
                           height: 12.h,
                         ),
-                        CommonWidgets.commonMobileTextField(
+                        CommonWidgets.commonMobileTextField1(
                             controller: controller.searchLanguageTEController,
                             labelText: KalakarConstants.mobileNumber,
                             obscureText: false,
+                            borderRadius: 12.r,
                             hintText: "Search Mobile Number",
                             passwordVisibility: false,
                             togglePasswordVisibility: () {},
@@ -151,12 +152,13 @@ class CompanySearchArtistPage extends StatelessWidget {
                         SizedBox(
                           height: 12.h,
                         ),
-                        CommonWidgets.commonMobileTextField(
+                        CommonWidgets.commonMobileTextField1(
                             controller:
                                 controller.searchShootingStartDateTEController,
                             labelText: KalakarConstants.email,
                             obscureText: false,
                             hintText: "Search Email",
+                            borderRadius: 12.r,
                             passwordVisibility: false,
                             togglePasswordVisibility: () {},
                             editable: false,
@@ -235,11 +237,12 @@ class CompanySearchArtistPage extends StatelessWidget {
           padding: EdgeInsets.all(12.h),
           child: Column(
             children: [
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.searchProfileTEController,
                   labelText: KalakarConstants.profile,
                   obscureText: false,
                   hintText: "Search Profile",
+                  borderRadius: 12.r,
                   passwordVisibility: false,
                   togglePasswordVisibility: () {},
                   textInputType: TextInputType.text,

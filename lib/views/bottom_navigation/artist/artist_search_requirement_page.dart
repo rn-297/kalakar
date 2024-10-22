@@ -121,25 +121,25 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                           height: 16.h,
                           thickness: 2,
                         ),
-                        CommonWidgets.commonMobileTextField(
+                        CommonWidgets.commonMobileTextField1(
                             controller: controller.searchLocationTEController,
                             labelText: "Location",
                             obscureText: false,
                             hintText: "Search Location",
                             passwordVisibility: false,
-                            contentPadding: EdgeInsetsDirectional.symmetric(
-                                horizontal: 24, vertical: 8.h),
+                            borderRadius: 12.r,
                             togglePasswordVisibility: () {},
                             textInputType: TextInputType.text,
                             validator: Validator.validateLocation),
                         SizedBox(
                           height: 12.h,
                         ),
-                        CommonWidgets.commonMobileTextField(
+                        CommonWidgets.commonMobileTextField1(
                             controller: controller.searchLanguageTEController,
                             labelText: "Language",
                             obscureText: false,
                             hintText: "Search Language",
+                            borderRadius: 12.r,
                             passwordVisibility: false,
                             togglePasswordVisibility: () {},
                             textInputType: TextInputType.text,
@@ -158,13 +158,14 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                   date);
                             }
                           },
-                          child: CommonWidgets.commonMobileTextField(
+                          child: CommonWidgets.commonMobileTextField1(
                               controller: controller
                                   .searchShootingStartDateTEController,
                               labelText: "Shooting Start Date",
                               obscureText: false,
                               hintText: "Search Shooting Start Date",
                               passwordVisibility: false,
+                              borderRadius: 12.r,
                               togglePasswordVisibility: () {},
                               editable: false,
                               textInputType: TextInputType.text,
@@ -183,13 +184,14 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                   KalakarConstants.searchShootingEndDate, date);
                             }
                           },
-                          child: CommonWidgets.commonMobileTextField(
+                          child: CommonWidgets.commonMobileTextField1(
                               controller:
                                   controller.searchShootingEndDateTEController,
                               labelText: "Shooting End Date",
                               obscureText: false,
                               hintText: "Search Shooting End Date",
                               passwordVisibility: false,
+                              borderRadius: 12.r,
                               editable: false,
                               togglePasswordVisibility: () {},
                               textInputType: TextInputType.text,
@@ -198,11 +200,12 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                         SizedBox(
                           height: 12.h,
                         ),
-                        CommonWidgets.commonMobileTextField(
+                        CommonWidgets.commonMobileTextField1(
                             controller: controller.searchStartAgeTEController,
                             labelText: "Start Age",
                             obscureText: false,
                             hintText: "Search Start Age",
+                            borderRadius: 12.r,
                             passwordVisibility: false,
                             togglePasswordVisibility: () {},
                             textInputType: TextInputType.number,
@@ -210,11 +213,12 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                         SizedBox(
                           height: 12.h,
                         ),
-                        CommonWidgets.commonMobileTextField(
+                        CommonWidgets.commonMobileTextField1(
                             controller: controller.searchEndAgeTEController,
                             labelText: "End Age",
                             obscureText: false,
                             hintText: "Search End Age",
+                            borderRadius: 12.r,
                             passwordVisibility: false,
                             togglePasswordVisibility: () {},
                             textInputType: TextInputType.number,
@@ -287,11 +291,12 @@ class ArtistSearchRequirementPage extends StatelessWidget {
           padding: EdgeInsets.all(12.h),
           child: Column(
             children: [
-              CommonWidgets.commonMobileTextField(
+              CommonWidgets.commonMobileTextField1(
                   controller: controller.searchTitleTEController,
                   labelText: "Title",
                   obscureText: false,
                   hintText: "Search Title",
+                  borderRadius: 12.r,
                   passwordVisibility: false,
                   togglePasswordVisibility: () {},
                   textInputType: TextInputType.text,

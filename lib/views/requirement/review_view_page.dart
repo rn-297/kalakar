@@ -182,6 +182,7 @@ class ReviewViewPage extends StatelessWidget {
               ),
               SizedBox(height: 8.h,),
               rowDataToShow("Review By : ", reviewData.reviewBy.toString()),
+              rowDataToShow("Reviewer Work : ", reviewData.reviewerWork.toString()),
               rowDataToShow("Review : ", reviewData.review.toString()),
             ]),
           ),
