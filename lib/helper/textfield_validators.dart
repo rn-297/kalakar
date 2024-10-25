@@ -505,6 +505,14 @@ class Validator {
     return null;
   }
 
+  //validate Comfortable
+  static String? validateComfortableIn1(List<String>? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Comfortable In';
+    }
+    return null;
+  }
+
   //validate Role Name
   static String? validateRoleName(String? value) {
     if (value == null || value.isEmpty) {

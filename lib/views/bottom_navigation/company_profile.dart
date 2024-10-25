@@ -756,7 +756,7 @@ class CompanyProfilePage extends StatelessWidget {
                                 textSpanToShow(
                                     context,
                                     "${KalakarConstants.mobileNumber} : ",
-                                    profileDta.mobileNumber!,
+                                    profileDta.mobileNumber??"",
                                     Icons.call),
                               ],
                             ),

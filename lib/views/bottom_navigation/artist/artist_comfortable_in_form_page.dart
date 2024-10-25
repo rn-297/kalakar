@@ -6,6 +6,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
+import '../../../custom_widgets/custom_divider/custom_multi_select_drop_down.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
@@ -89,16 +90,14 @@ class ArtistComfortableInFormPage extends StatelessWidget {
           child: Form(
             key: controller.formComfortableInKey,
             child: Column(children: [
-              CustomDropdownSearch1(
-                validator: Validator.validateComfortableIn,
+              CustomDropdownSearch2(
+                validator: Validator.validateComfortableIn1,
                 items: controller.comfortableInList,
                 titleText: KalakarConstants.comfortableIn,
-                selectedItem: controller.comfortableInTEController.text.isEmpty
-                    ? null
-                    : controller.comfortableInTEController.text,
+                selectedItems: controller.selectedComfortableInList                     ,
                 labelText: KalakarConstants.comfortableIn,
-                onItemSelected: (selectedItem) {
-                  controller.setComfortableInValue(selectedItem);
+                onItemsSelected: (selectedItem) {
+                  controller.setComfortableInValue1(selectedItem);
                 },
               ),
               SizedBox(
