@@ -218,6 +218,9 @@ class KalakarConstants {
   static const String completedOpportunities = "Completed Opportunities";
   static const String draft = "Draft";
   static const String completed = "Completed";
+  static const String personal = "Personal";
+  static const String interest = "Interest";
+  static const String qualificationNSkills = "Qualification & Skills";
   static const String edit = "Edit";
 
   //settings

@@ -10,6 +10,7 @@ import 'package:kalakar/views/bottom_navigation/artist/artist_education_form.dar
 import 'package:kalakar/views/bottom_navigation/artist/artist_experience_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_hobbies_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_interest_form_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/artist_more_info_view_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_portfolio_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_profile_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_search_requirement_page.dart';
@@ -58,6 +59,7 @@ class RouteHelper {
       '/kalakar_artist_comfortable_in_form';
   static const String artistDocumentForm = '/kalakar_artist_document_form';
   static const String artistEducationForm = '/kalakar_artist_Education_form';
+  static const String artistMoreInfoViewPage = '/kalakar_artist_more_info_view_page';
   static const String artistExperienceForm = '/kalakar_artist_experience_form';
   static const String artistInterestForm = '/kalakar_artist_interest_form';
   static const String artistPortfolio = '/kalakar_artist_portfolio_form';
@@ -236,6 +238,10 @@ class RouteHelper {
     GetPage(
       name: RouteHelper.googleNewUserPage,
       page: () => GoogleNewUserPage(),
+    ),
+    GetPage(
+      name: RouteHelper.artistMoreInfoViewPage,
+      page: () => ArtistMoreInfoViewPage(),
     ),
   ];
 }

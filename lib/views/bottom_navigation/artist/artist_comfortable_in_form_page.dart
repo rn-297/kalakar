@@ -27,8 +27,8 @@ class ArtistComfortableInFormPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => educationFormMobileView(context),
-        tablet: (BuildContext context) => educationFormWebView(),
+        mobile: (BuildContext context) => comfortableInFormMobileView(context),
+        tablet: (BuildContext context) => comfortableInFormWebView(),
       ),
     );
   }
@@ -81,7 +81,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
     );
   }
 
-  educationFormMobileView(BuildContext context) {
+  comfortableInFormMobileView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
       return Padding(
@@ -89,7 +89,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
           child: Form(
             key: controller.formComfortableInKey,
             child: Column(children: [
-              CustomDropdownSearch1(
+              CustomDropdownSearch(
                 validator: Validator.validateComfortableIn,
                 items: controller.comfortableInList,
                 titleText: KalakarConstants.comfortableIn,
@@ -150,5 +150,5 @@ class ArtistComfortableInFormPage extends StatelessWidget {
     }));
   }
 
-  educationFormWebView() {}
+  comfortableInFormWebView() {}
 }

@@ -134,6 +134,7 @@ class ArtistProfileController extends GetxController {
 
   //bool
   bool isArtistProfileBasicLoading = false;
+  bool isArtistDocumentsLoading = false;
   bool isArtistProfileEducationLoading = false;
   bool isArtistProfileComfortableInLoading = false;
   bool isArtistProfileHobbiesLoading = false;
@@ -144,6 +145,7 @@ class ArtistProfileController extends GetxController {
 
   //int
   int artistProfileID = 0;
+  int documentsCount = 0;
 
   //artist profile details
   ArtistProfileDetailsClass artistProfileDetails = ArtistProfileDetailsClass();
@@ -1249,6 +1251,8 @@ class ArtistProfileController extends GetxController {
   Future<void> getArtistDocuments() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+      isArtistDocumentsLoading = true;
+      update();
       final body = {
         "userID": loginTable.userID,
         "fK_AccountID": loginTable.accountID
@@ -1279,14 +1283,15 @@ class ArtistProfileController extends GetxController {
               .last;
           filmCorporationCardImage =
               artistDocumentsList[0].fileCorporationCard.toString();
-
-          update();
         }
         // print("response successful ${response.body}");
         // Get.defaultDialog(
         //   content: Text("response successful ${response.body}"),
         // );
       }
+      isArtistDocumentsLoading = false;
+
+      update();
     }
   }
 
@@ -1365,8 +1370,8 @@ class ArtistProfileController extends GetxController {
               imagesList.add(list[i]);
             }
           }
-          artistPortfolioImagesList=imagesList;
-          artistPortfolioVideosList=videosList;
+          artistPortfolioImagesList = imagesList;
+          artistPortfolioVideosList = videosList;
           artistPortfolioList = list;
         }
         // print("response successful ${response.body}");
@@ -1430,8 +1435,7 @@ class ArtistProfileController extends GetxController {
           if (artistProfileDetails!.fbLink!.isNotEmpty) {
             launchUrl(Uri.parse(artistProfileDetails!.fbLink!));
           } else {
-            KalakarDialogs.successDialog1(
-                "Facebook Link", "Link Not Added");
+            KalakarDialogs.successDialog1("Facebook Link", "Link Not Added");
           }
         } catch (e) {
           print(e);
@@ -1443,8 +1447,7 @@ class ArtistProfileController extends GetxController {
           if (artistProfileDetails!.instalink!.isNotEmpty) {
             launchUrl(Uri.parse(artistProfileDetails!.instalink!));
           } else {
-            KalakarDialogs.successDialog1(
-                "Instagram Link", "Link Not Added");
+            KalakarDialogs.successDialog1("Instagram Link", "Link Not Added");
           }
         } catch (e) {
           print(e);
@@ -1456,8 +1459,7 @@ class ArtistProfileController extends GetxController {
           if (artistProfileDetails!.wpLink!.isNotEmpty) {
             launchUrl(Uri.parse(artistProfileDetails!.wpLink!));
           } else {
-            KalakarDialogs.successDialog1(
-                "WhatsApp Link", "Link Not Added");
+            KalakarDialogs.successDialog1("WhatsApp Link", "Link Not Added");
           }
         } catch (e) {
           print(e);
@@ -1469,8 +1471,7 @@ class ArtistProfileController extends GetxController {
           if (artistProfileDetails!.ytLink!.isNotEmpty) {
             launchUrl(Uri.parse(artistProfileDetails!.ytLink!));
           } else {
-            KalakarDialogs.successDialog1(
-                "YouTube Link", "Link Not Added");
+            KalakarDialogs.successDialog1("YouTube Link", "Link Not Added");
           }
         } catch (e) {
           print(e);
@@ -1482,8 +1483,7 @@ class ArtistProfileController extends GetxController {
           if (artistProfileDetails!.emailLink!.isNotEmpty) {
             launchUrl(Uri.parse(artistProfileDetails!.emailLink!));
           } else {
-            KalakarDialogs.successDialog1(
-                "YouTube Link", "Link Not Added");
+            KalakarDialogs.successDialog1("YouTube Link", "Link Not Added");
           }
         } catch (e) {
           print(e);
@@ -1494,10 +1494,8 @@ class ArtistProfileController extends GetxController {
           if (artistProfileDetails!.websiteLink!.isNotEmpty) {
             launchUrl(Uri.parse(artistProfileDetails!.websiteLink!));
           } else {
-            KalakarDialogs.successDialog1(
-                "YouTube Link", "Link Not Added");
+            KalakarDialogs.successDialog1("YouTube Link", "Link Not Added");
           }
-
         } catch (e) {
           print(e);
         }
@@ -2095,12 +2093,26 @@ class ArtistProfileController extends GetxController {
             loginDataClass.totalReferralAmount!.toDouble() ?? 0.0,
             loginDataClass.usedReferralAmount!.toDouble() ?? 0.0,
             loginDataClass.profilePic ?? "",
-
           );
           HiveService.saveLoginData(loginTable1);
           getArtistProfileBasic();
         } else {}
       }
+    }
+  }
+
+  void gotoArtistMoreInfo(bool isSamePage) {
+    if (isSamePage||documentsCount == 0) {
+      getArtistProfileEducation(0);
+      getArtistProfileComfortableIn(0);
+      getArtistProfileHobbies(0);
+      getArtistProfileInterest(0);
+      getArtistProfileApplyFor(0);
+      getArtistDocuments();
+      documentsCount = 1;
+    }
+    if(!isSamePage){
+      Get.toNamed(RouteHelper.artistMoreInfoViewPage);
     }
   }
 }

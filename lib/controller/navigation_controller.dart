@@ -71,14 +71,9 @@ class BottomNavigationController extends GetxController {
       } else if (selectedIndex == 2 && profileCount == 0) {
         artistProfileController.getArtistProfileMaster();
         artistProfileController.getArtistProfileBasic();
-        artistProfileController.getArtistProfileEducation(0);
-        artistProfileController.getArtistProfileComfortableIn(0);
-        artistProfileController.getArtistProfileHobbies(0);
-        artistProfileController.getArtistProfileInterest(0);
-        artistProfileController.getArtistProfileApplyFor(0);
+
         artistProfileController.getArtistExperience(0);
         artistProfileController.getArtistPortFolio(0);
-        artistProfileController.getArtistDocuments();
         profileCount = 1;
       }else if(selectedIndex == 3 && settingsCount == 0){
         requirementController.getAppliedForRequirementArtist();
