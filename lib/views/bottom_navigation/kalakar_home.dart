@@ -1329,7 +1329,7 @@ class KalakarHomePage extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             Text(
-               controller.artistName!,
+               controller.artistName!.toString().toUpperCase(),
               style: TextStyle(
                   color: KalakarColors.textColor,
                   fontSize: 25.sp,

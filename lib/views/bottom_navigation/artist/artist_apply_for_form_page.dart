@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search2.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
@@ -89,16 +90,14 @@ class ArtistApplyForFormPage extends StatelessWidget {
               child: Form(
                 key: controller.formApplyForKey,
                 child: Column(children: [
-                  CustomDropdownSearch1(
-                    validator: Validator.validateApplyFor,
+                  CustomDropdownSearch2(
+                    validator: Validator.validateApplyFor1,
                     items: controller.applyForList,
                     titleText: KalakarConstants.applyFor,
-                    selectedItem: controller.applyForTEController.text.isEmpty
-                        ? null
-                        : controller.applyForTEController.text,
+                    selectedItems: controller.selectedApplyForList,
                     labelText: KalakarConstants.applyFor,
-                    onItemSelected: (selectedItem) {
-                      controller.setApplyForValue(selectedItem);
+                    onItemsSelected: (selectedItem) {
+                      controller.setApplyForValue1(selectedItem);
                     },
                   ),
                   SizedBox(
@@ -107,7 +106,7 @@ class ArtistApplyForFormPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      if(controller.artistApplyForId != "0")
+                      /*if(controller.artistApplyForId != "0")
                         CustomMobileButtonWidget(
                           width: 125.w,
                           onTap: () {
@@ -123,7 +122,7 @@ class ArtistApplyForFormPage extends StatelessWidget {
                           iconColor: KalakarColors.white,
                           horizontalPadding: 20.w,
                           verticalPadding: 8.h,
-                        ),
+                        ),*/
                       CustomMobileButtonWidget(
                         width: 125.w,
                         onTap: () {

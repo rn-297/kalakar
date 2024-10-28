@@ -206,6 +206,15 @@ class Validator {
     return null;
   }
 
+  // validate apply for
+
+  static String? validateApplyFor1(List<String>? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Apply For';
+    }
+    return null;
+  }
+
   // validate Bio
   static String? validateBio(String? value) {
     if (value == null || value.isEmpty) {
@@ -504,6 +513,13 @@ class Validator {
     }
     return null;
   }
+  //validate Comfortable
+  static String? validateComfortableIn1(List<String>? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Comfortable In';
+    }
+    return null;
+  }
 
   //validate Role Name
   static String? validateRoleName(String? value) {
@@ -561,8 +577,15 @@ class Validator {
     return null;
   }
 
-  //validate Education Type
+  //validate interested Type
   static String? validateInterestedIn(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Interested In';
+    }
+    return null;
+  }
+  //validate Interested Type
+  static String? validateInterestedIn1(List<String>? value) {
     if (value == null || value.isEmpty) {
       return 'Please Select Interested In';
     }

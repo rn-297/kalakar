@@ -7,6 +7,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
+import '../../../custom_widgets/custom_dropdown_search2.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/route_helper.dart';
@@ -89,16 +90,14 @@ class ArtistComfortableInFormPage extends StatelessWidget {
           child: Form(
             key: controller.formComfortableInKey,
             child: Column(children: [
-              CustomDropdownSearch(
-                validator: Validator.validateComfortableIn,
+              CustomDropdownSearch2(
+                validator: Validator.validateComfortableIn1,
                 items: controller.comfortableInList,
                 titleText: KalakarConstants.comfortableIn,
-                selectedItem: controller.comfortableInTEController.text.isEmpty
-                    ? null
-                    : controller.comfortableInTEController.text,
+                selectedItems: controller.selectedComfortableInList,
                 labelText: KalakarConstants.comfortableIn,
-                onItemSelected: (selectedItem) {
-                  controller.setComfortableInValue(selectedItem);
+                onItemsSelected: (selectedItem) {
+                  controller.setComfortableInValue1(selectedItem);
                 },
               ),
               SizedBox(
@@ -107,7 +106,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  if(controller.comfortableInMasterId != "0")
+                 /* if (controller.comfortableInMasterId != "0")
                     CustomMobileButtonWidget(
                       width: 125.w,
                       onTap: () {
@@ -123,7 +122,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
                       iconColor: KalakarColors.white,
                       horizontalPadding: 20.w,
                       verticalPadding: 8.h,
-                    ),
+                    ),*/
                   CustomMobileButtonWidget(
                     width: 125.w,
                     onTap: () {
@@ -138,13 +137,11 @@ class ArtistComfortableInFormPage extends StatelessWidget {
                     horizontalPadding: 20.w,
                     verticalPadding: 8.h,
                   ),
-
                 ],
               ),
               SizedBox(
                 height: 24.h,
               ),
-
             ]),
           ));
     }));

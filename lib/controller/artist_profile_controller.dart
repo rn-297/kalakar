@@ -191,6 +191,9 @@ class ArtistProfileController extends GetxController {
   List<String> pinCodeList = [];
   List<EducationList> artistEducationList = [];
   List<ComfortableInList> artistComfortableInList = [];
+  List<String> selectedComfortableInList = [];
+  List<String> selectedApplyForList = [];
+  List<String> selectedInterestedInList = [];
   List<HobbiesList> artistHobbiesList = [];
   List<InterestList> artistInterestedInList = [];
   List<ApplyList> artistApplyForList = [];
@@ -293,6 +296,7 @@ class ArtistProfileController extends GetxController {
           List<String> names = comfortableInMasterList
               .map((status) => status.name as String)
               .toList();
+          names.add("Other");
           comfortableInList = names;
           names = hairColorMasterList
               .map((status) => status.name as String)
@@ -1243,7 +1247,6 @@ class ArtistProfileController extends GetxController {
         // );
       }
       isArtistProfileComfortableInLoading = false;
-
       update();
     }
   }
@@ -1621,6 +1624,23 @@ class ArtistProfileController extends GetxController {
     update();
   }
 
+  void setComfortableInValue1(List<String> selectedItem) {
+    // comfortableInTEController.text = selectedItem.toString();
+    comfortableInMasterId = "";
+    selectedItem.forEach((element) => comfortableInMasterId +=
+        comfortableInMasterList
+                .where((status) => status.name == element)
+                .toList()
+                .first
+                .id
+                .toString() +
+            ",");
+    comfortableInMasterId =
+        comfortableInMasterId.substring(0, comfortableInMasterId.length - 1);
+    print(comfortableInMasterId);
+    update();
+  }
+
   Future<void> deleteComfortableIn() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     print("object");
@@ -1698,6 +1718,21 @@ class ArtistProfileController extends GetxController {
         .first
         .id
         .toString();
+  }
+
+  void setInterestedInValue1(List<String> selectedItem) {
+    // interestedInTEController.text = selectedItem;
+    interestInMasterId = "";
+    selectedItem.forEach((element) => interestInMasterId +=
+        artistInterestedInMasterList
+                .where((interestIn) => interestIn.name == element)
+                .first
+                .id
+                .toString() +
+            ",");
+    interestInMasterId =
+        interestInMasterId.substring(0, interestInMasterId.length - 1);
+    print(interestInMasterId);
   }
 
   Future<void> deleteInterestIn() async {
@@ -1844,18 +1879,10 @@ class ArtistProfileController extends GetxController {
   }
 
   void setComfortableInEditData(ComfortableInList? comfortableInData) async {
-    if (comfortableInData != null) {
-      artistComfortableInId =
-          comfortableInData.artistProfileComfortableInID.toString();
+    selectedComfortableInList = [];
+    artistComfortableInList
+        .forEach((element) => selectedComfortableInList.add(element.comfortableName!));
 
-      comfortableInTEController.text =
-          comfortableInData.comfortableName.toString();
-      comfortableInMasterId =
-          comfortableInData.fKComfortableListMasterID!.toString();
-    } else {
-      artistComfortableInId = "0";
-      comfortableInTEController.text = "";
-    }
     Get.toNamed(RouteHelper.artistComfortableInForm);
   }
 
@@ -1871,16 +1898,10 @@ class ArtistProfileController extends GetxController {
   }
 
   void setEditInterestInData(InterestList? interestInData) {
-    if (interestInData != null) {
-      artistInterestInId = interestInData.artistProfileInterestID.toString();
-      interestedInTEController.text = interestInData.interestedName.toString();
-      comfortableInMasterId =
-          interestInData.fKInterstedListMasterID!.toString();
-    } else {
-      artistInterestInId = "0";
-      interestInMasterId = "";
-      interestedInTEController.text = "";
-    }
+    selectedInterestedInList = [];
+    artistInterestedInList
+        .forEach((element) => selectedInterestedInList.add(element.interestedName!));
+
     Get.toNamed(RouteHelper.artistInterestForm);
   }
 
@@ -1978,15 +1999,10 @@ class ArtistProfileController extends GetxController {
   }
 
   void setEditApplyForData(ApplyList? applyForData) {
-    if (applyForData != null) {
-      artistApplyForId = applyForData.artistProfileApplyForID.toString();
-      applyForTEController.text = applyForData.applyName.toString();
-      artistApplyForMasterId = applyForData.fKApplyListMasterID.toString();
-    } else {
-      artistApplyForId = "0";
-      applyForTEController.text = "";
-      artistApplyForMasterId = "";
-    }
+    selectedApplyForList = [];
+    artistApplyForList
+        .forEach((element) => selectedApplyForList.add(element.applyName!));
+
     Get.toNamed(RouteHelper.applyForFormPage);
   }
 
@@ -1997,6 +2013,22 @@ class ArtistProfileController extends GetxController {
         .first
         .id
         .toString();
+    update();
+  }
+
+  void setApplyForValue1(List<String> selectedItem) {
+    // applyForTEController.text = selectedItem;
+    artistApplyForMasterId = "";
+    selectedItem.forEach((element) => artistApplyForMasterId +=
+        applyForMasterList
+                .where((item) => item.name == element)
+                .first
+                .id
+                .toString() +
+            ",");
+    artistApplyForMasterId =
+        artistApplyForMasterId.substring(0, artistApplyForMasterId.length - 1);
+    print(artistApplyForMasterId);
     update();
   }
 
@@ -2102,17 +2134,35 @@ class ArtistProfileController extends GetxController {
   }
 
   void gotoArtistMoreInfo(bool isSamePage) {
-    if (isSamePage||documentsCount == 0) {
-      getArtistProfileEducation(0);
+    if (isSamePage || documentsCount == 0) {
       getArtistProfileComfortableIn(0);
+      getArtistDocuments();
+      getArtistProfileEducation(0);
       getArtistProfileHobbies(0);
       getArtistProfileInterest(0);
       getArtistProfileApplyFor(0);
-      getArtistDocuments();
       documentsCount = 1;
     }
-    if(!isSamePage){
+    if (!isSamePage) {
       Get.toNamed(RouteHelper.artistMoreInfoViewPage);
     }
+  }
+
+  void getArtistPersonalData() {
+    getArtistProfileComfortableIn(0);
+    getArtistDocuments();
+  }
+
+  void getArtistInterestData
+      () {
+    getArtistProfileInterest(0);
+    getArtistProfileHobbies(0);
+
+  }
+
+  void getArtistQualificationData() {
+    getArtistProfileEducation(0);
+    getArtistProfileApplyFor(0);
+
   }
 }

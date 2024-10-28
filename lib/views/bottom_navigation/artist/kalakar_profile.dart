@@ -258,8 +258,8 @@ class KalakarProfilePage extends StatelessWidget {
                                                 onTap: () {
                                                   // Get.toNamed(RouteHelper
                                                   //     .artistDocumentForm);
-                                                  controller.gotoArtistMoreInfo(false
-                                                  );
+                                                  controller.gotoArtistMoreInfo(
+                                                      false);
                                                 },
                                                 borderRadius: 50.r,
                                                 fontSize: 12.sp,
@@ -384,20 +384,21 @@ class KalakarProfilePage extends StatelessWidget {
                                 KalakarConstants.portfolio,
                                 style: TextStyle(
                                     fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold,color: KalakarColors.headerText),
+                                    fontWeight: FontWeight.bold,
+                                    color: KalakarColors.headerText),
                               ),
                               InkWell(
                                   onTap: () {
                                     controller.editArtistPortfolio(null);
                                   },
                                   child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8.w),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.w),
                                       decoration: BoxDecoration(
                                           border:
-                                          Border.all(color: Colors.grey),
+                                              Border.all(color: Colors.grey),
                                           borderRadius:
-                                          BorderRadius.circular(4.h)),
+                                              BorderRadius.circular(4.h)),
                                       child: Text(
                                         "Add",
                                         style: TextStyle(
@@ -415,141 +416,145 @@ class KalakarProfilePage extends StatelessWidget {
                             width: double.infinity,
                             child: controller.isArtistProfilePortfolioLoading
                                 ? ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 5,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    margin: EdgeInsets.only(right: 12.w),
-                                    child: Stack(
-                                      children: [
-                                        Shimmer.fromColors(
-                                          baseColor: KalakarColors.blue10,
-                                          highlightColor:
-                                          KalakarColors.blue20,
-                                          child: Container(
-                                            height: 155.h,
-                                            width: 100.h,
-                                            decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(8.r)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ); //Container();
-                                })
-                                : controller.artistPortfolioImagesList.isNotEmpty
-                                ? ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller
-                                    .artistPortfolioImagesList.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    margin:
-                                    EdgeInsets.only(right: 12.w),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height: 155.h,
-                                          width: 100.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                8.r),
-                                            border: Border.all(
-                                                color: KalakarColors
-                                                    .backgroundGrey),
-                                            image: DecorationImage(
-                                                image: controller
-                                                    .artistPortfolioImagesList[
-                                                index]
-                                                    .fileType ==
-                                                    1
-                                                    ? controller
-                                                    .artistPortfolioImagesList[
-                                                index]
-                                                    .filePath!
-                                                    .startsWith(
-                                                    "http")
-                                                    ? NetworkImage(controller
-                                                    .artistPortfolioImagesList[
-                                                index]
-                                                    .filePath!)
-                                                    : FileImage(File(controller
-                                                    .artistPortfolioImagesList[
-                                                index]
-                                                    .filePath!))
-                                                as ImageProvider
-                                                    : MemoryImage(controller
-                                                    .artistPortfolioImagesList[
-                                                index]
-                                                    .thumbnail!),
-                                                fit: BoxFit.cover),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 2,
-                                          top: 2,
-                                          child: InkWell(
-                                            onTap: () {
-                                              controller
-                                                  .editArtistPortfolio(
-                                                controller
-                                                    .artistPortfolioImagesList[
-                                                index],
-                                              );
-                                            },
-                                            child: Container(
-                                                padding:
-                                                EdgeInsets.all(
-                                                    4.h),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: EdgeInsets.only(right: 12.w),
+                                        child: Stack(
+                                          children: [
+                                            Shimmer.fromColors(
+                                              baseColor: KalakarColors.blue10,
+                                              highlightColor:
+                                                  KalakarColors.blue20,
+                                              child: Container(
+                                                height: 155.h,
+                                                width: 100.h,
                                                 decoration: BoxDecoration(
+                                                    color: KalakarColors.white,
                                                     borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        50.r),
-                                                    color: KalakarColors
-                                                        .white
-                                                        .withOpacity(
-                                                        .5)),
-                                                child: Icon(
-                                                  Icons.edit,
-                                                  size: 16.sp,
-                                                )),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ); //Container();
-                                })
-                                : Center(
-                              child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  Text(
-                                      "Unable To Get Portfolio Data"),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      controller
-                                          .getArtistPortFolio(0);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Icon(Icons.refresh),
-                                        Text("Refresh"),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                                        BorderRadius.circular(
+                                                            8.r)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ); //Container();
+                                    })
+                                : controller
+                                        .artistPortfolioImagesList.isNotEmpty
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: controller
+                                            .artistPortfolioImagesList.length,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            margin:
+                                                EdgeInsets.only(right: 12.w),
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  height: 155.h,
+                                                  width: 100.h,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.r),
+                                                    border: Border.all(
+                                                        color: KalakarColors
+                                                            .backgroundGrey),
+                                                    image: DecorationImage(
+                                                        image: controller
+                                                                    .artistPortfolioImagesList[
+                                                                        index]
+                                                                    .fileType ==
+                                                                1
+                                                            ? controller
+                                                                    .artistPortfolioImagesList[
+                                                                        index]
+                                                                    .filePath!
+                                                                    .startsWith(
+                                                                        "http")
+                                                                ? NetworkImage(controller
+                                                                    .artistPortfolioImagesList[
+                                                                        index]
+                                                                    .filePath!)
+                                                                : FileImage(File(controller
+                                                                        .artistPortfolioImagesList[
+                                                                            index]
+                                                                        .filePath!))
+                                                                    as ImageProvider
+                                                            : MemoryImage(controller
+                                                                .artistPortfolioImagesList[
+                                                                    index]
+                                                                .thumbnail!),
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: 2,
+                                                  top: 2,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      controller
+                                                          .editArtistPortfolio(
+                                                        controller
+                                                                .artistPortfolioImagesList[
+                                                            index],
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                        padding:
+                                                            EdgeInsets.all(4.h),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50.r),
+                                                            color: KalakarColors
+                                                                .white
+                                                                .withOpacity(
+                                                                    .5)),
+                                                        child: Icon(
+                                                          Icons.edit,
+                                                          size: 16.sp,
+                                                        )),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ); //Container();
+                                        })
+                                    : Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 16.h,
+                                            ),
+                                            Text(
+                                                "Unable To Get Portfolio Data"),
+                                            SizedBox(
+                                              height: 16.h,
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                controller
+                                                    .getArtistPortFolio(0);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Icon(Icons.refresh),
+                                                  Text("Refresh"),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                           ),
                         ],
                       ),
@@ -562,7 +567,8 @@ class KalakarProfilePage extends StatelessWidget {
                       // ),
                       SizedBox(
                         height: 8.h,
-                      ),Divider(
+                      ),
+                      Divider(
                         thickness: 2.0,
                         height: 10.h,
                         color: Colors.green.shade900,
@@ -572,148 +578,151 @@ class KalakarProfilePage extends StatelessWidget {
                       ),
                       Column(
                         children: [
-
                           Container(
                             padding: EdgeInsets.all(2.h),
                             height: 160.h,
                             width: double.infinity,
                             child: controller.isArtistProfilePortfolioLoading
                                 ? ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 5,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    margin: EdgeInsets.only(right: 12.w),
-                                    child: Stack(
-                                      children: [
-                                        Shimmer.fromColors(
-                                          baseColor: KalakarColors.blue10,
-                                          highlightColor:
-                                          KalakarColors.blue20,
-                                          child: Container(
-                                            height: 155.h,
-                                            width: 100.h,
-                                            decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(8.r)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ); //Container();
-                                })
-                                : controller.artistPortfolioVideosList.isNotEmpty
-                                ? ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller
-                                    .artistPortfolioVideosList.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    margin:
-                                    EdgeInsets.only(right: 12.w),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height: 155.h,
-                                          width: 100.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                8.r),
-                                            border: Border.all(
-                                                color: KalakarColors
-                                                    .backgroundGrey),
-                                            image: DecorationImage(
-                                                image: controller
-                                                    .artistPortfolioVideosList[
-                                                index]
-                                                    .fileType ==
-                                                    1
-                                                    ? controller
-                                                    .artistPortfolioVideosList[
-                                                index]
-                                                    .filePath!
-                                                    .startsWith(
-                                                    "http")
-                                                    ? NetworkImage(controller
-                                                    .artistPortfolioVideosList[
-                                                index]
-                                                    .filePath!)
-                                                    : FileImage(File(controller
-                                                    .artistPortfolioVideosList[
-                                                index]
-                                                    .filePath!))
-                                                as ImageProvider
-                                                    : MemoryImage(controller
-                                                    .artistPortfolioVideosList[
-                                                index]
-                                                    .thumbnail!),
-                                                fit: BoxFit.cover),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 2,
-                                          top: 2,
-                                          child: InkWell(
-                                            onTap: () {
-                                              controller
-                                                  .editArtistPortfolio(
-                                                controller
-                                                    .artistPortfolioVideosList[
-                                                index],
-                                              );
-                                            },
-                                            child: Container(
-                                                padding:
-                                                EdgeInsets.all(
-                                                    4.h),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: EdgeInsets.only(right: 12.w),
+                                        child: Stack(
+                                          children: [
+                                            Shimmer.fromColors(
+                                              baseColor: KalakarColors.blue10,
+                                              highlightColor:
+                                                  KalakarColors.blue20,
+                                              child: Container(
+                                                height: 155.h,
+                                                width: 100.h,
                                                 decoration: BoxDecoration(
+                                                    color: KalakarColors.white,
                                                     borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        50.r),
-                                                    color: KalakarColors
-                                                        .white
-                                                        .withOpacity(
-                                                        .5)),
-                                                child: Icon(
-                                                  Icons.edit,
-                                                  size: 16.sp,
-                                                )),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ); //Container();
-                                })
-                                : Center(
-                              child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  Text(
-                                      "Unable To Get Portfolio Data"),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      controller
-                                          .getArtistPortFolio(0);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Icon(Icons.refresh),
-                                        Text("Refresh"),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                                        BorderRadius.circular(
+                                                            8.r)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ); //Container();
+                                    })
+                                : controller
+                                        .artistPortfolioVideosList.isNotEmpty
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: controller
+                                            .artistPortfolioVideosList.length,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            margin:
+                                                EdgeInsets.only(right: 12.w),
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  height: 155.h,
+                                                  width: 100.h,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.r),
+                                                    border: Border.all(
+                                                        color: KalakarColors
+                                                            .backgroundGrey),
+                                                    image: DecorationImage(
+                                                        image: controller
+                                                                    .artistPortfolioVideosList[
+                                                                        index]
+                                                                    .fileType ==
+                                                                1
+                                                            ? controller
+                                                                    .artistPortfolioVideosList[
+                                                                        index]
+                                                                    .filePath!
+                                                                    .startsWith(
+                                                                        "http")
+                                                                ? NetworkImage(controller
+                                                                    .artistPortfolioVideosList[
+                                                                        index]
+                                                                    .filePath!)
+                                                                : FileImage(File(controller
+                                                                        .artistPortfolioVideosList[
+                                                                            index]
+                                                                        .filePath!))
+                                                                    as ImageProvider
+                                                            : MemoryImage(controller
+                                                                .artistPortfolioVideosList[
+                                                                    index]
+                                                                .thumbnail!),
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: 2,
+                                                  top: 2,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      controller
+                                                          .editArtistPortfolio(
+                                                        controller
+                                                                .artistPortfolioVideosList[
+                                                            index],
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                        padding:
+                                                            EdgeInsets.all(4.h),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50.r),
+                                                            color: KalakarColors
+                                                                .white
+                                                                .withOpacity(
+                                                                    .5)),
+                                                        child: Icon(
+                                                          Icons.edit,
+                                                          size: 16.sp,
+                                                        )),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ); //Container();
+                                        })
+                                    : Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 16.h,
+                                            ),
+                                            Text(
+                                                "Unable To Get Portfolio Data"),
+                                            SizedBox(
+                                              height: 16.h,
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                controller
+                                                    .getArtistPortFolio(0);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Icon(Icons.refresh),
+                                                  Text("Refresh"),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                           ),
                         ],
                       ),
@@ -735,9 +744,6 @@ class KalakarProfilePage extends StatelessWidget {
                       SizedBox(
                         height: 16.h,
                       ),
-
-
-
 
                       Container(
                         padding: EdgeInsets.all(16.h),
@@ -1155,7 +1161,6 @@ class KalakarProfilePage extends StatelessWidget {
               height: 16.h,
             ),
             Divider(
-
               height: 10.h,
               thickness: 3.0,
             ),
@@ -1229,8 +1234,9 @@ class KalakarProfilePage extends StatelessWidget {
                   margin: EdgeInsets.all(20.h),
                   height: 80.h,
                   width: 80.h,
-
-                  decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(50.r)),
+                  decoration: BoxDecoration(
+                      color: KalakarColors.white,
+                      borderRadius: BorderRadius.circular(50.r)),
                 ),
               ),
             ),
@@ -1247,7 +1253,7 @@ class KalakarProfilePage extends StatelessWidget {
                         color: KalakarColors.white,
                       ),
                     ),
-                    SizedBox(height:4.h),
+                    SizedBox(height: 4.h),
                     Shimmer.fromColors(
                       baseColor: KalakarColors.blue10,
                       highlightColor: KalakarColors.blue20,
@@ -1257,7 +1263,7 @@ class KalakarProfilePage extends StatelessWidget {
                         color: KalakarColors.white,
                       ),
                     ),
-                    SizedBox(height:4.h),
+                    SizedBox(height: 4.h),
                     Shimmer.fromColors(
                       baseColor: KalakarColors.blue10,
                       highlightColor: KalakarColors.blue20,
@@ -1292,7 +1298,9 @@ class KalakarProfilePage extends StatelessWidget {
                         color: KalakarColors.white,
                       ),
                     ),
-                    SizedBox(height: 4.h,),
+                    SizedBox(
+                      height: 4.h,
+                    ),
                     Shimmer.fromColors(
                       baseColor: KalakarColors.blue10,
                       highlightColor: KalakarColors.blue20,
@@ -1302,7 +1310,9 @@ class KalakarProfilePage extends StatelessWidget {
                         color: KalakarColors.white,
                       ),
                     ),
-                    SizedBox(height: 4.h,),
+                    SizedBox(
+                      height: 4.h,
+                    ),
                     Shimmer.fromColors(
                       baseColor: KalakarColors.blue10,
                       highlightColor: KalakarColors.blue20,
@@ -1336,7 +1346,9 @@ class KalakarProfilePage extends StatelessWidget {
                             color: KalakarColors.white,
                           ),
                         ),
-                        SizedBox(width: 2.w,),
+                        SizedBox(
+                          width: 2.w,
+                        ),
                         Shimmer.fromColors(
                           baseColor: KalakarColors.blue10,
                           highlightColor: KalakarColors.blue20,
@@ -1348,7 +1360,9 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 2.w,),
+                    SizedBox(
+                      height: 2.w,
+                    ),
                     Row(
                       children: [
                         Shimmer.fromColors(
@@ -1359,7 +1373,10 @@ class KalakarProfilePage extends StatelessWidget {
                             width: 50.h,
                             color: KalakarColors.white,
                           ),
-                        ),SizedBox(width: 2.w,),
+                        ),
+                        SizedBox(
+                          width: 2.w,
+                        ),
                         Shimmer.fromColors(
                           baseColor: KalakarColors.blue10,
                           highlightColor: KalakarColors.blue20,
@@ -1371,7 +1388,9 @@ class KalakarProfilePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 2.w,),
+                    SizedBox(
+                      height: 2.w,
+                    ),
                     Row(
                       children: [
                         Shimmer.fromColors(
@@ -1382,7 +1401,10 @@ class KalakarProfilePage extends StatelessWidget {
                             width: 50.h,
                             color: KalakarColors.white,
                           ),
-                        ),SizedBox(width: 2.w,),
+                        ),
+                        SizedBox(
+                          width: 2.w,
+                        ),
                         Shimmer.fromColors(
                           baseColor: KalakarColors.blue10,
                           highlightColor: KalakarColors.blue20,
@@ -1438,7 +1460,7 @@ class KalakarProfilePage extends StatelessWidget {
                 child: IntrinsicWidth(
               child: Column(
                 children: [
-                  *//*InkWell(
+                  */ /*InkWell(
                               child: CustomMobileButtonWidget(
                                 onTap: () {},
                                 borderRadius: 50.r,
@@ -1450,7 +1472,7 @@ class KalakarProfilePage extends StatelessWidget {
                             ),
                             SizedBox(
                               height: 16.h,
-                            ),*//*
+                            ),*/ /*
                   Shimmer.fromColors(
                     baseColor: KalakarColors.blue10,
                     highlightColor: KalakarColors.blue20,
@@ -1531,8 +1553,6 @@ class KalakarProfilePage extends StatelessWidget {
       ],
     );
   }
-
-
 
   commonLoadingMobile() {
     return ListView.builder(

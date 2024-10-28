@@ -7,6 +7,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
+import '../../../custom_widgets/custom_dropdown_search2.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/textfield_validators.dart';
@@ -88,16 +89,14 @@ class ArtistInterestFormPage extends StatelessWidget {
           child: Form(
             key: controller.formInterestedInKey,
             child: Column(children: [
-              CustomDropdownSearch1(
-                validator: Validator.validateInterestedIn,
+              CustomDropdownSearch2(
+                validator: Validator.validateInterestedIn1,
                 items: controller.interestInList,
                 titleText: KalakarConstants.interestIn,
-                selectedItem: controller.interestedInTEController.text.isEmpty
-                    ? null
-                    : controller.interestedInTEController.text,
+                selectedItems: controller.selectedInterestedInList,
                 labelText: KalakarConstants.interestIn,
-                onItemSelected: (selectedItem) {
-                  controller.setInterestedInValue(selectedItem);
+                onItemsSelected: (selectedItem) {
+                  controller.setInterestedInValue1(selectedItem);
                 },
               ),
               SizedBox(
@@ -106,7 +105,7 @@ class ArtistInterestFormPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  if(controller.artistInterestInId != "0")
+                  /*if(controller.artistInterestInId != "0")
                     CustomMobileButtonWidget(
                       onTap: () {
                         controller.deleteInterestIn();
@@ -122,7 +121,7 @@ class ArtistInterestFormPage extends StatelessWidget {
                       iconColor: Colors.white,
                       icon: Icons.delete,
                       width: 125.w,
-                    ),
+                    ),*/
                   CustomMobileButtonWidget(
                     onTap: () {
                       controller.validateInterestedInForm();
