@@ -354,20 +354,22 @@ class CompanyProjectsViewPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RichText(
-          text: TextSpan(
-            style: DefaultTextStyle.of(context).style,
-            children: <TextSpan>[
-              TextSpan(
-                text: title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp,color: KalakarColors.headerText),
-              ),
-              TextSpan(
-                text: titleData,
-                style:
-                TextStyle(fontWeight: FontWeight.normal, fontSize: 13.sp),
-              ),
-            ],
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                  text: title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp,color: KalakarColors.headerText),
+                ),
+                TextSpan(
+                  text: titleData,
+                  style:
+                  TextStyle(fontWeight: FontWeight.normal, fontSize: 13.sp),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(

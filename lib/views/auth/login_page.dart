@@ -413,31 +413,37 @@ class AuthPage extends StatelessWidget {
               height: 20.h,
             ),
             Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 8.h),
-                decoration: BoxDecoration(
+              child: InkWell(
+                onTap: (){
+                  authPageController.signInWithGoogle();
+                },
+                child: Container(
+                  padding:
+                  EdgeInsets.symmetric(horizontal: 40.w, vertical: 8.h),
+                  decoration: BoxDecoration(
                     // color: KalakarColors.background,
-                    border: Border.all(color: KalakarColors.border),
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text(
-                    "G",
-                    style: TextStyle(
-                        fontSize: 25.sp,
-                        color: KalakarColors.textColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 12.w,
-                  ),
-                  Text(
-                    KalakarConstants.continueWithGoogle,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: KalakarColors.textColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ]),
+                      border: Border.all(color: KalakarColors.border),
+                      borderRadius: BorderRadius.circular(50.r)),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      "G",
+                      style: TextStyle(
+                          fontSize: 25.sp,
+                          color: KalakarColors.textColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 16.w,
+                    ),
+                    Text(
+                      KalakarConstants.continueWithGoogle,
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: KalakarColors.textColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+                ),
               ),
             ),
             SizedBox(
@@ -885,6 +891,7 @@ class AuthPage extends StatelessWidget {
             Center(
               child: CustomSignInButtonWidget(
                 onTap: () {
+                  print("object");
                   authPageController.signInWithGoogle();
                 },
                 text: KalakarConstants.continueWithGoogle,

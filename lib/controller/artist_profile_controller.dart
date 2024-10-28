@@ -213,6 +213,7 @@ class ArtistProfileController extends GetxController {
   List<String> fileTypeList = ["IMAGE", "VIDEO"];
   List<String> maritalStatusList = ["Single", "Married", "Divorced"];
   List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
+  List<String> selectedComfortableInList = [];
   List<String> applyForList = ["Acting", "Direction team", "Camera Team"];
   List<String> hairColorList = [
     "Black",
@@ -1615,6 +1616,16 @@ class ArtistProfileController extends GetxController {
 
   void setComfortableInValue(String selectedItem) {
     comfortableInTEController.text = selectedItem;
+    comfortableInMasterId = comfortableInMasterList
+        .where((status) => status.name == selectedItem)
+        .toList()
+        .first
+        .id
+        .toString();
+    update();
+  }
+  void setComfortableInValue1(List<String> selectedItem) {
+    comfortableInTEController.text = selectedItem.toString();
     comfortableInMasterId = comfortableInMasterList
         .where((status) => status.name == selectedItem)
         .toList()
