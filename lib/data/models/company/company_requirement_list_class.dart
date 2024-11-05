@@ -35,7 +35,7 @@ class CompanyRequirementListClass {
 }
 
 class RequirementDetailsData {
-  int? userID;
+  String? userID;
   int? requirementDetailsID;
   int? fKApplyStatusMasterID;
   String? applyStatus;

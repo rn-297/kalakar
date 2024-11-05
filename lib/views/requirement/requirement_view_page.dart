@@ -419,254 +419,258 @@ class RequirementViewPage extends StatelessWidget {
             ),
           ),
         )*/
-          Container(
-            color: KalakarColors.appBarBackground1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: KalakarColors.appBarBackground,
-                          border: Border(
-                            left: BorderSide(color: Colors.green, width: 2),
-                            // Left border
-                            right: BorderSide(color: Colors.green, width: 2),
-                            // Right border
-                            bottom: BorderSide(
-                                color: Colors.green, width: 2), // Bottom border
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 5,
-                                offset: Offset(-5, 0)),
-                          ],
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(70.r))),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 16.h, right: 16.h, top: 16.h),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
+            Container(
+          color: KalakarColors.appBarBackground1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: KalakarColors.appBarBackground,
+                        border: Border(
+                          left: BorderSide(color: Colors.green, width: 2),
+                          // Left border
+                          right: BorderSide(color: Colors.green, width: 2),
+                          // Right border
+                          bottom: BorderSide(
+                              color: Colors.green, width: 2), // Bottom border
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5,
+                              offset: Offset(-5, 0)),
+                        ],
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(70.r))),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 16.h, right: 16.h, top: 16.h),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: KalakarColors.white,
+                                  ),
+                                ),
+                                controller.isArtist
+                                    ? InkWell(
+                                        onTap: () {
+                                          if (requirement
+                                                  .artistFavoritesRequirementTransID ==
+                                              0) {
+                                            controller
+                                                .addRequirementInFavorites(
+                                                    requirement
+                                                        .requirementDetailsID!,
+                                                    true);
+                                          } else {
+                                            controller.removeFromFavourites(
+                                                requirement
+                                                    .artistFavoritesRequirementTransID!,
+                                                true);
+                                          }
+                                        },
+                                        child: Icon(
+                                          requirement.artistFavoritesRequirementTransID ==
+                                                  0
+                                              ? CupertinoIcons.suit_heart
+                                              : CupertinoIcons.heart_fill,
+                                          color: requirement
+                                                      .artistFavoritesRequirementTransID ==
+                                                  0
+                                              ? Colors.black
+                                              : Colors.red,
+                                        ))
+                                    : Container(),
+                                if (!controller.isArtist)
                                   InkWell(
                                     onTap: () {
-                                      Get.back();
+                                      controller.setOpportunityData(
+                                          controller.selectedRequirement);
                                     },
                                     child: Icon(
-                                      Icons.arrow_back,
-                                      color: KalakarColors.white,
+                                      Icons.edit,
+                                      size: 30.h,
                                     ),
                                   ),
-                                  controller.isArtist
-                                      ? InkWell(
-                                      onTap: () {
-                                        if (requirement
-                                            .artistFavoritesRequirementTransID ==
-                                            0) {
-                                          controller
-                                              .addRequirementInFavorites(
-                                              requirement
-                                                  .requirementDetailsID!,
-                                              true);
-                                        } else {
-                                          controller.removeFromFavourites(
-                                              requirement
-                                                  .artistFavoritesRequirementTransID!,
-                                              true);
-                                        }
-                                      },
-                                      child: Icon(
-                                        requirement.artistFavoritesRequirementTransID ==
-                                            0
-                                            ? CupertinoIcons.suit_heart
-                                            : CupertinoIcons.heart_fill,
-                                        color: requirement
-                                            .artistFavoritesRequirementTransID ==
-                                            0
-                                            ? Colors.black
-                                            : Colors.red,
-                                      ))
-                                      : Container(),
-                                  if (!controller.isArtist)
-                                    InkWell(
-                                      onTap: () {
-                                        controller.setOpportunityData(controller.selectedRequirement);
-                                      },
-                                      child: Icon(
-                                        Icons.edit,
-                                        size: 30.h,
-                                      ),
-                                    ),
-                                ]),
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          ClipOval(
-                            child: InkWell(
-                              onTap: (){
-                                controller.getCompanyProfileData();
-                              },
-                              child: Image.network(
-                                requirement.companyLogo!,
-                                fit: BoxFit.cover,
-                                height: 70.h,
-                                width: 70.h,
-                                errorBuilder: (BuildContext context, Object error,
-                                    StackTrace? stackTrace) {
-                                  // Return a dummy or placeholder image when an error occurs
-                                  return Image.asset(
-                                    "assets/images/app_bar_logo.png",
-                                    height: 70.h,
-                                    width: 70.h,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          InkWell(
-                            onTap: (){
+                              ]),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        ClipOval(
+                          child: InkWell(
+                            onTap: () {
                               controller.getCompanyProfileData();
                             },
-                            child: Text(
-                              requirement.companyNameProductionhouse ?? "",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.sp,
-                                  color: KalakarColors.headerText),
+                            child: Image.network(
+                              requirement.companyLogo!,
+                              fit: BoxFit.cover,
+                              height: 70.h,
+                              width: 70.h,
+                              errorBuilder: (BuildContext context, Object error,
+                                  StackTrace? stackTrace) {
+                                // Return a dummy or placeholder image when an error occurs
+                                return Image.asset(
+                                  "assets/images/app_bar_logo.png",
+                                  height: 70.h,
+                                  width: 70.h,
+                                );
+                              },
                             ),
                           ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24.w),
-                            child: Text(
-                              requirement.lookingFor ?? "",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 12.h,
-                          ),
-                          IntrinsicHeight(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 8.h),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 6.w, vertical: 8.w),
-                                    decoration: BoxDecoration(
-                                      color: KalakarColors.white,
-                                      borderRadius: BorderRadius.circular(20.r),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Age ${requirement.age}",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 8.h),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 8.w, vertical: 8.w),
-                                    decoration: BoxDecoration(
-                                      color: KalakarColors.white,
-                                      borderRadius: BorderRadius.circular(20.r),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "${requirement.gender}",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 8.h),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 6.w, vertical: 8.w),
-                                    decoration: BoxDecoration(
-                                      color: KalakarColors.white,
-                                      borderRadius: BorderRadius.circular(20.r),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "${requirement.shootingLocation}",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 16.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Text(formatter.format(shootingStartDate))],
-                          ),
-                          SizedBox(
-                            height: 18.h,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Container(
-                      height: 40.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(color: KalakarColors.appBarBackground1),
-                      child: Center(
-                        child: Text(
-                          KalakarConstants.description,
-                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller.getCompanyProfileData();
+                          },
+                          child: Text(
+                            requirement.companyNameProductionhouse ?? "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.sp,
+                                color: KalakarColors.headerText),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 24.w),
+                          child: Text(
+                            requirement.lookingFor ?? "",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        IntrinsicHeight(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 8.h),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.w, vertical: 8.w),
+                                  decoration: BoxDecoration(
+                                    color: KalakarColors.white,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Age ${requirement.age}",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 8.h),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8.w, vertical: 8.w),
+                                  decoration: BoxDecoration(
+                                    color: KalakarColors.white,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "${requirement.gender}",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 8.h),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.w, vertical: 8.w),
+                                  decoration: BoxDecoration(
+                                    color: KalakarColors.white,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "${requirement.shootingLocation}",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(formatter.format(shootingStartDate)),
+                            Text(requirement.salary.toString() +
+                                requirement.salaryType.toString()),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 18.h,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 40.h,
+                    width: double.infinity,
+                    decoration:
+                        BoxDecoration(color: KalakarColors.appBarBackground1),
+                    child: Center(
+                      child: Text(
+                        KalakarConstants.description,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-
-                    Divider(
-                      color: Colors.green,
-                      thickness: 2,
-                      height: 2,
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.h, right: 8.h, bottom: 8.h),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          /*if (controller.isArtist)
+                  ),
+                  Divider(
+                    color: Colors.green,
+                    thickness: 2,
+                    height: 2,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.h, right: 8.h, bottom: 8.h),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /*if (controller.isArtist)
                           Column(
                             children: [
                               Container(
@@ -896,160 +900,219 @@ class RequirementViewPage extends StatelessWidget {
                         SizedBox(
                           height: 24.h,
                         ),*/
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.description} : ",
-                              requirement.requirementDescription!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.specialSkills} : ",
-                              requirement.specialSkillRequired!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.shootingLocation} : ",
-                              requirement.shootingLocation!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.comfortableIn} : ",
-                              requirement.comfortableIn!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.shootingStartDate} : ",
-                              formatter.format(shootingStartDate)),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.shootingEndDate} : ",
-                              formatter.format(shootingEndDate)),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.character} : ",
-                              requirement.defineRole!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.experience} ",
-                              requirement.experiences!.toString()),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8.h),
-                            decoration: BoxDecoration(
-                                color: KalakarColors.turquoise15,
-                                borderRadius: BorderRadius.circular(8.r)),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          KalakarConstants.referenceLook,
-                                          style:
-                                          TextStyle(fontWeight: FontWeight.w600),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.description} : ",
+                            requirement.requirementDescription!),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.specialSkills} : ",
+                            requirement.specialSkillRequired!),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.shootingLocation} : ",
+                            requirement.shootingLocation!),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.comfortableIn} : ",
+                            requirement.comfortableIn!),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.shootingStartDate} : ",
+                            formatter.format(shootingStartDate)),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.shootingEndDate} : ",
+                            formatter.format(shootingEndDate)),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.character} : ",
+                            requirement.defineRole!),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.experience} ",
+                            requirement.experiences!.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.h),
+                          decoration: BoxDecoration(
+                              color: KalakarColors.turquoise15,
+                              borderRadius: BorderRadius.circular(8.r)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        KalakarConstants.referenceLook,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(4.r),
+                                        child: Image.network(
+                                          requirement.refPhotoName!,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (BuildContext context,
+                                              Object error,
+                                              StackTrace? stackTrace) {
+                                            // Return a dummy or placeholder image when an error occurs
+                                            return Image.asset(
+                                              "assets/images/app_bar_logo.png",
+                                            );
+                                          },
                                         ),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(4.r),
-                                          child: Image.network(
-                                            requirement.refPhotoName!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (BuildContext context,
-                                                Object error,
-                                                StackTrace? stackTrace) {
-                                              // Return a dummy or placeholder image when an error occurs
-                                              return Image.asset(
-                                                "assets/images/app_bar_logo.png",
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                SizedBox(width: 12.w,),
-                                Expanded(
-                                    flex: 4,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          KalakarConstants.script,
-                                          style:
-                                          TextStyle(fontWeight: FontWeight.w600),
-                                        ),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        Text(requirement.scriptForAuditions!)
-                                      ],
-                                    )),
-                              ],
+                                      ),
+                                    ],
+                                  )),
+                              SizedBox(
+                                width: 12.w,
+                              ),
+                              Expanded(
+                                  flex: 4,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        KalakarConstants.script,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      Text(requirement.scriptForAuditions!)
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: textSpanToShow(
+                                  context,
+                                  "${KalakarConstants.height} : ",
+                                  requirement.height.toString()),
                             ),
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.opportunityEndDate} : ",
-                              formatter.format(shootingEndDate)),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          if(controller.isArtist)textSpanToShow(
-                              context,
-                              "Application Status : ",
-                              requirement.applyStatus.toString()),
-                          if (!controller.showStatus)
-                            CustomMobileButtonWidget(
-                                text: requirement.artistAppliedForRequirementTransID == 0
-                                    ? "Apply"
-                                    : "Applied",
-                                onTap: () {
-                                  if (requirement.artistAppliedForRequirementTransID == 0)
-                                    controller.saveAppliedToRequirement(
-                                        requirement.requirementDetailsID!);
-                                },
-                                horizontalPadding: 16.h,
-                                verticalPadding: 8.h,
-                                backgroundColor:
-                                requirement.artistAppliedForRequirementTransID == 0
-                                    ? KalakarColors.appBarBackground
-                                    : KalakarColors.backgroundGrey,
-                                fontSize: 16.sp,
-                                borderRadius: 40.r),
+                            SizedBox(
+                              width: 8.h,
+                            ),
+                            Expanded(
+                              child: textSpanToShow(
+                                  context,
+                                  "${KalakarConstants.weight} : ",
+                                  requirement.weight.toString()),
+                            )
+                          ],
+                        ),
 
-                          SizedBox(height: 20.h,)
-                        ],
-                      ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.hairColor} : ",
+                            requirement.hairColor.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.bodyType} : ",
+                            requirement.bodyType.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.language} : ",
+                            requirement.language.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.noOfOpenings} : ",
+                            requirement.nUmberOfOpenings.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.opportunityEndDate} : ",
+                            formatter.format(shootingEndDate)),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        if (controller.isArtist)
+                          textSpanToShow(context, "Application Status : ",
+                              requirement.applyStatus.toString()),
+                        if (!controller.showStatus)
+                          CustomMobileButtonWidget(
+                              text: requirement
+                                          .artistAppliedForRequirementTransID ==
+                                      0
+                                  ? "Apply"
+                                  : "Applied",
+                              onTap: () {
+                                if (requirement
+                                        .artistAppliedForRequirementTransID ==
+                                    0)
+                                  controller.saveAppliedToRequirement(
+                                      requirement.requirementDetailsID!);
+                              },
+                              horizontalPadding: 16.h,
+                              verticalPadding: 8.h,
+                              backgroundColor: requirement
+                                          .artistAppliedForRequirementTransID ==
+                                      0
+                                  ? KalakarColors.appBarBackground
+                                  : KalakarColors.backgroundGrey,
+                              fontSize: 16.sp,
+                              borderRadius: 40.r),
+                        SizedBox(
+                          height: 20.h,
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          );
+                ),
+              )
+            ],
+          ),
+        );
       } else {
         RequirementDetailsData requirement = controller.selectedRequirement;
         DateTime shootingStartDate =
@@ -1136,7 +1199,8 @@ class RequirementViewPage extends StatelessWidget {
                                 if (!controller.isArtist)
                                   InkWell(
                                     onTap: () {
-                                      controller.setOpportunityData(controller.selectedRequirement);
+                                      controller.setOpportunityData(
+                                          controller.selectedRequirement);
                                     },
                                     child: Icon(
                                       Icons.edit,
@@ -1154,7 +1218,7 @@ class RequirementViewPage extends StatelessWidget {
                         ClipOval(
                           // Image radius
                           child: InkWell(
-                            onTap: (){
+                            onTap: () {
                               controller.getCompanyProfileData();
                             },
                             child: Image.network(
@@ -1178,7 +1242,7 @@ class RequirementViewPage extends StatelessWidget {
                           height: 8.h,
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             controller.getCompanyProfileData();
                           },
                           child: Text(
@@ -1269,8 +1333,13 @@ class RequirementViewPage extends StatelessWidget {
                           height: 16.h,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text(formatter.format(shootingStartDate))],
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(formatter.format(shootingStartDate)),
+                            Text(requirement.salary.toString() +
+                                "/" +
+                                requirement.salaryType.toString()),
+                          ],
                         ),
                         SizedBox(
                           height: 18.h,
@@ -1281,7 +1350,8 @@ class RequirementViewPage extends StatelessWidget {
                   Container(
                     height: 40.h,
                     width: double.infinity,
-                    decoration: BoxDecoration(color: KalakarColors.appBarBackground1),
+                    decoration:
+                        BoxDecoration(color: KalakarColors.appBarBackground1),
                     child: Center(
                       child: Text(
                         KalakarConstants.description,
@@ -1601,70 +1671,123 @@ class RequirementViewPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                flex: 2,
+                                  flex: 2,
                                   child: Column(
-                                children: [
-                                  Text(
-                                    KalakarConstants.referenceLook,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 8.h,
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(4.r),
-                                    child: Image.network(
-                                      requirement.refPhotoName!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (BuildContext context,
-                                          Object error,
-                                          StackTrace? stackTrace) {
-                                        // Return a dummy or placeholder image when an error occurs
-                                        return Image.asset(
-                                          "assets/images/app_bar_logo.png",
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )),
-                              SizedBox(width: 12.w,),
+                                    children: [
+                                      Text(
+                                        KalakarConstants.referenceLook,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(4.r),
+                                        child: Image.network(
+                                          requirement.refPhotoName!,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (BuildContext context,
+                                              Object error,
+                                              StackTrace? stackTrace) {
+                                            // Return a dummy or placeholder image when an error occurs
+                                            return Image.asset(
+                                              "assets/images/app_bar_logo.png",
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                              SizedBox(
+                                width: 12.w,
+                              ),
                               Expanded(
-                                flex: 4,
+                                  flex: 4,
                                   child: Column(
-                                children: [
-                                  Text(
-                                    KalakarConstants.script,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 8.h,
-                                  ),
-                                  Text(requirement.scriptForAuditions!)
-                                ],
-                              )),
+                                    children: [
+                                      Text(
+                                        KalakarConstants.script,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      Text(requirement.scriptForAuditions!)
+                                    ],
+                                  )),
                             ],
                           ),
                         ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: textSpanToShow(
+                                  context,
+                                  "${KalakarConstants.height} : ",
+                                  requirement.height.toString()),
+                            ),
+                            SizedBox(
+                              width: 8.h,
+                            ),
+                            Expanded(
+                              child: textSpanToShow(
+                                  context,
+                                  "${KalakarConstants.weight} : ",
+                                  requirement.weight.toString()),
+                            )
+                          ],
+                        ),
+
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.hairColor} : ",
+                            requirement.hairColor.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.bodyType} : ",
+                            requirement.bodyType.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.language} : ",
+                            requirement.language.toString()),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        textSpanToShow(
+                            context,
+                            "${KalakarConstants.noOfOpenings} : ",
+                            requirement.nUmberOfOpenings.toString()),
                         SizedBox(
                           height: 8.h,
                         ),
                         textSpanToShow(
                             context,
                             "${KalakarConstants.opportunityEndDate} : ",
-                            formatter.format(shootingEndDate)),
+                            formatter.format(requirementEndDate)),
                         SizedBox(
                           height: 8.h,
                         ),
-
-                        if(controller.isArtist)textSpanToShow(
-                            context,
-                            "Application Status : ",
-                            requirement.applyStatus.toString()),
-                        SizedBox(height: 24.h,),
-
+                        if (controller.isArtist)
+                          textSpanToShow(context, "Application Status : ",
+                              requirement.applyStatus.toString()),
+                        SizedBox(
+                          height: 24.h,
+                        ),
                         if (!controller.showStatus && controller.isArtist)
                           CustomMobileButtonWidget(
                               text: requirement
@@ -1688,20 +1811,19 @@ class RequirementViewPage extends StatelessWidget {
                                   : KalakarColors.backgroundGrey,
                               fontSize: 16.sp,
                               borderRadius: 40.r),
-
                         if (!controller.isArtist)
                           CustomMobileButtonWidget(
                               text: KalakarConstants.appliedProfiles,
                               onTap: () {
-                                controller.getAppliedData(
-                                    requirement);
+                                controller.getAppliedData(requirement);
                               },
                               horizontalPadding: 16.h,
                               verticalPadding: 8.h,
                               fontSize: 16.sp,
                               borderRadius: 40.r),
-
-                        SizedBox(height: 20.h,)
+                        SizedBox(
+                          height: 20.h,
+                        )
                       ],
                     ),
                   ),

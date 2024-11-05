@@ -99,6 +99,21 @@ class ArtistInterestFormPage extends StatelessWidget {
                   controller.setInterestedInValue1(selectedItem);
                 },
               ),
+              if (controller.isInterestedInOther)
+                SizedBox(
+                  height: 16.h,
+                ),
+              if (controller.isInterestedInOther)
+                CommonWidgets.commonMobileTextField1(
+                    controller: controller.interestedInOtherTEController,
+                    labelText: KalakarConstants.other,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    hintText: "Enter Other",
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateOther),
               SizedBox(
                 height: 24.h,
               ),

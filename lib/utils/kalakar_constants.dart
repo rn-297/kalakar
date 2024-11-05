@@ -222,6 +222,7 @@ class KalakarConstants {
   static const String interest = "Interest";
   static const String qualificationNSkills = "Qualification & Skills";
   static const String edit = "Edit";
+  static const String other = "Other";
 
   //settings
   static const String myProfile = "My Profile";

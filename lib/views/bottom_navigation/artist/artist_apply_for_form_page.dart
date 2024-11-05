@@ -100,6 +100,21 @@ class ArtistApplyForFormPage extends StatelessWidget {
                       controller.setApplyForValue1(selectedItem);
                     },
                   ),
+                  if (controller.isApplyForOther)
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                  if (controller.isApplyForOther)
+                    CommonWidgets.commonMobileTextField1(
+                        controller: controller.applyForOtherTEController,
+                        labelText: KalakarConstants.other,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        hintText: "Enter Other",
+                        passwordVisibility: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: Validator.validateOther),
                   SizedBox(
                     height: 24.h,
                   ),

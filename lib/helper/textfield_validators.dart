@@ -425,6 +425,14 @@ class Validator {
     return null;
   }
 
+  //validate Education Type
+  static String? validateOther(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Other';
+    }
+    return null;
+  }
+
   //validate University or institute
   static String? validateUniversityOrInstitute(String? value) {
     if (value == null || value.isEmpty) {
@@ -521,13 +529,6 @@ class Validator {
     return null;
   }
 
-  //validate Comfortable
-  static String? validateComfortableIn1(List<String>? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please Select Comfortable In';
-    }
-    return null;
-  }
 
   //validate Role Name
   static String? validateRoleName(String? value) {

@@ -98,6 +98,10 @@ class ArtistProfileController extends GetxController {
   TextEditingController roleImageTEController = TextEditingController();
   TextEditingController roleVideoTEController = TextEditingController();
   TextEditingController interestedInTEController = TextEditingController();
+  TextEditingController interestedInOtherTEController = TextEditingController();
+  TextEditingController comfortableInOtherTEController =
+      TextEditingController();
+  TextEditingController applyForOtherTEController = TextEditingController();
 
   //Strings
   String artistProfileImage = "";
@@ -142,6 +146,9 @@ class ArtistProfileController extends GetxController {
   bool isArtistProfileApplyForLoading = false;
   bool isArtistProfilePortfolioLoading = false;
   bool isArtistProfileExperienceLoading = false;
+  bool isComfortableInOther = false;
+  bool isInterestedInOther = false;
+  bool isApplyForOther = false;
 
   //int
   int artistProfileID = 0;
@@ -213,7 +220,6 @@ class ArtistProfileController extends GetxController {
   List<String> fileTypeList = ["IMAGE", "VIDEO"];
   List<String> maritalStatusList = ["Single", "Married", "Divorced"];
   List<String> comfortableInList = ["Bold look", "Clean shave", "Bikini shoot"];
-  List<String> selectedComfortableInList = [];
   List<String> applyForList = ["Acting", "Direction team", "Camera Team"];
   List<String> hairColorList = [
     "Black",
@@ -297,7 +303,7 @@ class ArtistProfileController extends GetxController {
           List<String> names = comfortableInMasterList
               .map((status) => status.name as String)
               .toList();
-          names.add("Other");
+          // names.add("Other");
           comfortableInList = names;
           names = hairColorMasterList
               .map((status) => status.name as String)
@@ -334,10 +340,12 @@ class ArtistProfileController extends GetxController {
           names = artistInterestedInMasterList
               .map((status) => status.name as String)
               .toList();
+          names.add("Other");
           interestInList = names;
           names = applyForMasterList
               .map((status) => status.name as String)
               .toList();
+          names.add("Other");
           applyForList = names;
           update();
         }
@@ -512,7 +520,8 @@ class ArtistProfileController extends GetxController {
       final body = {
         "artistProfile_InterestID": artistInterestInId,
         "fK_AccountID": loginTable.accountID,
-        "fK_InterstedListMasterID": interestInMasterId
+        "fK_InterstedListMasterID": interestInMasterId,
+        "interestOther": interestedInOtherTEController.text.trim()
       };
 
       var response = await ApiClient.postDataToken(
@@ -584,7 +593,8 @@ class ArtistProfileController extends GetxController {
       final body = {
         "artistProfile_ApplyForID": artistApplyForId,
         "fK_AccountID": loginTable.accountID,
-        "fK_ApplyListMasterID": artistApplyForMasterId
+        "fK_ApplyListMasterID": artistApplyForMasterId,
+        "applyForOther": applyForOtherTEController.text.trim()
       };
 
       var response = await ApiClient.postDataToken(
@@ -1624,28 +1634,24 @@ class ArtistProfileController extends GetxController {
         .toString();
     update();
   }
-  void setComfortableInValue1(List<String> selectedItem) {
-    comfortableInTEController.text = selectedItem.toString();
-    comfortableInMasterId = comfortableInMasterList
-        .where((status) => status.name == selectedItem)
-        .toList()
-        .first
-        .id
-        .toString();
-    update();
-  }
 
   void setComfortableInValue1(List<String> selectedItem) {
     // comfortableInTEController.text = selectedItem.toString();
     comfortableInMasterId = "";
-    selectedItem.forEach((element) => comfortableInMasterId +=
-        comfortableInMasterList
-                .where((status) => status.name == element)
-                .toList()
-                .first
-                .id
-                .toString() +
-            ",");
+    selectedItem.forEach((element) {
+      final matchedItems = comfortableInMasterList
+          .where((status) => status.name == element)
+          .toList();
+
+      if (matchedItems.isNotEmpty) {
+        comfortableInMasterId += matchedItems.first.id.toString() + ",";
+      } else {
+        // Handle the case when no match is found
+        print("No match found for: $element");
+        isComfortableInOther = true;
+        // You can also choose to add a default value or handle it differently
+      }
+    });
     comfortableInMasterId =
         comfortableInMasterId.substring(0, comfortableInMasterId.length - 1);
     print(comfortableInMasterId);
@@ -1734,15 +1740,27 @@ class ArtistProfileController extends GetxController {
   void setInterestedInValue1(List<String> selectedItem) {
     // interestedInTEController.text = selectedItem;
     interestInMasterId = "";
-    selectedItem.forEach((element) => interestInMasterId +=
-        artistInterestedInMasterList
-                .where((interestIn) => interestIn.name == element)
-                .first
-                .id
-                .toString() +
-            ",");
+    // isInterestedInOther=false;
+    // interestedInOtherTEController.clear();
+    selectedItem.forEach((element) {
+      final matchedItems = artistInterestedInMasterList
+          .where((interestIn) => interestIn.name == element)
+          .toList();
+
+      if (matchedItems.isNotEmpty) {
+        interestInMasterId += matchedItems.first.id.toString() + ",";
+      } else if (element == "Other") {
+        isInterestedInOther = true;
+      } else {
+        // Handle the case when no match is found
+        // print("No match found for: $element");
+        // Optionally, you could add a default value or handle it differently
+      }
+    });
+
     interestInMasterId =
         interestInMasterId.substring(0, interestInMasterId.length - 1);
+    update();
     print(interestInMasterId);
   }
 
@@ -1891,9 +1909,14 @@ class ArtistProfileController extends GetxController {
 
   void setComfortableInEditData(ComfortableInList? comfortableInData) async {
     selectedComfortableInList = [];
-    artistComfortableInList
-        .forEach((element) => selectedComfortableInList.add(element.comfortableName!));
+    artistComfortableInList.forEach(
+        (element) {
+          selectedComfortableInList.add(element.comfortableName!);
+          comfortableInMasterId += element.fKComfortableListMasterID.toString() + ",";
 
+        });
+    comfortableInMasterId =
+        comfortableInMasterId.substring(0, comfortableInMasterId.length - 1);
     Get.toNamed(RouteHelper.artistComfortableInForm);
   }
 
@@ -1910,9 +1933,24 @@ class ArtistProfileController extends GetxController {
 
   void setEditInterestInData(InterestList? interestInData) {
     selectedInterestedInList = [];
-    artistInterestedInList
-        .forEach((element) => selectedInterestedInList.add(element.interestedName!));
+    isInterestedInOther = false;
+    interestedInOtherTEController.clear();
+    artistInterestedInList.forEach((element) {
+      if (element.artistProfileInterestID == 0) {
+        isInterestedInOther = true;
+        selectedInterestedInList.add("Other");
+        interestedInOtherTEController.text = element.interestedName!;
+      }else{
+        selectedInterestedInList.add(element.interestedName!);
 
+      }
+      interestInMasterId += element.fKInterstedListMasterID.toString() + ",";
+
+    });
+
+    interestInMasterId =
+        interestInMasterId.substring(0, interestInMasterId.length - 1);
+    update();
     Get.toNamed(RouteHelper.artistInterestForm);
   }
 
@@ -2011,9 +2049,22 @@ class ArtistProfileController extends GetxController {
 
   void setEditApplyForData(ApplyList? applyForData) {
     selectedApplyForList = [];
-    artistApplyForList
-        .forEach((element) => selectedApplyForList.add(element.applyName!));
+    isApplyForOther=false;
+    applyForOtherTEController.clear();
+    artistApplyForList.forEach((element) {
+      if (element.artistProfileApplyForID == 0) {
+        selectedApplyForList.add("Other");
+        isApplyForOther=true;
+        applyForOtherTEController.text = element.applyName!;
+      }else{
+        selectedApplyForList.add(element.applyName!);
 
+      }
+      artistApplyForMasterId += element.fKApplyListMasterID.toString() + ",";
+    });
+    artistApplyForMasterId =
+        artistApplyForMasterId.substring(0, artistApplyForMasterId.length - 1);
+update();
     Get.toNamed(RouteHelper.applyForFormPage);
   }
 
@@ -2030,13 +2081,23 @@ class ArtistProfileController extends GetxController {
   void setApplyForValue1(List<String> selectedItem) {
     // applyForTEController.text = selectedItem;
     artistApplyForMasterId = "";
-    selectedItem.forEach((element) => artistApplyForMasterId +=
-        applyForMasterList
-                .where((item) => item.name == element)
-                .first
-                .id
-                .toString() +
-            ",");
+    // isApplyForOther = false;
+    // applyForOtherTEController.clear();
+    selectedItem.forEach((element) {
+      final matchedItems =
+          applyForMasterList.where((item) => item.name == element).toList();
+
+      if (matchedItems.isNotEmpty) {
+        artistApplyForMasterId += matchedItems.first.id.toString() + ",";
+      } else if (element == "Other") {
+        isApplyForOther = true;
+      } else {
+        // Handle the case when no match is found
+        print("No match found for: $element");
+        // You can also choose to add a default value or perform another action if needed
+      }
+    });
+
     artistApplyForMasterId =
         artistApplyForMasterId.substring(0, artistApplyForMasterId.length - 1);
     print(artistApplyForMasterId);
@@ -2164,16 +2225,13 @@ class ArtistProfileController extends GetxController {
     getArtistDocuments();
   }
 
-  void getArtistInterestData
-      () {
+  void getArtistInterestData() {
     getArtistProfileInterest(0);
     getArtistProfileHobbies(0);
-
   }
 
   void getArtistQualificationData() {
     getArtistProfileEducation(0);
     getArtistProfileApplyFor(0);
-
   }
 }
