@@ -112,7 +112,7 @@ class AuthPage extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 24.w),
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
             padding: EdgeInsets.symmetric(horizontal: 24.w),
             decoration: BoxDecoration(
                 color: KalakarColors.white,
@@ -130,17 +130,18 @@ class AuthPage extends StatelessWidget {
                   appBar: AppBar(
                     titleSpacing: 0.0,
                     backgroundColor: Colors.transparent,
-                    toolbarHeight: 10.h,
+                    toolbarHeight: 8.h,
                     bottom: TabBar(
+                        onTap: (index) {},
                         dividerHeight: 0.0,
                         labelStyle: TextStyle(
                             color: KalakarColors.textColor,
-                            fontSize: 8.sp,
+                            fontSize: 6.sp,
                             fontWeight: FontWeight.bold),
                         unselectedLabelStyle: TextStyle(
-                            color: KalakarColors.textColor, fontSize: 8.sp),
-                        labelPadding: EdgeInsets.symmetric(
-                            horizontal: 8.w, vertical: 4.h),
+                            color: KalakarColors.textColor, fontSize: 6.sp),
+                        labelPadding:
+                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
                         indicatorSize: TabBarIndicatorSize.tab,
                         indicatorColor: KalakarColors.selectedBorder,
                         tabs: [
@@ -511,6 +512,62 @@ class AuthPage extends StatelessWidget {
     );
   }
 
+  Widget _getOtpEditorWeb(AuthPageController authPageController) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OtpInputEditor(
+          key: const Key("otp-field"),
+          obscureText: false,
+          otpLength: 4,
+          onOtpChanged: (value) {
+            authPageController.setOtpValue(value);
+          },
+          onInitialization: (OtpInputController otpInputController) {},
+          invalid: true,
+          otpTextFieldBackgroundColor: Colors.white,
+          cursorHeight: 18.h,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 2.0,
+              spreadRadius: 1.0,
+            ),
+          ],
+          fieldWidth: 20.w,
+          fieldHeight: 33.h,
+          cursorWidth: .5.w,
+          textInputStyle: TextStyle(
+            fontSize: 8.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.normal,
+          ),
+          boxDecoration: BoxDecoration(
+            border: Border.all(
+              color: authPageController.otpError ? Colors.red : Colors.grey,
+              width: .5.w,
+            ),
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+        ),
+        authPageController.otpError
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    "Please Enter Valid OTP",
+                    style: TextStyle(color: Colors.red),
+                  )
+                ],
+              )
+            : Container(),
+      ],
+    );
+  }
+
   mobileSignInPage() {
     return GetBuilder<AuthPageController>(builder: (authPageController) {
       return GestureDetector(
@@ -688,7 +745,7 @@ class AuthPage extends StatelessWidget {
                   Text(
                     KalakarConstants.signupText,
                     style: TextStyle(
-                        color: KalakarColors.textColor, fontSize: 7.sp),
+                        color: KalakarColors.textColor, fontSize: 6.sp),
                   ),
                   SizedBox(
                     height: 16.h,
@@ -708,8 +765,8 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createLastName,
                       labelText: KalakarConstants.lastName,
                       obscureText: false,
-                      passwordVisibility: false,
                       textInputType: TextInputType.text,
+                      passwordVisibility: false,
                       togglePasswordVisibility: () {},
                       validator: Validator.validateLastName),
                   SizedBox(
@@ -719,10 +776,11 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createEmail,
                       labelText: KalakarConstants.email,
                       obscureText: false,
+                      editable: authPageController.createEmailEditable,
                       textInputType: TextInputType.emailAddress,
                       passwordVisibility: false,
                       togglePasswordVisibility: () {},
-                      validator: Validator.validateMobileNumber),
+                      validator: Validator.validateEmail),
                   SizedBox(
                     height: 14.h,
                   ),
@@ -730,8 +788,9 @@ class AuthPage extends StatelessWidget {
                       controller: authPageController.createWhatsappNumber,
                       labelText: KalakarConstants.whatsappNumber,
                       obscureText: false,
-                      textInputType: TextInputType.number,
+                      editable: authPageController.createMobileNumberEditable,
                       passwordVisibility: false,
+                      textInputType: TextInputType.number,
                       togglePasswordVisibility: () {},
                       validator: Validator.validateMobileNumber),
                   SizedBox(
@@ -742,129 +801,128 @@ class AuthPage extends StatelessWidget {
             ),
             authPageController.isOtpSent
                 ? Form(
-                    key: authPageController.formCreateAccountKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 28.h),
-                            child: Text(
-                              KalakarConstants.enterOtp,
-                              style: TextStyle(
-                                  color: KalakarColors.textColor,
-                                  fontSize: 4.sp),
-                            )),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: _getOtpEditor(authPageController),
+              key: authPageController.formCreateAccountKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 28.h),
+                      child: Text(
+                        KalakarConstants.enterOtp,
+                        style: TextStyle(
+                            color: KalakarColors.textColor,
+                            fontSize: 6.sp),
+                      )),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: _getOtpEditorWeb(authPageController),
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      authPageController.startTime <= 0
+                          ? InkWell(
+                        onTap: () {
+                          authPageController
+                              .getOTP(OTPType.createAccount);
+                        },
+                        child: Text(
+                          "Resend OTP",
+                          style: TextStyle(
+                              color: KalakarColors.headerText),
                         ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        CommonWidgets.commonMobileTextField(
-                            controller: authPageController.createPassword,
-                            labelText: KalakarConstants.password,
-                            obscureText: true,
-                            textInputType: TextInputType.visiblePassword,
-                            passwordVisibility:
-                                authPageController.createPasswordValue,
-                            togglePasswordVisibility: () {
-                              authPageController.setPasswordVisibility(
-                                  PasswordType.createPass);
-                            },
-                            validator: Validator.validatePassword),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        CommonWidgets.commonMobileTextField(
-                            controller: authPageController.createCnfmPassword,
-                            labelText: KalakarConstants.cnfmPassword,
-                            obscureText: true,
-                            textInputType: TextInputType.visiblePassword,
-                            passwordVisibility:
-                                authPageController.createShowCnfmPassword,
-                            togglePasswordVisibility: () {
-                              authPageController.setPasswordVisibility(
-                                  PasswordType.createCnfmPass);
-                            },
-                            validator: (val) {
-                              return Validator.validateConfirmPassword(
-                                  val, authPageController.createPassword.text);
-                            }),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 28.h),
-                            child: Text(
-                              "User Type",
-                              style: TextStyle(
-                                  color: KalakarColors.textColor,
-                                  fontSize: 4.sp),
-                            )),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        SlidingButton(
-                          //Custom Slide animation Button
-                          active: authPageController.userType,
-                          selectedColor: KalakarColors.headerText,
-                          unSelectedColor: KalakarColors.textColor,
-                          // buttonBackgroundColor: Colors.green,
-                          // buttonBorderColor: Colors.lightGreen,
-                          // buttonBackgroundColor: Colors.purple,
-                          // buttonBorderColor: Colors.purpleAccent,
-                          // buttonBackgroundColor: Colors.orange,
-                          // buttonBorderColor: Colors.orangeAccent,
-                          buttonBackgroundColor: KalakarColors.buttonBackground,
-                          buttonBorderColor: KalakarColors.buttonBackground,
-
-                          onChanged: (int index) {
-                            print(index);
-                            authPageController.setUserType(index);
-                          },
-
-                          list: [
-                            KalakarConstants.artist,
-                            KalakarConstants.company
-                          ],
-
-                          buttonBorderRadius: BorderRadius.circular(50.r),
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Center(
-                          child: CustomMobileButtonWidget(
-                            text: KalakarConstants.getStarted,
-                            onTap: () {
-                              authPageController.getStartedCall();
-                            },
-                            horizontalPadding: 50.0,
-                            verticalPadding: 8.0,
-                            fontSize: 8.sp,
-                            backgroundColor: KalakarColors.buttonBackground,
-                            textColor: KalakarColors.headerText,
-                            borderRadius: 50.0,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 5.0,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Center(
-                    child: CustomMobileButtonWidget(
-                      text: KalakarConstants.getOtp,
-                      onTap: () {
-                        authPageController.getOTP(OTPType.createAccount);
+                      )
+                          : Text(
+                          "Resend OTP in ${authPageController.startTime} seconds")
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CommonWidgets.commonMobileTextField(
+                      controller: authPageController.createPassword,
+                      labelText: KalakarConstants.password,
+                      obscureText: true,
+                      textInputType: TextInputType.visiblePassword,
+                      passwordVisibility:
+                      authPageController.createPasswordValue,
+                      togglePasswordVisibility: () {
+                        authPageController.setPasswordVisibility(
+                            PasswordType.createPass);
                       },
-                      horizontalPadding: 10.w,
-                      verticalPadding: 4.h,
+                      validator: Validator.validatePassword),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CommonWidgets.commonMobileTextField(
+                      controller: authPageController.createCnfmPassword,
+                      labelText: KalakarConstants.cnfmPassword,
+                      textInputType: TextInputType.visiblePassword,
+                      obscureText: true,
+                      passwordVisibility:
+                      authPageController.createShowCnfmPassword,
+                      togglePasswordVisibility: () {
+                        authPageController.setPasswordVisibility(
+                            PasswordType.createCnfmPass);
+                      },
+                      validator: (val) {
+                        return Validator.validateConfirmPassword(
+                            val, authPageController.createPassword.text);
+                      }),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 28.h),
+                      child: Text(
+                        "User Type",
+                        style: TextStyle(
+                            color: KalakarColors.textColor,
+                            fontSize: 14.sp),
+                      )),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  SlidingButton(
+                    //Custom Slide animation Button
+                    active: authPageController.userType,
+                    selectedColor: KalakarColors.headerText,
+                    unSelectedColor: KalakarColors.textColor,
+                    // buttonBackgroundColor: Colors.green,
+                    // buttonBorderColor: Colors.lightGreen,
+                    // buttonBackgroundColor: Colors.purple,
+                    // buttonBorderColor: Colors.purpleAccent,
+                    // buttonBackgroundColor: Colors.orange,
+                    // buttonBorderColor: Colors.orangeAccent,
+                    buttonBackgroundColor: KalakarColors.buttonBackground,
+                    buttonBorderColor: KalakarColors.buttonBackground,
+
+                    onChanged: (int index) {
+                      print(index);
+                      authPageController.setUserType(index);
+                    },
+
+                    list: [
+                      KalakarConstants.artist,
+                      KalakarConstants.company
+                    ],
+
+                    buttonBorderRadius: BorderRadius.circular(50.r),
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Center(
+                    child: CustomMobileButtonWidget(
+                      text: KalakarConstants.getStarted,
+                      onTap: () {
+                        authPageController.getStartedCall();
+                      },
+                      horizontalPadding: 4.w,
+                      verticalPadding: 8.h,
                       fontSize: 8.sp,
                       backgroundColor: KalakarColors.buttonBackground,
                       textColor: KalakarColors.headerText,
@@ -877,35 +935,72 @@ class AuthPage extends StatelessWidget {
                       ],
                     ),
                   ),
+                ],
+              ),
+            )
+                : Center(
+              child: CustomMobileButtonWidget(
+                text: KalakarConstants.getOtp,
+                onTap: () {
+                  authPageController.getOTP(OTPType.createAccount);
+                },
+                horizontalPadding: 4.w,
+                verticalPadding: 8.h,
+                fontSize: 6.sp,
+                backgroundColor: KalakarColors.buttonBackground,
+                textColor: KalakarColors.headerText,
+                borderRadius: 50.0,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5.0,
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: 20.h,
             ),
             Center(
                 child: Text(
-              KalakarConstants.orSignupWith,
-              style: TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
-            )),
+                  KalakarConstants.orSignupWith,
+                  style: TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
+                )),
             SizedBox(
               height: 20.h,
             ),
             Center(
-              child: CustomSignInButtonWidget(
-                onTap: () {
-                  print("object");
+              child: InkWell(
+                onTap: (){
                   authPageController.signInWithGoogle();
                 },
-                text: KalakarConstants.continueWithGoogle,
-                icon: Text(
-                  "G",
-                  style: TextStyle(
-                      fontSize: 10.sp,
-                      color: KalakarColors.textColor,
-                      fontWeight: FontWeight.bold),
+                child: Container(
+                  padding:
+                  EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  decoration: BoxDecoration(
+                    // color: KalakarColors.background,
+                      border: Border.all(color: KalakarColors.border),
+                      borderRadius: BorderRadius.circular(50.r)),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      "G",
+                      style: TextStyle(
+                          fontSize: 8.sp,
+                          color: KalakarColors.textColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 16.w,
+                    ),
+                    Text(
+                      KalakarConstants.continueWithGoogle,
+                      style: TextStyle(
+                          fontSize: 6.sp,
+                          color: KalakarColors.textColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ]),
                 ),
-                paddingHorizontal: 10.w,
-                paddingVertical: 2.h,
-                borderRadius: 50.r,
-                textSize: 6.sp,
               ),
             ),
             SizedBox(
@@ -919,126 +1014,148 @@ class AuthPage extends StatelessWidget {
 
   webSignInPage() {
     return GetBuilder<AuthPageController>(builder: (authPageController) {
-      return SingleChildScrollView(
-        child: Form(
-          key: authPageController.formSignInKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 16.h,
-              ),
-              Text(
-                KalakarConstants.welcomeBack,
-                style:
-                    TextStyle(color: KalakarColors.headerText, fontSize: 8.sp),
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
-              Text(
-                KalakarConstants.sigInText,
-                style:
-                    TextStyle(color: KalakarColors.textColor, fontSize: 7.sp),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              CommonWidgets.commonMobileTextField(
-                  controller: authPageController.signInEmailOrMobile,
-                  labelText: KalakarConstants.emailOrMobile,
-                  obscureText: false,
-                  textInputType: TextInputType.emailAddress,
-                  passwordVisibility: false,
-                  togglePasswordVisibility: () {},
-                  validator: Validator.validateContact),
-              SizedBox(
-                height: 16.h,
-              ),
-              CommonWidgets.commonMobileTextField(
-                  controller: authPageController.signInPassword,
-                  labelText: KalakarConstants.password,
-                  obscureText: true,
-                  textInputType: TextInputType.visiblePassword,
-                  passwordVisibility: authPageController.signInPasswordValue,
-                  togglePasswordVisibility: () {
-                    authPageController
-                        .setPasswordVisibility(PasswordType.signInPass);
-                  },
-                  validator: Validator.validatePassword),
-              SizedBox(
-                height: 16.h,
-              ),
-              Center(
-                child: CustomMobileButtonWidget(
-                  text: KalakarConstants.signIn,
-                  onTap: () {
-                    authPageController.signInCall();
-                  },
-                  horizontalPadding: 50.0,
-                  verticalPadding: 8.0,
-                  fontSize: 20.0,
-                  backgroundColor: KalakarColors.buttonBackground,
-                  textColor: KalakarColors.headerText,
-                  borderRadius: 50.0,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
-                    ),
-                  ],
+      return GestureDetector(
+        child: SingleChildScrollView(
+          child: Form(
+            key: authPageController.formSignInKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 16.h,
                 ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Center(
-                  child: Text(
-                KalakarConstants.orSignInWith,
-                style:
-                    TextStyle(color: KalakarColors.textColor, fontSize: 16.h),
-              )),
-              SizedBox(
-                height: 20.h,
-              ),
-              CustomSignInButtonWidget(
-                onTap: () {
-                  authPageController.signInWithGoogle();
-                },
-                text: KalakarConstants.continueWithGoogle,
-                icon: Text(
-                  "G",
+                Text(
+                  KalakarConstants.welcomeBack,
                   style: TextStyle(
-                      fontSize: 10.sp,
-                      color: KalakarColors.textColor,
-                      fontWeight: FontWeight.bold),
+                      color: KalakarColors.headerText, fontSize: 8.sp),
                 ),
-                paddingHorizontal: 10.w,
-                paddingVertical: 2.h,
-                borderRadius: 50.r,
-                textSize: 6.sp,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    Get.toNamed(RouteHelper.forgotPassword);
-                  },
-                  child: Text(
-                    KalakarConstants.forgotPassword,
-                    style: TextStyle(
-                        color: KalakarColors.black,
-                        fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 4.h,
+                ),
+                Text(
+                  KalakarConstants.sigInText,
+                  style: TextStyle(
+                      color: KalakarColors.textColor, fontSize: 6.sp),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: authPageController.signInEmailOrMobile,
+                    labelText: KalakarConstants.emailOrMobile,
+                    obscureText: false,
+                    textInputType: TextInputType.emailAddress,
+                    passwordVisibility: false,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateContact),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField(
+                    controller: authPageController.signInPassword,
+                    labelText: KalakarConstants.password,
+                    obscureText: true,
+                    textInputType: TextInputType.visiblePassword,
+                    passwordVisibility: authPageController.signInPasswordValue,
+                    togglePasswordVisibility: () {
+                      authPageController
+                          .setPasswordVisibility(PasswordType.signInPass);
+                    },
+                    validator: Validator.validatePassword),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Center(
+                  child: CustomMobileButtonWidget(
+                    text: KalakarConstants.signIn,
+                    onTap: () {
+                      authPageController.signInCall();
+                    },
+                    horizontalPadding: 4.w,
+                    verticalPadding: 8.0,
+                    fontSize: 6.sp,
+                    backgroundColor: KalakarColors.buttonBackground,
+                    textColor: KalakarColors.headerText,
+                    borderRadius: 50.0,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 5.0,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 40.h,
-              )
-            ],
+                SizedBox(
+                  height: 20.h,
+                ),
+                Center(
+                    child: Text(
+                      KalakarConstants.orSignInWith,
+                      style:
+                      TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
+                    )),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Center(
+                  child: InkWell(
+                    onTap: (){
+                      authPageController.signInWithGoogle();
+                    },
+                    child: Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                      decoration: BoxDecoration(
+                        // color: KalakarColors.background,
+                          border: Border.all(color: KalakarColors.border),
+                          borderRadius: BorderRadius.circular(50.r)),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Text(
+                          "G",
+                          style: TextStyle(
+                              fontSize: 8.sp,
+                              color: KalakarColors.textColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 16.w,
+                        ),
+                        Text(
+                          KalakarConstants.continueWithGoogle,
+                          style: TextStyle(
+                              fontSize: 6.sp,
+                              color: KalakarColors.textColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed(RouteHelper.forgotPassword);
+                    },
+                    onDoubleTap: () {
+                      WriteLogFile.shareLogFile();
+                    },
+                    child: Text(
+                      KalakarConstants.forgotPassword,
+                      style: TextStyle(
+                          color: KalakarColors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40.h,
+                )
+              ],
+            ),
           ),
         ),
       );

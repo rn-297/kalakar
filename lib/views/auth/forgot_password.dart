@@ -240,121 +240,121 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             authPageController.isOtpSent
                 ? Form(
-                    key: authPageController.formSetForgotPassKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 28.h),
-                            child: Text(
-                              KalakarConstants.enterOtp,
-                              style: TextStyle(
-                                  color: KalakarColors.textColor,
-                                  fontSize: 14.sp),
-                            )),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: _getOtpEditor(authPageController),
+              key: authPageController.formSetForgotPassKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 28.h),
+                      child: Text(
+                        KalakarConstants.enterOtp,
+                        style: TextStyle(
+                            color: KalakarColors.textColor,
+                            fontSize: 6.sp),
+                      )),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: _getOtpEditorWeb(authPageController),
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      authPageController.startTime <= 0
+                          ? InkWell(
+                        onTap: () {
+                          authPageController
+                              .getOTP(OTPType.createAccount);
+                        },
+                        child: Text(
+                          "Resend OTP",
+                          style: TextStyle(
+                              color: KalakarColors.headerText),
                         ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            authPageController.startTime <= 0
-                                ? InkWell(
-                                    onTap: () {
-                                      authPageController
-                                          .getOTP(OTPType.createAccount);
-                                    },
-                                    child: Text(
-                                      "Resend OTP",
-                                      style: TextStyle(
-                                          color: KalakarColors.headerText),
-                                    ),
-                                  )
-                                : Text(
-                                    "Resend OTP in ${authPageController.startTime} seconds")
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        CommonWidgets.commonMobileTextField(
-                            controller: authPageController.createPassword,
-                            labelText: KalakarConstants.password,
-                            obscureText: true,
-                            textInputType: TextInputType.visiblePassword,
-                            passwordVisibility:
-                                authPageController.createPasswordValue,
-                            togglePasswordVisibility: () {
-                              authPageController.setPasswordVisibility(
-                                  PasswordType.createPass);
-                            },
-                            validator: Validator.validatePassword),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        CommonWidgets.commonMobileTextField(
-                            controller: authPageController.createCnfmPassword,
-                            labelText: KalakarConstants.cnfmPassword,
-                            obscureText: true,
-                            textInputType: TextInputType.visiblePassword,
-                            passwordVisibility:
-                                authPageController.createShowCnfmPassword,
-                            togglePasswordVisibility: () {
-                              authPageController.setPasswordVisibility(
-                                  PasswordType.createCnfmPass);
-                            },
-                            validator: (val) {
-                              return Validator.validateConfirmPassword(
-                                  val, authPageController.createPassword.text);
-                            }),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Center(
-                          child: CustomMobileButtonWidget(
-                            text: KalakarConstants.resetPass,
-                            onTap: () {
-                              authPageController.setForgotPassword();
-                            },
-                            horizontalPadding: 50.0,
-                            verticalPadding: 8.0,
-                            fontSize: 20.0,
-                            backgroundColor: KalakarColors.buttonBackground,
-                            textColor: KalakarColors.headerText,
-                            borderRadius: 50.0,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 5.0,
-                              ),
-                            ],
-                          ),
+                      )
+                          : Text(
+                          "Resend OTP in ${authPageController.startTime} seconds")
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CommonWidgets.commonMobileTextField(
+                      controller: authPageController.createPassword,
+                      labelText: KalakarConstants.password,
+                      obscureText: true,
+                      textInputType: TextInputType.visiblePassword,
+                      passwordVisibility:
+                      authPageController.createPasswordValue,
+                      togglePasswordVisibility: () {
+                        authPageController.setPasswordVisibility(
+                            PasswordType.createPass);
+                      },
+                      validator: Validator.validatePassword),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CommonWidgets.commonMobileTextField(
+                      controller: authPageController.createCnfmPassword,
+                      labelText: KalakarConstants.cnfmPassword,
+                      obscureText: true,
+                      textInputType: TextInputType.visiblePassword,
+                      passwordVisibility:
+                      authPageController.createShowCnfmPassword,
+                      togglePasswordVisibility: () {
+                        authPageController.setPasswordVisibility(
+                            PasswordType.createCnfmPass);
+                      },
+                      validator: (val) {
+                        return Validator.validateConfirmPassword(
+                            val, authPageController.createPassword.text);
+                      }),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Center(
+                    child: CustomMobileButtonWidget(
+                      text: KalakarConstants.resetPass,
+                      onTap: () {
+                        authPageController.setForgotPassword();
+                      },
+                      horizontalPadding: 50.0,
+                      verticalPadding: 8.0,
+                      fontSize: 20.0,
+                      backgroundColor: KalakarColors.buttonBackground,
+                      textColor: KalakarColors.headerText,
+                      borderRadius: 50.0,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 5.0,
                         ),
                       ],
                     ),
-                  )
-                : CustomMobileButtonWidget(
-                    text: KalakarConstants.getOtp,
-                    onTap: () {
-                      authPageController.getOTP(OTPType.forgotPassword);
-                    },
-                    horizontalPadding: 50.0,
-                    verticalPadding: 8.0,
-                    fontSize: 20.0,
-                    backgroundColor: KalakarColors.buttonBackground,
-                    textColor: KalakarColors.headerText,
-                    borderRadius: 50.0,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5.0,
-                      ),
-                    ],
                   ),
+                ],
+              ),
+            )
+                : CustomMobileButtonWidget(
+              text: KalakarConstants.getOtp,
+              onTap: () {
+                authPageController.getOTP(OTPType.forgotPassword);
+              },
+              horizontalPadding: 4.w,
+              verticalPadding: 8.h,
+              fontSize: 6.sp,
+              backgroundColor: KalakarColors.buttonBackground,
+              textColor: KalakarColors.headerText,
+              borderRadius: 50.0,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 5.0,
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -809,6 +809,62 @@ class ForgotPasswordPage extends StatelessWidget {
             border: Border.all(
               color: authPageController.otpError ? Colors.red : Colors.grey,
               width: 1.w,
+            ),
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+        ),
+        authPageController.otpError
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    "Please Enter Valid OTP",
+                    style: TextStyle(color: Colors.red),
+                  )
+                ],
+              )
+            : Container(),
+      ],
+    );
+  }
+
+  Widget _getOtpEditorWeb(AuthPageController authPageController) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OtpInputEditor(
+          key: const Key("otp-field"),
+          obscureText: false,
+          otpLength: 4,
+          onOtpChanged: (value) {
+            authPageController.setOtpValue(value);
+          },
+          onInitialization: (OtpInputController otpInputController) {},
+          invalid: true,
+          otpTextFieldBackgroundColor: Colors.white,
+          cursorHeight: 18.h,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 2.0,
+              spreadRadius: 1.0,
+            ),
+          ],
+          fieldWidth: 20.w,
+          fieldHeight: 33.h,
+          cursorWidth: .5.w,
+          textInputStyle: TextStyle(
+            fontSize: 8.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.normal,
+          ),
+          boxDecoration: BoxDecoration(
+            border: Border.all(
+              color: authPageController.otpError ? Colors.red : Colors.grey,
+              width: .5.w,
             ),
             borderRadius: BorderRadius.circular(5.r),
           ),
