@@ -53,7 +53,7 @@ class CustomDropdownSearch3 extends StatelessWidget {
       popupProps: PopupPropsMultiSelection.modalBottomSheet(
         showSelectedItems: true,
         showSearchBox: true,
-       
+       listViewProps: ListViewProps(padding: EdgeInsets.only(right: 16.w)),
         searchFieldProps: TextFieldProps(
           padding: EdgeInsets.symmetric(horizontal: 24.h, vertical: 8.h),
         ),
