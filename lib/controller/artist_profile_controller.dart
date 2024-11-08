@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_thumbnail_video/index.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:intl/intl.dart';
 import 'package:kalakar/data/models/artist/artist_apply_for_class.dart';
 import 'package:kalakar/data/models/artist/artist_comfortable_in_class.dart';
@@ -17,7 +19,6 @@ import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:kalakar/data/models/token_expiration_class.dart';
 import 'package:kalakar/views/dialogs/kalakar_dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';

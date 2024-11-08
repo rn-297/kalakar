@@ -1072,7 +1072,7 @@ class AuthPage extends StatelessWidget {
                     onTap: () {
                       authPageController.signInCall();
                     },
-                    horizontalPadding: 4.w,
+                    horizontalPadding: 2.w,
                     verticalPadding: 8.0,
                     fontSize: 6.sp,
                     backgroundColor: KalakarColors.buttonBackground,

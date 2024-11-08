@@ -103,8 +103,8 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
             width: 8.w,
           ),
           Text(
-            KalakarConstants.help,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            KalakarConstants.moreInfo,
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
           ),
         ],
       ),
@@ -249,7 +249,59 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
         });
   }
 
-  companyMoreInfoWebView(BuildContext context) {}
+  companyMoreInfoWebView(BuildContext context) {
+    return GetBuilder<ArtistProfileController>(builder: (controller) {
+
+      return SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.h),
+          child: DefaultTabController(
+            length: 3, // Number of tabs
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // Center the content vertically
+              children: [
+                TabBar(
+                  tabs: [
+                    Text(KalakarConstants.personal),
+                    Text(KalakarConstants.interest),
+                    Text(KalakarConstants.qualificationNSkills),
+                  ],
+                  labelPadding: EdgeInsets.symmetric(
+                      vertical: 12.h, horizontal: 16.w),
+                  tabAlignment: TabAlignment.center,
+                  labelColor: KalakarColors.purple,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: KalakarColors.orange,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Montserrat',
+                  ),
+                  unselectedLabelStyle: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat',
+                  ),
+                  dividerHeight: 0.0,
+                ),
+                Container(
+                  height: Get.size.height-150.h,
+                  child: TabBarView(
+                    children: [
+                      webPersonalDetails(controller,context),
+                      webInterestDetails(controller,context),
+                      webQualificationNSkillsDetails(controller,context),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+        ),
+      );
+    });
+  }
 
   textSpanToShow(BuildContext context, String title, String titleData) {
     return Column(
@@ -268,6 +320,35 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                 text: titleData,
                 style:
                     TextStyle(fontWeight: FontWeight.normal, fontSize: 13.sp),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 8.h,
+          width: double.infinity,
+        ),
+      ],
+    );
+  }
+
+ textSpanToShow1(BuildContext context, String title, String titleData) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(
+                text: title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 5.sp),
+              ),
+              TextSpan(
+                text: titleData,
+                style:
+                    TextStyle(fontWeight: FontWeight.normal, fontSize: 5.sp),
               ),
             ],
           ),
@@ -1122,6 +1203,852 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                               applyForData.applyName!,
                               style: TextStyle(
                                   fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            )
+                          ],
+                        );
+                      })
+                      : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text("Unable To Get Apply For Data"),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller
+                                .getArtistProfileApplyFor(0);
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.refresh),
+                              Text("Refresh"),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  webPersonalDetails(ArtistProfileController controller,BuildContext context) {
+    ArtistProfileDetailsClass profileDetails =
+        controller.artistProfileDetails;
+    DateTime dob = DateTime.parse(profileDetails.dateOfBirth.toString());
+    DateFormat formatter = DateFormat('dd MMM, yyyy');
+    return RefreshIndicator(
+      onRefresh: () async {
+        controller.getArtistPersonalData();
+      },
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16.h),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+
+                        color: KalakarColors.white,
+                        border: Border.all(color: KalakarColors.backgroundGrey),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: KalakarColors.backgroundGrey,
+                        //     spreadRadius: 1,
+                        //     blurRadius: 1,
+                        //   ),
+                        // ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          textSpanToShow1(context, "${KalakarConstants.name} : ",
+                              "${profileDetails.firstName} ${profileDetails.middleName} ${profileDetails.lastName}"),
+                          textSpanToShow1(context, "${KalakarConstants.dob} : ",
+                              "${formatter.format(dob)} "),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: textSpanToShow1(context, "${KalakarConstants.age} : ",
+                                  "${profileDetails.age.toString().split(".").first} "),),
+
+                            ],
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: textSpanToShow1(context, "${KalakarConstants.height} : ",
+                                  "${profileDetails.height} ft"),),
+                              Expanded(child: textSpanToShow1(
+                                  context,
+                                  "${KalakarConstants.weight} : ",
+                                  "${profileDetails.weight} Kg"),)
+                            ],
+                          ),
+                          textSpanToShow1(context, "${KalakarConstants.whatsappNumber} : ",
+                              "${profileDetails.mobileNumber}"),
+                          textSpanToShow1(context, "${KalakarConstants.email} : ",
+                              "${profileDetails.email}"),
+
+                          textSpanToShow1(context, "${KalakarConstants.address} : ",
+                              "${profileDetails.address1}, ${profileDetails.address2}, ${profileDetails.district}, ${profileDetails.state}, ${profileDetails.postalcode}"),
+
+                          textSpanToShow1(context, "${KalakarConstants.languageKnown} : ",
+                              "${profileDetails.languageKnown}"),
+
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: textSpanToShow1(context, "${KalakarConstants.hairColor} : ",
+                                  "${profileDetails.hairColor}"),),
+                              Expanded(child: textSpanToShow1(
+                                  context,
+                                  "${KalakarConstants.bodyType} : ",
+                                  "${profileDetails.bodyType}"),)
+                            ],
+                          ),
+                          textSpanToShow1(context, "${KalakarConstants.maritalStatus} : ",
+                              "${profileDetails.maritalStatus}"),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+
+                    Container(
+                      padding: EdgeInsets.all(16.h),
+                      decoration: BoxDecoration(
+                        color: KalakarColors.white,
+                        border: Border.all(color: KalakarColors.backgroundGrey),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${KalakarConstants.comfortableIn} : ",
+                                style: TextStyle(
+                                    fontSize: 8.sp, fontWeight: FontWeight.bold),
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    controller.setComfortableInEditData(null);
+                                  },
+                                  child: Container(
+                                      padding:
+                                      EdgeInsets.symmetric(horizontal: 8.w),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey),
+                                          borderRadius: BorderRadius.circular(4.h)),
+                                      child: Text(
+                                        "Edit",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 5.sp),
+                                      ))),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8.h,
+                          ),
+                          controller.isArtistProfileComfortableInLoading
+                              ? commonLoadingMobile()
+                              : controller.artistComfortableInList.isNotEmpty
+                              ? ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                              controller.artistComfortableInList.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                ComfortableInList comfortableInData =
+                                controller
+                                    .artistComfortableInList[index];
+                                return Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          comfortableInData
+                                              .comfortableName!,
+                                          style: TextStyle(
+                                              fontSize: 5.sp,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8.h,
+                                    )
+                                  ],
+                                );
+                              })
+                              : Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 16.h,
+                                ),
+                                Text("Unable To Get Comforatble In Data"),
+                                SizedBox(
+                                  height: 16.h,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    controller
+                                        .getArtistProfileComfortableIn(0);
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Icon(Icons.refresh),
+                                      Text("Refresh"),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16.h),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+
+                        color: KalakarColors.white,
+                        border: Border.all(color: KalakarColors.backgroundGrey),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: KalakarColors.backgroundGrey,
+                        //     spreadRadius: 1,
+                        //     blurRadius: 1,
+                        //   ),
+                        // ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${KalakarConstants.artistDocuments} : ",
+                                style: TextStyle(
+                                    fontSize: 8.sp, fontWeight: FontWeight.bold),
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    Get.toNamed(RouteHelper.artistDocumentForm);
+                                  },
+                                  child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.w),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey),
+                                          borderRadius: BorderRadius.circular(4.h)),
+                                      child: Text(
+                                        "Edit",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 6.sp),
+                                      ))),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8.h,
+                          ),
+                          controller.isArtistDocumentsLoading
+                              ? Container()
+                              : controller
+                                      .artistDocumentsList.isNotEmpty
+                                  ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 255.h,
+                                            width: 200.h,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              border: Border.all(
+                                                  color:
+                                                      KalakarColors.backgroundGrey),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(controller
+                                                      .artistDocumentsList[0]
+                                                      .fileCorporationCard!),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8.h,
+                                          ),
+                                          Container(
+                                            height: 255.h,
+                                            width: 200.h,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              border: Border.all(
+                                                  color:
+                                                      KalakarColors.backgroundGrey),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(controller
+                                                      .artistDocumentsList[0]
+                                                      .passport!),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8.h,
+                                          ),
+                                          Container(
+                                            height: 255.h,
+                                            width: 200.h,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              border: Border.all(
+                                                  color:
+                                                      KalakarColors.backgroundGrey),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(controller
+                                                      .artistDocumentsList[0]
+                                                      .adharCard!),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            height: 16.h,
+                                          ),
+                                          Text(
+                                              "Unable To Get Personal Documents Data"),
+                                          SizedBox(
+                                            height: 16.h,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.getArtistDocuments();
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Icon(Icons.refresh),
+                                                Text("Refresh"),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 16.h,
+                    ),
+
+                  ],
+                ),
+      ),
+    );
+  }
+
+  webInterestDetails(ArtistProfileController controller,BuildContext context) {
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        controller.getArtistInterestData();
+      },
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            SizedBox(
+              height: 16.h,
+            ),
+            Container(
+              padding: EdgeInsets.all(16.h),
+              decoration: BoxDecoration(
+                color: KalakarColors.white,
+                border: Border.all(color: KalakarColors.backgroundGrey),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${KalakarConstants.interestIn} : ",
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            controller.setEditInterestInData(null);
+                          },
+                          child: Container(
+                              padding:
+                              EdgeInsets.symmetric(horizontal: 8.w),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(4.h)),
+                              child: Text(
+                                "Edit",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 6.sp),
+                              ))),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  controller.isArtistProfileInterestedInLoading
+                      ? commonLoadingMobile()
+                      : controller.artistInterestedInList.isNotEmpty
+                      ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                      controller.artistInterestedInList.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        InterestList interestInData = controller
+                            .artistInterestedInList[index];
+                        return Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  interestInData.interestedName!,
+                                  style: TextStyle(
+                                      fontSize: 6.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+
+                              ],
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            )
+                          ],
+                        );
+                      })
+                      : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text("Unable To Get Interested In Data"),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller
+                                .getArtistProfileInterest(0);
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.refresh),
+                              Text("Refresh"),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            Container(
+              padding: EdgeInsets.all(16.h),
+              decoration: BoxDecoration(
+                color: KalakarColors.white,
+                border: Border.all(color: KalakarColors.backgroundGrey),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${KalakarConstants.hobby} : ",
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            controller.setEditHobbiesData(null);
+                          },
+                          child: Container(
+                              padding:
+                              EdgeInsets.symmetric(horizontal: 8.w),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(4.h)),
+                              child: Text(
+                                "Add",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 6.sp),
+                              ))),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  controller.isArtistProfileHobbiesLoading
+                      ? commonLoadingMobile()
+                      : controller.artistHobbiesList.isNotEmpty
+                      ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                      controller.artistHobbiesList.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        HobbiesList hobbiesData =
+                        controller.artistHobbiesList[index];
+                        return Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  hobbiesData.hobbyName!,
+                                  style: TextStyle(
+                                      fontSize: 6.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      controller.setEditHobbiesData(
+                                          hobbiesData);
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 6.sp,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            )
+                          ],
+                        );
+                      })
+                      : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text("Unable To Get Hobbies Data"),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller.getArtistProfileHobbies(0);
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.refresh),
+                              Text("Refresh"),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
+  webQualificationNSkillsDetails(ArtistProfileController controller,BuildContext context) {
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        controller.getArtistQualificationData();
+      },
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 16.h,
+            ),
+            Container(
+              padding: EdgeInsets.all(16.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+
+                color: KalakarColors.white,
+                border: Border.all(color: KalakarColors.backgroundGrey),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: KalakarColors.backgroundGrey,
+                //     spreadRadius: 1,
+                //     blurRadius: 1,
+                //   ),
+                // ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${KalakarConstants.education} : ",
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            controller.setEducationData(null);
+                          },
+                          child: Container(
+                              padding:
+                              EdgeInsets.symmetric(horizontal: 8.w),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(4.h)),
+                              child: Text(
+                                "Add",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 6.sp),
+                              ))),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  controller.isArtistProfileEducationLoading
+                      ? educationLoadingMobile()
+                      : controller.artistEducationList.isNotEmpty
+                      ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                      controller.artistEducationList.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        EducationList educationData =
+                        controller.artistEducationList[index];
+                        DateTime courseEndDate = DateTime.parse(
+                            educationData.courseEndDate.toString());
+                        DateFormat formatter =
+                        DateFormat('dd-MM-yyyy');
+                        return Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  educationData.course!,
+                                  style: TextStyle(
+                                      fontSize: 6.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      controller.setEducationData(
+                                          educationData);
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 8.sp,
+                                    )),
+                              ],
+                            ),
+                            Text(
+                              educationData.universityOrInstitute!,
+                              style: TextStyle(fontSize: 6.sp),
+                            ),
+                            Text(
+                              formatter.format(courseEndDate),
+                              style: TextStyle(fontSize: 6.sp),
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            )
+                          ],
+                        );
+                      })
+                      : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text("Unable To Get Education Data"),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller
+                                .getArtistProfileEducation(0);
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.refresh),
+                              Text("Refresh"),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 16.h,
+            ),
+            Container(
+              padding: EdgeInsets.all(16.h),
+              decoration: BoxDecoration(
+                color: KalakarColors.white,
+                border: Border.all(color: KalakarColors.backgroundGrey),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${KalakarConstants.applyFor} : ",
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            controller.setEditApplyForData(null);
+                          },
+                          child: Container(
+                              padding:
+                              EdgeInsets.symmetric(horizontal: 8.w),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(4.h)),
+                              child: Text(
+                                "Edit",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 6.sp),
+                              ))),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  controller.isArtistProfileApplyForLoading
+                      ? commonLoadingMobile()
+                      : controller.artistApplyForList.isNotEmpty
+                      ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                      controller.artistApplyForList.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        ApplyList applyForData =
+                        controller.artistApplyForList[index];
+                        return Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              applyForData.applyName!,
+                              style: TextStyle(
+                                  fontSize: 6.sp,
                                   fontWeight: FontWeight.bold),
                             ),
                             SizedBox(

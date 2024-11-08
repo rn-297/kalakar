@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_thumbnail_video/index.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:kalakar/controller/file_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/data/models/artist/applied_requirement_list_class.dart';
@@ -13,7 +15,6 @@ import 'package:kalakar/data/models/company/artist_search_for_company_class.dart
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../data/api/api_client.dart';
 import '../data/local_database/hive_service.dart';

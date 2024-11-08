@@ -93,7 +93,7 @@ class UpcomingProjectListAllPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.upcomingProject,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 20.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
           ),
         ],
       ),
@@ -293,5 +293,179 @@ class UpcomingProjectListAllPage extends StatelessWidget {
     );
   }
 
-  upcomingProjectListWebView(BuildContext context) {}
+  upcomingProjectListWebView(BuildContext context) {
+    return SingleChildScrollView(
+      child: GetBuilder<RequirementController>(builder: (controller) {
+        return Padding(
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            children: [
+              controller.isArtistHomeUpcomingProjectsLoading
+                  ? ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(
+                        top: 8.h,
+                        bottom: 8.h,
+                        right: 8.h,
+                      ),
+                      // padding: EdgeInsets.all(8.h),
+                      width: Get.size.width / 2,
+                      decoration: BoxDecoration(
+                        color: KalakarColors.white,
+                        border:
+                        Border.all(color: KalakarColors.backgroundGrey),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Shimmer.fromColors(
+                                baseColor: KalakarColors.blue10,
+                                highlightColor: KalakarColors.blue20,
+                                child: Container(
+                                  height: 80.h,
+                                  width: Get.size.width / 2,
+                                  color: KalakarColors.white,
+                                ),
+                              ),
+                            ),
+                            Divider(
+                              color: KalakarColors.backgroundGrey,
+                              height: 20,
+                              thickness: 1,
+                              // indent: 20,
+                              // endIndent: 20,
+                            ),
+                            Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 20.h,
+                                width: 80.h,
+                                color: KalakarColors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  })
+                  : controller.upcomingProjectsDetailsList.isNotEmpty
+                  ? ListView.builder(
+                  shrinkWrap: true,
+                  itemCount:
+                  controller.upcomingProjectsDetailsList.length,
+                  itemBuilder: (context, index) {
+                    ResponseCompanyProjects upcomingProject =
+                    controller.upcomingProjectsDetailsList[index];
+                    return InkWell(
+                      onTap: () {
+                        controller.setUpcomingProjectViewData(
+                            upcomingProject);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: 8.h,
+                          bottom: 8.h,
+                          right: 8.h,
+                        ),
+                        // padding: EdgeInsets.all(8.h),
+                        width: Get.size.width / 3,
+                        decoration: BoxDecoration(
+                          color: KalakarColors.white,
+                          border: Border.all(
+                              color: KalakarColors.backgroundGrey),
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                upcomingProject.projectCoverDoc!,
+                                fit: BoxFit.cover,
+                                width: (Get.size.width / 3) / 1.5,
+                                height: 120.h,
+                                errorBuilder: (BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace) {
+                                  // Return a dummy or placeholder image when an error occurs
+                                  return Image.asset(
+                                    "assets/images/movie.png",
+                                    height: 80.h,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(16.h),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    upcomingProject.projectTitle!,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 6.sp,
+
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  Text(
+                                    upcomingProject.projectSubTitle!,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 6.sp,
+                                        color: KalakarColors.orange),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  })
+                  : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("No Upcoming Projects Found"),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.getUpcomingProjectsDetails();
+                      },
+                      child: Column(
+                        children: [
+                          Icon(Icons.refresh),
+                          Text("Refresh"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
 }

@@ -8,6 +8,7 @@ import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../custom_widgets/custom_dropdown_search2.dart';
+import '../../../custom_widgets/custom_dropdown_serach3.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/route_helper.dart';
@@ -29,7 +30,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => comfortableInFormMobileView(context),
-        tablet: (BuildContext context) => comfortableInFormWebView(),
+        tablet: (BuildContext context) => comfortableInFormWebView(context),
       ),
     );
   }
@@ -149,5 +150,70 @@ class ArtistComfortableInFormPage extends StatelessWidget {
     }));
   }
 
-  comfortableInFormWebView() {}
+  comfortableInFormWebView(BuildContext context) {
+    return SingleChildScrollView(
+        child: GetBuilder<ArtistProfileController>(builder: (controller) {
+          return Padding(
+              padding: EdgeInsets.all(24.h),
+              child: Form(
+                key: controller.formComfortableInKey,
+                child: Column(children: [
+                  CustomDropdownSearch3(
+                    validator: Validator.validateComfortableIn1,
+                    items: controller.comfortableInList,
+                    titleText: KalakarConstants.comfortableIn,
+                    selectedItems: controller.selectedComfortableInList,
+                    labelText: KalakarConstants.comfortableIn,
+                    onItemsSelected: (selectedItem) {
+                      controller.setComfortableInValue1(selectedItem);
+                    },
+                  ),
+
+
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      /* if (controller.comfortableInMasterId != "0")
+                    CustomMobileButtonWidget(
+                      width: 125.w,
+                      onTap: () {
+                        controller.deleteComfortableIn();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      backgroundColor: Colors.red,
+                      textColor: KalakarColors.white,
+                      text: KalakarConstants.delete,
+                      showIcon: true,
+                      icon: Icons.delete,
+                      iconColor: KalakarColors.white,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                    ),*/
+                      CustomMobileButtonWidget(
+                        width: 125.w,
+                        onTap: () {
+                          controller.validateComfortableInForm();
+                        },
+                        borderRadius: 50.r,
+                        fontSize: 14.sp,
+                        text: KalakarConstants.save,
+                        showIcon: true,
+                        icon: Icons.save,
+                        iconColor: KalakarColors.headerText,
+                        horizontalPadding: 20.w,
+                        verticalPadding: 8.h,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                ]),
+              ));
+        }));
+  }
 }

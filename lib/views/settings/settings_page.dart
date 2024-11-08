@@ -96,9 +96,14 @@ class SettingsPage extends StatelessWidget {
         ],
       ),
       actions: [
-        Icon(
-          Icons.notifications,
-          size: 25,
+        InkWell(
+          onTap: () {
+            Get.toNamed(RouteHelper.notificationPage);
+          },
+          child: Icon(
+            Icons.notifications,
+            size: 25,
+          ),
         ),
         SizedBox(
           width: 20.w,
@@ -264,19 +269,21 @@ class SettingsPage extends StatelessWidget {
   settingsWebView(BuildContext context) {
     return GetBuilder<SettingsController>(builder: (controller) {
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 72.w),
-        child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.settingsList.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.symmetric(vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal:72.w),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.settingsList.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      child: InkWell(
+                        onTap: () {
+                          controller.gotoNextPage(controller.settingsList[index]);
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -288,64 +295,129 @@ class SettingsPage extends StatelessWidget {
                             ),
                             Icon(
                               Icons.arrow_forward_ios_rounded,
-                              size: 14,
+                              size: 18,
                             )
                           ],
                         ),
-                      );
-                    }),
-                SizedBox(
-                  height: 10.h,
-                ),
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: 10.h,
+              ),
+              if (controller.settingsData.fbLink != "" ||
+                  controller.settingsData.instaLink != "" ||
+                  controller.settingsData.ytLink != "" ||
+                  controller.settingsData.emailLink != "" ||
+                  controller.settingsData.whatsAppLink != "" ||
+                  controller.settingsData.websiteLink != "" ||
+                  controller.settingsData.xOrTwitterlink != "")
                 Text(KalakarConstants.followUsOn),
-                Container(
-                  height: 60.h,
-                  child: ListView.builder(
-                      itemCount: 4,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.all(8.h),
-                          margin: EdgeInsets.all(8.h),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              border:
-                                  Border.all(color: KalakarColors.textColor)),
-                          child: Icon(
-                            Icons.connected_tv_sharp,
-                            size: 20,
-                          ),
-                        );
-                      }),
+              Container(
+                height: 60.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    if (controller.settingsData.fbLink != "")
+                      InkWell(
+                        onTap: () {
+                          controller.openSocialMedia(controller.settingsData.fbLink!);
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svg/facebook.svg",
+                          height: 30.h,
+                        ),
+                      ),
+                    if (controller.settingsData.instaLink != "")
+                      InkWell(
+                        onTap: () {
+                          controller.openSocialMedia(controller.settingsData.instaLink!);
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svg/instagram.svg",
+                          height: 30.h,
+                        ),
+                      ),
+                    if (controller.settingsData.whatsAppLink != "")
+                      InkWell(
+                        onTap: () {
+                          controller.openSocialMedia(controller.settingsData.whatsAppLink!);
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svg/whatsapp.svg",
+                          height: 30.h,
+                        ),
+                      ),
+                    if (controller.settingsData.ytLink != "")
+                      InkWell(
+                        onTap: () {
+                          controller.openSocialMedia(controller.settingsData.ytLink!);
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svg/youtube.svg",
+                          height: 30.h,
+                        ),
+                      ),
+                    if (controller.settingsData.emailLink != "")
+                      InkWell(
+                        onTap: () {
+                          controller.openSocialMedia(controller.settingsData.emailLink!);
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svg/email.svg",
+                          height: 30.h,
+                        ),
+                      ),
+                    if (controller.settingsData.websiteLink != "")
+                      InkWell(
+                        onTap: () {
+                          controller.openSocialMedia(controller.settingsData.websiteLink!);
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svg/website.svg",
+                          height: 30.h,
+                        ),
+                      ),
+                    if (controller.settingsData.xOrTwitterlink != "")
+                      InkWell(
+                        onTap: () {
+                          controller.openSocialMedia(controller.settingsData.xOrTwitterlink!);
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svg/twitter.svg",
+                          height: 30.h,
+                        ),
+                      ),
+                  ],
                 ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Text(
-                  KalakarConstants.appVersion,
-                  style: TextStyle(fontSize: 10.sp),
-                ),
-                Text(
-                  "1.0.0",
-                  style: TextStyle(fontSize: 8.sp),
-                ),
-                Center(
-                    child: InkWell(
-                  onTap: () {
-                    controller.logOutMessage();
-                  },
-                  child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: KalakarColors.textColor),
-                        borderRadius: BorderRadius.circular(50.r)),
-                    child: Text(KalakarConstants.logout),
-                  ),
-                ))
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Text(
+                KalakarConstants.appVersion,
+                style: TextStyle(fontSize: 8.sp),
+              ),
+              Text(
+                "1.0.0",
+                style: TextStyle(fontSize: 6.sp),
+              ),
+              Center(
+                  child: InkWell(
+                    onTap: () {
+                      controller.logOutMessage();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: KalakarColors.textColor),
+                          borderRadius: BorderRadius.circular(50.r)),
+                      child: Text(KalakarConstants.logout),
+                    ),
+                  )),
+
+              SizedBox(height: 12.h,)
+            ],
           ),
         ),
       );

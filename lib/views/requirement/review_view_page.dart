@@ -93,7 +93,7 @@ class ReviewViewPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.review,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
           ),
         ],
       ),
@@ -214,5 +214,102 @@ class ReviewViewPage extends StatelessWidget {
     );
   }
 
-  reviewViewWebView(BuildContext context) {}
+  rowDataToShow1(String title, String titleData) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp,color: KalakarColors.headerText),
+            ),
+            Expanded(
+              child: Text(
+                titleData,
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 8.sp),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+      ],
+    );
+  }
+
+  reviewViewWebView(BuildContext context) {
+    return GetBuilder<RequirementController>(builder: (controller) {
+      GetApplicationReviewList reviewData = controller.selectedReviewData;
+      return SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(16.w),
+          child: Container(
+            padding: EdgeInsets.all(12.h),
+            decoration: BoxDecoration(
+              color: KalakarColors.appBarBackground1,
+              border: Border.all(color: KalakarColors.backgroundGrey),
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Column(children: [
+              Center(
+                child: ClipOval(
+                  // Image radius
+                  child: Image.network(
+                    reviewData.reviewByProfilePic!,
+                    fit: BoxFit.cover,
+                    height: 120.h,
+                    width: 120.h,
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace? stackTrace) {
+                      // Return a dummy or placeholder image when an error occurs
+                      return Image.asset(
+                        "assets/images/app_bar_logo.png",
+                        height: 120.h,
+                        width: 120.h,
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 16.h,),
+              Row(
+                children: [
+
+                  Text("Rating : ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp,color: KalakarColors.headerText),),
+                  Text(reviewData.reviewStar!.toString(),style: TextStyle(fontSize: 8.sp),),
+                  SizedBox(
+                    width: 16.w,
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                    width: 150.w,
+                    child: ListView.builder(
+                      itemCount:
+                      reviewData.reviewStar!.toInt(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Icon(
+                          Icons.star,
+                          size: 25,
+                          color: CupertinoColors
+                              .systemYellow,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8.h,),
+              rowDataToShow1("Review By : ", reviewData.reviewBy.toString()),
+              rowDataToShow1("Reviewer Work : ", reviewData.reviewerWork.toString()),
+              rowDataToShow1("Review : ", reviewData.review.toString()),
+            ]),
+          ),
+        ),
+      );
+    });
+  }
 }

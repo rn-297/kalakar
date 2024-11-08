@@ -24,13 +24,13 @@ class ArtistSearchRequirementPage extends StatelessWidget {
         preferredSize: Size(double.infinity, 60.h),
         child: ScreenTypeLayout.builder(
           mobile: (BuildContext context) => appbarMobileView(context),
-          tablet: (BuildContext context) => appbarWebView(),
+          tablet: (BuildContext context) => appbarWebView(context),
         ),
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => artistSearchOpportunitiesMobileView(),
         tablet: (BuildContext context) =>
-            artistSearchOpportunitiesWebView(context),
+            artistSearchOpportunitiesWebView(),
       ),
     );
   }
@@ -242,7 +242,7 @@ class ArtistSearchRequirementPage extends StatelessWidget {
     );
   }
 
-  appbarWebView() {
+  appbarWebView(BuildContext context) {
     return AppBar(
       toolbarHeight: 60.h,
       backgroundColor: KalakarColors.appBarBackground,
@@ -260,19 +260,185 @@ class ArtistSearchRequirementPage extends StatelessWidget {
 
           Text(
             KalakarConstants.searchRequirement,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 20.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
           ),
         ],
       ),
-/*
       actions: [
         InkWell(
-          onTap: (){
-            Get.toNamed(RouteHelper.notificationPage);
-
+          onTap: () {
+            showModalBottomSheet<void>(
+              context: context,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              isDismissible: true,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return GetBuilder<RequirementController>(builder: (controller) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        right: 24.h,
+                        left: 24.h,
+                        top: 16.h,
+                        bottom:
+                        MediaQuery.of(context).viewInsets.bottom + 10.h),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: Text(
+                                  "Filters",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 8.sp),
+                                )),
+                            CustomMobileButtonWidget(
+                                text: "Clear Filters",
+                                onTap: () {
+                                  controller.clearSearchFilters();
+                                },
+                                horizontalPadding: 4.h,
+                                verticalPadding: 8.h,
+                                width: 50.w,
+                                fontSize: 6.sp,
+                                borderRadius: 40.r),
+                            CustomMobileButtonWidget(
+                                text: "Apply Filters",
+                                onTap: () {
+                                  Get.back();
+                                  controller.searchRequirementDetailsArtist();
+                                },
+                                horizontalPadding: 4.h,
+                                verticalPadding: 8.h,
+                                width: 50.w,
+                                fontSize: 6.sp,
+                                borderRadius: 40.r),
+                          ],
+                        ),
+                        Divider(
+                          color: KalakarColors.backgroundGrey,
+                          height: 16.h,
+                          thickness: 2,
+                        ),
+                        CommonWidgets.commonMobileTextField2(
+                            controller: controller.searchLocationTEController,
+                            labelText: "Location",
+                            obscureText: false,
+                            hintText: "Search Location",
+                            passwordVisibility: false,
+                            borderRadius: 12.r,
+                            togglePasswordVisibility: () {},
+                            textInputType: TextInputType.text,
+                            validator: Validator.validateLocation),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        CommonWidgets.commonMobileTextField2(
+                            controller: controller.searchLanguageTEController,
+                            labelText: "Language",
+                            obscureText: false,
+                            hintText: "Search Language",
+                            borderRadius: 12.r,
+                            passwordVisibility: false,
+                            togglePasswordVisibility: () {},
+                            textInputType: TextInputType.text,
+                            validator: Validator.validateLanguage),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            final date = await DatePickerHelper.selectDate(
+                                context,
+                                isOld: true);
+                            if (date != null) {
+                              controller.setDate(
+                                  KalakarConstants.searchShootingStartDate,
+                                  date);
+                            }
+                          },
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller
+                                  .searchShootingStartDateTEController,
+                              labelText: "Shooting Start Date",
+                              obscureText: false,
+                              hintText: "Search Shooting Start Date",
+                              passwordVisibility: false,
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              editable: false,
+                              textInputType: TextInputType.text,
+                              validator: Validator.validateShootingStartDate),
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            final date = await DatePickerHelper.selectDate(
+                                context,
+                                isOld: true);
+                            if (date != null) {
+                              controller.setDate(
+                                  KalakarConstants.searchShootingEndDate, date);
+                            }
+                          },
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller:
+                              controller.searchShootingEndDateTEController,
+                              labelText: "Shooting End Date",
+                              obscureText: false,
+                              hintText: "Search Shooting End Date",
+                              passwordVisibility: false,
+                              borderRadius: 12.r,
+                              editable: false,
+                              togglePasswordVisibility: () {},
+                              textInputType: TextInputType.text,
+                              validator: Validator.validateShootingEndDate),
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        CommonWidgets.commonMobileTextField2(
+                            controller: controller.searchStartAgeTEController,
+                            labelText: "Start Age",
+                            obscureText: false,
+                            hintText: "Search Start Age",
+                            borderRadius: 12.r,
+                            passwordVisibility: false,
+                            togglePasswordVisibility: () {},
+                            textInputType: TextInputType.number,
+                            validator: Validator.validateStartAge),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        CommonWidgets.commonMobileTextField2(
+                            controller: controller.searchEndAgeTEController,
+                            labelText: "End Age",
+                            obscureText: false,
+                            hintText: "Search End Age",
+                            borderRadius: 12.r,
+                            passwordVisibility: false,
+                            togglePasswordVisibility: () {},
+                            textInputType: TextInputType.number,
+                            validator: Validator.validateEndAge),
+                      ],
+                    ),
+                  );
+                });
+              },
+            );
           },
           child: Icon(
-            Icons.notifications,
+            Icons.filter_alt,
             size: 35,
           ),
         ),
@@ -280,7 +446,6 @@ class ArtistSearchRequirementPage extends StatelessWidget {
           width: 20.w,
         )
       ],
-*/
     );
   }
 
@@ -594,5 +759,332 @@ class ArtistSearchRequirementPage extends StatelessWidget {
     });
   }
 
-  artistSearchOpportunitiesWebView(BuildContext context) {}
+  artistSearchOpportunitiesWebView() {
+    return GetBuilder<RequirementController>(builder: (controller) {
+      return SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(12.h),
+          child: Column(
+            children: [
+              CommonWidgets.commonMobileTextField2(
+                  controller: controller.searchTitleTEController,
+                  labelText: "Title",
+                  obscureText: false,
+                  hintText: "Search Title",
+                  borderRadius: 12.r,
+                  passwordVisibility: false,
+                  togglePasswordVisibility: () {},
+                  textInputType: TextInputType.text,
+                  validator: Validator.validateTitle),
+              SizedBox(
+                height: 12.h,
+              ),
+              CustomMobileButtonWidget(
+                  text: "Search",
+                  onTap: () {
+                    controller.searchRequirementDetailsArtist();
+                  },
+                  horizontalPadding: 4.h,
+                  verticalPadding: 4.h,
+                  width: 60.w,
+                  fontSize: 8.sp,
+                  borderRadius: 40.r),
+              SizedBox(
+                height: 16.h,
+              ),
+              if (!controller.isSearching)
+                Divider(
+                  color: KalakarColors.backgroundGrey,
+                ),
+              controller.isSearching
+                  ? ListView.builder(
+                  itemCount: 6,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 12.h, horizontal: 4.h),
+                      decoration: BoxDecoration(
+                        color: KalakarColors.white,
+                        borderRadius: BorderRadius.circular(
+                          8.r,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                          ),
+                        ],
+                      ),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 80.h,
+                                    width: 80.h,
+                                    color: KalakarColors.white,
+                                  ),
+                                )),
+                            Expanded(
+                                flex: 4,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.h),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Shimmer.fromColors(
+                                        baseColor: KalakarColors.blue10,
+                                        highlightColor:
+                                        KalakarColors.blue20,
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 80.h,
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      Shimmer.fromColors(
+                                        baseColor: KalakarColors.blue10,
+                                        highlightColor:
+                                        KalakarColors.blue20,
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 80.h,
+                                          color: KalakarColors.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor:
+                                            KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor:
+                                            KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor:
+                                            KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor:
+                                            KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    );
+                  })
+                  : controller.requirementDetailsSearchList.isNotEmpty
+                  ? GridView.builder(
+                  itemCount:
+                  controller.requirementDetailsSearchList.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 4.0),
+                  itemBuilder: (context, index) {
+                    RequirementDetailsData requirementData =
+                    controller.requirementDetailsSearchList[index];
+                    final DateFormat formatter =
+                    DateFormat('dd-MM-yyyy');
+                    DateTime shootingDate = DateTime.parse(
+                        requirementData!.shootingStartDate!);
+                    String date = formatter.format(shootingDate);
+                    print(requirementData.requirementDetailsID);
+                    return Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 8.h, horizontal: 4.h),
+                      decoration: BoxDecoration(
+                        color: KalakarColors.backgroundTurquoise,
+                        border: Border.all(
+                            color: KalakarColors.backgroundGrey),
+                        borderRadius: BorderRadius.circular(8.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.4),
+                            blurRadius: 2.0,
+                          ),
+                        ],
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          controller
+                              .checkArtistAndSetData(requirementData);
+                        },
+                        child: IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: requirementData.refPhotoName ==
+                                      null
+                                      ? Container(
+                                    margin: EdgeInsets.all(1.h),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(
+                                          Radius.circular(8.r),
+                                        ),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            "assets/images/movie.png",
+                                          ),
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ) //requirementData.companyLogo ?? "",
+                                      : Container(
+                                    margin: EdgeInsets.all(1.h),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(
+                                          Radius.circular(8.r),
+                                        ),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            requirementData
+                                                .refPhotoName ??
+                                                "",
+                                          ),
+                                          fit: BoxFit.cover,
+                                        )),
+                                  )),
+                              Expanded(
+                                  flex: 4,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.h),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          requirementData
+                                              .requirementTitle!,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 5.sp,
+                                              color: KalakarColors
+                                                  .headerText,
+                                              fontWeight:
+                                              FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 8.h,
+                                        ),
+                                        Text(
+                                          requirementData
+                                              .requirementDescription! ??
+                                              "",
+                                          overflow:
+                                          TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 4.sp),
+                                          maxLines: 2,
+                                        ),
+                                        SizedBox(
+                                          height: 8.h,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceBetween,
+                                          children: [
+                                            Text(requirementData
+                                                .shootingLocation!,style: TextStyle(
+                                                fontSize: 3.5.sp,
+
+                                                fontWeight:
+                                                FontWeight.normal),),
+                                            Text(date,style: TextStyle(
+                                                fontSize: 3.5.sp,
+
+                                                fontWeight:
+                                                FontWeight.normal),),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceBetween,
+                                          children: [
+                                            Text(requirementData
+                                                .gender!,style: TextStyle(
+                                                fontSize: 3.5.sp,
+
+                                                fontWeight:
+                                                FontWeight.normal),),
+                                            Text(requirementData.age!
+                                                .split(".")[0],style: TextStyle(
+                                                fontSize: 3.5.sp,
+
+                                                fontWeight:
+                                                FontWeight.normal),),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  })
+                  : Text("No Opportunities Found"),
+            ],
+          ),
+        ),
+      );
+    });
+  }
 }
