@@ -91,7 +91,7 @@ class NotificationsPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.notifications,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),
@@ -149,5 +149,37 @@ class NotificationsPage extends StatelessWidget {
     });
   }
 
-  notificationsWebView(BuildContext context) {}
+  notificationsWebView(BuildContext context) {
+    return GetBuilder<SettingsController>(builder: (controller) {
+      return Padding(
+        padding: EdgeInsets.all(24.h),
+        child: Column(
+          children: [
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 8.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Notifications",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 6.sp),
+                    ),
+                    Switch(
+                        value: controller.isNotification,
+                        onChanged: (val) {
+                          controller.setNotificationValue(val);
+                        })
+                  ],
+                ))
+          ],
+        ),
+      );
+    });
+  }
 }

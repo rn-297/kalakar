@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/navigation_controller.dart';
 import 'package:kalakar/data/models/notification_settings_class.dart';
@@ -104,7 +105,11 @@ class SettingsController extends GetxController {
   }
 
   void logOutMessage() {
-    KalakarDialogs.logOutDialog();
+    if (kIsWeb) {
+      KalakarDialogs.logOutDialog1();
+    } else {
+      KalakarDialogs.logOutDialog();
+    }
   }
 
   getReferralDetail() async {

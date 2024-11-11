@@ -772,6 +772,44 @@ class ProfileController extends GetxController {
     }
   }
 
+
+  pickOrShowDocumentWeb(String documentType, BuildContext context, controller) {
+    switch (documentType) {
+      case KalakarConstants.filmCorporationCard:
+        if (filmCorporationCardPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.adminAadharCard:
+        if (adminAadharCardPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.addressProofOfCompany:
+        if (addressProofCompanyPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          pickDocument(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.selfieUpload:
+        if (selfieUploadedPath.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showImageBottomSheetWeb(context, controller);
+        }
+        break;
+    }
+  }
+
   showDocument(String documentType) {
     FileController fileController = Get.put(FileController());
     switch (documentType) {
@@ -839,7 +877,7 @@ class ProfileController extends GetxController {
         break;
       case KalakarConstants.selfieUpload:
         this.documentType = documentType;
-        PickerHelper.showImageBottomSheet(context, controller);
+        PickerHelper.showImageBottomSheetWeb(context, controller);
         break;
     }
   }

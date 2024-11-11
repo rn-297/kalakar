@@ -1281,7 +1281,7 @@ class KalakarProfilePage extends StatelessWidget {
                         Text(
                           KalakarConstants.portfolio,
                           style: TextStyle(
-                              fontSize: 8.sp,
+                              fontSize: 6.sp,
                               fontWeight: FontWeight.bold,
                               color: KalakarColors.headerText),
                         ),
@@ -1301,7 +1301,7 @@ class KalakarProfilePage extends StatelessWidget {
                                   "Add",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 6.sp),
+                                      fontSize: 4.sp),
                                 ))),
                       ],
                     ),
@@ -1659,9 +1659,9 @@ class KalakarProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${KalakarConstants.experience} : ",
+                            "${KalakarConstants.experience} ",
                             style: TextStyle(
-                                fontSize: 8.sp,
+                                fontSize: 6.sp,
                                 fontWeight: FontWeight.bold),
                           ),
                           InkWell(
@@ -1680,7 +1680,7 @@ class KalakarProfilePage extends StatelessWidget {
                                     "Add",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 6.sp),
+                                        fontSize: 4.sp),
                                   ))),
                         ],
                       ),
@@ -1838,53 +1838,64 @@ class KalakarProfilePage extends StatelessWidget {
   }
 
   appBarMobileView() {
-    ArtistProfileController artistProfileController =
-        Get.put(ArtistProfileController());
-    return AppBar(
-      backgroundColor: KalakarColors.appBarBackground,
-      surfaceTintColor: KalakarColors.appBarBackground,
-      title: Text(
-        KalakarConstants.profile1,
-        style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
-      ),
-      actions: [
-        if (artistProfileController.artistProfileDetails.firstName != null)
-          InkWell(
-            onTap: () {
-              Get.toNamed(RouteHelper.artistProfileForm);
-            },
-            child: Icon(
-              Icons.edit,
-              size: 30.h,
-            ),
+
+    return GetBuilder<ArtistProfileController>(
+      builder: (artistProfileController) {
+        return AppBar(
+          backgroundColor: KalakarColors.appBarBackground,
+          surfaceTintColor: KalakarColors.appBarBackground,
+          title: Text(
+            KalakarConstants.profile1,
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
           ),
-        SizedBox(
-          width: 16.h,
-        )
-      ],
+          actions: [
+            if (artistProfileController.artistProfileDetails.firstName != null)
+              InkWell(
+                onTap: () {
+                  Get.toNamed(RouteHelper.artistProfileForm);
+                },
+                child: Icon(
+                  Icons.edit,
+                  size: 30.h,
+                ),
+              ),
+            SizedBox(
+              width: 16.h,
+            )
+          ],
+        );
+      }
     );
   }
 
   appBarWebView() {
-    return AppBar(
-      backgroundColor: KalakarColors.appBarBackground,
-      surfaceTintColor: KalakarColors.appBarBackground,
-      title: Text(
-        KalakarConstants.profile1,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
-      ),
-      actions: [
-        InkWell(
-          onTap: () {},
-          child: Icon(
-            Icons.settings,
-            size: 30.h,
+
+    return GetBuilder<ArtistProfileController>(
+      builder: (artistProfileController) {
+        return AppBar(
+          backgroundColor: KalakarColors.appBarBackground,
+          surfaceTintColor: KalakarColors.appBarBackground,
+          title: Text(
+            KalakarConstants.profile1,
+            style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
           ),
-        ),
-        SizedBox(
-          width: 16.h,
-        )
-      ],
+          actions: [
+            if (artistProfileController.artistProfileDetails.firstName != null)
+              InkWell(
+                onTap: () {
+                  Get.toNamed(RouteHelper.artistProfileForm);
+                },
+                child: Icon(
+                  Icons.edit,
+                  size: 30.h,
+                ),
+              ),
+            SizedBox(
+              width: 16.h,
+            )
+          ],
+        );
+      }
     );
   }
 

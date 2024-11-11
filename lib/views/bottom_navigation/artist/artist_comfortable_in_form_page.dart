@@ -68,18 +68,18 @@ class ArtistComfortableInFormPage extends StatelessWidget {
         KalakarConstants.comfortableIn,
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
-      actions: [
-        InkWell(
-          onTap: () {},
-          child: Icon(
-            Icons.settings,
-            size: 30.h,
-          ),
-        ),
-        SizedBox(
-          width: 16.h,
-        )
-      ],
+      // actions: [
+      //   InkWell(
+      //     onTap: () {},
+      //     child: Icon(
+      //       Icons.settings,
+      //       size: 30.h,
+      //     ),
+      //   ),
+      //   SizedBox(
+      //     width: 16.h,
+      //   )
+      // ],
     );
   }
 
@@ -199,12 +199,12 @@ class ArtistComfortableInFormPage extends StatelessWidget {
                           controller.validateComfortableInForm();
                         },
                         borderRadius: 50.r,
-                        fontSize: 14.sp,
+                        fontSize: 6.sp,
                         text: KalakarConstants.save,
                         showIcon: true,
                         icon: Icons.save,
                         iconColor: KalakarColors.headerText,
-                        horizontalPadding: 20.w,
+                        horizontalPadding: 2.w,
                         verticalPadding: 8.h,
                       ),
                     ],

@@ -1356,7 +1356,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                               Text(
                                 "${KalakarConstants.comfortableIn} : ",
                                 style: TextStyle(
-                                    fontSize: 8.sp, fontWeight: FontWeight.bold),
+                                    fontSize: 6.sp, fontWeight: FontWeight.bold),
                               ),
                               InkWell(
                                   onTap: () {
@@ -1372,7 +1372,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                         "Edit",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 5.sp),
+                                            fontSize: 4.sp),
                                       ))),
                             ],
                           ),
@@ -1471,7 +1471,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                               Text(
                                 "${KalakarConstants.artistDocuments} : ",
                                 style: TextStyle(
-                                    fontSize: 8.sp, fontWeight: FontWeight.bold),
+                                    fontSize: 6.sp, fontWeight: FontWeight.bold),
                               ),
                               InkWell(
                                   onTap: () {
@@ -1487,7 +1487,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                         "Edit",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 6.sp),
+                                            fontSize: 4.sp),
                                       ))),
                             ],
                           ),
@@ -1631,7 +1631,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                       Text(
                         "${KalakarConstants.interestIn} : ",
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                            fontSize: 6.sp, fontWeight: FontWeight.bold),
                       ),
                       InkWell(
                           onTap: () {
@@ -1647,7 +1647,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                 "Edit",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 6.sp),
+                                    fontSize: 4.sp),
                               ))),
                     ],
                   ),
@@ -1676,7 +1676,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                 Text(
                                   interestInData.interestedName!,
                                   style: TextStyle(
-                                      fontSize: 6.sp,
+                                      fontSize: 5.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
 
@@ -1736,7 +1736,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                       Text(
                         "${KalakarConstants.hobby} : ",
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                            fontSize: 6.sp, fontWeight: FontWeight.bold),
                       ),
                       InkWell(
                           onTap: () {
@@ -1752,7 +1752,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                 "Add",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 6.sp),
+                                    fontSize: 4.sp),
                               ))),
                     ],
                   ),
@@ -1781,7 +1781,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                 Text(
                                   hobbiesData.hobbyName!,
                                   style: TextStyle(
-                                      fontSize: 6.sp,
+                                      fontSize: 5.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 InkWell(
@@ -1881,7 +1881,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                       Text(
                         "${KalakarConstants.education} : ",
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                            fontSize: 6.sp, fontWeight: FontWeight.bold),
                       ),
                       InkWell(
                           onTap: () {
@@ -1897,7 +1897,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                 "Add",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 6.sp),
+                                    fontSize: 4.sp),
                               ))),
                     ],
                   ),
@@ -1930,7 +1930,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                 Text(
                                   educationData.course!,
                                   style: TextStyle(
-                                      fontSize: 6.sp,
+                                      fontSize: 5.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 InkWell(
@@ -2007,7 +2007,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                       Text(
                         "${KalakarConstants.applyFor} : ",
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                            fontSize: 6.sp, fontWeight: FontWeight.bold),
                       ),
                       InkWell(
                           onTap: () {
@@ -2023,7 +2023,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                                 "Edit",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 6.sp),
+                                    fontSize: 4.sp),
                               ))),
                     ],
                   ),
@@ -2048,7 +2048,7 @@ class ArtistMoreInfoViewPage extends StatelessWidget {
                             Text(
                               applyForData.applyName!,
                               style: TextStyle(
-                                  fontSize: 6.sp,
+                                  fontSize: 5 .sp,
                                   fontWeight: FontWeight.bold),
                             ),
                             SizedBox(

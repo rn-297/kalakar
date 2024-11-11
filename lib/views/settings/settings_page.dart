@@ -91,7 +91,7 @@ class SettingsPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.settings,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 10.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
           ),
         ],
       ),
@@ -290,7 +290,7 @@ class SettingsPage extends StatelessWidget {
                             Text(
                               controller.settingsList[index],
                               style: TextStyle(
-                                fontSize: 8.sp,
+                                fontSize: 6.sp,
                               ),
                             ),
                             Icon(
@@ -396,11 +396,11 @@ class SettingsPage extends StatelessWidget {
               ),
               Text(
                 KalakarConstants.appVersion,
-                style: TextStyle(fontSize: 8.sp),
+                style: TextStyle(fontSize: 6.sp),
               ),
               Text(
                 "1.0.0",
-                style: TextStyle(fontSize: 6.sp),
+                style: TextStyle(fontSize: 5.sp),
               ),
               Center(
                   child: InkWell(

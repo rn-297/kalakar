@@ -420,9 +420,10 @@ class OpportunityPage extends StatelessWidget {
                                 // Get.toNamed(RouteHelper.requirementFormPage);
                                 controller.emptyOpportunityData();
                               },
-                              horizontalPadding: 10.w,
+                              horizontalPadding: 2.w,
                               verticalPadding: 8.h,
-                              fontSize: 15.sp,
+                              fontSize: 5.sp,
+                              width: 150.w,
                               borderRadius: 50.r),
                         ],
                       ),
@@ -785,6 +786,8 @@ class OpportunityPage extends StatelessWidget {
   }
 
   appBarWebView() {
+    RequirementController controller = Get.put(RequirementController());
+
     return AppBar(
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
@@ -793,13 +796,16 @@ class OpportunityPage extends StatelessWidget {
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
-        InkWell(
-          onTap: () {},
-          child: Icon(
-            Icons.filter_alt,
-            size: 30.h,
+        if (!controller.isArtist)
+          InkWell(
+            onTap: () {
+              controller.emptyOpportunityData();
+            },
+            child: Icon(
+              Icons.add,
+              size: 30.h,
+            ),
           ),
-        ),
         SizedBox(
           width: 16.h,
         )

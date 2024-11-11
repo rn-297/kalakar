@@ -1840,6 +1840,7 @@ class RequirementViewPage extends StatelessWidget {
     Get.put(RequirementController());
     return GetBuilder<RequirementController>(builder: (controller) {
       if (controller.showStatus) {
+        print("object");
         ArtistAppliedRequirementDetailsList requirement =
             controller.selectedAppliedRequirement;
         DateTime shootingStartDate =
@@ -2260,7 +2261,7 @@ class RequirementViewPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.w300,
-                                fontSize: 14.sp,
+                                fontSize: 6.sp,
                               ),
                             ),
                           ),
@@ -2276,10 +2277,10 @@ class RequirementViewPage extends StatelessWidget {
                                   child: Container(
                                     margin: EdgeInsets.symmetric(horizontal: 8.h),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 6.w, vertical: 8.w),
+                                        horizontal: 6.w, vertical: 8.h),
                                     decoration: BoxDecoration(
                                       color: KalakarColors.white,
-                                      borderRadius: BorderRadius.circular(20.r),
+                                      borderRadius: BorderRadius.circular(40.r),
                                     ),
                                     child: Center(
                                       child: Text(
@@ -2293,10 +2294,10 @@ class RequirementViewPage extends StatelessWidget {
                                   child: Container(
                                     margin: EdgeInsets.symmetric(horizontal: 8.h),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 8.w, vertical: 8.w),
+                                        horizontal: 8.w, vertical: 8.h),
                                     decoration: BoxDecoration(
                                       color: KalakarColors.white,
-                                      borderRadius: BorderRadius.circular(20.r),
+                                      borderRadius: BorderRadius.circular(40.r),
                                     ),
                                     child: Center(
                                       child: Text(
@@ -2310,10 +2311,10 @@ class RequirementViewPage extends StatelessWidget {
                                   child: Container(
                                     margin: EdgeInsets.symmetric(horizontal: 8.h),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 6.w, vertical: 8.w),
+                                        horizontal: 6.w, vertical: 8.h),
                                     decoration: BoxDecoration(
                                       color: KalakarColors.white,
-                                      borderRadius: BorderRadius.circular(20.r),
+                                      borderRadius: BorderRadius.circular(40.r),
                                     ),
                                     child: Center(
                                       child: Text(
@@ -2333,7 +2334,7 @@ class RequirementViewPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(formatter.format(shootingStartDate)),
-                              Text(requirement.salary.toString() +
+                              Text(requirement.salary.toString() +"/"+
                                   requirement.salaryType.toString()),
                             ],
                           ),
@@ -2369,445 +2370,449 @@ class RequirementViewPage extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(left: 8.h, right: 8.h, bottom: 8.h),
                     child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          /*if (controller.isArtist)
-                          Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(12.h),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: KalakarColors.white,
-                                  border: Border.all(
-                                      color: KalakarColors.backgroundGrey),
-                                  borderRadius: BorderRadius.circular(8.r),
+                      child: Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 24.w
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /*if (controller.isArtist)
+                            Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(12.h),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: KalakarColors.white,
+                                    border: Border.all(
+                                        color: KalakarColors.backgroundGrey),
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  child: textSpanToShow(
+                                      context,
+                                      "Application Status : ",
+                                      requirement.applyStatus.toString()),
                                 ),
-                                child: textSpanToShow(
-                                    context,
-                                    "Application Status : ",
-                                    requirement.applyStatus.toString()),
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                            ],
-                          ),
-                        Container(
-                          padding: EdgeInsets.all(12.h),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border:
-                                Border.all(color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textSpanToShow(context, "Description : ",
-                                  requirement.requirementDescription!),
-                              textSpanToShow(context, "Looking For : ",
-                                  requirement.lookingFor!),
-                              textSpanToShow(
-                                  context, "Role : ", requirement.defineRole!),
-                              textSpanToShow(context, "Number Of Openings : ",
-                                  requirement.nUmberOfOpenings!.toString()),
-                              if (controller.showStatus)
-                                textSpanToShow(context, "Project Status : ",
-                                    requirement.requirementStatus!.toString()),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(12.h),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border:
-                                Border.all(color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textSpanToShow(context, "Shooting Location : ",
-                                  requirement.shootingLocation!),
-                              textSpanToShow(context, "Shooting Start Date : ",
-                                  formatter.format(shootingStartDate)),
-                              textSpanToShow(context, "Shooting End Date : ",
-                                  formatter.format(shootingEndDate)),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(12.h),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: KalakarColors.white,
-                            border:
-                                Border.all(color: KalakarColors.backgroundGrey),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: textSpanToShow(
-                                        context,
-                                        "Age : ",
-                                        requirement.age!.contains(".")
-                                            ? requirement.age!
-                                                    .split(".")
-                                                    .first +
-                                                " Years"
-                                            : requirement.age! + "Years"),
-                                  ),
-                                  Expanded(
-                                    child: textSpanToShow(context, "Gender : ",
-                                        requirement.gender!),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: textSpanToShow(context, "Height : ",
-                                        requirement.height!),
-                                  ),
-                                  Expanded(
-                                    child: textSpanToShow(context, "Weight : ",
-                                        requirement.weight!),
-                                  )
-                                ],
-                              ),
-                              textSpanToShow(context, "Experience : ",
-                                  "${requirement.experiences!.toString()} Years"),
-                              textSpanToShow(context, "Language : ",
-                                  requirement.language!),
-                              textSpanToShow(context, "Hair Color : ",
-                                  requirement.hairColor!),
-                              textSpanToShow(context, "Body Type  : ",
-                                  requirement.bodyType!),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Container(
+                                SizedBox(
+                                  height: 16.h,
+                                ),
+                              ],
+                            ),
+                          Container(
                             padding: EdgeInsets.all(12.h),
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: KalakarColors.white,
-                              border: Border.all(
-                                  color: KalakarColors.backgroundGrey),
+                              border:
+                                  Border.all(color: KalakarColors.backgroundGrey),
                               borderRadius: BorderRadius.circular(8.r),
                             ),
                             child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  textSpanToShow(
-                                      context,
-                                      "Special Skills Required  : ",
-                                      requirement.specialSkillRequired!),
-                                  textSpanToShow(context, "Comfortable In : ",
-                                      requirement.comfortableIn!),
-                                  textSpanToShow(
-                                      context,
-                                      "Script For Audition : ",
-                                      requirement.scriptForAuditions!),
-                                  textSpanToShow(
-                                      context,
-                                      "Requirement End Date : ",
-                                      formatter.format(requirementEndDate)),
-                                ])),
-                        SizedBox(
-                          height: 24.h,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                controller.openSocialMedia(
-                                    0, requirement.fbLink!);
-                              },
-                              child: SvgPicture.asset(
-                                "assets/svg/facebook.svg",
-                                height: 30.h,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                controller.openSocialMedia(
-                                    1, requirement.instalink!);
-                              },
-                              child: SvgPicture.asset(
-                                "assets/svg/instagram.svg",
-                                height: 30.h,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                controller.openSocialMedia(
-                                    2, requirement.wpLink!);
-                              },
-                              child: SvgPicture.asset(
-                                "assets/svg/whatsapp.svg",
-                                height: 30.h,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                controller.openSocialMedia(
-                                    3, requirement.ytLink!);
-                              },
-                              child: SvgPicture.asset(
-                                "assets/svg/youtube.svg",
-                                height: 30.h,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                controller.openSocialMedia(
-                                    4, requirement.emailLink!);
-                              },
-                              child: SvgPicture.asset(
-                                "assets/svg/email.svg",
-                                height: 30.h,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                controller.openSocialMedia(
-                                    5, requirement.websiteLink!);
-                              },
-                              child: SvgPicture.asset(
-                                "assets/svg/website.svg",
-                                height: 30.h,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 24.h,
-                        ),*/
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.description} : ",
-                              requirement.requirementDescription!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.specialSkills} : ",
-                              requirement.specialSkillRequired!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.shootingLocation} : ",
-                              requirement.shootingLocation!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.comfortableIn} : ",
-                              requirement.comfortableIn!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.shootingStartDate} : ",
-                              formatter.format(shootingStartDate)),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.shootingEndDate} : ",
-                              formatter.format(shootingEndDate)),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.character} : ",
-                              requirement.defineRole!),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.experience} ",
-                              requirement.experiences!.toString()),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8.h),
-                            decoration: BoxDecoration(
-                                color: KalakarColors.turquoise15,
-                                borderRadius: BorderRadius.circular(8.r)),
-                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          KalakarConstants.referenceLook,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        ClipRRect(
-                                          borderRadius:
-                                          BorderRadius.circular(4.r),
-                                          child: Image.network(
-                                            requirement.refPhotoName!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (BuildContext context,
-                                                Object error,
-                                                StackTrace? stackTrace) {
-                                              // Return a dummy or placeholder image when an error occurs
-                                              return Image.asset(
-                                                "assets/images/app_bar_logo.png",
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                SizedBox(
-                                  width: 12.w,
-                                ),
-                                Expanded(
-                                    flex: 4,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          KalakarConstants.script,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        Text(requirement.scriptForAuditions!)
-                                      ],
-                                    )),
+                                textSpanToShow(context, "Description : ",
+                                    requirement.requirementDescription!),
+                                textSpanToShow(context, "Looking For : ",
+                                    requirement.lookingFor!),
+                                textSpanToShow(
+                                    context, "Role : ", requirement.defineRole!),
+                                textSpanToShow(context, "Number Of Openings : ",
+                                    requirement.nUmberOfOpenings!.toString()),
+                                if (controller.showStatus)
+                                  textSpanToShow(context, "Project Status : ",
+                                      requirement.requirementStatus!.toString()),
                               ],
                             ),
                           ),
                           SizedBox(
                             height: 16.h,
                           ),
+                          Container(
+                            padding: EdgeInsets.all(12.h),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: KalakarColors.white,
+                              border:
+                                  Border.all(color: KalakarColors.backgroundGrey),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textSpanToShow(context, "Shooting Location : ",
+                                    requirement.shootingLocation!),
+                                textSpanToShow(context, "Shooting Start Date : ",
+                                    formatter.format(shootingStartDate)),
+                                textSpanToShow(context, "Shooting End Date : ",
+                                    formatter.format(shootingEndDate)),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(12.h),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: KalakarColors.white,
+                              border:
+                                  Border.all(color: KalakarColors.backgroundGrey),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: textSpanToShow(
+                                          context,
+                                          "Age : ",
+                                          requirement.age!.contains(".")
+                                              ? requirement.age!
+                                                      .split(".")
+                                                      .first +
+                                                  " Years"
+                                              : requirement.age! + "Years"),
+                                    ),
+                                    Expanded(
+                                      child: textSpanToShow(context, "Gender : ",
+                                          requirement.gender!),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: textSpanToShow(context, "Height : ",
+                                          requirement.height!),
+                                    ),
+                                    Expanded(
+                                      child: textSpanToShow(context, "Weight : ",
+                                          requirement.weight!),
+                                    )
+                                  ],
+                                ),
+                                textSpanToShow(context, "Experience : ",
+                                    "${requirement.experiences!.toString()} Years"),
+                                textSpanToShow(context, "Language : ",
+                                    requirement.language!),
+                                textSpanToShow(context, "Hair Color : ",
+                                    requirement.hairColor!),
+                                textSpanToShow(context, "Body Type  : ",
+                                    requirement.bodyType!),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(12.h),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: KalakarColors.white,
+                                border: Border.all(
+                                    color: KalakarColors.backgroundGrey),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    textSpanToShow(
+                                        context,
+                                        "Special Skills Required  : ",
+                                        requirement.specialSkillRequired!),
+                                    textSpanToShow(context, "Comfortable In : ",
+                                        requirement.comfortableIn!),
+                                    textSpanToShow(
+                                        context,
+                                        "Script For Audition : ",
+                                        requirement.scriptForAuditions!),
+                                    textSpanToShow(
+                                        context,
+                                        "Requirement End Date : ",
+                                        formatter.format(requirementEndDate)),
+                                  ])),
+                          SizedBox(
+                            height: 24.h,
+                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Expanded(
-                                child: textSpanToShow(
-                                    context,
-                                    "${KalakarConstants.height} : ",
-                                    requirement.height.toString()),
+                              InkWell(
+                                onTap: () {
+                                  controller.openSocialMedia(
+                                      0, requirement.fbLink!);
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/svg/facebook.svg",
+                                  height: 30.h,
+                                ),
                               ),
-                              SizedBox(
-                                width: 8.h,
+                              InkWell(
+                                onTap: () {
+                                  controller.openSocialMedia(
+                                      1, requirement.instalink!);
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/svg/instagram.svg",
+                                  height: 30.h,
+                                ),
                               ),
-                              Expanded(
-                                child: textSpanToShow(
-                                    context,
-                                    "${KalakarConstants.weight} : ",
-                                    requirement.weight.toString()),
-                              )
+                              InkWell(
+                                onTap: () {
+                                  controller.openSocialMedia(
+                                      2, requirement.wpLink!);
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/svg/whatsapp.svg",
+                                  height: 30.h,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  controller.openSocialMedia(
+                                      3, requirement.ytLink!);
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/svg/youtube.svg",
+                                  height: 30.h,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  controller.openSocialMedia(
+                                      4, requirement.emailLink!);
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/svg/email.svg",
+                                  height: 30.h,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  controller.openSocialMedia(
+                                      5, requirement.websiteLink!);
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/svg/website.svg",
+                                  height: 30.h,
+                                ),
+                              ),
                             ],
                           ),
+                          SizedBox(
+                            height: 24.h,
+                          ),*/
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.description} : ",
+                                requirement.requirementDescription!),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.specialSkills} : ",
+                                requirement.specialSkillRequired!),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.shootingLocation} : ",
+                                requirement.shootingLocation!),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.comfortableIn} : ",
+                                requirement.comfortableIn!),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.shootingStartDate} : ",
+                                formatter.format(shootingStartDate)),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.shootingEndDate} : ",
+                                formatter.format(shootingEndDate)),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.character} : ",
+                                requirement.defineRole!),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.experience} ",
+                                requirement.experiences!.toString()),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8.h),
+                              decoration: BoxDecoration(
+                                  color: KalakarColors.turquoise15,
+                                  borderRadius: BorderRadius.circular(8.r)),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                      flex: 2,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            KalakarConstants.referenceLook,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          SizedBox(
+                                            height: 8.h,
+                                          ),
+                                          ClipRRect(
+                                            borderRadius:
+                                            BorderRadius.circular(4.r),
+                                            child: Image.network(
+                                              requirement.refPhotoName!,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (BuildContext context,
+                                                  Object error,
+                                                  StackTrace? stackTrace) {
+                                                // Return a dummy or placeholder image when an error occurs
+                                                return Image.asset(
+                                                  "assets/images/app_bar_logo.png",
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  SizedBox(
+                                    width: 12.w,
+                                  ),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            KalakarConstants.script,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          SizedBox(
+                                            height: 8.h,
+                                          ),
+                                          Text(requirement.scriptForAuditions!)
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16.h,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: textSpanToShow(
+                                      context,
+                                      "${KalakarConstants.height} : ",
+                                      requirement.height.toString()),
+                                ),
+                                SizedBox(
+                                  width: 8.h,
+                                ),
+                                Expanded(
+                                  child: textSpanToShow(
+                                      context,
+                                      "${KalakarConstants.weight} : ",
+                                      requirement.weight.toString()),
+                                )
+                              ],
+                            ),
 
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.hairColor} : ",
-                              requirement.hairColor.toString()),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.bodyType} : ",
-                              requirement.bodyType.toString()),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.language} : ",
-                              requirement.language.toString()),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.noOfOpenings} : ",
-                              requirement.nUmberOfOpenings.toString()),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          textSpanToShow(
-                              context,
-                              "${KalakarConstants.opportunityEndDate} : ",
-                              formatter.format(shootingEndDate)),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          if (controller.isArtist)
-                            textSpanToShow(context, "Application Status : ",
-                                requirement.applyStatus.toString()),
-                          if (!controller.showStatus)
-                            CustomMobileButtonWidget(
-                                text: requirement
-                                    .artistAppliedForRequirementTransID ==
-                                    0
-                                    ? "Apply"
-                                    : "Applied",
-                                onTap: () {
-                                  if (requirement
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.hairColor} : ",
+                                requirement.hairColor.toString()),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.bodyType} : ",
+                                requirement.bodyType.toString()),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.language} : ",
+                                requirement.language.toString()),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.noOfOpenings} : ",
+                                requirement.nUmberOfOpenings.toString()),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            textSpanToShow(
+                                context,
+                                "${KalakarConstants.opportunityEndDate} : ",
+                                formatter.format(shootingEndDate)),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            if (controller.isArtist)
+                              textSpanToShow(context, "Application Status : ",
+                                  requirement.applyStatus.toString()),
+                            if (!controller.showStatus)
+                              CustomMobileButtonWidget(
+                                  text: requirement
                                       .artistAppliedForRequirementTransID ==
-                                      0)
-                                    controller.saveAppliedToRequirement(
-                                        requirement.requirementDetailsID!);
-                                },
-                                horizontalPadding: 16.h,
-                                verticalPadding: 8.h,
-                                backgroundColor: requirement
-                                    .artistAppliedForRequirementTransID ==
-                                    0
-                                    ? KalakarColors.appBarBackground
-                                    : KalakarColors.backgroundGrey,
-                                fontSize: 16.sp,
-                                borderRadius: 40.r),
-                          SizedBox(
-                            height: 20.h,
-                          )
-                        ],
+                                      0
+                                      ? "Apply"
+                                      : "Applied",
+                                  onTap: () {
+                                    if (requirement
+                                        .artistAppliedForRequirementTransID ==
+                                        0)
+                                      controller.saveAppliedToRequirement(
+                                          requirement.requirementDetailsID!);
+                                  },
+                                  horizontalPadding: 16.h,
+                                  verticalPadding: 8.h,
+                                  backgroundColor: requirement
+                                      .artistAppliedForRequirementTransID ==
+                                      0
+                                      ? KalakarColors.appBarBackground
+                                      : KalakarColors.backgroundGrey,
+                                  fontSize: 16.sp,
+                                  borderRadius: 40.r),
+                            SizedBox(
+                              height: 20.h,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -3523,6 +3528,7 @@ class RequirementViewPage extends StatelessWidget {
                               },
                               horizontalPadding: 16.h,
                               verticalPadding: 8.h,
+                              width: 90.w,
                               fontSize: 5.sp,
                               borderRadius: 40.r),
                         SizedBox(

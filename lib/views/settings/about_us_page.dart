@@ -92,7 +92,7 @@ class AboutUsPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.aboutUs,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
           ),
         ],
       ),
@@ -151,5 +151,38 @@ class AboutUsPage extends StatelessWidget {
     }),
   );}
 
-  aboutUsWebView(BuildContext context) {}
+  aboutUsWebView(BuildContext context) {return SingleChildScrollView(
+    child: GetBuilder<SettingsController>(builder: (controller) {
+      return Padding(
+        padding:  EdgeInsets.symmetric(horizontal:32.w,vertical: 16.h),
+        child: Column(
+          children: [
+            controller.settingsData.aboutUS!=null?Text(controller.settingsData.aboutUS!):Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 32.h,),
+                  Text("Unable To Get Help Details"),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.getSettingsData();
+                    },
+                    child: Column(
+                      children: [
+                        Icon(Icons.refresh),
+                        Text("Refresh"),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }),
+  );}
 }

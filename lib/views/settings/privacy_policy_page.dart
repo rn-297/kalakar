@@ -91,7 +91,7 @@ class PrivacyPolicyPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.privacyPolicy,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),
@@ -152,5 +152,41 @@ class PrivacyPolicyPage extends StatelessWidget {
     );
   }
 
-  privacyPolicyWebView(BuildContext context) {}
+  privacyPolicyWebView(BuildContext context)  {
+    return SingleChildScrollView(
+      child: GetBuilder<SettingsController>(builder: (controller) {
+        return Padding(
+          padding:  EdgeInsets.symmetric(horizontal:32.w,vertical: 16.h),
+          child: Column(
+            children: [
+              controller.settingsData.privacyPolicy!=null?Text(controller.settingsData.privacyPolicy!):Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 32.h,),
+                    Text("Unable To Get Privacy Policy Details"),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.getSettingsData();
+                      },
+                      child: Column(
+                        children: [
+                          Icon(Icons.refresh),
+                          Text("Refresh"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
 }

@@ -10,6 +10,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../custom_widgets/custom_dropdown_search1.dart';
+import '../../../custom_widgets/custom_dropdown_search4.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/date_picker_helper.dart';
 import '../../../helper/kalakar_colors.dart';
@@ -616,7 +617,7 @@ class ArtistProfileFormPage extends StatelessWidget {
     return SingleChildScrollView(
       child: GetBuilder<ArtistProfileController>(builder: (controller) {
         return Padding(
-          padding: EdgeInsets.all(24.h),
+          padding: EdgeInsets.symmetric(horizontal:24.w,vertical: 24.h),
           child: Form(
             key: controller.formProfileKey,
             child: Column(
@@ -630,12 +631,12 @@ class ArtistProfileFormPage extends StatelessWidget {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: controller.artistProfileImage
-                                        .startsWith("http")
+                                    .startsWith("http")
                                     ? NetworkImage(
-                                        controller.artistProfileImage)
+                                    controller.artistProfileImage)
                                     : FileImage(
-                                        File(controller.artistProfileImage),
-                                      ) as ImageProvider,
+                                  File(controller.artistProfileImage),
+                                ) as ImageProvider,
                                 fit: BoxFit.fill),
                             border: Border.all(color: KalakarColors.textColor),
                             borderRadius: BorderRadius.circular(50.r)),
@@ -646,9 +647,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                           child: InkWell(
                               onTap: () {
                                 controller.documentType =
-                                    KalakarConstants.companyLogo;
-                                PickerHelper.showImageBottomSheet(
-                                    context, controller);
+                                    KalakarConstants.profilePhoto;
+                                controller.pickOrShowDocument(
+                                    KalakarConstants.profilePhoto,
+                                    context,
+                                    controller);
                               },
                               child: Icon(Icons.camera_alt_outlined)))
                     ],
@@ -657,35 +660,38 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.firstNameTEController,
                     labelText: KalakarConstants.firstName,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter First Name",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateFirstName),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.middleNameTEController,
                     labelText: KalakarConstants.middleName,
                     obscureText: false,
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
+                    hintText: "Enter Middle Name",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateMiddleName),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.lastNameTEController,
                     labelText: KalakarConstants.lastName,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Last Name",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -693,35 +699,62 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.dobTEController,
-                    labelText: KalakarConstants.dob,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateDob),
+                InkWell(
+                  onTap: () async {
+                    final date =
+                    await DatePickerHelper.selectDate(context, isOld: true);
+                    if (date != null) {
+                      controller.setDate(KalakarConstants.dob, date);
+                    }
+                  },
+                  child: CommonWidgets.commonMobileTextField2(
+                      controller: controller.dobTEController,
+                      labelText: KalakarConstants.dob,
+                      obscureText: false,
+                      textInputType: TextInputType.text,
+                      passwordVisibility: false,
+                      editable: false,
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: Validator.validateDob),
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CustomDropdownSearch4(
+                  validator: Validator.validateGender,
+                  items: controller.genderList,
+                  titleText: KalakarConstants.gender,
+                  selectedItem: controller.genderTEController.text.isEmpty
+                      ? null
+                      : controller.genderTEController.text,
+                  labelText: KalakarConstants.gender,
+                  onItemSelected: (selectedItem) {
+                    controller.setGenderValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.emailTEController,
                     labelText: KalakarConstants.email,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.emailAddress,
                     passwordVisibility: false,
+                    hintText: "Enter Email Id",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateEmail),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.mobileNumberTEController,
                     labelText: KalakarConstants.mobileNumber,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
+                    hintText: "Enter Mobile Number",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -729,11 +762,26 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
+                    controller: controller.alternateMobileNumberTEController,
+                    labelText: KalakarConstants.alternateMobileNumber,
+                    obscureText: false,
+                    textInputType: TextInputType.number,
+                    hintText: "Enter Alternate Mobile Number",
+
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateAlternateMobileNumber),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.ageTEController,
                     labelText: KalakarConstants.age,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    hintText: "Enter Age",
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -741,11 +789,12 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.roleAgeTEController,
                     labelText: KalakarConstants.roleAge,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    hintText: "Enter Role Age Number",
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -753,11 +802,12 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.heightTEController,
                     labelText: KalakarConstants.height,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
+                    hintText: "Enter Height in foot",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -765,22 +815,129 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.weightTEController,
                     labelText: KalakarConstants.weight,
                     obscureText: false,
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
                     passwordVisibility: false,
+                    hintText: "Enter Weight in kg",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: Validator.validateWeight),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CustomDropdownSearch4(
+                  validator: Validator.validateBodyType,
+                  items: controller.bodyTypeList,
+                  titleText: KalakarConstants.bodyType,
+                  selectedItem: controller.bodyTypeTEController.text.isEmpty
+                      ? null
+                      : controller.bodyTypeTEController.text,
+                  labelText: KalakarConstants.bodyType,
+                  onItemSelected: (selectedItem) {
+                    controller.setBodyTypeValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch4(
+                  validator: Validator.validateEyeColor,
+                  items: controller.eyeColorList,
+                  titleText: KalakarConstants.eyeColor,
+                  selectedItem: controller.eyeColorTEController.text.isEmpty
+                      ? null
+                      : controller.eyeColorTEController.text,
+                  labelText: KalakarConstants.eyeColor,
+                  onItemSelected: (selectedItem) {
+                    controller.setEyeColorValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch4(
+                  validator: Validator.validateHairColor,
+                  items: controller.hairColorList,
+                  titleText: KalakarConstants.hairColor,
+                  selectedItem: controller.hairColorTEController.text.isEmpty
+                      ? null
+                      : controller.hairColorTEController.text,
+                  labelText: KalakarConstants.hairColor,
+                  onItemSelected: (selectedItem) {
+                    controller.setHairColorValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch4(
+                  validator: Validator.validateMaritalStatus,
+                  items: controller.maritalStatusList,
+                  titleText: KalakarConstants.maritalStatus,
+                  selectedItem:
+                  controller.maritalStatusTEController.text.isEmpty
+                      ? null
+                      : controller.maritalStatusTEController.text,
+                  labelText: KalakarConstants.maritalStatus,
+                  onItemSelected: (selectedItem) {
+                    controller.setMaritalStatusValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField2(
+                    controller: controller.languageKnownTEController,
+                    labelText: KalakarConstants.languageKnown,
+                    obscureText: false,
+                    hintText: "Enter Language Known",
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateLanguageKnown),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch4(
+                  validator: Validator.validateVehicle,
+                  items: controller.yesNoList,
+                  titleText: KalakarConstants.vehicle,
+                  selectedItem: controller.vehicleTEController.text.isEmpty
+                      ? null
+                      : controller.vehicleTEController.text,
+                  labelText: KalakarConstants.vehicle,
+                  onItemSelected: (selectedItem) {
+                    controller.setVehicleValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CustomDropdownSearch4(
+                  validator: Validator.validateTravelThrIndia,
+                  items: controller.yesNoList,
+                  titleText: KalakarConstants.travelThrIndia,
+                  selectedItem:
+                  controller.travelThroughIndiaTEController.text.isEmpty
+                      ? null
+                      : controller.travelThroughIndiaTEController.text,
+                  labelText: KalakarConstants.travelThrIndia,
+                  onItemSelected: (selectedItem) {
+                    controller.setTravelThrIndiaValue(selectedItem);
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.address1TEController,
                     labelText: KalakarConstants.address1,
                     obscureText: false,
+                    hintText: "Enter Address Line 1",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -789,10 +946,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.address2TEController,
                     labelText: KalakarConstants.address2,
                     obscureText: false,
+                    hintText: "Enter Address Line 2",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -801,7 +959,8 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch(
+                CustomDropdownSearch4
+                  (
                   validator: Validator.validateState,
                   items: controller.stateList,
                   titleText: KalakarConstants.selectState,
@@ -847,7 +1006,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: controller.districtValidator),*/
-                CustomDropdownSearch(
+                CustomDropdownSearch4(
                   validator: Validator.validateDistrict,
                   items: controller.cityList,
                   titleText: KalakarConstants.selectDistrict,
@@ -872,7 +1031,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
                     validator: controller.stateValidator),*/
-                CustomDropdownSearch(
+                CustomDropdownSearch4(
                   validator: Validator.validatePostalCode,
                   items: controller.pinCodeList,
                   titleText: KalakarConstants.selectPinCode,
@@ -887,11 +1046,12 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.bioTEController,
                     labelText: KalakarConstants.bio,
                     obscureText: false,
                     maxLines: 3,
+                    hintText: "Enter Bio",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -900,11 +1060,13 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.fbLinkTEController,
                     labelText: KalakarConstants.fbLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Facebook Link",
+
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -912,10 +1074,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.instaTEController,
                     labelText: KalakarConstants.instaLink,
                     obscureText: false,
+                    hintText: "Enter Instagram Link",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -924,10 +1087,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.wpLinkTEController,
                     labelText: KalakarConstants.wpLink,
                     obscureText: false,
+                    hintText: "Enter WhatsApp Link",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -936,10 +1100,11 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.ytLinkTEController,
                     labelText: KalakarConstants.ytLink,
                     obscureText: false,
+                    hintText: "Enter YouTube Link",
                     textInputType: TextInputType.text,
                     passwordVisibility: false,
                     borderRadius: 12.r,
@@ -948,11 +1113,13 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.emailLinkTEController,
                     labelText: KalakarConstants.emailLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Email Link",
+
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -960,11 +1127,12 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField(
+                CommonWidgets.commonMobileTextField2(
                     controller: controller.websiteLinkTEController,
                     labelText: KalakarConstants.websiteLink,
                     obscureText: false,
                     textInputType: TextInputType.text,
+                    hintText: "Enter Web Site Link",
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -977,9 +1145,10 @@ class ArtistProfileFormPage extends StatelessWidget {
                     controller.validateProfileFormData();
                   },
                   borderRadius: 50.r,
-                  fontSize: 14.sp,
+                  fontSize: 6.sp,
                   text: KalakarConstants.saveProfile,
-                  horizontalPadding: 20.w,
+                  horizontalPadding: 2.w,
+                  width: 150.w,
                   verticalPadding: 8.h,
                 ),
               ],

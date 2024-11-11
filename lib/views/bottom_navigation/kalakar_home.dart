@@ -1120,7 +1120,7 @@ class KalakarHomePage extends StatelessWidget {
                         children: [
                           Text(
                             KalakarConstants.newOpportunities,
-                            style: TextStyle(fontSize: 8.sp),
+                            style: TextStyle(fontSize: 6.sp),
                           ),
                           InkWell(
                             onTap: () {
@@ -1131,7 +1131,7 @@ class KalakarHomePage extends StatelessWidget {
                             },
                             child: Text(
                               KalakarConstants.seeAll,
-                              style: TextStyle(fontSize: 8.sp),
+                              style: TextStyle(fontSize: 6.sp),
                             ),
                           )
                         ],
@@ -1244,7 +1244,7 @@ class KalakarHomePage extends StatelessWidget {
                                               color:
                                               KalakarColors.headerText,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 8.sp),
+                                              fontSize: 6.sp),
                                         ),
                                         Divider(
                                           color: KalakarColors.orange,
@@ -1422,7 +1422,7 @@ class KalakarHomePage extends StatelessWidget {
                         children: [
                           Text(
                             KalakarConstants.newOpportunities,
-                            style: TextStyle(fontSize: 8.sp),
+                            style: TextStyle(fontSize: 6.sp),
                           ),
                           InkWell(
                             onTap: () {
@@ -1433,7 +1433,7 @@ class KalakarHomePage extends StatelessWidget {
                             },
                             child: Text(
                               KalakarConstants.seeAll,
-                              style: TextStyle(fontSize: 8.sp),
+                              style: TextStyle(fontSize: 6.sp),
                             ),
                           )
                         ],
@@ -1648,7 +1648,7 @@ class KalakarHomePage extends StatelessWidget {
                   children: [
                     Text(
                       KalakarConstants.upcomingProjects,
-                      style: TextStyle(fontSize: 8.sp),
+                      style: TextStyle(fontSize: 6.sp),
                     ),
                     InkWell(
                       onTap: () {
@@ -1656,7 +1656,7 @@ class KalakarHomePage extends StatelessWidget {
                       },
                       child: Text(
                         KalakarConstants.seeAll,
-                        style: TextStyle(fontSize: 8.sp),
+                        style: TextStyle(fontSize: 6.sp),
                       ),
                     )
                   ],
@@ -1856,14 +1856,16 @@ class KalakarHomePage extends StatelessWidget {
                   child: Text(
                     KalakarConstants.reviews,
                     style:
-                    TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
+                    TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(height: 16.h,),
                 controller.isArtistHomeReviewsLoading
-                    ? ListView.builder(
+                    ? GridView.builder(
                     shrinkWrap: true,
                     itemCount: 3,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 4.0),
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
 
@@ -1991,15 +1993,17 @@ class KalakarHomePage extends StatelessWidget {
                       );
                     })
                     : controller.reviewDetailsList.isNotEmpty
-                    ? ListView.builder(
+                    ? GridView.builder(
                     shrinkWrap: true,
                     itemCount: controller.reviewDetailsList.length,
                     physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 4.0),
                     itemBuilder: (context, index) {
                       GetApplicationReviewList reviewData =
                       controller.reviewDetailsList[index];
                       return Container(
-                        margin: EdgeInsets.only(bottom: 8.h),
+                        margin: EdgeInsets.only(bottom: 8.h,right: 2.w),
                         padding: EdgeInsets.all(8.h),
                         // width: Get.size.width / 2,
                         decoration: BoxDecoration(
@@ -2025,7 +2029,7 @@ class KalakarHomePage extends StatelessWidget {
                               Center(
                                 child: ClipRRect(
                                   borderRadius:
-                                  BorderRadius.circular(50.r),
+                                  BorderRadius.circular(20.r),
                                   child: Image.network(
                                     reviewData.reviewByProfilePic!,
                                     fit: BoxFit.cover,
@@ -2055,7 +2059,7 @@ class KalakarHomePage extends StatelessWidget {
                                     Text(
                                       reviewData.reviewBy!,
                                       style: TextStyle(
-                                          fontSize: 8.sp,
+                                          fontSize: 6.sp,
                                           color:
                                           KalakarColors.headerText,
                                           fontWeight: FontWeight.w800),
@@ -2064,7 +2068,7 @@ class KalakarHomePage extends StatelessWidget {
                                     Text(
                                       reviewData.reviewerWork!,
                                       style: TextStyle(
-                                        fontSize: 6.sp,
+                                        fontSize: 5.sp,
                                         color: KalakarColors.orange,
                                       ),
                                     ),

@@ -25,7 +25,7 @@ class ArtistHobbiesFormPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => hobbiesFormMobileView(context),
-        tablet: (BuildContext context) => hobbiesFormWebView(),
+        tablet: (BuildContext context) => hobbiesFormWebView(context),
       ),
     );
   }
@@ -61,9 +61,9 @@ class ArtistHobbiesFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.hobby,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
       ),
-      actions: [
+      /*actions: [
         InkWell(
           onTap: () {},
           child: Icon(
@@ -74,7 +74,7 @@ class ArtistHobbiesFormPage extends StatelessWidget {
         SizedBox(
           width: 16.h,
         )
-      ],
+      ],*/
     );
   }
 
@@ -143,5 +143,68 @@ class ArtistHobbiesFormPage extends StatelessWidget {
     }));
   }
 
-  hobbiesFormWebView() {}
+  hobbiesFormWebView(BuildContext context) {
+    return SingleChildScrollView(
+        child: GetBuilder<ArtistProfileController>(builder: (controller) {
+          return Padding(
+              padding: EdgeInsets.all(24.h),
+              child: Form(
+                key: controller.formHobbiesKey,
+                child: Column(children: [
+                  CommonWidgets.commonMobileTextField2(
+                      controller: controller.hobbyTEController,
+                      labelText: KalakarConstants.hobby,
+                      obscureText: false,
+                      textInputType: TextInputType.text,
+                      passwordVisibility: false,
+                      hintText: "Enter Hobby",
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: Validator.validateHobby),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      if (controller.artistHobbiesId != "0")
+                        CustomMobileButtonWidget(
+                          onTap: () {
+                            controller.deleteHobbies();
+                          },
+                          borderRadius: 50.r,
+                          fontSize: 6.sp,
+                          width: 125.w,
+                          text: KalakarConstants.delete,
+                          backgroundColor: Colors.red,
+                          showIcon: true,
+                          icon: Icons.delete,
+                          iconColor: KalakarColors.white,
+                          textColor: KalakarColors.white,
+                          horizontalPadding: 2.w,
+                          verticalPadding: 8.h,
+                        ),
+                      CustomMobileButtonWidget(
+                        onTap: () {
+                          controller.validateHobbiesForm();
+                        },
+                        borderRadius: 50.r,
+                        fontSize: 6.sp,
+                        width: 125.w,
+                        showIcon: true,
+                        icon: Icons.save,
+                        iconColor: KalakarColors.headerText,
+                        text: KalakarConstants.save,
+                        horizontalPadding: 2.w,
+                        verticalPadding: 8.h,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                ]),
+              ));
+        }));
+  }
 }

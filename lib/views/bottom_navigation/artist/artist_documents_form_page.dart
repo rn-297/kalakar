@@ -165,7 +165,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       controller.documentType = KalakarConstants.passport;
-                      controller.pickOrShowDocument(
+                      controller.pickOrShowDocumentWeb(
                           KalakarConstants.passport, context, controller);
                     },
                     child: CommonWidgets.commonMobileTextField2(
@@ -186,7 +186,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                     onTap: () {
                       controller.documentType =
                           KalakarConstants.filmCorporationCard;
-                      controller.pickOrShowDocument(
+                      controller.pickOrShowDocumentWeb(
                           KalakarConstants.filmCorporationCard, context, controller);
                     },
                     child: CommonWidgets.commonMobileTextField2(
@@ -206,7 +206,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       controller.documentType = KalakarConstants.aadharCard;
-                      controller.pickOrShowDocument(
+                      controller.pickOrShowDocumentWeb(
                           KalakarConstants.aadharCard, context, controller);
                     },
                     child: CommonWidgets.commonMobileTextField2(

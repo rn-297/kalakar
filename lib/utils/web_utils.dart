@@ -1,5 +1,5 @@
-// import 'dart:html' as html;
+import 'dart:html' as html;
 
 void openLink(String url) {
-  // html.window.open(url, '_blank');
+  html.window.open(url, '_blank');
 }

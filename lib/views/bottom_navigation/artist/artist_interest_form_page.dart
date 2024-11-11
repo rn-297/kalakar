@@ -8,6 +8,7 @@ import '../../../controller/artist_profile_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
 import '../../../custom_widgets/custom_dropdown_search.dart';
 import '../../../custom_widgets/custom_dropdown_search2.dart';
+import '../../../custom_widgets/custom_dropdown_serach3.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/kalakar_colors.dart';
 import '../../../helper/textfield_validators.dart';
@@ -28,7 +29,7 @@ class ArtistInterestFormPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => educationFormMobileView(context),
-        tablet: (BuildContext context) => educationFormWebView(),
+        tablet: (BuildContext context) => educationFormWebView(context),
       ),
     );
   }
@@ -64,16 +65,16 @@ class ArtistInterestFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.interestIn,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
       ),
       actions: [
-        InkWell(
+        /*InkWell(
           onTap: () {},
           child: Icon(
             Icons.settings,
             size: 30.h,
           ),
-        ),
+        ),*/
         SizedBox(
           width: 16.h,
         )
@@ -163,5 +164,85 @@ class ArtistInterestFormPage extends StatelessWidget {
     }));
   }
 
-  educationFormWebView() {}
+  educationFormWebView(BuildContext context) {
+    return SingleChildScrollView(
+        child: GetBuilder<ArtistProfileController>(builder: (controller) {
+          return Padding(
+              padding: EdgeInsets.all(24.h),
+              child: Form(
+                key: controller.formInterestedInKey,
+                child: Column(children: [
+                  CustomDropdownSearch3(
+                    validator: Validator.validateInterestedIn1,
+                    items: controller.interestInList,
+                    titleText: KalakarConstants.interestIn,
+                    selectedItems: controller.selectedInterestedInList,
+                    labelText: KalakarConstants.interestIn,
+                    onItemsSelected: (selectedItem) {
+                      controller.setInterestedInValue1(selectedItem);
+                    },
+                  ),
+                  if (controller.isInterestedInOther)
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                  if (!controller.isInterestedInOther)
+                    CommonWidgets.commonMobileTextField2(
+                        controller: controller.interestedInOtherTEController,
+                        labelText: KalakarConstants.other,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        hintText: "Enter Other",
+                        passwordVisibility: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: Validator.validateOther),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      /*if(controller.artistInterestInId != "0")
+                    CustomMobileButtonWidget(
+                      onTap: () {
+                        controller.deleteInterestIn();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 14.sp,
+                      text: KalakarConstants.delete,
+                      backgroundColor: Colors.red,
+                      textColor: KalakarColors.white,
+                      horizontalPadding: 20.w,
+                      verticalPadding: 8.h,
+                      showIcon: true,
+                      iconColor: Colors.white,
+                      icon: Icons.delete,
+                      width: 125.w,
+                    ),*/
+                      CustomMobileButtonWidget(
+                        onTap: () {
+                          controller.validateInterestedInForm();
+                        },
+                        borderRadius: 50.r,
+                        fontSize: 6.sp,
+                        text: KalakarConstants.save,
+                        horizontalPadding: 2.w,
+                        verticalPadding: 8.h,
+
+                        showIcon: true,
+                        iconColor: KalakarColors.headerText,
+                        icon: Icons.save,
+                        width: 125.w,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+
+                ]),
+              ));
+        }));
+  }
 }

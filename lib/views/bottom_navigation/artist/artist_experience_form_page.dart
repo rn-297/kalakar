@@ -26,7 +26,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => experienceFormMobileView(context),
-        tablet: (BuildContext context) => experienceFormWebView(),
+        tablet: (BuildContext context) => experienceFormWebView(context),
       ),
     );
   }
@@ -62,9 +62,9 @@ class ArtistExperienceFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.experience,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
       ),
-      actions: [
+      /*actions: [
         InkWell(
           onTap: () {},
           child: Icon(
@@ -75,7 +75,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
         SizedBox(
           width: 16.h,
         )
-      ],
+      ],*/
     );
   }
 
@@ -267,5 +267,191 @@ class ArtistExperienceFormPage extends StatelessWidget {
     }));
   }
 
-  experienceFormWebView() {}
+  experienceFormWebView(BuildContext context) {
+    return SingleChildScrollView(
+        child: GetBuilder<ArtistProfileController>(builder: (controller) {
+          return Padding(
+              padding: EdgeInsets.symmetric(horizontal:24.w,vertical: 24.h),
+              child: Form(
+                key: controller.formExperienceKey,
+                child: Column(children: [
+                  CommonWidgets.commonMobileTextField2(
+                      controller: controller.companyNameTEController,
+                      labelText: KalakarConstants.companyName,
+                      obscureText: false,
+                      textInputType: TextInputType.text,
+                      hintText: "Enter Company Name",
+                      passwordVisibility: false,
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: Validator.validateCompanyName),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CommonWidgets.commonMobileTextField2(
+                      controller: controller.roleNameTEController,
+                      labelText: KalakarConstants.roleName,
+                      obscureText: false,
+                      textInputType: TextInputType.text,
+                      hintText: "Enter Role Name",
+                      passwordVisibility: false,
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: Validator.validateRoleName),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final date = await DatePickerHelper.selectDate(context,isOld:true);
+                      if (date != null) {
+                        controller.setDate(KalakarConstants.expStartDate, date);
+                      }
+                    },
+                    child: CommonWidgets.commonMobileTextField2(
+                        controller: controller.expStartDateTEController,
+                        labelText: KalakarConstants.startDate,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        editable: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: Validator.validateStartDate),
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final date = await DatePickerHelper.selectDate(context,isOld:true);
+                      if (date != null) {
+                        controller.setDate(KalakarConstants.expEndDate, date);
+                      }
+                    },
+                    child: CommonWidgets.commonMobileTextField2(
+                        controller: controller.expEndDateTEController,
+                        labelText: KalakarConstants.endDate,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        editable: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: Validator.validateEndDate),
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CommonWidgets.commonMobileTextField2(
+                      controller: controller.skillsUsedTEController,
+                      labelText: KalakarConstants.skillsUsed,
+                      obscureText: false,
+                      textInputType: TextInputType.text,
+                      hintText: "Enter Skills Used",
+                      passwordVisibility: false,
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: Validator.validateSkillsUsed),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CommonWidgets.commonMobileTextField2(
+                      controller: controller.roleProfileTEController,
+                      labelText: KalakarConstants.roleProfile,
+                      obscureText: false,
+                      textInputType: TextInputType.text,
+                      hintText: "Enter Role Profile",
+
+                      passwordVisibility: false,
+                      borderRadius: 12.r,
+                      togglePasswordVisibility: () {},
+                      validator: Validator.validateRoleProfile),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.pickOrShowDocumentWeb(
+                          KalakarConstants.roleImage, context, controller);
+                    },
+                    child: CommonWidgets.commonMobileTextField2(
+                        controller: controller.roleImageTEController,
+                        labelText: KalakarConstants.roleImage,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        editable: false,
+                        isSuffixIcon: true,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: null),
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      controller.pickOrShowDocumentWeb(
+                          KalakarConstants.roleVideo, context, controller);
+                    },
+                    child: CommonWidgets.commonMobileTextField2(
+                        controller: controller.roleVideoTEController,
+                        labelText: KalakarConstants.roleVideo,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        editable: false,
+                        isSuffixIcon: true,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: null),
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      if(controller.artistExperienceId != "0")
+                        CustomMobileButtonWidget(
+                          onTap: () {
+                            controller.deleteExperienceForm();
+                          },
+                          borderRadius: 50.r,
+                          fontSize: 6.sp,
+                          backgroundColor: Colors.red,
+                          textColor: KalakarColors.white,
+                          text: KalakarConstants.delete,
+                          horizontalPadding: 2.w,
+                          verticalPadding: 8.h,
+                          showIcon: true,
+                          icon: Icons.delete,
+                          iconColor: KalakarColors.white,
+                          width: 125.w,
+                        ),
+                      CustomMobileButtonWidget(
+                        onTap: () {
+                          controller.validateExperienceForm();
+                        },
+                        borderRadius: 50.r,
+                        fontSize: 6.sp,
+                        text: KalakarConstants.save,
+                        horizontalPadding: 2.w,
+                        showIcon: true,
+                        icon: Icons.save,
+                        iconColor: KalakarColors.headerText,
+                        width: 125.w,
+                        verticalPadding: 8.h,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+
+                ]),
+              ));
+        }));
+  }
 }

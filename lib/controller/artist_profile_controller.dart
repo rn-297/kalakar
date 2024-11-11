@@ -899,8 +899,76 @@ class ArtistProfileController extends GetxController {
     }
   }
 
+
+  pickOrShowDocumentWeb(String documentType, BuildContext context, controller) {
+    this.documentType = documentType;
+    switch (documentType) {
+      case KalakarConstants.profilePhoto:
+        if (artistProfileImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          pickDocumentWeb(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.passport:
+        if (passportImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          pickDocumentWeb(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.filmCorporationCard:
+        if (filmCorporationCardImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          pickDocumentWeb(documentType, context, controller);
+        }
+        break;
+      case KalakarConstants.aadharCard:
+        if (adharCardImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showImageBottomSheetWeb(context, controller);
+        }
+        break;
+      case KalakarConstants.portfolio1:
+        if (portFolioImageOrVideo.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else if (porFolioFileType == "IMAGE") {
+          PickerHelper.showImageBottomSheetWeb(context, controller);
+        } else if (porFolioFileType == "VIDEO") {
+          PickerHelper.showVideoBottomSheet(context, controller);
+        } else {
+          validatePortfolioForm();
+        }
+        break;
+      case KalakarConstants.roleImage:
+        if (expRoleImage.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showImageBottomSheetWeb(context, controller);
+        }
+        break;
+      case KalakarConstants.roleVideo:
+        if (expRoleVideo.isNotEmpty) {
+          PickerHelper.showOrPickDocBottomSheetWeb(
+              documentType, context, controller);
+        } else {
+          PickerHelper.showVideoBottomSheetWeb(context, controller);
+        }
+        break;
+    }
+  }
+
   Future<void> pickDocument(
-      String documentType, BuildContext context, controller) async {
+      String documentType, BuildContext context, controller) async
+  {
     print(documentType);
     this.documentType = documentType;
     print("here1");
@@ -926,6 +994,66 @@ class ArtistProfileController extends GetxController {
         break;
       default:
         PickerHelper.showImageBottomSheet(context, controller);
+    }
+    /*switch (documentType) {
+      case KalakarConstants.profilePhoto:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          artistProfileImage = file.path;
+          update();
+        }
+        break;
+      case KalakarConstants.passport:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          passportImage = file.path;
+          passportTEController.text = file.path.split("/").last;
+          update();
+        }
+        break;
+      case KalakarConstants.filmCorporationCard:
+        File? file = await PickerHelper.pickPdfFromGallery();
+        if (file != null) {
+          fileCorporationCardImage = file.path;
+          filmCorporationCrdTEController.text = file.path.split("/").last;
+          update();
+        }
+        break;
+      case KalakarConstants.aadharCard:
+        this.documentType = documentType;
+        PickerHelper.showImageBottomSheet(context, controller);
+        break;
+    }*/
+  }
+
+  Future<void> pickDocumentWeb(
+      String documentType, BuildContext context, controller) async
+  {
+    print(documentType);
+    this.documentType = documentType;
+    print("here1");
+    switch (documentType) {
+      case KalakarConstants.portfolio1:
+        print("here2");
+
+        if (porFolioFileType == "IMAGE") {
+          print("here3");
+
+          PickerHelper.showImageBottomSheetWeb(context, controller);
+        } else if (porFolioFileType == "VIDEO") {
+          print("here4");
+
+          PickerHelper.showVideoBottomSheetWeb(context, controller);
+        } else {
+          validatePortfolioForm();
+        }
+
+        break;
+      case KalakarConstants.roleVideo:
+        PickerHelper.showVideoBottomSheetWeb(context, controller);
+        break;
+      default:
+        PickerHelper.showImageBottomSheetWeb(context, controller);
     }
     /*switch (documentType) {
       case KalakarConstants.profilePhoto:

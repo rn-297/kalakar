@@ -29,8 +29,8 @@ class ArtistProfileViewPage extends StatelessWidget {
         ),
       ),
       body: ScreenTypeLayout.builder(
-        mobile: (BuildContext context) => notificationsMobileView(context),
-        tablet: (BuildContext context) => notificationsWebView(context),
+        mobile: (BuildContext context) => artistProfileViewMobileView(context),
+        tablet: (BuildContext context) => artistProfileViewWebView(context),
       ),
     );
   }
@@ -99,7 +99,7 @@ class ArtistProfileViewPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.artistProfile,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),
@@ -123,7 +123,7 @@ class ArtistProfileViewPage extends StatelessWidget {
     );
   }
 
-  notificationsMobileView(BuildContext context) {
+  artistProfileViewMobileView(BuildContext context) {
     return GetBuilder<RequirementController>(builder: (controller) {
       if (!controller.isSearchedArtist) {
         GetArtistProfileModelForRequirememt artistData = controller
@@ -1574,5 +1574,1456 @@ class ArtistProfileViewPage extends StatelessWidget {
     );
   }
 
-  notificationsWebView(BuildContext context) {}
+  textSpanToShowWeb(BuildContext context, String title, String titleData) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(
+                text: title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 5.sp),
+              ),
+              TextSpan(
+                text: titleData,
+                style:
+                    TextStyle(fontWeight: FontWeight.normal, fontSize: 5.sp),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 6.h,
+        ),
+      ],
+    );
+  }
+
+  artistProfileViewWebView(BuildContext context) {
+    return GetBuilder<RequirementController>(builder: (controller) {
+      if (!controller.isSearchedArtist) {
+        GetArtistProfileModelForRequirememt artistData = controller
+            .selectedArtistProfileData.getArtistProfileModelForRequirememt!;
+        List<EducationList> artistEducationData =
+        controller.selectedArtistProfileData.educationList!;
+        List<HobbiesList> artistHobbiesData =
+        controller.selectedArtistProfileData.hobbiesList!;
+        List<InterestList> artistInterestInData =
+        controller.selectedArtistProfileData.interestList!;
+        List<ComfortableInList> artistComfortableInData =
+        controller.selectedArtistProfileData.comfortableInList!;
+        List<ExperienceList> artistExperienceData =
+        controller.selectedArtistProfileData.experienceList!;
+        List<PortfolioList> artistPortfolioData =
+        controller.selectedArtistProfileData.portfolioList!;
+        DateFormat formatter = DateFormat('dd-MM-yyyy');
+        DateTime dob = DateTime.parse(artistData.dateOfBirth.toString());
+        return SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.h),
+            padding: EdgeInsets.symmetric(horizontal:32.w,vertical: 16.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Icon(CupertinoIcons.suit_heart)),
+                SizedBox(
+                  height: 8.h,
+                ),
+                ClipOval(
+                  // Image radius
+                  child: Image.network(
+                    artistData.profilePic!,
+                    fit: BoxFit.cover,
+                    height: 80.h,
+                    width: 80.h,
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace? stackTrace) {
+                      // Return a dummy or placeholder image when an error occurs
+                      return Image.asset(
+                        "assets/images/app_bar_logo.png",
+                        height: 80.h,
+                        width: 80.h,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Text(
+                  "${artistData.firstName} ${artistData.middleName} ${artistData.lastName}",
+                  style:
+                  TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      textSpanToShowWeb(context, "Email Id : ", artistData.email!),
+                      textSpanToShowWeb(context, "Mobile Number : ",
+                          artistData.mobileNumber!),
+                      textSpanToShowWeb(context, "Alternate Mobile Number : ",
+                          artistData.alternateMobileNumber!),
+                      textSpanToShowWeb(
+                          context, "Date Of Birth : ", formatter.format(dob)),
+                      textSpanToShowWeb(context, "Address : ",
+                          "${artistData.address1!.toString()}, ${artistData.address2!.toString()}, ${artistData.district!.toString()}, ${artistData.state!.toString()},  ${artistData.postalcode!.toString()}, "),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      textSpanToShowWeb(context, "Bio : ", artistData.bio!),
+                      textSpanToShowWeb(
+                          context, "Eye Color : ", artistData.eyeColor!),
+                      textSpanToShowWeb(
+                          context, "Hair Color : ", artistData.hairColor!),
+                      textSpanToShowWeb(
+                          context, "Body Type : ", artistData.bodyType!),
+                      textSpanToShowWeb(context, "Marital Status : ",
+                          artistData.maritalStatus!),
+                      textSpanToShowWeb(
+                          context,
+                          "Role Age : ",
+                          artistData.roleAge!.toString().contains(".")
+                              ? artistData.roleAge!
+                              .toString()
+                              .split(".")
+                              .first +
+                              " Years"
+                              : artistData.roleAge!.toString() + "Years"),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: textSpanToShowWeb(
+                                context,
+                                "Age : ",
+                                artistData.age!.toString().contains(".")
+                                    ? artistData.age!
+                                    .toString()
+                                    .split(".")
+                                    .first +
+                                    " Years"
+                                    : artistData.age!.toString() + "Years"),
+                          ),
+                          Expanded(
+                            child: textSpanToShowWeb(
+                                context, "Gender : ", artistData.gender!),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: textSpanToShowWeb(context, "Height : ",
+                                artistData.height.toString() + " ft"),
+                          ),
+                          Expanded(
+                            child: textSpanToShowWeb(context, "Weight : ",
+                                artistData.weight!.toString() + " kg"),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(0, artistData.fbLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/facebook.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(1, artistData.instalink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/instagram.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(2, artistData.wpLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/whatsapp.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(3, artistData.ytLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/youtube.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(4, artistData.emailLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/email.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(5, artistData.websiteLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/website.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.education,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistEducationData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            EducationList educationData =
+                            artistEducationData[index];
+                            DateTime courseEndDate = DateTime.parse(
+                                educationData.courseEndDate.toString());
+                            DateTime courseStartDate = DateTime.parse(
+                                educationData.courseStartDate.toString());
+                            DateFormat formatter = DateFormat('dd-MM-yyyy');
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textSpanToShowWeb(context, "Course Name : ",
+                                    educationData.course.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.universityOrInstitute} : ",
+                                    educationData.universityOrInstitute
+                                        .toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.specialization} : ",
+                                    educationData.specialization.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.courseType} : ",
+                                    educationData.coursetype.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.score} : ",
+                                    educationData.score.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.startDate} : ",
+                                    formatter.format(courseStartDate)),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.endDate} : ",
+                                    formatter.format(courseEndDate)),
+                                if (index != artistEducationData.length - 1)
+                                  Divider(
+                                    thickness: 0.5,
+                                    height: 10.h,
+                                  ),
+                                if (index != artistEducationData.length - 1)
+                                  SizedBox(
+                                    height: 8.h,
+                                  )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.hobbies,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistHobbiesData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  artistHobbiesData[index].hobbyName!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 5.sp),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.interestIn,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistInterestInData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  artistInterestInData[index].interestedName!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 5.sp),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.comfortableIn,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistComfortableInData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  artistComfortableInData[index]
+                                      .comfortableName!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 5.sp),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.experiences,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistExperienceData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            ExperienceList experienceData =
+                            artistExperienceData[index];
+                            DateTime expEndDate = DateTime.parse(
+                                experienceData.endDate.toString());
+                            DateTime expStartDate = DateTime.parse(
+                                experienceData.startDate.toString());
+                            DateFormat formatter = DateFormat('dd-MM-yyyy');
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.roleName} : ",
+                                    experienceData.roleName.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.companyName} : ",
+                                    experienceData.companyName.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.roleProfile} : ",
+                                    experienceData.roleProfile.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.startDate} : ",
+                                    formatter.format(expStartDate)),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.endDate} : ",
+                                    formatter.format(expEndDate)),
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        controller.showDocument(
+                                            experienceData.roleImage!,
+                                            KalakarConstants.roleImage);
+                                      },
+                                      child: Container(
+                                        height: 255.h,
+                                        width: 200.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8.r),
+                                          border: Border.all(
+                                              color:
+                                              KalakarColors.backgroundGrey),
+                                          image: DecorationImage(
+                                              image: experienceData.roleImage!
+                                                  .startsWith("http")
+                                                  ? NetworkImage(
+                                                  experienceData.roleImage!)
+                                                  : FileImage(File(
+                                                  experienceData
+                                                      .roleImage!))
+                                              as ImageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 16.h,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        controller.showDocument(
+                                            experienceData.roleVideo!,
+                                            KalakarConstants.roleVideo);
+                                      },
+                                      child: Container(
+                                        height: 255.h,
+                                        width: 200.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8.r),
+                                          border: Border.all(
+                                              color:
+                                              KalakarColors.backgroundGrey),
+                                          image: DecorationImage(
+                                              image: experienceData.roleVideo!
+                                                  .startsWith("http")
+                                                  ? NetworkImage(
+                                                  experienceData.roleVideo!)
+                                                  : FileImage(File(
+                                                  experienceData
+                                                      .roleVideo!))
+                                              as ImageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                if (index != artistExperienceData.length - 1)
+                                  Divider(
+                                    thickness: 0.5,
+                                    height: 10.h,
+                                  ),
+                                if (index != artistExperienceData.length - 1)
+                                  SizedBox(
+                                    height: 8.h,
+                                  )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.portfolio1,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      SizedBox(
+                        height: 240.h,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: artistPortfolioData.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  controller.showDocument(
+                                      artistPortfolioData[index].filePath!,
+                                      KalakarConstants.portfolio1);
+                                },
+                                child: Container(
+                                  height: 255.h,
+                                  width: 200.h,
+                                  margin: EdgeInsets.only(right: 8.h),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    border: Border.all(
+                                        color: KalakarColors.backgroundGrey),
+                                    image: artistPortfolioData[index].fileType==2?DecorationImage(
+                                        image:  MemoryImage(
+                                            artistPortfolioData[index]
+                                                .thumbnail!)
+                                        as ImageProvider,
+                                        fit: BoxFit.cover):DecorationImage(
+                                        image: artistPortfolioData[index]
+                                            .filePath!
+                                            .startsWith("http")
+                                            ? NetworkImage(
+                                            artistPortfolioData[index]
+                                                .filePath!)
+                                            : FileImage(File(
+                                            artistPortfolioData[index]
+                                                .filePath!))
+                                        as ImageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                              );
+                            }),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomMobileButtonWidget(
+                        text: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4
+                            ? KalakarConstants.select
+                            : controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            1
+                            ? KalakarConstants.selected
+                            : KalakarConstants.select,
+                        onTap: () {
+                          /*if (controller.selectedArtistProfileData
+                                            .fKApplyStatusMasterID ==
+                                        1 ||
+                                    controller.selectedArtistProfileData
+                                            .fKApplyStatusMasterID ==
+                                        2) */
+                          controller.saveChangesAppliedRequirementStatus(1);
+                        },
+                        backgroundColor: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ||
+                            controller.selectedArtistProfileData
+                                .fKApplyStatusMasterID ==
+                                1
+                            ? KalakarColors.appBarBackground
+                            : KalakarColors.backgroundGrey,
+                        horizontalPadding: 4.h,
+                        verticalPadding: 8.h,
+                        fontSize: 5.sp,
+                        width: 60.w,
+                        borderRadius: 40.r),
+                    CustomMobileButtonWidget(
+                        text: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4
+                            ? KalakarConstants.reject
+                            : controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            3
+                            ? KalakarConstants.rejected
+                            : KalakarConstants.reject,
+                        onTap: () {
+                          controller.saveChangesAppliedRequirementStatus(3);
+                        },
+                        horizontalPadding: 4.h,
+                        verticalPadding: 8.h,
+                        backgroundColor: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ||
+                            controller.selectedArtistProfileData
+                                .fKApplyStatusMasterID ==
+                                3
+                            ? KalakarColors.appBarBackground
+                            : KalakarColors.backgroundGrey,
+                        width: 60.w,
+                        fontSize: 5.sp,
+                        borderRadius: 40.r),
+                    CustomMobileButtonWidget(
+                        text: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4
+                            ? KalakarConstants.hold
+                            : controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            2
+                            ? KalakarConstants.onHold
+                            : KalakarConstants.hold,
+                        onTap: () {
+                          controller.saveChangesAppliedRequirementStatus(2);
+                        },
+                        backgroundColor: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ||
+                            controller.selectedArtistProfileData
+                                .fKApplyStatusMasterID ==
+                                2
+                            ? KalakarColors.appBarBackground
+                            : KalakarColors.backgroundGrey,
+                        horizontalPadding: 4.h,
+                        verticalPadding: 8.h,
+                        width: 60.w,
+                        fontSize: 5.sp,
+                        borderRadius: 40.r),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      } else {
+        artistSearch.GetArtistProfileModellist artistData =
+            controller.selectedSearchedArtistProfileData;
+        List<artistSearch.EducationList> artistEducationData =
+        controller.selectedSearchedArtistProfileData.educationList!;
+        List<artistSearch.HobbiesList> artistHobbiesData =
+        controller.selectedSearchedArtistProfileData.hobbiesList!;
+        List<artistSearch.InterestList> artistInterestInData =
+        controller.selectedSearchedArtistProfileData.interestList!;
+        List<artistSearch.ComfortableInList> artistComfortableInData =
+        controller.selectedSearchedArtistProfileData.comfortableInList!;
+        List<artistSearch.ExperienceList> artistExperienceData =
+        controller.selectedSearchedArtistProfileData.experienceList!;
+        List<artistSearch.PortfolioList> artistPortfolioData =
+        controller.selectedSearchedArtistProfileData.portfolioList!;
+        DateFormat formatter = DateFormat('dd-MM-yyyy');
+        DateTime dob = DateTime.parse(artistData.dateOfBirth.toString());
+        return SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.h),
+            padding: EdgeInsets.symmetric(horizontal:32.w,vertical: 16.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Icon(CupertinoIcons.suit_heart)),
+                SizedBox(
+                  height: 8.h,
+                ),
+                ClipOval(
+                  // Image radius
+                  child: Image.network(
+                    artistData.profilePic!,
+                    fit: BoxFit.cover,
+                    height: 80.h,
+                    width: 80.h,
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace? stackTrace) {
+                      // Return a dummy or placeholder image when an error occurs
+                      return Image.asset(
+                        "assets/images/app_bar_logo.png",
+                        height: 80.h,
+                        width: 80.h,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Text(
+                  "${artistData.firstName} ${artistData.middleName}",
+                  style:
+                  TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      textSpanToShowWeb(context, "Email Id : ", artistData.email!),
+                      textSpanToShowWeb(context, "Mobile Number : ",
+                          artistData.mobileNumber!),
+                      textSpanToShowWeb(context, "Alternate Mobile Number : ",
+                          artistData.alternateMobileNumber!),
+                      textSpanToShowWeb(
+                          context, "Date Of Birth : ", formatter.format(dob)),
+                      textSpanToShowWeb(context, "Address : ",
+                          "${artistData.address1!.toString()}, ${artistData.address2!.toString()}, ${artistData.district!.toString()}, ${artistData.state!.toString()},  ${artistData.postalcode!.toString()}, "),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      textSpanToShowWeb(context, "Bio : ", artistData.bio!),
+                      textSpanToShowWeb(
+                          context, "Eye Color : ", artistData.eyeColor!),
+                      textSpanToShowWeb(
+                          context, "Hair Color : ", artistData.hairColor!),
+                      textSpanToShowWeb(
+                          context, "Body Type : ", artistData.bodyType!),
+                      textSpanToShowWeb(context, "Marital Status : ",
+                          artistData.maritalStatus!),
+                      textSpanToShowWeb(
+                          context,
+                          "Role Age : ",
+                          artistData.roleAge!.toString().contains(".")
+                              ? artistData.roleAge!
+                              .toString()
+                              .split(".")
+                              .first +
+                              " Years"
+                              : artistData.roleAge!.toString() + "Years"),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: textSpanToShowWeb(
+                                context,
+                                "Age : ",
+                                artistData.age!.toString().contains(".")
+                                    ? artistData.age!
+                                    .toString()
+                                    .split(".")
+                                    .first +
+                                    " Years"
+                                    : artistData.age!.toString() + "Years"),
+                          ),
+                          Expanded(
+                            child: textSpanToShowWeb(
+                                context, "Gender : ", artistData.gender!),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: textSpanToShowWeb(context, "Height : ",
+                                artistData.height.toString() + " ft"),
+                          ),
+                          Expanded(
+                            child: textSpanToShowWeb(context, "Weight : ",
+                                artistData.weight!.toString() + " kg"),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(0, artistData.fbLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/facebook.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(1, artistData.instalink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/instagram.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(2, artistData.wpLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/whatsapp.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(3, artistData.ytLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/youtube.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(4, artistData.emailLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/email.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.openSocialMedia(5, artistData.websiteLink!);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/website.svg",
+                        height: 30.h,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.education,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistEducationData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            artistSearch.EducationList educationData =
+                            artistEducationData[index];
+                            DateTime courseEndDate = DateTime.parse(
+                                educationData.courseEndDate.toString());
+                            DateTime courseStartDate = DateTime.parse(
+                                educationData.courseStartDate.toString());
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textSpanToShowWeb(context, "Course Name : ",
+                                    educationData.course.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.universityOrInstitute} : ",
+                                    educationData.universityOrInstitute
+                                        .toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.specialization} : ",
+                                    educationData.specialization.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.courseType} : ",
+                                    educationData.coursetype.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.score} : ",
+                                    educationData.score.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.startDate} : ",
+                                    formatter.format(courseStartDate)),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.endDate} : ",
+                                    formatter.format(courseEndDate)),
+                                if (index != artistEducationData.length - 1)
+                                  Divider(
+                                    thickness: 0.5,
+                                    height: 10.h,
+                                  ),
+                                if (index != artistEducationData.length - 1)
+                                  SizedBox(
+                                    height: 8.h,
+                                  )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.hobbies,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistHobbiesData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  artistHobbiesData[index].hobbyName!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 5.sp),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.interestIn,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistInterestInData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  artistInterestInData[index].interestedName!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 5.sp),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.comfortableIn,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistComfortableInData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  artistComfortableInData[index]
+                                      .comfortableName!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 5.sp),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.experiences,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: artistExperienceData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            artistSearch.ExperienceList experienceData =
+                            artistExperienceData[index];
+                            DateTime expEndDate = DateTime.parse(
+                                experienceData.endDate.toString());
+                            DateTime expStartDate = DateTime.parse(
+                                experienceData.startDate.toString());
+                            DateFormat formatter = DateFormat('dd-MM-yyyy');
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.roleName} : ",
+                                    experienceData.roleName.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.companyName} : ",
+                                    experienceData.companyName.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.roleProfile} : ",
+                                    experienceData.roleProfile.toString()),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.startDate} : ",
+                                    formatter.format(expStartDate)),
+                                textSpanToShowWeb(
+                                    context,
+                                    "${KalakarConstants.endDate} : ",
+                                    formatter.format(expEndDate)),
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        controller.showDocument(
+                                            experienceData.roleImage!,
+                                            KalakarConstants.roleImage);
+                                      },
+                                      child: Container(
+                                        height: 255.h,
+                                        width: 200.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8.r),
+                                          border: Border.all(
+                                              color:
+                                              KalakarColors.backgroundGrey),
+                                          image: DecorationImage(
+                                              image: experienceData.roleImage!
+                                                  .startsWith("http")
+                                                  ? NetworkImage(
+                                                  experienceData.roleImage!)
+                                                  : FileImage(File(
+                                                  experienceData
+                                                      .roleImage!))
+                                              as ImageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 16.h,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        controller.showDocument(
+                                            experienceData.roleVideo!,
+                                            KalakarConstants.roleVideo);
+                                      },
+                                      child: Container(
+                                        height: 255.h,
+                                        width: 200.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8.r),
+                                          border: Border.all(
+                                              color:
+                                              KalakarColors.backgroundGrey),
+                                          image: DecorationImage(
+                                              image: experienceData.roleVideo!
+                                                  .startsWith("http")
+                                                  ? NetworkImage(
+                                                  experienceData.roleVideo!)
+                                                  : FileImage(File(
+                                                  experienceData
+                                                      .roleVideo!))
+                                              as ImageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                if (index != artistExperienceData.length - 1)
+                                  Divider(
+                                    thickness: 0.5,
+                                    height: 10.h,
+                                  ),
+                                if (index != artistExperienceData.length - 1)
+                                  SizedBox(
+                                    height: 8.h,
+                                  )
+                              ],
+                            );
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(12.h),
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        KalakarConstants.portfolio1,
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8.h),
+                      SizedBox(
+                        height: 240.h,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: artistPortfolioData.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  controller.showDocument(
+                                      artistPortfolioData[index].filePath!,
+                                      KalakarConstants.portfolio1);
+                                },
+                                child: Container(
+                                  height: 255.h,
+                                  width: 200.h,
+                                  margin: EdgeInsets.only(right: 8.h),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    border: Border.all(
+                                        color: KalakarColors.backgroundGrey),
+                                    image: DecorationImage(
+                                        image: artistPortfolioData[index]
+                                            .filePath!
+                                            .startsWith("http")
+                                            ? NetworkImage(
+                                            artistPortfolioData[index]
+                                                .filePath!)
+                                            : FileImage(File(
+                                            artistPortfolioData[index]
+                                                .filePath!))
+                                        as ImageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                              );
+                            }),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+
+                /*Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomMobileButtonWidget(
+                        text: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ?KalakarConstants.select:
+                        controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            1
+                            ? KalakarConstants.selected
+                            : KalakarConstants.select,
+                        onTap: () {
+                          */
+                /*if (controller.selectedArtistProfileData
+                                            .fKApplyStatusMasterID ==
+                                        1 ||
+                                    controller.selectedArtistProfileData
+                                            .fKApplyStatusMasterID ==
+                                        2) */
+                /*
+                          controller.saveChangesAppliedRequirementStatus(1);
+                        },
+                        backgroundColor: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ||
+                            controller.selectedArtistProfileData
+                                .fKApplyStatusMasterID ==
+                                1
+                            ? KalakarColors.appBarBackground
+                            : KalakarColors.backgroundGrey,
+                        horizontalPadding: 4.h,
+                        verticalPadding: 8.h,
+                        fontSize: 16.sp,
+                        width: 100.w,
+                        borderRadius: 40.r),
+                    CustomMobileButtonWidget(
+                        text: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ?KalakarConstants.reject:
+                        controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            2
+                            ? KalakarConstants.rejected
+                            : KalakarConstants.reject,
+                        onTap: () {
+                          controller.saveChangesAppliedRequirementStatus(2);
+                        },
+                        horizontalPadding: 4.h,
+                        verticalPadding: 8.h,
+                        backgroundColor: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ||
+                            controller.selectedArtistProfileData
+                                .fKApplyStatusMasterID ==
+                                2
+                            ? KalakarColors.appBarBackground
+                            : KalakarColors.backgroundGrey,
+                        width: 100.w,
+                        fontSize: 16.sp,
+                        borderRadius: 40.r),
+                    CustomMobileButtonWidget(
+                        text: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ?KalakarConstants.hold:
+                        controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            3
+                            ? KalakarConstants.onHold
+                            : KalakarConstants.hold,
+                        onTap: () {
+                          controller.saveChangesAppliedRequirementStatus(3);
+                        },
+                        backgroundColor: controller.selectedArtistProfileData
+                            .fKApplyStatusMasterID ==
+                            4 ||
+                            controller.selectedArtistProfileData
+                                .fKApplyStatusMasterID ==
+                                3
+                            ? KalakarColors.appBarBackground
+                            : KalakarColors.backgroundGrey,
+                        horizontalPadding: 4.h,
+                        verticalPadding: 8.h,
+                        width: 100.w,
+                        fontSize: 16.sp,
+                        borderRadius: 40.r),
+                  ],
+                )*/
+              ],
+            ),
+          ),
+        );
+      }
+    });
+  }
 }

@@ -143,4 +143,59 @@ class KalakarDialogs {
       ),
     );
   }
+
+  static logOutDialog1() {
+    Get.defaultDialog(
+      title: "",
+      titlePadding: EdgeInsets.zero,
+      // title: "Log Out of Your Account?",
+      // titleStyle: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),
+      radius: 5.r,
+      barrierDismissible: false,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Log Out of Your Account?",
+            style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 16.h,
+          ),
+          Text("Are you sure you want to log out?"),
+          SizedBox(
+            height: 24.h,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomMobileButtonWidget(
+                  text: "Cancel",
+                  onTap: () {
+                    Get.back();
+                  },
+                  horizontalPadding: 2.w,
+                  verticalPadding: 8.h,
+                  fontSize: 5.sp,
+                  width: 40.w,
+                  borderRadius: 40.r),
+
+              CustomMobileButtonWidget(
+                  text: "Logout",
+                  onTap: () {
+                    HiveService.deleteLoginData();
+                  },
+                  horizontalPadding: 2.w,
+                  verticalPadding: 8.h,
+                  fontSize: 5.sp,
+                  width: 40.w,
+                  textColor: KalakarColors.white,
+                  backgroundColor: Colors.red,
+                  borderRadius: 40.r),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }

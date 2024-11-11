@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/profile_controller.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search4.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -368,18 +369,18 @@ class NewProjectFormPage extends StatelessWidget {
                 child: Stack(
                   children: [
                     Container(
-                      height: 150.h,
-                      width: 150.h,
+                      height: 100.h,
+                      width: 100.h,
                       decoration: BoxDecoration(
                         border: Border.all(color: KalakarColors.textColor),
-                        borderRadius: BorderRadius.circular(75.r),
+                        borderRadius: BorderRadius.circular(50.r),
                         image: DecorationImage(
                             fit: BoxFit.fill,
                             image: controller.projectCoverPath
-                                    .startsWith("http")
+                                .startsWith("http")
                                 ? NetworkImage(controller.projectCoverPath)
                                 : FileImage(File(controller.projectCoverPath))
-                                    as ImageProvider),
+                            as ImageProvider),
                       ),
                     ),
                     Positioned(
@@ -406,7 +407,7 @@ class NewProjectFormPage extends StatelessWidget {
                 child: Text(
                   KalakarConstants.projectCover,
                   style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 15.sp),
+                  TextStyle(fontWeight: FontWeight.bold, fontSize: 5.sp),
                 ),
               ),
               SizedBox(
@@ -416,31 +417,47 @@ class NewProjectFormPage extends StatelessWidget {
                 key: controller.formNewProjectKey,
                 child: Column(
                   children: [
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField2(
                         controller: controller.projectTitleTEController,
                         labelText: KalakarConstants.projectTitle,
                         obscureText: false,
                         textInputType: TextInputType.text,
                         passwordVisibility: false,
+                        hintText: "Enter Project Title",
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
                         validator: Validator.validateProjectTitle),
                     SizedBox(
                       height: 16.h,
                     ),
-                    CommonWidgets.commonMobileTextField(
+                    CommonWidgets.commonMobileTextField2(
                         controller: controller.projectDescriptionTEController,
                         labelText: KalakarConstants.projectDescription,
                         obscureText: false,
                         textInputType: TextInputType.text,
                         passwordVisibility: false,
+                        maxLines: 3,
+                        hintText: "Enter Project Description",
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
                         validator: Validator.validateProjectDescription),
                     SizedBox(
                       height: 16.h,
                     ),
-                    CustomDropdownSearch(
+                    CommonWidgets.commonMobileTextField2(
+                        controller: controller.projectTypeTEController,
+                        labelText: KalakarConstants.projectType,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        hintText: "Hindi Movie/ Television Series",
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: Validator.validateProjectType),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    CustomDropdownSearch4(
                       validator: Validator.validateProjectStatus,
                       items: controller.projectStatusStringList,
                       titleText: KalakarConstants.projectStatus,
@@ -492,87 +509,120 @@ class NewProjectFormPage extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(10.h),
-                      height: 190.h,
+                      height: 240.h,
                       width: double.infinity,
-                      child: ListView.builder(
+                      child: controller.isProjectDocumentLoading
+                          ? ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: controller.projectDocuments.length,
                           itemBuilder: (context, index) {
-                            return controller.projectDocuments[index].type ==
-                                    "Add"
+                            return  Container(
+                              margin: EdgeInsets.only(right: 15.w),
+                              child: Shimmer.fromColors(
+                                baseColor: KalakarColors.blue10,
+                                highlightColor: KalakarColors.blue20,
+                                child: Container(
+                                  height: 225.h,
+                                  width: 280.h,
+                                  decoration: BoxDecoration(
+                                      color: KalakarColors.white,
+                                      borderRadius:
+                                      BorderRadius.circular(8.r)),
+                                ),
+                              ),
+                            ); //Container();
+                          })
+                          : ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.projectDocuments.length,
+                          itemBuilder: (context, index) {
+                            return controller
+                                .projectDocuments[index].type ==
+                                "Add"
                                 ? InkWell(
-                                    onTap: () {
-                                      controller.addPhotosAndVideos(
-                                          context, controller);
-                                    },
-                                    child: Container(
-                                      height: 180.h,
-                                      width: 125.h,
-                                      margin: EdgeInsets.only(right: 15.w),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        border: Border.all(),
-                                      ),
-                                      child: Center(
-                                          child: Icon(
+                              onTap: () {
+                                controller.addPhotosAndVideos(
+                                    context, controller);
+                              },
+                              child: Center(
+                                child: Container(
+                                  height: 225.h,
+                                  width: 180.h,
+                                  margin:
+                                  EdgeInsets.only(right: 15.w),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(8.r),
+                                    border: Border.all(),
+                                  ),
+                                  child: Center(
+                                      child: Icon(
                                         Icons.add,
                                         size: 35,
                                       )),
+                                ),
+                              ),
+                            )
+                                : Container(
+                              margin: EdgeInsets.only(right: 15.w),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 225.h,
+                                    width: 180.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(8.r),
+                                      image: DecorationImage(
+                                          image: controller
+                                              .projectDocuments[
+                                          index]
+                                              .path
+                                              .startsWith("http")
+                                              ? NetworkImage(controller
+                                              .projectDocuments[
+                                          index]
+                                              .path)
+                                              : FileImage(File(controller
+                                              .projectDocuments[
+                                          index]
+                                              .path))
+                                          as ImageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 2,
+                                    top: 2,
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.deleteProjectDocuments(
+                                            controller
+                                                .selectedCompanyProject!
+                                                .companyProjectID!,
+                                            controller
+                                                .projectDocuments[
+                                            index]
+                                                .documentId);
+                                      },
+                                      child: Container(
+                                          padding:
+                                          EdgeInsets.all(4.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(50.r),
+                                              color: KalakarColors
+                                                  .white
+                                                  .withOpacity(.5)),
+                                          child: Icon(Icons.delete)),
                                     ),
                                   )
-                                : Container(
-                                    margin: EdgeInsets.only(right: 15.w),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height: 180.h,
-                                          width: 125.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            image: DecorationImage(
-                                                image: controller
-                                                        .projectDocuments[index]
-                                                        .path
-                                                        .startsWith("http")
-                                                    ? NetworkImage(controller
-                                                        .projectDocuments[index]
-                                                        .path)
-                                                    : FileImage(File(controller
-                                                        .projectDocuments[index]
-                                                        .path)) as ImageProvider,
-                                                fit: BoxFit.cover),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 2,
-                                          top: 2,
-                                          child: InkWell(
-                                            onTap: () {
-                                              controller.deleteProjectDocuments(
-                                                  controller
-                                                      .selectedCompanyProject!
-                                                      .companyProjectID!,
-                                                  controller
-                                                      .projectDocuments[index]
-                                                      .documentId);
-                                            },
-                                            child: Container(
-                                                padding: EdgeInsets.all(4.h),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50.r),
-                                                    color: KalakarColors.white
-                                                        .withOpacity(.5)),
-                                                child: Icon(Icons.delete)),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ); //Container();
+                                ],
+                              ),
+                            ); //Container();
                           }),
                     )
                   ],
@@ -581,33 +631,42 @@ class NewProjectFormPage extends StatelessWidget {
               SizedBox(
                 height: 32.h,
               ),
-              CustomMobileButtonWidget(
-                onTap: () {
-                  controller.saveNewProject();
-                },
-                borderRadius: 50.r,
-                fontSize: 8.sp,
-                text: KalakarConstants.saveNewProject,
-                horizontalPadding: 20.w,
-                verticalPadding: 8.h,
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-              controller.selectedCompanyProject != null
-                  ? CustomMobileButtonWidget(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (controller.selectedCompanyProject != null)
+                    CustomMobileButtonWidget(
                       onTap: () {
                         controller.deleteProject();
                       },
                       borderRadius: 50.r,
-                      fontSize: 8.sp,
+                      fontSize: 5.sp,
                       backgroundColor: Colors.red,
                       textColor: KalakarColors.white,
-                      text: KalakarConstants.deleteProject,
-                      horizontalPadding: 20.w,
+                      text: KalakarConstants.delete,
+                      horizontalPadding: 2.w,
+                      showIcon: true,
+                      icon: Icons.delete,
+                      width: 80.w,
+                      iconColor: KalakarColors.white,
                       verticalPadding: 8.h,
-                    )
-                  : Container(),
+                    ),
+                  CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.saveNewProject();
+                    },
+                    borderRadius: 50.r,
+                    fontSize: 5.sp,
+                    text: KalakarConstants.save,
+                    showIcon: true,
+                    icon: Icons.save,
+                    iconColor: KalakarColors.headerText,
+                    horizontalPadding: 2.w,
+                    verticalPadding: 8.h,
+                    width: 80.w,
+                  ),
+                ],
+              ),
             ],
           );
         }),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/custom_widgets/custom_dropdown_search1.dart';
+import 'package:kalakar/custom_widgets/custom_dropdown_search4.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controller/artist_profile_controller.dart';
@@ -27,7 +28,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => portfolioFormMobileView(context),
-        tablet: (BuildContext context) => portfolioFormWebView(),
+        tablet: (BuildContext context) => portfolioFormWebView(context),
       ),
     );
   }
@@ -63,9 +64,9 @@ class ArtistPortfolioFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.portfolio1,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
       ),
-      actions: [
+      /*actions: [
         InkWell(
           onTap: () {},
           child: Icon(
@@ -76,7 +77,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
         SizedBox(
           width: 16.h,
         )
-      ],
+      ],*/
     );
   }
 
@@ -163,5 +164,86 @@ class ArtistPortfolioFormPage extends StatelessWidget {
     }));
   }
 
-  portfolioFormWebView() {}
+  portfolioFormWebView(BuildContext context) {
+    return SingleChildScrollView(
+        child: GetBuilder<ArtistProfileController>(builder: (controller) {
+          return Padding(
+              padding: EdgeInsets.all(24.h),
+              child: Form(
+                key: controller.formPortFolioKey,
+                child: Column(children: [
+                  CustomDropdownSearch4(
+                    validator: Validator.validateInterestedIn,
+                    items: controller.fileTypeList,
+                    titleText: KalakarConstants.fileType,
+                    selectedItem: controller.fileTypeTEController.text.isEmpty
+                        ? null
+                        : controller.fileTypeTEController.text,
+                    labelText: KalakarConstants.fileType,
+                    onItemSelected: (selectedItem) {
+                      controller.setFileTypeValue(selectedItem);
+                    },
+                  ),
+                  SizedBox(height: 16.h,),
+
+                  InkWell(
+                    onTap: (){
+                      controller.pickOrShowDocumentWeb(KalakarConstants.portfolio1,
+                          context, controller);
+                    },
+                    child: CommonWidgets.commonMobileTextField2(
+                        controller: controller.filePathTEController,
+                        labelText: KalakarConstants.filePath,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        borderRadius: 12.r,
+                        editable: false,
+                        togglePasswordVisibility: () {},
+                        validator: Validator.validateFilePath),
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      if(controller.artistPortfolioId != "0")
+                        CustomMobileButtonWidget(
+                          onTap: () {
+                            controller.deletePortfolioData();
+                          },
+                          borderRadius: 50.r,
+                          fontSize: 6.sp,
+                          text: KalakarConstants.delete,
+                          backgroundColor: Colors.red,
+                          textColor: KalakarColors.white,
+                          horizontalPadding: 2.w,
+                          verticalPadding: 8.h,
+                          showIcon: true,
+                          iconColor: Colors.white,
+                          icon: Icons.delete,
+                          width: 125.w,
+                        ),
+                      CustomMobileButtonWidget(
+                        onTap: () {
+                          controller.validatePortfolioForm();
+                        },
+                        borderRadius: 50.r,
+                        fontSize: 6.sp,
+                        text: KalakarConstants.save,
+                        horizontalPadding: 2.w,
+                        verticalPadding: 8.h,
+
+                        showIcon: true,
+                        iconColor: KalakarColors.headerText,
+                        icon: Icons.save,
+                        width: 125.w,
+                      ),
+                    ],
+                  ),
+                ]),
+              ));
+        }));
+  }
 }
