@@ -27,6 +27,7 @@ import '../data/models/artist/artist_portfolio_list_class.dart';
 import '../data/models/artist_master_data.dart';
 import '../data/models/csv_model_class.dart';
 import '../data/models/file_data_model.dart';
+import '../data/models/file_web_model.dart';
 import '../data/models/login_data_model.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
@@ -154,6 +155,16 @@ class ArtistProfileController extends GetxController {
   //int
   int artistProfileID = 0;
   int documentsCount = 0;
+
+  //image data
+  FileDataWeb? artistProfileImageData;
+
+  FileDataWeb? passportImageData;
+  FileDataWeb? filmCorporationCardImageData;
+  FileDataWeb? adharCardImageData;
+  FileDataWeb? portFolioImageOrVideoData;
+  FileDataWeb? expRoleImageData;
+  FileDataWeb? expRoleVideoData;
 
   //artist profile details
   ArtistProfileDetailsClass artistProfileDetails = ArtistProfileDetailsClass();
@@ -431,6 +442,83 @@ class ArtistProfileController extends GetxController {
     }
   }
 
+  Future<void> saveArtistProfileWeb() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    print("object");
+    if (loginTable != null) {
+      final DateFormat format = DateFormat('yyyy-MM-dd');
+      KalakarDialogs.loadingDialog(
+          "Uploading Profile Data", "Saving Profile Data");
+      final body = <String, String>{};
+      body['ArtistProfileID'] = artistProfileId;
+      body['FK_AccountID'] = loginTable.accountID;
+      body['ProfilePic_Name'] = "image";
+      body['FirstName'] = firstNameTEController.text.trim();
+      body['MiddleName'] = middleNameTEController.text.trim();
+      body['LastName'] = lastNameTEController.text.trim();
+      body['DateOfBirth'] = format.format(artistDOB);
+      body['Email'] = emailTEController.text.trim();
+      body['MobileNumber'] = mobileNumberTEController.text.trim();
+      body['Gender'] = genderTEController.text.trim();
+      body['Age'] = ageTEController.text.trim();
+      body['RoleAge'] = roleAgeTEController.text.trim();
+      body['Height'] = heightTEController.text.trim();
+      body['Weight'] = weightTEController.text.trim();
+      body['Bio'] = bioTEController.text.trim();
+      body['FBLink'] = fbLinkTEController.text.trim();
+      body['WPLink'] = wpLinkTEController.text.trim();
+      body['YTLink'] = ytLinkTEController.text.trim();
+      body['Instalink'] = ytLinkTEController.text.trim();
+      body['EmailLink'] = emailLinkTEController.text.trim();
+      body['WebsiteLink'] = websiteLinkTEController.text.trim();
+      body['Address1'] = address1TEController.text.trim();
+      body['Address2'] = address2TEController.text.trim();
+      body['District'] = districtTEController.text.trim();
+      body['State'] = stateTEController.text.trim();
+      body['Postalcode'] = postalCodeTEController.text.trim();
+      body['AlternateMobileNumber'] =
+          alternateMobileNumberTEController.text.trim();
+      body['LanguageKnown'] = languageKnownTEController.text.trim();
+      body['EyeColor'] = eyeColorTEController.text.trim();
+      body['HairColor'] = hairColorTEController.text.trim();
+      body['BodyType'] = bodyTypeTEController.text.trim();
+      body['MaritalStatus'] = maritalStatusTEController.text.trim();
+      body['Vehicle'] = vehicleTEController.text.trim();
+      body['TravelThrIndia'] =
+          vehicleTEController.text.trim() == "Yes" ? "True" : "False";
+
+      Map<String, FileDataWeb?> files = {
+        'ProfilePic': artistProfileImageData,
+      };
+      print(body);
+
+      var response = await ApiClient.postFormDataTokenWeb(
+          KalakarConstants.saveArtistProfileApi, body, files, loginTable.token);
+      // print(response.statusCode);
+      // print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Profile Data Success", responseModel.message!);
+          if (artistProfileID == 0) {
+            getAccountData();
+          } else {
+            getArtistProfileBasic();
+          }
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Profile Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
+
   Future<void> saveArtistProfileEducation() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
@@ -644,6 +732,47 @@ class ArtistProfileController extends GetxController {
           loginTable.token);
       // print(response.statusCode);
       // print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Artist Documents Data Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Artist Documents Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
+
+  Future<void> saveArtistProfileDocumentsWeb() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Artist Documents Data", "Saving Artist Documents Data");
+      final body = <String, String>{};
+      body['ArtistProfile_DocumentsID'] = artistDocumentId;
+      body['FK_AccountID'] = loginTable.accountID;
+      body['UserID'] = loginTable.userID;
+
+      Map<String, FileDataWeb?> files = {
+        'Passport':passportImageData,
+        'FileCorporationCard': filmCorporationCardImageData,
+        'AdharCard': adharCardImageData,
+      };
+
+      var response = await ApiClient.postFormDataTokenWeb(
+          KalakarConstants.saveArtistProfileDocumentsApi,
+          body,
+          files,
+          loginTable.token);
+      print(response.statusCode);
+      print(response.body);
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -899,7 +1028,6 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-
   pickOrShowDocumentWeb(String documentType, BuildContext context, controller) {
     this.documentType = documentType;
     switch (documentType) {
@@ -932,7 +1060,8 @@ class ArtistProfileController extends GetxController {
           PickerHelper.showOrPickDocBottomSheetWeb(
               documentType, context, controller);
         } else {
-          PickerHelper.showImageBottomSheetWeb(context, controller);
+          // PickerHelper.showImageBottomSheetWeb(context, controller);
+          getImageFromCamera(context, KalakarConstants.gallery);
         }
         break;
       case KalakarConstants.portfolio1:
@@ -940,7 +1069,8 @@ class ArtistProfileController extends GetxController {
           PickerHelper.showOrPickDocBottomSheetWeb(
               documentType, context, controller);
         } else if (porFolioFileType == "IMAGE") {
-          PickerHelper.showImageBottomSheetWeb(context, controller);
+          // PickerHelper.showImageBottomSheetWeb(context, controller);
+          getImageFromCamera(context, KalakarConstants.gallery);
         } else if (porFolioFileType == "VIDEO") {
           PickerHelper.showVideoBottomSheet(context, controller);
         } else {
@@ -952,7 +1082,8 @@ class ArtistProfileController extends GetxController {
           PickerHelper.showOrPickDocBottomSheetWeb(
               documentType, context, controller);
         } else {
-          PickerHelper.showImageBottomSheetWeb(context, controller);
+          // PickerHelper.showImageBottomSheetWeb(context, controller);
+          getImageFromCamera(context, KalakarConstants.gallery);
         }
         break;
       case KalakarConstants.roleVideo:
@@ -960,15 +1091,15 @@ class ArtistProfileController extends GetxController {
           PickerHelper.showOrPickDocBottomSheetWeb(
               documentType, context, controller);
         } else {
-          PickerHelper.showVideoBottomSheetWeb(context, controller);
+          // PickerHelper.showVideoBottomSheetWeb(context, controller);
+          getVideoFromGallery(context);
         }
         break;
     }
   }
 
   Future<void> pickDocument(
-      String documentType, BuildContext context, controller) async
-  {
+      String documentType, BuildContext context, controller) async {
     print(documentType);
     this.documentType = documentType;
     print("here1");
@@ -1027,8 +1158,7 @@ class ArtistProfileController extends GetxController {
   }
 
   Future<void> pickDocumentWeb(
-      String documentType, BuildContext context, controller) async
-  {
+      String documentType, BuildContext context, controller) async {
     print(documentType);
     this.documentType = documentType;
     print("here1");
@@ -1039,21 +1169,25 @@ class ArtistProfileController extends GetxController {
         if (porFolioFileType == "IMAGE") {
           print("here3");
 
-          PickerHelper.showImageBottomSheetWeb(context, controller);
+          // PickerHelper.showImageBottomSheetWeb(context, controller);
+          getImageFromCamera(context, KalakarConstants.gallery);
         } else if (porFolioFileType == "VIDEO") {
           print("here4");
 
-          PickerHelper.showVideoBottomSheetWeb(context, controller);
+          // PickerHelper.showVideoBottomSheetWeb(context, controller);
+          getVideoFromGallery(context);
         } else {
           validatePortfolioForm();
         }
 
         break;
       case KalakarConstants.roleVideo:
-        PickerHelper.showVideoBottomSheetWeb(context, controller);
+        // PickerHelper.showVideoBottomSheetWeb(context, controller);
+        getVideoFromGallery(context);
         break;
       default:
-        PickerHelper.showImageBottomSheetWeb(context, controller);
+        // PickerHelper.showImageBottomSheetWeb(context, controller);
+        getImageFromCamera(context, KalakarConstants.gallery);
     }
     /*switch (documentType) {
       case KalakarConstants.profilePhoto:
@@ -1186,13 +1320,17 @@ class ArtistProfileController extends GetxController {
 
   Future<void> getImageFromCamera(BuildContext context, String type) async {
     File? file;
+    FileDataWeb? pickerData = null;
     if (type == KalakarConstants.camera) {
       file = await PickerHelper.pickImageFromCamera(context);
     } else if (type == KalakarConstants.gallery) {
-      file = await PickerHelper.pickImageFromGallery(context);
+      if (!kIsWeb) {
+        file = await PickerHelper.pickImageFromGallery(context);
+      } else {
+        pickerData = await PickerHelper.pickImageFromGalleryWeb(context);
+      }
     }
-    if (file != null) {
-      print("here ${file.path}");
+    if (!kIsWeb && file != null) {
       if (documentType == KalakarConstants.profilePhoto) {
         artistProfileImage = file.path;
       } else if (documentType == KalakarConstants.passport) {
@@ -1216,9 +1354,75 @@ class ArtistProfileController extends GetxController {
 
         roleVideoTEController.text = expRoleVideo.split("/").last;
       }
-      update();
+      Get.back();
+    } else if (pickerData != null) {
+      if (documentType == KalakarConstants.profilePhoto) {
+        artistProfileImage = pickerData.path;
+        artistProfileImageData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "IMAGE",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+      } else if (documentType == KalakarConstants.passport) {
+        passportImage = pickerData.path;
+        passportImageData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "IMAGE",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+        passportTEController.text = passportImage.split("/").last;
+      } else if (documentType == KalakarConstants.filmCorporationCard) {
+        filmCorporationCardImage = pickerData.path;
+        filmCorporationCardImageData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "IMAGE",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+        filmCorporationCrdTEController.text =
+            filmCorporationCardImage.split("/").last;
+      } else if (documentType == KalakarConstants.aadharCard) {
+        adharCardImage = pickerData.path;
+        adharCardImageData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "IMAGE",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+        adharCardTEController.text = adharCardImage.split("/").last;
+      } else if (documentType == KalakarConstants.portfolio1) {
+        portFolioImageOrVideo = pickerData.path;
+        portFolioImageOrVideoData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "VIDEO",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+        filePathTEController.text = portFolioImageOrVideo.split("/").last;
+      } else if (documentType == KalakarConstants.roleImage) {
+        expRoleImage = pickerData.path;
+        expRoleImageData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "IMAGE",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+        roleImageTEController.text = expRoleImage.split("/").last;
+      } else if (documentType == KalakarConstants.roleVideo) {
+        expRoleVideo = pickerData.path;
+        expRoleVideoData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "VIDEO",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+
+        roleVideoTEController.text = expRoleVideo.split("/").last;
+      }
     }
-    Get.back();
+    update();
   }
 
   Future<void> getArtistProfileEducation(int recordID) async {
@@ -1561,7 +1765,11 @@ class ArtistProfileController extends GetxController {
 
   void validateProfileFormData() {
     if (_formProfileKey.currentState!.validate()) {
-      saveArtistProfile();
+      if (!kIsWeb) {
+        saveArtistProfile();
+      } else {
+        saveArtistProfileWeb();
+      }
     }
   }
 
@@ -1660,7 +1868,11 @@ class ArtistProfileController extends GetxController {
 
   void validateDocumentsForm() {
     if (_formDocumentKey.currentState!.validate()) {
-      saveArtistProfileDocuments();
+      if (!kIsWeb) {
+        saveArtistProfileDocuments();
+      } else {
+        saveArtistProfileDocumentsWeb();
+      }
     }
   }
 
@@ -2038,12 +2250,11 @@ class ArtistProfileController extends GetxController {
 
   void setComfortableInEditData(ComfortableInList? comfortableInData) async {
     selectedComfortableInList = [];
-    artistComfortableInList.forEach(
-        (element) {
-          selectedComfortableInList.add(element.comfortableName!);
-          comfortableInMasterId += element.fKComfortableListMasterID.toString() + ",";
-
-        });
+    artistComfortableInList.forEach((element) {
+      selectedComfortableInList.add(element.comfortableName!);
+      comfortableInMasterId +=
+          element.fKComfortableListMasterID.toString() + ",";
+    });
     comfortableInMasterId =
         comfortableInMasterId.substring(0, comfortableInMasterId.length - 1);
     Get.toNamed(RouteHelper.artistComfortableInForm);
@@ -2069,12 +2280,10 @@ class ArtistProfileController extends GetxController {
         isInterestedInOther = true;
         selectedInterestedInList.add("Other");
         interestedInOtherTEController.text = element.interestedName!;
-      }else{
+      } else {
         selectedInterestedInList.add(element.interestedName!);
-
       }
       interestInMasterId += element.fKInterstedListMasterID.toString() + ",";
-
     });
 
     interestInMasterId =
@@ -2178,22 +2387,21 @@ class ArtistProfileController extends GetxController {
 
   void setEditApplyForData(ApplyList? applyForData) {
     selectedApplyForList = [];
-    isApplyForOther=false;
+    isApplyForOther = false;
     applyForOtherTEController.clear();
     artistApplyForList.forEach((element) {
       if (element.artistProfileApplyForID == 0) {
         selectedApplyForList.add("Other");
-        isApplyForOther=true;
+        isApplyForOther = true;
         applyForOtherTEController.text = element.applyName!;
-      }else{
+      } else {
         selectedApplyForList.add(element.applyName!);
-
       }
       artistApplyForMasterId += element.fKApplyListMasterID.toString() + ",";
     });
     artistApplyForMasterId =
         artistApplyForMasterId.substring(0, artistApplyForMasterId.length - 1);
-update();
+    update();
     Get.toNamed(RouteHelper.applyForFormPage);
   }
 

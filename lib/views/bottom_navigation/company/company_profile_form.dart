@@ -364,7 +364,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                         width: 100.h,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: getImageProvider(controller),
+                                image: getImageProviderWeb(controller),
                                 fit: BoxFit.fill),
                             border: Border.all(color: KalakarColors.textColor),
                             borderRadius: BorderRadius.circular(50.r)),
@@ -376,8 +376,7 @@ class CompanyProfileFormPage extends StatelessWidget {
                               onTap: () {
                                 controller.documentType =
                                     KalakarConstants.companyLogo;
-                                PickerHelper.showImageBottomSheet(
-                                    context, controller);
+                                controller.getImageFromCamera(context,KalakarConstants.gallery);
                               },
                               child: Icon(Icons.camera_alt_outlined)))
                     ],
@@ -631,5 +630,9 @@ class CompanyProfileFormPage extends StatelessWidget {
         : FileImage(
             File(controller.companyLogo),
           );
+  }
+  getImageProviderWeb(ProfileController controller) {
+    return  NetworkImage(controller.companyLogo);
+
   }
 }

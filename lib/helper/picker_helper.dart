@@ -1,12 +1,16 @@
 import 'dart:io';
+import 'dart:html' as html;
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+import 'package:kalakar/data/models/file_web_model.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 
@@ -16,11 +20,30 @@ class PickerHelper {
   static Future<File?> pickImageFromGallery(BuildContext context) async {
     XFile? file = await _imagePicker.pickImage(
         source: ImageSource.gallery, maxWidth: 800, maxHeight: 800);
+    print("111 ${file!.readAsBytes()}");
     String? croppedImage = "";
     if (file != null) {
       croppedImage = await cropMyImage(file, context) ?? "";
+      print("222 ${croppedImage}");
     }
     return File(croppedImage);
+  }
+
+  static Future<FileDataWeb?> pickImageFromGalleryWeb(
+      BuildContext context) async {
+    XFile? file = await _imagePicker.pickImage(
+        source: ImageSource.gallery, maxWidth: 800, maxHeight: 800);
+    FileDataWeb? pickerData;
+    if (file!=null) {
+      pickerData= FileDataWeb(
+              name: file!.name,
+              path: file!.path,
+          type: "IMAGE",
+
+              extension: file!.name.split(".").last,
+              imageData: await file.readAsBytes());
+    }
+    return pickerData;
   }
 
   static Future<File?> pickImageFromCamera(BuildContext context) async {
@@ -42,6 +65,22 @@ class PickerHelper {
     return null;
   }
 
+  static Future<FileDataWeb?> pickVideoFromGalleryWeb(BuildContext context) async {
+    XFile? file = await _imagePicker.pickVideo(source: ImageSource.gallery);
+    FileDataWeb? pickerData;
+    if (file!=null) {
+      print("file.name ${file.name}");
+      pickerData= FileDataWeb(
+          name: file.name,
+          path: "file.path",
+          type: "VIDEO",
+
+          extension: file.name.split(".").last,
+          imageData: await file.readAsBytes());
+    }
+    return pickerData;
+  }
+
   static Future<File?> pickVideoFromCamera(BuildContext context) async {
     XFile? file = await _imagePicker.pickVideo(
       source: ImageSource.camera,
@@ -59,7 +98,34 @@ class PickerHelper {
       allowCompression: true,
       allowedExtensions: ['pdf'],
     );
-    return result != null ? File(result.paths[0]!) : null;
+
+    if (result != null) {
+      File file = await File.fromRawPath(result.files.first.bytes!);
+      // print("object");
+      return File(result.paths[0]!);
+    }
+    return null;
+  }
+
+  static Future<FileDataWeb?> pickPdfFromGalleryWeb() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      allowCompression: true,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      FileDataWeb dataWeb = FileDataWeb(
+          path: result.files.first.name!,
+          name: result.files.first.name,
+          type: "PDF",
+
+          extension: result.files.first.name!.split(".").last,
+          imageData: result.files.first.bytes!);
+      return dataWeb;
+    }
+    return null;
   }
 
   static Future<String?> cropMyImage(
@@ -138,8 +204,7 @@ class PickerHelper {
   }
 
   static void showOrPickDocBottomSheet(
-      String documentType, BuildContext context, controller)
-  {
+      String documentType, BuildContext context, controller) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -332,8 +397,7 @@ class PickerHelper {
   }
 
   static void showOrPickDocBottomSheetWeb(
-      String documentType, BuildContext context, controller)
-  {
+      String documentType, BuildContext context, controller) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -447,7 +511,7 @@ class PickerHelper {
               InkWell(
                 onTap: () {
                   Get.back();
-                  showImageBottomSheet(context, controller);
+                  controller.getImageFromCamera(context, KalakarConstants.gallery);
                 },
                 child: Container(
                     padding: EdgeInsets.all(8.h),
@@ -460,7 +524,7 @@ class PickerHelper {
               InkWell(
                 onTap: () {
                   Get.back();
-                  showVideoBottomSheet(context, controller);
+                  controller.getVideoFromCamera(context);
                 },
                 child: Container(
                     padding: EdgeInsets.all(8.h),

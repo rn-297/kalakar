@@ -310,7 +310,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
-        KalakarConstants.profile,
+        KalakarConstants.moreInfo,
         style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
       ),
       /*actions: [
@@ -528,7 +528,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickOrShowDocument(
+                        controller.pickOrShowDocumentWeb(
                             KalakarConstants.filmCorporationCard,
                             context,
                             controller);
@@ -551,7 +551,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickOrShowDocument(
+                        controller.pickOrShowDocumentWeb(
                             KalakarConstants.adminAadharCard,
                             context,
                             controller);
@@ -573,7 +573,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickOrShowDocument(
+                        controller.pickOrShowDocumentWeb(
                             KalakarConstants.addressProofOfCompany,
                             context,
                             controller);
@@ -596,7 +596,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        controller.pickOrShowDocument(
+                        controller.pickOrShowDocumentWeb(
                             KalakarConstants.selfieUpload, context, controller);
                       },
                       child: CommonWidgets.commonMobileTextField2(
@@ -619,7 +619,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
               ),
               CustomMobileButtonWidget(
                 onTap: () {
-                  controller.saveCompanyMoreInfo();
+                  controller.saveCompanyMoreInfoWeb();
                 },
                 borderRadius: 50.r,
                 fontSize: 5.sp,

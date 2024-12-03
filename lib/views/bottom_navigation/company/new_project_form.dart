@@ -376,10 +376,8 @@ class NewProjectFormPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50.r),
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: controller.projectCoverPath
-                                .startsWith("http")
-                                ? NetworkImage(controller.projectCoverPath)
-                                : FileImage(File(controller.projectCoverPath))
+                            image:  NetworkImage(controller.projectCoverPath)
+
                             as ImageProvider),
                       ),
                     ),
@@ -390,8 +388,7 @@ class NewProjectFormPage extends StatelessWidget {
                           onTap: () {
                             controller.documentType =
                                 KalakarConstants.projectCover;
-                            PickerHelper.showImageBottomSheet(
-                                context, controller);
+                            controller.getImageFromCamera(context,KalakarConstants.gallery);
                           },
                           child: Icon(
                             Icons.camera_alt_outlined,
@@ -536,10 +533,10 @@ class NewProjectFormPage extends StatelessWidget {
                           : ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: controller.projectDocuments.length,
+                          itemCount: controller.projectDocuments1.length,
                           itemBuilder: (context, index) {
                             return controller
-                                .projectDocuments[index].type ==
+                                .projectDocuments1[index].type ==
                                 "Add"
                                 ? InkWell(
                               onTap: () {
@@ -576,19 +573,11 @@ class NewProjectFormPage extends StatelessWidget {
                                       borderRadius:
                                       BorderRadius.circular(8.r),
                                       image: DecorationImage(
-                                          image: controller
-                                              .projectDocuments[
-                                          index]
-                                              .path
-                                              .startsWith("http")
-                                              ? NetworkImage(controller
-                                              .projectDocuments[
+                                          image:  NetworkImage(controller
+                                              .projectDocuments1[
                                           index]
                                               .path)
-                                              : FileImage(File(controller
-                                              .projectDocuments[
-                                          index]
-                                              .path))
+
                                           as ImageProvider,
                                           fit: BoxFit.cover),
                                     ),
@@ -603,7 +592,7 @@ class NewProjectFormPage extends StatelessWidget {
                                                 .selectedCompanyProject!
                                                 .companyProjectID!,
                                             controller
-                                                .projectDocuments[
+                                                .projectDocuments1[
                                             index]
                                                 .documentId);
                                       },

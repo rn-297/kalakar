@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as Http;
+import 'package:kalakar/data/models/file_web_model.dart';
 
 import 'package:kalakar/utils/kalakar_constants.dart';
 
@@ -190,7 +191,8 @@ abstract class ApiClient extends GetxService {
   }
 
   static postFormDataToken(String uri, Map<String, String>? fields,
-      Map<String, File?>? files, String accessToken) async {
+      Map<String, File?>? files, String accessToken) async
+  {
     print(fields);
     try {
       print(KalakarConstants.baseURL + uri);
@@ -248,12 +250,78 @@ abstract class ApiClient extends GetxService {
     }
   }
 
+
+  static postFormDataTokenWeb(String uri, Map<String, String>? fields,
+      Map<String, FileDataWeb?>? files, String accessToken) async
+  {
+    print(fields);
+    try {
+      print(KalakarConstants.baseURL + uri);
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
+        return Response(
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+      }
+
+      var request = Http.MultipartRequest(
+          'POST', Uri.parse(KalakarConstants.baseURL + uri));
+      request.headers.addAll({
+        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+      });
+
+      // Add fields
+      if (fields != null) {
+        fields.forEach((key, value) {
+          request.fields[key] = value;
+        });
+      }
+
+      // Add files
+      if (files != null) {
+        files.forEach((key, file) async {
+          try {
+            print(key);
+            // print(file);
+            if (file != null) {
+                          var multipartFile = /*file.path.split("").last.contains("pdf")
+                                                    ? await Http.MultipartFile.fromPath(key, file.path,
+                                                        filename: file.path.split("/").last,
+                                                        contentType: mime.MediaType("document", "pdf"))
+                                                    :*/
+                                          await Http.MultipartFile.fromBytes(key, file.imageData!,filename: file.name);
+                          request.files.add(multipartFile);
+print("done 12");
+print("${file.name}");
+                      } else {
+                        request.fields[key] = "";
+                      }
+          } catch (e) {
+            print(e);
+          }
+        });
+      }
+
+      var streamedResponse = await request.send();
+      var response = await Http.Response.fromStream(streamedResponse);
+
+      print(response.request);
+      print(response.headers);
+      print(response.body);
+
+      return response;
+    } catch (ex) {
+      print(ex);
+      return Response(statusCode: 1, statusText: ex.toString());
+    }
+  }
+
   static postFormDataToken1(
       String uri,
       Map<String, String>? fields,
       Map<String, File>? files,
       Map<String, List<FileData>>? files1,
-      String accessToken) async {
+      String accessToken) async
+  {
     try {
       print(KalakarConstants.baseURL + uri);
       var connectivityResult = await Connectivity().checkConnectivity();

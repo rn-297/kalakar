@@ -715,12 +715,8 @@ class RequirementFormPage extends StatelessWidget {
                             width: 100.h,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: controller.requirementPhoto
-                                        .startsWith("http")
-                                        ? NetworkImage(controller.requirementPhoto)
-                                        : FileImage(
-                                      File(controller.requirementPhoto),
-                                    ) as ImageProvider,
+                                    image:  NetworkImage(controller.requirementPhoto)
+                                         as ImageProvider,
                                     fit: BoxFit.fill),
                                 border: Border.all(color: KalakarColors.textColor),
                                 borderRadius: BorderRadius.circular(50.r)),
@@ -730,8 +726,8 @@ class RequirementFormPage extends StatelessWidget {
                               right: 0,
                               child: InkWell(
                                   onTap: () {
-                                    PickerHelper.showImageBottomSheet(
-                                        context, controller);
+                                    controller.getImageFromCamera(
+                                        context, KalakarConstants.gallery);
                                   },
                                   child: Icon(Icons.camera_alt_outlined)))
                         ],

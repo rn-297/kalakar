@@ -46,10 +46,10 @@ class FileController extends GetxController {
       // print(dir.path);
       // final dir = await getExternalStorageDirectories();
 
-      final targetPath = '${dir.absolute.path}${targetFolder}$fileName';
+      final targetPath = '${dir.absolute.name}${targetFolder}$fileName';
       // print("targetPath $targetPath");
-      if (!await Directory("${dir.absolute.path}${targetFolder}").exists()) {
-        await Directory("${dir.absolute.path}${targetFolder}")
+      if (!await Directory("${dir.absolute.name}${targetFolder}").exists()) {
+        await Directory("${dir.absolute.name}${targetFolder}")
             .create(recursive: true)
             .then((Directory directory) {
           // print('Path of New Dir: ' + directory.path);

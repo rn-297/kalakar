@@ -630,14 +630,10 @@ class ArtistProfileFormPage extends StatelessWidget {
                         width: 100.h,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: controller.artistProfileImage
-                                    .startsWith("http")
-                                    ? NetworkImage(
+                                image: NetworkImage(
                                     controller.artistProfileImage)
-                                    : FileImage(
-                                  File(controller.artistProfileImage),
-                                ) as ImageProvider,
-                                fit: BoxFit.fill),
+                                    as ImageProvider,
+                                fit: BoxFit.cover),
                             border: Border.all(color: KalakarColors.textColor),
                             borderRadius: BorderRadius.circular(50.r)),
                       ),
@@ -648,10 +644,7 @@ class ArtistProfileFormPage extends StatelessWidget {
                               onTap: () {
                                 controller.documentType =
                                     KalakarConstants.profilePhoto;
-                                controller.pickOrShowDocument(
-                                    KalakarConstants.profilePhoto,
-                                    context,
-                                    controller);
+                                controller.getImageFromCamera(context,KalakarConstants.gallery);
                               },
                               child: Icon(Icons.camera_alt_outlined)))
                     ],
