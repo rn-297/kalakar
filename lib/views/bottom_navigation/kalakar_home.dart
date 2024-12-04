@@ -1114,6 +1114,7 @@ class KalakarHomePage extends StatelessWidget {
                 if (controller.newRequirementDetailsList.isNotEmpty &&
                     !controller.isArtistHomeRequirementsLoading)
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

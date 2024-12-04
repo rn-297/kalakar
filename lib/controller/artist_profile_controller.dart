@@ -837,6 +837,52 @@ class ArtistProfileController extends GetxController {
     }
   }
 
+  Future<void> saveArtistProfileExperienceWeb() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Experience Data", "Saving Experience Data");
+      final body = <String, String>{};
+      body['UserID'] = loginTable.userID;
+      body['ArtistProfile_ExperienceID'] = artistExperienceId;
+      body['FK_AccountID'] = loginTable.accountID;
+      body['CompanyName'] = companyNameTEController.text.trim();
+      body['RoleName'] = roleNameTEController.text.trim();
+      body['StartDate'] = expStartDate.toString();
+      body['EndDate'] = expEndDate.toString();
+      body['SkillUsed'] = skillsUsedTEController.text.trim();
+      body['RoleProfile'] = roleProfileTEController.text.trim();
+      Map<String, FileDataWeb?> files = {
+        'RoleImage': expRoleImageData,
+        'RoleVideo':expRoleVideoData,
+      };
+
+      var response = await ApiClient.postFormDataTokenWeb(
+          KalakarConstants.saveArtistProfileExperienceApi,
+          body,
+          files,
+          loginTable.token);
+      // print(response.statusCode);
+      // print(response);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Experience Data Success", responseModel.message!);
+          getArtistExperience(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Experience Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
+
   Future<void> saveArtistProfilePortFolio() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
@@ -855,6 +901,50 @@ class ArtistProfileController extends GetxController {
       print("123123123  ${files}");
 
       var response = await ApiClient.postFormDataToken(
+          KalakarConstants.saveArtistProfilePortfolioApi,
+          body,
+          files,
+          loginTable.token);
+      // print(response.statusCode);
+      // print(response);
+
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Saving Portfolio Data Success", responseModel.message!);
+          getArtistPortFolio(0);
+        } else {
+          KalakarDialogs.successDialog(
+              "Saving Portfolio Data Failed", responseModel.message!);
+        }
+      }
+    }
+  }
+
+  Future<void> saveArtistProfilePortFolioWeb() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Saving Portfolio Data", "Saving Portfolio Data");
+      final body = <String, String>{};
+      body['UserID'] = loginTable.userID;
+      body['ArtistProfile_PortfolioID'] = artistPortfolioId;
+      body['FK_AccountID'] = loginTable.accountID;
+      body['FileType'] = fileTypeTEController.text == "IMAGE" ? "1" : "2";
+
+      Map<String, FileDataWeb?> files = {
+        'FilePath': portFolioImageOrVideoData,
+      };
+      print("123123123  ${body}");
+      print("123123123  ${files}");
+
+      var response = await ApiClient.postFormDataTokenWeb(
           KalakarConstants.saveArtistProfilePortfolioApi,
           body,
           files,
@@ -1072,7 +1162,7 @@ class ArtistProfileController extends GetxController {
           // PickerHelper.showImageBottomSheetWeb(context, controller);
           getImageFromCamera(context, KalakarConstants.gallery);
         } else if (porFolioFileType == "VIDEO") {
-          PickerHelper.showVideoBottomSheet(context, controller);
+          PickerHelper.showVideoBottomSheetWeb(context, controller);
         } else {
           validatePortfolioForm();
         }
@@ -1302,16 +1392,41 @@ class ArtistProfileController extends GetxController {
   }
 
   Future<void> getVideoFromGallery(BuildContext context) async {
-    File? file = await PickerHelper.pickVideoFromGallery(context);
+    File? file;
+    FileDataWeb?pickerData;
+    if (!kIsWeb) {
+       file = await PickerHelper.pickVideoFromGallery(context);
+    } else {
+      pickerData = await PickerHelper.pickVideoFromGalleryWeb(context);
+    }
     print(documentType);
-    print(file!.path);
-    if (file != null) {
+    if (!kIsWeb&&file != null) {
       if (documentType == KalakarConstants.portfolio1) {
         portFolioImageOrVideo = file.path;
         filePathTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.roleVideo) {
         expRoleVideo = file.path;
         roleVideoTEController.text = file.path.split("/").last;
+      }
+    }else if(kIsWeb&&pickerData!=null){
+      if (documentType == KalakarConstants.portfolio1) {
+        portFolioImageOrVideo = pickerData.path;
+        portFolioImageOrVideoData=FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "VIDEO",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+        filePathTEController.text = pickerData.path.split("/").last;
+      } else if (documentType == KalakarConstants.roleVideo) {
+        expRoleVideo = pickerData.path;
+        expRoleVideoData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "VIDEO",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
+        roleVideoTEController.text = pickerData.path.split("/").last;
       }
     }
     update();
@@ -1878,7 +1993,11 @@ class ArtistProfileController extends GetxController {
 
   void validateExperienceForm() {
     if (_formExperienceKey.currentState!.validate()) {
-      saveArtistProfileExperience();
+      if (!kIsWeb) {
+        saveArtistProfileExperience();
+      } else {
+        saveArtistProfileExperienceWeb();
+      }
     }
   }
 
@@ -1890,7 +2009,11 @@ class ArtistProfileController extends GetxController {
 
   void validatePortfolioForm() {
     if (_formPortFolioKey.currentState!.validate()) {
-      saveArtistProfilePortFolio();
+      if (!kIsWeb) {
+        saveArtistProfilePortFolio();
+      } else {
+        saveArtistProfilePortFolioWeb();
+      }
     }
   }
 
@@ -2311,7 +2434,7 @@ class ArtistProfileController extends GetxController {
       expRoleImage = experienceData.roleImage!;
       roleVideoTEController.text =
           experienceData.roleVideo.toString().split("\\").last;
-      expRoleVideo = experienceData.roleImage!;
+      expRoleVideo = experienceData.roleVideo!;
     } else {
       companyNameTEController.text = "";
       roleNameTEController.text = "";
@@ -2336,6 +2459,9 @@ class ArtistProfileController extends GetxController {
     if (artistPortfolio != null) {
       artistPortfolioId = artistPortfolio.artistProfilePortfolioID.toString();
       fileTypeTEController.text =
+          artistPortfolio.fileType.toString() == "1" ? "IMAGE" : "VIDEO";
+
+      porFolioFileType =
           artistPortfolio.fileType.toString() == "1" ? "IMAGE" : "VIDEO";
       filePathTEController.text =
           artistPortfolio.filePath.toString().split("\\").last;

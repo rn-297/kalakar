@@ -117,11 +117,11 @@ class PickerHelper {
 
     if (result != null) {
       FileDataWeb dataWeb = FileDataWeb(
-          path: result.files.first.name!,
+          path: result.files.first.name,
           name: result.files.first.name,
           type: "PDF",
 
-          extension: result.files.first.name!.split(".").last,
+          extension: result.files.first.name.split(".").last,
           imageData: result.files.first.bytes!);
       return dataWeb;
     }

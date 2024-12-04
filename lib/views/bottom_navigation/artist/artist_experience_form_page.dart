@@ -204,7 +204,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  controller.pickOrShowDocument(
+                  controller.pickOrShowDocumentWeb(
                       KalakarConstants.roleVideo, context, controller);
                 },
                 child: CommonWidgets.commonMobileTextField1(
