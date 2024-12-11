@@ -40,7 +40,7 @@ class ArtistDocumentsFormPage extends StatelessWidget {
         KalakarConstants.artistDocuments,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
-     /* actions: [
+      /* actions: [
         InkWell(
           onTap: () {
             Get.toNamed(RouteHelper.artistProfileForm);
@@ -65,7 +65,6 @@ class ArtistDocumentsFormPage extends StatelessWidget {
         KalakarConstants.artistDocuments,
         style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
       ),
-
     );
   }
 
@@ -102,7 +101,9 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                   controller.documentType =
                       KalakarConstants.filmCorporationCard;
                   controller.pickOrShowDocument(
-                      KalakarConstants.filmCorporationCard, context, controller);
+                      KalakarConstants.filmCorporationCard,
+                      context,
+                      controller);
                 },
                 child: CommonWidgets.commonMobileTextField1(
                     controller: controller.filmCorporationCrdTEController,
@@ -144,7 +145,6 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                 },
                 borderRadius: 50.r,
                 fontSize: 14.sp,
-
                 text: KalakarConstants.saveDocuments,
                 horizontalPadding: 20.w,
                 verticalPadding: 8.h,
@@ -157,85 +157,87 @@ class ArtistDocumentsFormPage extends StatelessWidget {
   documentsFormWebView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
-          return Padding(
-              padding: EdgeInsets.all(24.h),
-              child: Form(
-                key: controller.formDocumentKey,
-                child: Column(children: [
-                  InkWell(
-                    onTap: () {
-                      controller.documentType = KalakarConstants.passport;
-                      controller.pickOrShowDocumentWeb(
-                          KalakarConstants.passport, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.passportTEController,
-                        labelText: KalakarConstants.passport,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validatePassport),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.documentType =
-                          KalakarConstants.filmCorporationCard;
-                      controller.pickOrShowDocumentWeb(
-                          KalakarConstants.filmCorporationCard, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.filmCorporationCrdTEController,
-                        labelText: KalakarConstants.filmCorporationCard,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateFilmCorporationCard),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.documentType = KalakarConstants.aadharCard;
-                      controller.pickOrShowDocumentWeb(
-                          KalakarConstants.aadharCard, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.adharCardTEController,
-                        labelText: KalakarConstants.aadharCard,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateAdharCard),
-                  ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  CustomMobileButtonWidget(
-                    onTap: () {
-                      controller.validateDocumentsForm();
-                    },
-                    borderRadius: 50.r,
-                    fontSize: 5.sp,
-width: 100.w,
-                    text: KalakarConstants.saveDocuments,
-                    horizontalPadding: 2.w,
-                    verticalPadding: 8.h,
-                  ),
-                ]),
-              ));
-        }));
+      return Padding(
+          padding: EdgeInsets.all(24.h),
+          child: Form(
+            key: controller.formDocumentKey,
+            child: Column(children: [
+              InkWell(
+                onTap: () {
+                  controller.documentType = KalakarConstants.passport;
+                  controller.pickOrShowDocumentWeb(
+                      KalakarConstants.passport, context, controller);
+                },
+                child: CommonWidgets.commonMobileTextField2(
+                    controller: controller.passportTEController,
+                    labelText: KalakarConstants.passport,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    editable: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validatePassport),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              InkWell(
+                onTap: () {
+                  controller.documentType =
+                      KalakarConstants.filmCorporationCard;
+                  controller.pickOrShowDocumentWeb(
+                      KalakarConstants.filmCorporationCard,
+                      context,
+                      controller);
+                },
+                child: CommonWidgets.commonMobileTextField2(
+                    controller: controller.filmCorporationCrdTEController,
+                    labelText: KalakarConstants.filmCorporationCard,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    editable: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateFilmCorporationCard),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              InkWell(
+                onTap: () {
+                  controller.documentType = KalakarConstants.aadharCard;
+                  controller.pickOrShowDocumentWeb(
+                      KalakarConstants.aadharCard, context, controller);
+                },
+                child: CommonWidgets.commonMobileTextField2(
+                    controller: controller.adharCardTEController,
+                    labelText: KalakarConstants.aadharCard,
+                    obscureText: false,
+                    textInputType: TextInputType.text,
+                    passwordVisibility: false,
+                    editable: false,
+                    borderRadius: 12.r,
+                    togglePasswordVisibility: () {},
+                    validator: Validator.validateAdharCard),
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+              CustomMobileButtonWidget(
+                onTap: () {
+                  controller.validateDocumentsForm();
+                },
+                borderRadius: 50.r,
+                fontSize: 5.sp,
+                width: 100.w,
+                text: KalakarConstants.saveDocuments,
+                horizontalPadding: 2.w,
+                verticalPadding: 8.h,
+              ),
+            ]),
+          ));
+    }));
   }
 }

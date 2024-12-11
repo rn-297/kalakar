@@ -34,10 +34,7 @@ void main() async {
   Get.put(ProfileController());
   Get.put(FileController());
   Get.put(RequirementController());
-
   Get.lazyPut(() => RequirementController());
-  Get.lazyPut(() => SettingsController());
-
   runApp(const MyApp());
 }
 

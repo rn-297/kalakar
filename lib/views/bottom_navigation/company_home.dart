@@ -10,8 +10,6 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../controller/requirement_controller.dart';
-import '../../data/models/artist/review_details_class.dart';
-import '../../data/models/artist/upcoming_company_projects.dart';
 import '../../data/models/company/company_requirement_list_class.dart';
 import '../../helper/kalakar_colors.dart';
 import '../../utils/kalakar_constants.dart';

@@ -186,7 +186,7 @@ class ArtistInterestFormPage extends StatelessWidget {
                     SizedBox(
                       height: 16.h,
                     ),
-                  if (!controller.isInterestedInOther)
+                  if (controller.isInterestedInOther)
                     CommonWidgets.commonMobileTextField2(
                         controller: controller.interestedInOtherTEController,
                         labelText: KalakarConstants.other,

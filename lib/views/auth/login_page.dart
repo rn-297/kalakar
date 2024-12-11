@@ -1197,7 +1197,8 @@ class AuthPage extends StatelessWidget {
     double borderRadius = 50.0,
     EdgeInsetsGeometry contentPadding =
         const EdgeInsetsDirectional.symmetric(horizontal: 24, vertical: 12),
-  }) {
+  })
+  {
     return TextField(
       controller: controller,
       style: TextStyle(color: textColor),

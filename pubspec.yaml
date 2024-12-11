@@ -48,7 +48,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   url_launcher: ^6.3.0
   image_picker: ^1.1.2
-  image_picker_web: ^4.0.0
+#  image_picker_web: ^4.0.0
   image_cropper: ^8.0.2
   get_thumbnail_video: ^0.6.1
   csv: ^6.0.0

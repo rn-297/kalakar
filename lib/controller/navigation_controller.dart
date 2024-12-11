@@ -45,7 +45,6 @@ class BottomNavigationController extends GetxController {
   }
 
   Widget getSelectedArtistPage() {
-    print("watlelch");
     List<Widget> tempList = [];
 
     if (accountType == KalakarConstants.artist) {

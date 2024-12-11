@@ -2217,7 +2217,7 @@ class ArtistProfileController extends GetxController {
         isInterestedInOther = true;
       } else {
         // Handle the case when no match is found
-        // print("No match found for: $element");
+        print("No match found for: $element");
         // Optionally, you could add a default value or handle it differently
       }
     });
@@ -2399,6 +2399,7 @@ class ArtistProfileController extends GetxController {
     isInterestedInOther = false;
     interestedInOtherTEController.clear();
     artistInterestedInList.forEach((element) {
+      print(element.artistProfileInterestID);
       if (element.artistProfileInterestID == 0) {
         isInterestedInOther = true;
         selectedInterestedInList.add("Other");
