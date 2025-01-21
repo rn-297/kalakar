@@ -414,7 +414,6 @@ class AuthPageController extends GetxController {
     }
 
     if (response.statusCode == 200) {
-      // print("response successful ${response.body}");
       // Get.defaultDialog(
       //   content: Text("response successful ${response.body}"),
       // );

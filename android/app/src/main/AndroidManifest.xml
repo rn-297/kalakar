@@ -43,6 +43,21 @@
             android:required="false" />
 
         <meta-data
+            android:name="com.phonepe.android.sdk.Debuggable"
+            android:value="true"/>
+        <!-- Keep it true in UAT environment for both the flags-->
+        <meta-data
+            android:name="com.phonepe.android.sdk.isUAT"
+            android:value="true"/>
+        <meta-data
+            android:name="com.phonepe.android.sdk.isSimulator"
+            android:value="true"/>
+        <!-- The value will be the MID-->
+        <meta-data
+            android:name="com.phonepe.android.sdk.MerchantId"
+            android:value="@string/merchantid"/>
+
+        <meta-data
             android:name="com.google.android.gms.auth.api.credentials.APP_ID"
             android:resource="@string/default_web_client_id"
             />

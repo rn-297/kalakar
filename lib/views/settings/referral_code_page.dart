@@ -120,6 +120,7 @@ class ReferralCodePage extends StatelessWidget {
   }
 
   referralCodeMobileView(BuildContext context) {
+
     return GetBuilder<SettingsController>(builder: (controller) {
       return RefreshIndicator(
         onRefresh: ()async{controller.getReferralData();},
@@ -252,6 +253,7 @@ class ReferralCodePage extends StatelessWidget {
                       controller.totalReferralAmount
                           .toString()),
                 ),
+                SizedBox(height: 32.h,),
               ],
             ),
           ),

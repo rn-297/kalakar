@@ -113,8 +113,38 @@ abstract class ApiClient extends GetxService {
 
       return _response;
     } catch (ex) {
-      print(ex);
+      print("ex$ex");
       return Response(statusCode: 1, statusText: ex.toString());
+    }
+  }
+
+  static makePostRequest(String transaction, String checksum) async {
+    final url = Uri.parse("https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay");
+    print(transaction);
+    print(checksum);
+    final headers = {
+      // 'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'x-verify': checksum,
+    };
+
+    final body = jsonEncode({"request":transaction});
+
+    try {
+      final response = await client.post(
+        url,
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        print(response.body);
+        return response;
+      } else {
+        print('Failed with status code: ${response.body}');
+      }
+    } catch (error) {
+      print('Error occurred: $error');
     }
   }
 

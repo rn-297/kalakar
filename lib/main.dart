@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/auth_page_controller.dart';
 import 'package:kalakar/controller/file_controller.dart';
+import 'package:kalakar/controller/payment_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/controller/settings_controller.dart';
 import 'package:kalakar/controller/requirement_controller.dart';
@@ -35,6 +36,9 @@ void main() async {
   Get.put(FileController());
   Get.put(RequirementController());
   Get.lazyPut(() => RequirementController());
+
+  Get.put(PaymentController());
+  Get.lazyPut(() => PaymentController());
   runApp(const MyApp());
 }
 

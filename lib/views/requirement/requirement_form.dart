@@ -1268,7 +1268,7 @@ class RequirementFormPage extends StatelessWidget {
                     CustomMobileButtonWidget(
                         text: KalakarConstants.saveRequirement,
                         onTap: () {
-                          controller.saveRequirementsDetails();
+                          controller.saveRequirementsDetailsWeb();
                         },
                         horizontalPadding: 2.w,
                         verticalPadding: 8.h,

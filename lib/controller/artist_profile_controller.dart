@@ -1819,15 +1819,19 @@ class ArtistProfileController extends GetxController {
           List<PortfolioList> videosList = [];
           for (int i = 0; i < list.length; i++) {
             if (list[i].fileType == 2) {
-              list[i].thumbnail = await VideoThumbnail.thumbnailData(
-                video: list[i].filePath!,
-                // Replace with your video URL
-                imageFormat: ImageFormat.JPEG,
-                maxHeight: 150,
-                // Set a maximum height for the thumbnail
-                quality: 75,
-              );
-              videosList.add(list[i]);
+              try {
+                list[i].thumbnail = await VideoThumbnail.thumbnailData(
+                                video: list[i].filePath!,
+                                // Replace with your video URL
+                                imageFormat: ImageFormat.JPEG,
+                                maxHeight: 150,
+                                // Set a maximum height for the thumbnail
+                                quality: 75,
+                              );
+                videosList.add(list[i]);
+              } catch (e) {
+                print(e);
+              }
             } else {
               imagesList.add(list[i]);
             }

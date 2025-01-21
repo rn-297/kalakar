@@ -72,12 +72,9 @@ class ProfileController extends GetxController {
   String companyProjectId = "0";
   String? selectedProjectStatus = null;
   List<FileData> projectDocuments = [FileData(path: "", type: "Add")];
-  List<FileDataWeb> projectDocuments1 = [ FileDataWeb(
-  name: "",
-  path: "",
-  type: "Add",
-  extension: '',
-  imageData: null)];
+  List<FileDataWeb> projectDocuments1 = [
+    FileDataWeb(name: "", path: "", type: "Add", extension: '', imageData: null)
+  ];
   int startTime = 90;
   int companyProfileID = 0;
 
@@ -652,23 +649,22 @@ class ProfileController extends GetxController {
       PickerHelper.showImageVideoBottomSheetWeb(context, controller);
     } else {
       PickerHelper.showImageVideoBottomSheet(context, controller);
-
     }
   }
 
   Future<void> getImageFromCamera(BuildContext context, String type) async {
     File? file = null;
-    FileDataWeb? pickerData=null;
+    FileDataWeb? pickerData = null;
     if (type == KalakarConstants.camera) {
       file = await PickerHelper.pickImageFromCamera(context);
     } else if (type == KalakarConstants.gallery) {
       if (!kIsWeb) {
         file = await PickerHelper.pickImageFromGallery(context);
       } else {
-        pickerData=await PickerHelper.pickImageFromGalleryWeb(context);
+        pickerData = await PickerHelper.pickImageFromGalleryWeb(context);
       }
     }
-    if (!kIsWeb&&file != null) {
+    if (!kIsWeb && file != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedPath = file.path;
         selfieUploadTEController.text = file.path.split("/").last;
@@ -683,7 +679,7 @@ class ProfileController extends GetxController {
         FileData fileData = FileData(path: file.path, type: "IMAGE");
         projectDocuments.add(fileData);
       }
-    }else if(kIsWeb&&pickerData!=null){
+    } else if (kIsWeb && pickerData != null) {
       if (documentType == KalakarConstants.selfieUpload) {
         selfieUploadedData = FileDataWeb(
             name: pickerData!.name,
@@ -697,32 +693,28 @@ class ProfileController extends GetxController {
         // selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.companyLogo) {
         isNetworkCompanyLogo = false;
-        companyLogo
-        =pickerData!.path;
-        companyLogoData =  FileDataWeb(
+        companyLogo = pickerData!.path;
+        companyLogoData = FileDataWeb(
             name: pickerData!.name,
             path: pickerData!.path,
             type: "IMAGE",
-
             extension: pickerData!.name.split(".").last,
             imageData: await pickerData.imageData);
         print("done");
-        print("done "+pickerData!.name);
-        print("done "+pickerData!.path);
-        print("done "+pickerData!.name.split(".").last);
-        print("done "+pickerData.imageData.toString());
+        print("done " + pickerData!.name);
+        print("done " + pickerData!.path);
+        print("done " + pickerData!.name.split(".").last);
+        print("done " + pickerData.imageData.toString());
       } else if (documentType == KalakarConstants.projectDocuments) {
         // Uint8List imageData = pickerData.imageData!;
-        FileDataWeb fileData =  FileDataWeb(
+        FileDataWeb fileData = FileDataWeb(
             name: pickerData!.name,
             path: pickerData!.path,
             type: "IMAGE",
-
             extension: pickerData!.name.split(".").last,
             imageData: await pickerData.imageData);
         projectDocuments1.add(fileData);
       }
-
     }
     update();
 
@@ -730,13 +722,32 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getVideoFromCamera(BuildContext context) async {
-    File? file = await PickerHelper.pickVideoFromCamera(context);
-    if (file != null) {
-      if (documentType == KalakarConstants.projectDocuments) {
-        FileData fileData = FileData(path: file.path, type: "VIDEO");
-        projectDocuments.add(fileData);
+    File? file = null;
+    FileDataWeb? pickerData = null;
+
+    if (!kIsWeb) {
+      file = await PickerHelper.pickVideoFromCamera(context);
+    } else {
+      pickerData = await PickerHelper.pickVideoFromGalleryWeb(context);
+    }
+
+    if (kIsWeb) {
+      FileDataWeb fileData = FileDataWeb(
+          name: pickerData!.name,
+          path: pickerData!.path,
+          type: "IMAGE",
+          extension: pickerData!.name.split(".").last,
+          imageData: await pickerData.imageData);
+      projectDocuments1.add(fileData);
+    } else {
+      if (file != null) {
+        if (documentType == KalakarConstants.projectDocuments) {
+          FileData fileData = FileData(path: file.path, type: "VIDEO");
+          projectDocuments.add(fileData);
+        }
       }
     }
+    update();
     Get.back();
   }
 
@@ -763,7 +774,7 @@ class ProfileController extends GetxController {
       if (!kIsWeb) {
         saveProfileData();
       } else {
-saveProfileDataWeb();
+        saveProfileDataWeb();
       }
     }
   }
@@ -895,8 +906,7 @@ saveProfileDataWeb();
 
       // Example files (if any)
       Map<String, FileDataWeb?> files = {
-        'CompanyLogo_Doc':
-            companyLogoData,
+        'CompanyLogo_Doc': companyLogoData,
       };
 
       var response = await ApiClient.postFormDataTokenWeb(
@@ -1044,9 +1054,7 @@ saveProfileDataWeb();
   }
 
   Future<void> pickDocument(
-      String documentType, BuildContext context, controller) async
-
-  {
+      String documentType, BuildContext context, controller) async {
     print(documentType);
     switch (documentType) {
       case KalakarConstants.filmCorporationCard:
@@ -1092,11 +1100,10 @@ saveProfileDataWeb();
           filmCorporationCardPath = fileData.name;
 
           filmCorporationCardTEController.text = fileData.path.split("/").last;
-          filmCorporationCardData= FileDataWeb(
+          filmCorporationCardData = FileDataWeb(
               name: fileData!.name,
               path: fileData!.path,
               type: "PDF",
-
               extension: fileData!.name.split(".").last,
               imageData: await fileData.imageData);
           update();
@@ -1107,11 +1114,10 @@ saveProfileDataWeb();
         if (fileData != null) {
           adminAadharCardPath = fileData.name;
           adminAadharCardTEController.text = fileData.path.split("/").last;
-          adminAadharCardData=FileDataWeb(
+          adminAadharCardData = FileDataWeb(
               name: fileData!.name,
               path: fileData!.path,
               type: "PDF",
-
               extension: fileData!.name.split(".").last,
               imageData: await fileData.imageData);
           update();
@@ -1121,12 +1127,12 @@ saveProfileDataWeb();
         FileDataWeb? fileData = await PickerHelper.pickPdfFromGalleryWeb();
         if (fileData != null) {
           addressProofCompanyPath = fileData.name;
-          addressProofOfCompanyTEController.text = fileData.path.split("/").last;
-          addressProofCompanyData=FileDataWeb(
+          addressProofOfCompanyTEController.text =
+              fileData.path.split("/").last;
+          addressProofCompanyData = FileDataWeb(
               name: fileData!.name,
               path: fileData!.path,
               type: "PDF",
-
               extension: fileData!.name.split(".").last,
               imageData: await fileData.imageData);
           update();
@@ -1345,29 +1351,63 @@ saveProfileDataWeb();
           loginTable.token);
       print(response.statusCode);
       print(response.body);
+      print("response.body");
 
       if (response.statusCode == 200) {
         ProjectDetailAndDocuments projectDetailAndDocuments =
             ProjectDetailAndDocuments.fromJson(jsonDecode(response.body));
-        // projectDocuments.clear();
-        projectDocuments = [FileData(path: "", type: "Add")];
-        if (projectDetailAndDocuments.projectDocuments!.isNotEmpty) {
-          for (int i = 0;
-              i < projectDetailAndDocuments.projectDocuments!.length;
-              i++) {
-            String path = projectDetailAndDocuments
-                .projectDocuments![i].projectDocuments!;
-            int documentId = projectDetailAndDocuments
-                .projectDocuments![i].companyProjectDocumentID!;
-            String type =
-                path.toLowerCase().endsWith(".mp4") ? "VIDEO" : "IMAGE";
+        if (kIsWeb) {
+          projectDocuments1.clear();
+          projectDocuments1 = [
+            FileDataWeb(
+                name: "", path: "", type: "Add", extension: '', imageData: null)
+          ];
+          if (projectDetailAndDocuments.projectDocuments!.isNotEmpty) {
+            print(
+                "object${projectDetailAndDocuments.projectDocuments!.length}");
+            for (int i = 0;
+                i < projectDetailAndDocuments.projectDocuments!.length;
+                i++) {
+              projectDocuments1.add(FileDataWeb(
+                  name: projectDetailAndDocuments
+                      .projectDocuments![i].projectDocuments!,
+                  path: projectDetailAndDocuments
+                      .projectDocuments![i].projectDocuments!,
+                  type: "IMAGE",
+                  documentId: projectDetailAndDocuments
+                      .projectDocuments![i].companyProjectDocumentID!,
+                  extension: projectDetailAndDocuments
+                      .projectDocuments![i].projectDocuments!
+                      .split(".")
+                      .last,
+                  imageData: null));
+              update();
+            }
+          }
+        } else {
+          projectDocuments.clear();
+          projectDocuments = [FileData(path: "", type: "Add")];
+          if (projectDetailAndDocuments.projectDocuments!.isNotEmpty) {
+            print(
+                "object${projectDetailAndDocuments.projectDocuments!.length}");
+            for (int i = 0;
+                i < projectDetailAndDocuments.projectDocuments!.length;
+                i++) {
+              String path = projectDetailAndDocuments
+                  .projectDocuments![i].projectDocuments!;
+              int documentId = projectDetailAndDocuments
+                  .projectDocuments![i].companyProjectDocumentID!;
+              String type =
+                  path.toLowerCase().endsWith(".mp4") ? "VIDEO" : "IMAGE";
 
-            projectDocuments
-                .add(FileData(path: path, type: type, documentId: documentId));
+              projectDocuments.add(
+                  FileData(path: path, type: type, documentId: documentId));
+              update();
+            }
           }
         }
+
         isProjectDocumentLoading = false;
-        update();
       }
     } else {}
   }

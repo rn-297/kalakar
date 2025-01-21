@@ -2,7 +2,8 @@ class KalakarConstants {
   //API
   //auth apis
   // static const String baseURL="http://ec2-3-111-135-189.ap-south-1.compute.amazonaws.com";
-  static const String baseURL = "http://3.111.135.189";
+  // static const String baseURL = "http://3.111.135.189";
+  static const String baseURL = "https://848d-3-111-135-189.ngrok-free.app";
   static const String getCreateAccountOtp = "/Account/CreateAccountGetOTP";
   static const String createAccountApi = "/Account/CreateAccount";
   static const String getForgotPasswordOtpApi = "/Account/ForgotPasswordGetOTP";
@@ -140,6 +141,11 @@ class KalakarConstants {
   static const String searchArtistForCompanyApi =
       "/CompanyProfile/GetSearchArtistProfile_Company";
   static const String getAccountData = "/Account/Get_AccountLogin_Infodata";
+
+  //payment
+  static const String initiatePayment = "/SuperAdmin/InitiatePayment";
+  static const String getPaymentDetails = "/SuperAdmin/PaymentIntegrationAPIResponse";
+
 
   //Strings
   static const String usernameHint = "E-mail Id or Contact Number";
@@ -337,6 +343,9 @@ class KalakarConstants {
   static const String projectDocuments = "Project Documents";
   static const String projectType = "Project Type";
   static const String artistDocuments = "Artist Documents";
+
+  //payment
+  static const String makePayment = "Make Payment";
 
   //artist
   static const String middleName = "Middle Name";

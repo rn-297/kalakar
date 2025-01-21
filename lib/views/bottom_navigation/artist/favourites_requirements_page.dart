@@ -643,7 +643,7 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                 Expanded(
                                     flex: 4,
                                     child: Padding(
-                                      padding: EdgeInsets.all(8.h),
+                                      padding: EdgeInsets.all(6.h),
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -655,14 +655,14 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                             TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: TextStyle(
-                                                fontSize: 5.sp,
+                                                fontSize: 4.5.sp,
                                                 color: KalakarColors
                                                     .headerText,
                                                 fontWeight:
                                                 FontWeight.bold),
                                           ),
                                           SizedBox(
-                                            height: 8.h,
+                                            height: 4.h,
                                           ),
                                           Text(
                                             requirementData
@@ -677,7 +677,7 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                             maxLines: 2,
                                           ),
                                           SizedBox(
-                                            height: 8.h,
+                                            height: 4.h,
                                           ),
                                           Row(
                                             mainAxisAlignment:

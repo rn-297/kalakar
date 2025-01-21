@@ -21,7 +21,7 @@ class CompanyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 130.h),
+          preferredSize: Size(double.infinity, 138.h),
           child: ScreenTypeLayout.builder(
             mobile: (BuildContext context) => appbarMobileView(),
             tablet: (BuildContext context) => appbarWebView(),
@@ -156,48 +156,52 @@ class CompanyHomePage extends StatelessWidget {
     Get.put(ProfileController());
     return GetBuilder<ProfileController>(builder: (controller) {
       return AppBar(
-        toolbarHeight: 70.h,
+        toolbarHeight: 78.h,
         backgroundColor: KalakarColors.appBarBackground1,
         surfaceTintColor: KalakarColors.appBarBackground1,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            FutureBuilder<bool>(
-                future: controller.checkImageValidity(controller.companyLogo),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError || !snapshot.hasData) {
-                    return Container(
-                      width: 60.h,
-                      height: 60.h,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: KalakarColors.headerText),
-                          borderRadius: BorderRadius.circular(50.r)),
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                        size: 50.h,
-                      ),
-                    );
-                  } else {
-                    return Container(
-                      height: 60.h,
-                      width: 60.h,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(controller.profilePic)),
-                          border: Border.all(color: KalakarColors.headerText),
-                          borderRadius: BorderRadius.circular(50.r)),
-                    );
-                  }
-                }),
-            SizedBox(
-              width: 8.w,
-            ),
-            Text(
-              controller.companyName ?? "",
-              style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
-            ),
-          ],
+        title: Padding(
+          padding:  EdgeInsets.only(top:8.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FutureBuilder<bool>(
+                  future: controller.checkImageValidity(controller.companyLogo),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError || !snapshot.hasData) {
+                      return Container(
+                        width: 60.h,
+                        height: 60.h,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: KalakarColors.headerText),
+                            borderRadius: BorderRadius.circular(50.r)),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.grey,
+                          size: 50.h,
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        height: 60.h,
+                        width: 60.h,
+
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(controller.profilePic)),
+                            border: Border.all(color: KalakarColors.headerText),
+                            borderRadius: BorderRadius.circular(50.r)),
+                      );
+                    }
+                  }),
+              SizedBox(
+                width: 8.w,
+              ),
+              Text(
+                controller.companyName ?? "",
+                style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
+              ),
+            ],
+          ),
         ),
         actions: [
           // Icon(
@@ -2801,14 +2805,14 @@ class CompanyHomePage extends StatelessWidget {
                 ),
               );
             })
-        : GridView.builder(
+        : controller.draftRequirementDetailsList.length>0?GridView.builder(
             itemCount: controller.draftRequirementDetailsList.length,
             physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 3.0),
             itemBuilder: (context, index) {
               RequirementDetailsData requirementDetailsData =
-                  controller.openRequirementDetailsList[index];
+                  controller.draftRequirementDetailsList[index];
               DateTime createdDate =
                   DateTime.parse(requirementDetailsData.createdDate.toString());
               DateFormat formatter = DateFormat('dd MMM yyyy');
@@ -2907,7 +2911,7 @@ class CompanyHomePage extends StatelessWidget {
                   ],
                 ),
               );
-            });
+            }):Container(child: Text(""),);
   }
 
   webCompletedOppPage(RequirementController controller) {
@@ -3008,7 +3012,7 @@ class CompanyHomePage extends StatelessWidget {
                 ),
               );
             })
-        : GridView.builder(
+        : controller.closedRequirementDetailsList.length>0?GridView.builder(
             itemCount: controller.closedRequirementDetailsList.length,
             physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -3110,6 +3114,6 @@ class CompanyHomePage extends StatelessWidget {
                   ),
                 ),
               );
-            });
+            }):Container();
   }
 }

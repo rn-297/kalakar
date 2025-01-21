@@ -228,19 +228,16 @@ class CompanyProfilePage extends StatelessWidget {
                                       )
                                     ],
                                   ),
-                                  profileDta.verificationStatus ==
-                                          "Not verified"
-                                      ? Column(
+                                   Column(
                                           children: [
                                             SizedBox(
                                               height: 24.h,
                                             ),
                                             CustomMobileButtonWidget(
                                               text: KalakarConstants
-                                                  .sendProfileForVerification,
+                                                  .profileVerification,
                                               onTap: () {
-                                                controller
-                                                    .sendProfileForVerification();
+                                                Get.toNamed(RouteHelper.payAndVerifyPage);
                                               },
                                               horizontalPadding: 20.w,
                                               verticalPadding: 8.h,
@@ -263,7 +260,7 @@ class CompanyProfilePage extends StatelessWidget {
                                             )
                                           ],
                                         )
-                                      : Container(),
+                                      ,
                                 ],
                               )
                             : Center(
@@ -1360,19 +1357,16 @@ class CompanyProfilePage extends StatelessWidget {
                           ),],))
                       ],
                     ),
-                    profileDta.verificationStatus ==
-                        "Not verified"
-                        ? Column(
+                     Column(
                       children: [
                         SizedBox(
                           height: 24.h,
                         ),
                         CustomMobileButtonWidget(
                           text: KalakarConstants
-                              .sendProfileForVerification,
+                              .profileVerification,
                           onTap: () {
-                            controller
-                                .sendProfileForVerification();
+                           Get.toNamed(RouteHelper.payAndVerifyPage);
                           },
                           horizontalPadding: 2.w,
                           verticalPadding: 8.h,
@@ -1382,7 +1376,7 @@ class CompanyProfilePage extends StatelessWidget {
                           textColor:
                           KalakarColors.headerText,
                           borderRadius: 50.0,
-                          width: 200.w,
+                          width: 150.w,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey,
@@ -1395,7 +1389,7 @@ class CompanyProfilePage extends StatelessWidget {
                         )
                       ],
                     )
-                        : Container(),
+
                   ],
                 )
                     : Center(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_thumbnail_video/index.dart';
 import 'package:get_thumbnail_video/video_thumbnail.dart';
@@ -13,6 +14,7 @@ import 'package:kalakar/data/models/artist/upcoming_company_projects.dart';
 import 'package:kalakar/data/models/artist_master_data.dart';
 import 'package:kalakar/data/models/company/artist_search_for_company_class.dart';
 import 'package:kalakar/data/models/company/company_requirement_list_class.dart';
+import 'package:kalakar/data/models/file_data_model.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,6 +24,7 @@ import '../data/local_database/login_table.dart';
 import '../data/models/company/company_applied_details_class.dart'
     as company_artist;
 import '../data/models/company/project_details_documents_class.dart';
+import '../data/models/file_web_model.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
 import '../utils/kalakar_constants.dart';
@@ -90,6 +93,10 @@ class RequirementController extends GetxController {
   String? requirementEndDateText = "";
   String? artistName = "";
   String? companyName = "";
+
+  //imageData
+  FileDataWeb requirementPhotoData =
+      FileDataWeb(path: "", name: "", type: "", extension: "", imageData: null);
 
   //date time
   DateTime shootingStartDate = DateTime.now();
@@ -280,6 +287,85 @@ class RequirementController extends GetxController {
         };
 
         var response = await ApiClient.postFormDataToken(
+            KalakarConstants.saveRequirementsDetailsApi,
+            fields,
+            files,
+            loginTable.token);
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
+
+        if (response.statusCode == 200) {
+          ResponseModel responseModel =
+              ResponseModel.fromJson(jsonDecode(response.body));
+
+          if (responseModel.replayStatus ?? false) {
+            KalakarDialogs.successDialog1(
+                "Uploading Requirement Data", responseModel.message!);
+            getRequirementDetailsCompany(0);
+          } else {
+            KalakarDialogs.successDialog(
+                "Uploading Requirement Data", responseModel.message!);
+          }
+        } else {}
+      }
+    }
+  }
+
+
+  saveRequirementsDetailsWeb() async {
+    if (_formRequirementKey.currentState!.validate()) {
+      KalakarDialogs.loadingDialog(
+          "Uploading Requirement Data", "Saving Requirement Data");
+      LoginTable? loginTable = await HiveService.getLoginData();
+
+      if (loginTable != null) {
+        int? profileId = loginTable.profileId;
+
+        Map<String, String> fields = {
+          'UserID': loginTable.userID,
+          'RequirementDetailsID': selectedRequirementId.toString(),
+          'FK_AccountID': loginTable.accountID,
+          'FK_CompanyProfileID': "$profileId",
+          'FK_RequirementStatusMasterID': "$requirementStatusId",
+          'RequirementTitle': requirementTitleTEController.text.trim(),
+          'RequirementDescription': descriptionTEController.text.trim(),
+          'LookingFor': lookingForTEController.text.trim(),
+          'NUmberOfOpenings': noOfOpeningsTEController.text.trim(),
+          'Gender': genderTEController.text.trim(),
+          'Age': ageTEController.text.trim(),
+          'Language': languageTEController.text.trim(),
+          'Height': heightTEController.text.trim(),
+          'Weight': weightTEController.text.trim(),
+          'HairColor': hairColorTEController.text.trim(),
+          'BodyType': bodyTypeTEController.text.trim(),
+          'Experiences': experienceTEController.text.trim(),
+          'ShootingStartDate': shootingStartDate.toString(),
+          'ShootingEndDate': shootingEndDate.toString(),
+          'ShootingLocation': shootingLocationTEController.text.trim(),
+          'DefineRole': defineRoleTEController.text.trim(),
+          'SpecialSkillRequired': splSkillRequiredTEController.text.trim(),
+          'ComfortableIn': comfortableInTEController.text.trim(),
+          'ScriptForAuditions': scriptForAuditionTEController.text.trim(),
+          'RequirementEndDate': requirementEndDate.toString(),
+          'FBLink': fbLinkTEController.text.trim(),
+          'WPLink': wpLinkTEController.text.trim(),
+          'YTLink': ytLinkTEController.text.trim(),
+          'Instalink': instaLinkTEController.text.trim(),
+          'EmailLink': emailLinkTEController.text.trim(),
+          'WebsiteLink': websiteLinkTEController.text.trim(),
+          'RefPhotoName': "image",
+          'Salary': salaryTEController.text.trim(),
+          'SalaryType': salaryTypeTEController.text.trim(),
+        };
+        print(fields);
+
+        // Example files (if any)
+        Map<String, FileDataWeb> files = {
+          'RefPhoto_Doc': requirementPhotoData,
+        };
+
+        var response = await ApiClient.postFormDataTokenWeb(
             KalakarConstants.saveRequirementsDetailsApi,
             fields,
             files,
@@ -690,14 +776,18 @@ class RequirementController extends GetxController {
             List<company_artist.PortfolioList> list1 = list[j].portfolioList!;
             for (int i = 0; i < list1.length; i++) {
               if (list1[i].fileType == 2) {
-                list1[i].thumbnail = await VideoThumbnail.thumbnailData(
-                  video: list1[i].filePath!,
-                  // Replace with your video URL
-                  imageFormat: ImageFormat.JPEG,
-                  maxHeight: 150,
-                  // Set a maximum height for the thumbnail
-                  quality: 75,
-                );
+                try {
+                  list1[i].thumbnail = await VideoThumbnail.thumbnailData(
+                                    video: list1[i].filePath!,
+                                    // Replace with your video URL
+                                    imageFormat: ImageFormat.JPEG,
+                                    maxHeight: 150,
+                                    // Set a maximum height for the thumbnail
+                                    quality: 75,
+                                  );
+                } catch (e) {
+                  print(e);
+                }
               }
             }
             companyAppliedRequirementDetailsClass
@@ -712,14 +802,18 @@ class RequirementController extends GetxController {
                 list2[j].experienceList!;
             for (int i = 0; i < list1.length; i++) {
               if (list1[i].roleVideo == 2) {
-                list1[i].thumbnail = await VideoThumbnail.thumbnailData(
-                  video: list1[i].roleVideo!,
-                  // Replace with your video URL
-                  imageFormat: ImageFormat.JPEG,
-                  maxHeight: 150,
-                  // Set a maximum height for the thumbnail
-                  quality: 75,
-                );
+                try {
+                  list1[i].thumbnail = await VideoThumbnail.thumbnailData(
+                                    video: list1[i].roleVideo!,
+                                    // Replace with your video URL
+                                    imageFormat: ImageFormat.JPEG,
+                                    maxHeight: 150,
+                                    // Set a maximum height for the thumbnail
+                                    quality: 75,
+                                  );
+                } catch (e) {
+                  print(e);
+                }
               }
             }
             companyAppliedRequirementDetailsClass
@@ -745,16 +839,32 @@ class RequirementController extends GetxController {
 
   Future<void> getImageFromCamera(BuildContext context, String type) async {
     File? file = null;
+    FileDataWeb? pickerData = null;
+
     if (type == KalakarConstants.camera) {
       file = await PickerHelper.pickImageFromCamera(context);
     } else if (type == KalakarConstants.gallery) {
-      file = await PickerHelper.pickImageFromGallery(context);
+      if (!kIsWeb) {
+        file = await PickerHelper.pickImageFromGallery(context);
+      } else {
+        pickerData = await PickerHelper.pickImageFromGalleryWeb(context);
+      }
     }
-    if (file != null) {
+    if (!kIsWeb && file != null) {
       requirementPhoto = file.path;
       update();
+      Get.back();
+
+    } else if (kIsWeb && pickerData != null) {
+      requirementPhoto = pickerData.path;
+      requirementPhotoData = FileDataWeb(
+          path: pickerData.path,
+          name: pickerData.name,
+          type: "",
+          extension: "",
+          imageData: pickerData.imageData);
+      update();
     }
-    Get.back();
   }
 
   void setGenderValue(String value) {
@@ -1207,18 +1317,19 @@ class RequirementController extends GetxController {
   void filterAppliedRequirementDetailsListData() {
     if (searchKalakarTEController.text.isNotEmpty) {
       filterAppliedRequirementDetailsList = companyAppliedRequirementDetailsList
-              .where((requirement) =>
-                  requirement.firstName
-                      .toString()
-                      .toLowerCase()
-                      .contains(searchKalakarTEController.text.toLowerCase()) ||
-                  requirement.middleName
-                      .toString()
-                      .toLowerCase()
-                      .contains(searchKalakarTEController.text.toLowerCase()))
-              .toList();
+          .where((requirement) =>
+              requirement.firstName
+                  .toString()
+                  .toLowerCase()
+                  .contains(searchKalakarTEController.text.toLowerCase()) ||
+              requirement.middleName
+                  .toString()
+                  .toLowerCase()
+                  .contains(searchKalakarTEController.text.toLowerCase()))
+          .toList();
     } else {
-filterAppliedRequirementDetailsList=companyAppliedRequirementDetailsList;
+      filterAppliedRequirementDetailsList =
+          companyAppliedRequirementDetailsList;
     }
     update();
   }
@@ -1226,7 +1337,8 @@ filterAppliedRequirementDetailsList=companyAppliedRequirementDetailsList;
   void getCompanyProfileData() {
     ProfileController profileController = Get.put(ProfileController());
     profileController.getProfileDataForArtist(selectedRequirement.fKAccountID!);
-    profileController.getCompanyProjectsForArtist(selectedRequirement.fKAccountID!);
+    profileController
+        .getCompanyProjectsForArtist(selectedRequirement.fKAccountID!);
     Get.toNamed(RouteHelper.companyProfilePage);
   }
 }

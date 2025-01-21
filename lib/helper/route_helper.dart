@@ -24,6 +24,7 @@ import 'package:kalakar/views/bottom_navigation/company/company_more_info.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_project_view_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/company_search_artist_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/new_project_form.dart';
+import 'package:kalakar/views/bottom_navigation/pay_and_verify.dart';
 import 'package:kalakar/views/bottom_navigation/upcoming_project_list_all_page.dart';
 import 'package:kalakar/views/requirement/requirement_form.dart';
 import 'package:kalakar/views/requirement/requirement_view_page.dart';
@@ -83,6 +84,7 @@ class RouteHelper {
   static const String artistSearchRequirementPage = '/kalakar_artist_search_requirement';
   static const String companySearchArtistPage = '/kalakar_company_search_artist';
   static const String googleNewUserPage = '/kalakar_google_new_user_page';
+  static const String payAndVerifyPage = '/kalakar_pay_and_verify_page';
 
   static List<GetPage> routes = [
     GetPage(
@@ -242,6 +244,11 @@ class RouteHelper {
     GetPage(
       name: RouteHelper.artistMoreInfoViewPage,
       page: () => ArtistMoreInfoViewPage(),
+    ),
+
+    GetPage(
+      name: RouteHelper.payAndVerifyPage,
+      page: () => PayAndVerifyPage(),
     ),
   ];
 }
