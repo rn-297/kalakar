@@ -739,31 +739,39 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.requirementTitleTEController,
-                    labelText: KalakarConstants.requirementTitle,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter Requirement Title",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateRequirementTitle),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateRequirementStatus,
-                  items: controller.requirementStatusList,
-                  titleText: KalakarConstants.requirementStatus,
-                  selectedItem:
-                  controller.requirementStatusTEController.text.isEmpty
-                      ? null
-                      : controller.requirementStatusTEController.text,
-                  labelText: KalakarConstants.requirementStatus,
-                  onItemSelected: (selectedItem) {
-                    controller.setRequirementStatusValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.requirementTitleTEController,
+                          labelText: KalakarConstants.requirementTitle,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Requirement Title",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateRequirementTitle),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child : CustomDropdownSearch4(
+                        validator: Validator.validateRequirementStatus,
+                        items: controller.requirementStatusList,
+                        titleText: KalakarConstants.requirementStatus,
+                        selectedItem:
+                        controller.requirementStatusTEController.text.isEmpty
+                            ? null
+                            : controller.requirementStatusTEController.text,
+                        labelText: KalakarConstants.requirementStatus,
+                        onItemSelected: (selectedItem) {
+                          controller.setRequirementStatusValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
@@ -876,7 +884,7 @@ class RequirementFormPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(width: 16.w,),
+                    SizedBox(width: 8.w,),
                     Expanded(
                       child: CustomDropdownSearch4(
                         validator: Validator.validateGender,
@@ -929,7 +937,7 @@ class RequirementFormPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      width: 16.w,
+                      width: 8.w,
                     ),
                     Expanded(
                       child: CustomDropdownSearch4(
@@ -950,46 +958,79 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateHairColor,
-                  items: controller.hairColorList,
-                  titleText: KalakarConstants.hairColor,
-                  selectedItem: controller.hairColorTEController.text.isEmpty
-                      ? null
-                      : controller.hairColorTEController.text,
-                  labelText: KalakarConstants.hairColor,
-                  onItemSelected: (selectedItem) {
-                    controller.setHairColorValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateHairColor,
+                        items: controller.hairColorList,
+                        titleText: KalakarConstants.hairColor,
+                        selectedItem: controller.hairColorTEController.text.isEmpty
+                            ? null
+                            : controller.hairColorTEController.text,
+                        labelText: KalakarConstants.hairColor,
+                        onItemSelected: (selectedItem) {
+                          controller.setHairColorValue(selectedItem);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateBodyType,
+                        items: controller.bodyTypeList,
+                        titleText: KalakarConstants.bodyType,
+                        selectedItem: controller.bodyTypeTEController.text.isEmpty
+                            ? null
+                            : controller.bodyTypeTEController.text,
+                        labelText: KalakarConstants.bodyType,
+                        onItemSelected: (selectedItem) {
+                          controller.setBodyTypeValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateBodyType,
-                  items: controller.bodyTypeList,
-                  titleText: KalakarConstants.bodyType,
-                  selectedItem: controller.bodyTypeTEController.text.isEmpty
-                      ? null
-                      : controller.bodyTypeTEController.text,
-                  labelText: KalakarConstants.bodyType,
-                  onItemSelected: (selectedItem) {
-                    controller.setBodyTypeValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.experienceTEController,
+                          labelText: KalakarConstants.experiences,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Experience",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateExperience),
+                    ),
+                    
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateComfortableIn,
+                        items: controller.comfortableInList,
+                        titleText: KalakarConstants.comfortableIn,
+                        selectedItem:
+                        controller.comfortableInTEController.text.isEmpty
+                            ? null
+                            : controller.comfortableInTEController.text,
+                        labelText: KalakarConstants.comfortableIn,
+                        onItemSelected: (selectedItem) {
+                          controller.setComfortableInValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.experienceTEController,
-                    labelText: KalakarConstants.experiences,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter Experience",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateExperience),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -999,10 +1040,10 @@ class RequirementFormPage extends StatelessWidget {
                       child: InkWell(
                         onTap: () async {
                           final date =
-                          await DatePickerHelper.selectDate(context);
+                          await DatePickerHelper.selectDate(context,isOld: true);
                           if (date != null) {
                             controller.setDate(
-                                KalakarConstants.startDate, date);
+                                KalakarConstants.startDate, date,);
                           }
                         },
                         child: CommonWidgets.commonMobileTextField2(
@@ -1018,13 +1059,13 @@ class RequirementFormPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      width: 16.w,
+                      width: 8.w,
                     ),
                     Expanded(
                       child: InkWell(
                         onTap: () async {
                           final date =
-                          await DatePickerHelper.selectDate(context);
+                          await DatePickerHelper.selectDate(context,isOld: true);
                           if (date != null) {
                             controller.setDate(KalakarConstants.endDate, date);
                           }
@@ -1088,22 +1129,7 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateComfortableIn,
-                  items: controller.comfortableInList,
-                  titleText: KalakarConstants.comfortableIn,
-                  selectedItem:
-                  controller.comfortableInTEController.text.isEmpty
-                      ? null
-                      : controller.comfortableInTEController.text,
-                  labelText: KalakarConstants.comfortableIn,
-                  onItemSelected: (selectedItem) {
-                    controller.setComfortableInValue(selectedItem);
-                  },
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
+
                 CommonWidgets.commonMobileTextField2(
                     controller: controller.scriptForAuditionTEController,
                     labelText: KalakarConstants.scriptForAudition,
@@ -1139,109 +1165,141 @@ class RequirementFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.fbLinkTEController,
-                    labelText: KalakarConstants.fbLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter Facebook Link",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.fbLinkTEController,
+                          labelText: KalakarConstants.fbLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Facebook Link",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                    SizedBox(
+                      width:8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.wpLinkTEController,
+                          labelText: KalakarConstants.wpLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter WhatsApp Link",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.wpLinkTEController,
-                    labelText: KalakarConstants.wpLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter WhatsApp Link",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.ytLinkTEController,
+                          labelText: KalakarConstants.ytLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          hintText: "Enter YouTube Link",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.instaLinkTEController,
+                          labelText: KalakarConstants.instaLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          hintText: "Enter Instagram Link",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.ytLinkTEController,
-                    labelText: KalakarConstants.ytLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    hintText: "Enter YouTube Link",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
-                SizedBox(
-                  height: 16.h,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.emailLinkTEController,
+                          labelText: KalakarConstants.emailLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          hintText: "Enter Email Link",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                    SizedBox(
+                      width:8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.websiteLinkTEController,
+                          labelText: KalakarConstants.websiteLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          hintText: "Enter Web Site Link",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                  ],
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.instaLinkTEController,
-                    labelText: KalakarConstants.instaLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    hintText: "Enter Instagram Link",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.emailLinkTEController,
-                    labelText: KalakarConstants.emailLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    hintText: "Enter Email Link",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.websiteLinkTEController,
-                    labelText: KalakarConstants.websiteLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    hintText: "Enter Web Site Link",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
                 SizedBox(
                   height: 24.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.salaryTEController,
-                    labelText: KalakarConstants.salary,
-                    obscureText: false,
-                    hintText: "Enter Salary",
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
-                SizedBox(
-                  height: 24.h,
-                ),
-                CustomDropdownSearch4(
-                  validator: null,
-                  items: controller.salaryTypeList,
-                  titleText: KalakarConstants.salaryType,
-                  selectedItem:
-                  controller.salaryTypeTEController.text.isEmpty
-                      ? null
-                      : controller.salaryTypeTEController.text,
-                  labelText: KalakarConstants.salaryType,
-                  onItemSelected: (selectedItem) {
-                    controller.setSalaryTypeValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.salaryTEController,
+                          labelText: KalakarConstants.salary,
+                          obscureText: false,
+                          hintText: "Enter Salary",
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: null,
+                        items: controller.salaryTypeList,
+                        titleText: KalakarConstants.salaryType,
+                        selectedItem:
+                        controller.salaryTypeTEController.text.isEmpty
+                            ? null
+                            : controller.salaryTypeTEController.text,
+                        labelText: KalakarConstants.salaryType,
+                        onItemSelected: (selectedItem) {
+                          controller.setSalaryTypeValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 24.h,
@@ -1272,7 +1330,7 @@ class RequirementFormPage extends StatelessWidget {
                         },
                         horizontalPadding: 2.w,
                         verticalPadding: 8.h,
-                        fontSize: 6.sp,
+                        fontSize: 5.sp,
                         width: 80.w,
                         showIcon: true,
                         icon: Icons.save,

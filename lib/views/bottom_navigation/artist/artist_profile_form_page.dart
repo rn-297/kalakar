@@ -224,7 +224,6 @@ class ArtistProfileFormPage extends StatelessWidget {
                     obscureText: false,
                     textInputType: TextInputType.number,
                     hintText: "Enter Alternate Mobile Number",
-
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -521,7 +520,6 @@ class ArtistProfileFormPage extends StatelessWidget {
                     obscureText: false,
                     textInputType: TextInputType.text,
                     hintText: "Enter Facebook Link",
-
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -574,7 +572,6 @@ class ArtistProfileFormPage extends StatelessWidget {
                     obscureText: false,
                     textInputType: TextInputType.text,
                     hintText: "Enter Email Link",
-
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
@@ -617,7 +614,7 @@ class ArtistProfileFormPage extends StatelessWidget {
     return SingleChildScrollView(
       child: GetBuilder<ArtistProfileController>(builder: (controller) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal:24.w,vertical: 24.h),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
           child: Form(
             key: controller.formProfileKey,
             child: Column(
@@ -630,9 +627,9 @@ class ArtistProfileFormPage extends StatelessWidget {
                         width: 100.h,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: NetworkImage(
-                                    controller.artistProfileImage)
-                                    as ImageProvider,
+                                image:
+                                    NetworkImage(controller.artistProfileImage)
+                                        as ImageProvider,
                                 fit: BoxFit.cover),
                             border: Border.all(color: KalakarColors.textColor),
                             borderRadius: BorderRadius.circular(50.r)),
@@ -644,7 +641,8 @@ class ArtistProfileFormPage extends StatelessWidget {
                               onTap: () {
                                 controller.documentType =
                                     KalakarConstants.profilePhoto;
-                                controller.getImageFromCamera(context,KalakarConstants.gallery);
+                                controller.getImageFromCamera(
+                                    context, KalakarConstants.gallery);
                               },
                               child: Icon(Icons.camera_alt_outlined)))
                     ],
@@ -653,231 +651,295 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 24.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.firstNameTEController,
-                    labelText: KalakarConstants.firstName,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    hintText: "Enter First Name",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateFirstName),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.middleNameTEController,
-                    labelText: KalakarConstants.middleName,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    hintText: "Enter Middle Name",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateMiddleName),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.lastNameTEController,
-                    labelText: KalakarConstants.lastName,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter Last Name",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateLastName),
-                SizedBox(
-                  height: 16.h,
-                ),
-                InkWell(
-                  onTap: () async {
-                    final date =
-                    await DatePickerHelper.selectDate(context, isOld: true);
-                    if (date != null) {
-                      controller.setDate(KalakarConstants.dob, date);
-                    }
-                  },
-                  child: CommonWidgets.commonMobileTextField2(
-                      controller: controller.dobTEController,
-                      labelText: KalakarConstants.dob,
-                      obscureText: false,
-                      textInputType: TextInputType.text,
-                      passwordVisibility: false,
-                      editable: false,
-                      borderRadius: 12.r,
-                      togglePasswordVisibility: () {},
-                      validator: Validator.validateDob),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.firstNameTEController,
+                          labelText: KalakarConstants.firstName,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          hintText: "Enter First Name",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateFirstName),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.middleNameTEController,
+                          labelText: KalakarConstants.middleName,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          hintText: "Enter Middle Name",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateMiddleName),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.lastNameTEController,
+                          labelText: KalakarConstants.lastName,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Last Name",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateLastName),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateGender,
-                  items: controller.genderList,
-                  titleText: KalakarConstants.gender,
-                  selectedItem: controller.genderTEController.text.isEmpty
-                      ? null
-                      : controller.genderTEController.text,
-                  labelText: KalakarConstants.gender,
-                  onItemSelected: (selectedItem) {
-                    controller.setGenderValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          final date = await DatePickerHelper.selectDate(
+                              context,
+                              isOld: true);
+                          if (date != null) {
+                            controller.setDate(KalakarConstants.dob, date);
+                          }
+                        },
+                        child: CommonWidgets.commonMobileTextField2(
+                            controller: controller.dobTEController,
+                            labelText: KalakarConstants.dob,
+                            obscureText: false,
+                            textInputType: TextInputType.text,
+                            passwordVisibility: false,
+                            editable: false,
+                            borderRadius: 12.r,
+                            togglePasswordVisibility: () {},
+                            validator: Validator.validateDob),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateGender,
+                        items: controller.genderList,
+                        titleText: KalakarConstants.gender,
+                        selectedItem: controller.genderTEController.text.isEmpty
+                            ? null
+                            : controller.genderTEController.text,
+                        labelText: KalakarConstants.gender,
+                        onItemSelected: (selectedItem) {
+                          controller.setGenderValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.emailTEController,
-                    labelText: KalakarConstants.email,
-                    obscureText: false,
-                    textInputType: TextInputType.emailAddress,
-                    passwordVisibility: false,
-                    hintText: "Enter Email Id",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateEmail),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.mobileNumberTEController,
-                    labelText: KalakarConstants.mobileNumber,
-                    obscureText: false,
-                    textInputType: TextInputType.number,
-                    hintText: "Enter Mobile Number",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateMobileNumber),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.alternateMobileNumberTEController,
-                    labelText: KalakarConstants.alternateMobileNumber,
-                    obscureText: false,
-                    textInputType: TextInputType.number,
-                    hintText: "Enter Alternate Mobile Number",
-
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateAlternateMobileNumber),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.ageTEController,
-                    labelText: KalakarConstants.age,
-                    obscureText: false,
-                    hintText: "Enter Age",
-                    textInputType: TextInputType.number,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateAge),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.roleAgeTEController,
-                    labelText: KalakarConstants.roleAge,
-                    obscureText: false,
-                    hintText: "Enter Role Age Number",
-                    textInputType: TextInputType.number,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateRoleAge),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.heightTEController,
-                    labelText: KalakarConstants.height,
-                    obscureText: false,
-                    textInputType: TextInputType.number,
-                    hintText: "Enter Height in foot",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateHeight),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.weightTEController,
-                    labelText: KalakarConstants.weight,
-                    obscureText: false,
-                    textInputType: TextInputType.number,
-                    passwordVisibility: false,
-                    hintText: "Enter Weight in kg",
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateWeight),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateBodyType,
-                  items: controller.bodyTypeList,
-                  titleText: KalakarConstants.bodyType,
-                  selectedItem: controller.bodyTypeTEController.text.isEmpty
-                      ? null
-                      : controller.bodyTypeTEController.text,
-                  labelText: KalakarConstants.bodyType,
-                  onItemSelected: (selectedItem) {
-                    controller.setBodyTypeValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.emailTEController,
+                          labelText: KalakarConstants.email,
+                          obscureText: false,
+                          textInputType: TextInputType.emailAddress,
+                          passwordVisibility: false,
+                          hintText: "Enter Email Id",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateEmail),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateMaritalStatus,
+                        items: controller.maritalStatusList,
+                        titleText: KalakarConstants.maritalStatus,
+                        selectedItem:
+                            controller.maritalStatusTEController.text.isEmpty
+                                ? null
+                                : controller.maritalStatusTEController.text,
+                        labelText: KalakarConstants.maritalStatus,
+                        onItemSelected: (selectedItem) {
+                          controller.setMaritalStatusValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateEyeColor,
-                  items: controller.eyeColorList,
-                  titleText: KalakarConstants.eyeColor,
-                  selectedItem: controller.eyeColorTEController.text.isEmpty
-                      ? null
-                      : controller.eyeColorTEController.text,
-                  labelText: KalakarConstants.eyeColor,
-                  onItemSelected: (selectedItem) {
-                    controller.setEyeColorValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.mobileNumberTEController,
+                          labelText: KalakarConstants.mobileNumber,
+                          obscureText: false,
+                          textInputType: TextInputType.number,
+                          hintText: "Enter Mobile Number",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateMobileNumber),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller:
+                              controller.alternateMobileNumberTEController,
+                          labelText: KalakarConstants.alternateMobileNumber,
+                          obscureText: false,
+                          textInputType: TextInputType.number,
+                          hintText: "Enter Alternate Mobile Number",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateAlternateMobileNumber),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateHairColor,
-                  items: controller.hairColorList,
-                  titleText: KalakarConstants.hairColor,
-                  selectedItem: controller.hairColorTEController.text.isEmpty
-                      ? null
-                      : controller.hairColorTEController.text,
-                  labelText: KalakarConstants.hairColor,
-                  onItemSelected: (selectedItem) {
-                    controller.setHairColorValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.ageTEController,
+                          labelText: KalakarConstants.age,
+                          obscureText: false,
+                          hintText: "Enter Age",
+                          textInputType: TextInputType.number,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateAge),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.roleAgeTEController,
+                          labelText: KalakarConstants.roleAge,
+                          obscureText: false,
+                          hintText: "Enter Role Age Number",
+                          textInputType: TextInputType.number,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateRoleAge),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateMaritalStatus,
-                  items: controller.maritalStatusList,
-                  titleText: KalakarConstants.maritalStatus,
-                  selectedItem:
-                  controller.maritalStatusTEController.text.isEmpty
-                      ? null
-                      : controller.maritalStatusTEController.text,
-                  labelText: KalakarConstants.maritalStatus,
-                  onItemSelected: (selectedItem) {
-                    controller.setMaritalStatusValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.heightTEController,
+                          labelText: KalakarConstants.height,
+                          obscureText: false,
+                          textInputType: TextInputType.number,
+                          hintText: "Enter Height in foot",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateHeight),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.weightTEController,
+                          labelText: KalakarConstants.weight,
+                          obscureText: false,
+                          textInputType: TextInputType.number,
+                          passwordVisibility: false,
+                          hintText: "Enter Weight in kg",
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateWeight),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateBodyType,
+                        items: controller.bodyTypeList,
+                        titleText: KalakarConstants.bodyType,
+                        selectedItem:
+                            controller.bodyTypeTEController.text.isEmpty
+                                ? null
+                                : controller.bodyTypeTEController.text,
+                        labelText: KalakarConstants.bodyType,
+                        onItemSelected: (selectedItem) {
+                          controller.setBodyTypeValue(selectedItem);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateEyeColor,
+                        items: controller.eyeColorList,
+                        titleText: KalakarConstants.eyeColor,
+                        selectedItem:
+                            controller.eyeColorTEController.text.isEmpty
+                                ? null
+                                : controller.eyeColorTEController.text,
+                        labelText: KalakarConstants.eyeColor,
+                        onItemSelected: (selectedItem) {
+                          controller.setEyeColorValue(selectedItem);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateHairColor,
+                        items: controller.hairColorList,
+                        titleText: KalakarConstants.hairColor,
+                        selectedItem:
+                            controller.hairColorTEController.text.isEmpty
+                                ? null
+                                : controller.hairColorTEController.text,
+                        labelText: KalakarConstants.hairColor,
+                        onItemSelected: (selectedItem) {
+                          controller.setHairColorValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
@@ -895,146 +957,167 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateVehicle,
-                  items: controller.yesNoList,
-                  titleText: KalakarConstants.vehicle,
-                  selectedItem: controller.vehicleTEController.text.isEmpty
-                      ? null
-                      : controller.vehicleTEController.text,
-                  labelText: KalakarConstants.vehicle,
-                  onItemSelected: (selectedItem) {
-                    controller.setVehicleValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateVehicle,
+                        items: controller.yesNoList,
+                        titleText: KalakarConstants.vehicle,
+                        selectedItem: controller.vehicleTEController.text.isEmpty
+                            ? null
+                            : controller.vehicleTEController.text,
+                        labelText: KalakarConstants.vehicle,
+                        onItemSelected: (selectedItem) {
+                          controller.setVehicleValue(selectedItem);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+width: 8.w,                    ),
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateTravelThrIndia,
+                        items: controller.yesNoList,
+                        titleText: KalakarConstants.travelThrIndia,
+                        selectedItem:
+                            controller.travelThroughIndiaTEController.text.isEmpty
+                                ? null
+                                : controller.travelThroughIndiaTEController.text,
+                        labelText: KalakarConstants.travelThrIndia,
+                        onItemSelected: (selectedItem) {
+                          controller.setTravelThrIndiaValue(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CustomDropdownSearch4(
-                  validator: Validator.validateTravelThrIndia,
-                  items: controller.yesNoList,
-                  titleText: KalakarConstants.travelThrIndia,
-                  selectedItem:
-                  controller.travelThroughIndiaTEController.text.isEmpty
-                      ? null
-                      : controller.travelThroughIndiaTEController.text,
-                  labelText: KalakarConstants.travelThrIndia,
-                  onItemSelected: (selectedItem) {
-                    controller.setTravelThrIndiaValue(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.address1TEController,
+                          labelText: KalakarConstants.address1,
+                          obscureText: false,
+                          hintText: "Enter Address Line 1",
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateAddressLine1),
+                    ),
+                    SizedBox(
+width: 8.w,                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.address2TEController,
+                          labelText: KalakarConstants.address2,
+                          obscureText: false,
+                          hintText: "Enter Address Line 2",
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateAddressLine2),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.address1TEController,
-                    labelText: KalakarConstants.address1,
-                    obscureText: false,
-                    hintText: "Enter Address Line 1",
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateAddressLine1),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.address2TEController,
-                    labelText: KalakarConstants.address2,
-                    obscureText: false,
-                    hintText: "Enter Address Line 2",
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateAddressLine2),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CustomDropdownSearch4
-                  (
-                  validator: Validator.validateState,
-                  items: controller.stateList,
-                  titleText: KalakarConstants.selectState,
-                  selectedItem: controller.stateTEController.text.isEmpty
-                      ? null
-                      : controller.stateTEController.text,
-                  labelText: KalakarConstants.state,
-                  onItemSelected: (selectedItem) {
-                    controller.getCitiesData(selectedItem);
-                  },
-                ),
-
-                /*InkWell(
-                  onTap: () {
-                    // DropdownSearch<String>(
-                    //   popupProps: PopupProps.bottomSheet(),
-                    //   asyncItems: (String filter) async => await  controller.stateList,
-                    //   itemAsString: (String u) => u.toString(),
-                    //   onChanged: (String? data) => print(data),
-                    // );
-                  },
-                  child: CommonWidgets.commonMobileTextField(
-                      controller: controller.pinCodeTEController,
-                      labelText: KalakarConstants.pinCode,
-                      obscureText: false,
-                      textInputType: TextInputType.text,
-                      passwordVisibility: false,
-                      borderRadius: 12.r,
-                      editable: false,
-                      togglePasswordVisibility: () {},
-                      validator: controller.postalCodeValidator),
-                ),*/
-                SizedBox(
-                  height: 16.h,
-                ),
-                /*
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.districtTEController,
-                    labelText: KalakarConstants.district,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: controller.districtValidator),*/
-                CustomDropdownSearch4(
-                  validator: Validator.validateDistrict,
-                  items: controller.cityList,
-                  titleText: KalakarConstants.selectDistrict,
-                  selectedItem: controller.districtTEController.text.isEmpty
-                      ? null
-                      : controller.districtTEController.text,
-                  labelText: KalakarConstants.district,
-                  onItemSelected: (selectedItem) {
-                    controller.getPinCodesData(selectedItem);
-                  },
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                /*
-                CommonWidgets.commonMobileTextField(
-                    controller: controller.stateTEController,
-                    labelText: KalakarConstants.state,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: controller.stateValidator),*/
-                CustomDropdownSearch4(
-                  validator: Validator.validatePostalCode,
-                  items: controller.pinCodeList,
-                  titleText: KalakarConstants.selectPinCode,
-                  selectedItem: controller.postalCodeTEController.text.isEmpty
-                      ? null
-                      : controller.postalCodeTEController.text,
-                  labelText: KalakarConstants.postalCode,
-                  onItemSelected: (selectedItem) {
-                    controller.setPinCodeData(selectedItem);
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateState,
+                        items: controller.stateList,
+                        titleText: KalakarConstants.selectState,
+                        selectedItem: controller.stateTEController.text.isEmpty
+                            ? null
+                            : controller.stateTEController.text,
+                        labelText: KalakarConstants.state,
+                        onItemSelected: (selectedItem) {
+                          controller.getCitiesData(selectedItem);
+                        },
+                      ),
+                    ),
+                    
+                    /*InkWell(
+                      onTap: () {
+                        // DropdownSearch<String>(
+                        //   popupProps: PopupProps.bottomSheet(),
+                        //   asyncItems: (String filter) async => await  controller.stateList,
+                        //   itemAsString: (String u) => u.toString(),
+                        //   onChanged: (String? data) => print(data),
+                        // );
+                      },
+                      child: CommonWidgets.commonMobileTextField(
+                          controller: controller.pinCodeTEController,
+                          labelText: KalakarConstants.pinCode,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          editable: false,
+                          togglePasswordVisibility: () {},
+                          validator: controller.postalCodeValidator),
+                    ),*/
+                    SizedBox(
+width: 8.w,                    ),
+                    /*
+                    CommonWidgets.commonMobileTextField(
+                        controller: controller.districtTEController,
+                        labelText: KalakarConstants.district,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: controller.districtValidator),*/
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validateDistrict,
+                        items: controller.cityList,
+                        titleText: KalakarConstants.selectDistrict,
+                        selectedItem: controller.districtTEController.text.isEmpty
+                            ? null
+                            : controller.districtTEController.text,
+                        labelText: KalakarConstants.district,
+                        onItemSelected: (selectedItem) {
+                          controller.getPinCodesData(selectedItem);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+width: 8.w,                    ),
+                    /*
+                    CommonWidgets.commonMobileTextField(
+                        controller: controller.stateTEController,
+                        labelText: KalakarConstants.state,
+                        obscureText: false,
+                        textInputType: TextInputType.text,
+                        passwordVisibility: false,
+                        borderRadius: 12.r,
+                        togglePasswordVisibility: () {},
+                        validator: controller.stateValidator),*/
+                    Expanded(
+                      child: CustomDropdownSearch4(
+                        validator: Validator.validatePostalCode,
+                        items: controller.pinCodeList,
+                        titleText: KalakarConstants.selectPinCode,
+                        selectedItem: controller.postalCodeTEController.text.isEmpty
+                            ? null
+                            : controller.postalCodeTEController.text,
+                        labelText: KalakarConstants.postalCode,
+                        onItemSelected: (selectedItem) {
+                          controller.setPinCodeData(selectedItem);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 16.h,
@@ -1053,83 +1136,102 @@ class ArtistProfileFormPage extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.fbLinkTEController,
-                    labelText: KalakarConstants.fbLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter Facebook Link",
-
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.fbLinkTEController,
+                          labelText: KalakarConstants.fbLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Facebook Link",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                    SizedBox(
+width: 8.w,                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.instaTEController,
+                          labelText: KalakarConstants.instaLink,
+                          obscureText: false,
+                          hintText: "Enter Instagram Link",
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.instaTEController,
-                    labelText: KalakarConstants.instaLink,
-                    obscureText: false,
-                    hintText: "Enter Instagram Link",
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.wpLinkTEController,
+                          labelText: KalakarConstants.wpLink,
+                          obscureText: false,
+                          hintText: "Enter WhatsApp Link",
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                    SizedBox(
+width: 8.w,                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.ytLinkTEController,
+                          labelText: KalakarConstants.ytLink,
+                          obscureText: false,
+                          hintText: "Enter YouTube Link",
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.wpLinkTEController,
-                    labelText: KalakarConstants.wpLink,
-                    obscureText: false,
-                    hintText: "Enter WhatsApp Link",
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
-                SizedBox(
-                  height: 16.h,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.emailLinkTEController,
+                          labelText: KalakarConstants.emailLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Email Link",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                    SizedBox(
+width: 8.w,                    ),
+                    Expanded(
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.websiteLinkTEController,
+                          labelText: KalakarConstants.websiteLink,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Web Site Link",
+                          passwordVisibility: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: null),
+                    ),
+                  ],
                 ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.ytLinkTEController,
-                    labelText: KalakarConstants.ytLink,
-                    obscureText: false,
-                    hintText: "Enter YouTube Link",
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.emailLinkTEController,
-                    labelText: KalakarConstants.emailLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter Email Link",
-
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
-                SizedBox(
-                  height: 16.h,
-                ),
-                CommonWidgets.commonMobileTextField2(
-                    controller: controller.websiteLinkTEController,
-                    labelText: KalakarConstants.websiteLink,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    hintText: "Enter Web Site Link",
-                    passwordVisibility: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: null),
                 SizedBox(
                   height: 24.h,
                 ),

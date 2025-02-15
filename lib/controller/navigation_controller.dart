@@ -116,13 +116,17 @@ class BottomNavigationController extends GetxController {
   }
 
   void getLoginData() async {
-    LoginTable? loginTable = await HiveService.getLoginData();
-    print("account  type ${loginTable!.accountType!}");
-    accountType = loginTable!.accountType;
-    homeCount=0;
-     profileCount = 0;
-     opportunityCount = 0;
-     settingsCount = 0;
-    update();
+    try {
+      LoginTable? loginTable = await HiveService.getLoginData();
+      print("account  type ${loginTable!.accountType??""!}");
+      accountType = loginTable!.accountType??"";
+      homeCount=0;
+      profileCount = 0;
+      opportunityCount = 0;
+      settingsCount = 0;
+      update();
+    } catch (e) {
+      print(e);
+    }
   }
 }

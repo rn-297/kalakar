@@ -66,8 +66,9 @@ class ArtistApplyForFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.applyFor,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle: false,
       // actions: [
       //   InkWell(
       //     onTap: () {},
@@ -169,7 +170,7 @@ class ArtistApplyForFormPage extends StatelessWidget {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
           return Padding(
-              padding: EdgeInsets.all(24.h),
+              padding: EdgeInsets.symmetric(vertical:24.h,horizontal: 32.w),
               child: Form(
                 key: controller.formApplyForKey,
                 child: Column(children: [

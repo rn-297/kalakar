@@ -49,7 +49,7 @@ class ReturnPaymentIntegrationAPIResponseList {
   String? responseCode;
   String? message;
   String? paymentDate;
-  int? amount;
+  double? amount;
   String? merchantTransactionId;
   String? paymentType;
 
@@ -67,7 +67,7 @@ class ReturnPaymentIntegrationAPIResponseList {
     responseCode = json['responseCode'];
     message = json['message'];
     paymentDate = json['paymentDate'];
-    amount = json['amount'];
+    amount = json['amount']*1.0;
     merchantTransactionId = json['merchantTransactionId'];
     paymentType = json['paymentType'];
   }
@@ -90,24 +90,34 @@ class ProfileStatusData {
   String? verificationStatus;
   int? registrationStatusID;
   String? registrationStatus;
-  int? appPrice;
-  int? discount;
+  String? expiryDate;
+  String? subscriptionExpiryDate;
+  double? appPrice;
+  double? discount;
+  double? discountedAmount;
 
   ProfileStatusData(
-      {this.verificationStatusID,
-        this.verificationStatus,
-        this.registrationStatusID,
-        this.registrationStatus,
-        this.appPrice,
-        this.discount});
+      {this.verificationStatusID=0,
+        this.verificationStatus="",
+        this.registrationStatusID=0,
+        this.registrationStatus="",
+        this.expiryDate="",
+        this.subscriptionExpiryDate="",
+        this.appPrice=0,
+        this.discount=0,
+      this.discountedAmount=0
+      });
 
   ProfileStatusData.fromJson(Map<String, dynamic> json) {
     verificationStatusID = json['verificationStatusID'];
     verificationStatus = json['verificationStatus'];
     registrationStatusID = json['registrationStatusID'];
     registrationStatus = json['registrationStatus'];
-    appPrice = json['appPrice'];
-    discount = json['discount'];
+    expiryDate = json['expiryDate'];
+    subscriptionExpiryDate = json['subscriptionExpiryDate'];
+    appPrice = json['appPrice']*1.0;
+    discount = json['discount']*1.0;
+    discountedAmount = json['discountedAmount']*1.0;
   }
 
   Map<String, dynamic> toJson() {
@@ -118,6 +128,9 @@ class ProfileStatusData {
     data['registrationStatus'] = this.registrationStatus;
     data['appPrice'] = this.appPrice;
     data['discount'] = this.discount;
+    data['discountedAmount'] = this.discountedAmount;
+    data['expiryDate'] = this.expiryDate;
+    data['subscriptionExpiryDate'] = this.subscriptionExpiryDate;
     return data;
   }
 }

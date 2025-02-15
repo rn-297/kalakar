@@ -932,7 +932,7 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 4.0),
+                      crossAxisCount: 2, childAspectRatio: 4.h),
                   itemBuilder: (context, index) {
                     RequirementDetailsData requirementData =
                     controller.requirementDetailsSearchList[index];

@@ -12,6 +12,7 @@ import '../utils/kalakar_constants.dart';
 
 class PaymentController extends GetxController {
   bool isPaymentDetailsLoading = true;
+  bool isArtist=false;
   ProfileStatusData profileStatusData = ProfileStatusData();
   List<ReturnPaymentIntegrationAPIResponseList> paymentDetailsList = [];
 
@@ -19,15 +20,25 @@ class PaymentController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getPaymentDetails();
+  }
+
+  setArtist() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      isArtist = loginTable.accountType == KalakarConstants.artist;
+      update();
+    }
+
   }
 
   Future<void> getPaymentDetails() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
+       isPaymentDetailsLoading = true;
+
       update();
       final body = {
-        "fK_AccountID": 1, //loginTable.accountID
+        "fK_AccountID": loginTable.accountID??"", //loginTable.accountID
         "redirectURL": "",
         "callbackURL": ""
       };
@@ -35,7 +46,7 @@ class PaymentController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getPaymentDetails,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       // print(response.statusCode);
       // print(response);
 
@@ -47,6 +58,7 @@ class PaymentController extends GetxController {
             paymentDetailsModel.returnPaymentIntegrationAPIResponseList!;
         update();
       }
+       isPaymentDetailsLoading = false;
     }
   }
 
@@ -54,13 +66,13 @@ class PaymentController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {
-        "fK_AccountID": loginTable.accountID,
+        "fK_AccountID": loginTable.accountID??"",
         "redirectURL": "",
         "callbackURL": "",
       };
 
       var response = await ApiClient.postDataToken(
-          KalakarConstants.initiatePayment, jsonEncode(body), loginTable.token);
+          KalakarConstants.initiatePayment, jsonEncode(body), loginTable.token??"");
       // print(response.statusCode);
       // print(response);
 

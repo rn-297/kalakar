@@ -95,7 +95,7 @@ class MyApplicationsPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.myApplications,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 8  .sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),
@@ -394,7 +394,7 @@ class MyApplicationsPage extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 4.0),
+                        crossAxisCount: 2, childAspectRatio: 4.h),
                     itemBuilder: (context, index) {
 
                       return Container(
@@ -500,7 +500,7 @@ class MyApplicationsPage extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 4.0),
+                        crossAxisCount: 2, childAspectRatio: 4.h),
                     itemBuilder: (context, index) {
                       ArtistAppliedRequirementDetailsList requirementData =
                       controller.artistAppliedRequirementDetailsList[index];

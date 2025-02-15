@@ -8,9 +8,12 @@ class SplashScreenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthPageController authPageController=Get.put(AuthPageController());
+    AuthPageController authPageController = Get.put(AuthPageController());
     authPageController.splashScreenTask(authPageController);
     return Scaffold(
-        body: Center(child: Image.asset("assets/images/app_logo2.PNG"),),);
+      body: Center(
+        child: Image.asset("assets/images/app_logo2.PNG"),
+      ),
+    );
   }
 }

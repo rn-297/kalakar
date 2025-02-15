@@ -4,13 +4,11 @@ class CompanySearchArtistClass {
   List<GetArtistProfileModellist>? getArtistProfileModellist;
   bool? replayStatus;
   String? message;
-  Null? data;
 
   CompanySearchArtistClass(
       {this.getArtistProfileModellist,
         this.replayStatus,
-        this.message,
-        this.data});
+        this.message});
 
   CompanySearchArtistClass.fromJson(Map<String, dynamic> json) {
     if (json['getArtistProfileModellist'] != null) {
@@ -22,7 +20,6 @@ class CompanySearchArtistClass {
     }
     replayStatus = json['replayStatus'];
     message = json['message'];
-    data = json['data'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +30,6 @@ class CompanySearchArtistClass {
     }
     data['replayStatus'] = this.replayStatus;
     data['message'] = this.message;
-    data['data'] = this.data;
     return data;
   }
 }
@@ -43,7 +39,7 @@ class GetArtistProfileModellist {
   int? fKAccountID;
   String? userID;
   String? profilePic;
-  Null? profilePicName;
+  String? profilePicName;
   String? firstName;
   String? middleName;
   String? lastName;
@@ -135,8 +131,8 @@ class GetArtistProfileModellist {
     fKAccountID = json['fK_AccountID'];
     userID = json['userID'];
     profilePic = json['profilePic'];
-    profilePicName = json['profilePic_Name'];
-    firstName = json['firstName'];
+    profilePicName = json['profilePic_Name']??"";
+    firstName = json['firstName']??"";
     middleName = json['middleName'];
     lastName = json['lastName'];
     dateOfBirth = json['dateOfBirth'];

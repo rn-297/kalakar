@@ -573,7 +573,7 @@ class CompanySearchArtistPage extends StatelessWidget {
                  shrinkWrap: true,
                  itemCount: 5,
                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                     crossAxisCount: 2, childAspectRatio: 8.0),
+                     crossAxisCount: 2, childAspectRatio: 8.h),
                  physics: NeverScrollableScrollPhysics(),
                  itemBuilder: (context, index) {
                    return Container(
@@ -653,7 +653,7 @@ class CompanySearchArtistPage extends StatelessWidget {
                  itemCount:
                  controller.searchedArtistProfileList.length,
                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                     crossAxisCount: 2, childAspectRatio: 8.0),
+                     crossAxisCount: 2, childAspectRatio: 8.h),
                  physics: NeverScrollableScrollPhysics(),
                  itemBuilder: (context, index) {
                    GetArtistProfileModellist appliedProfileDetail =

@@ -91,7 +91,7 @@ class SettingsPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.settings,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),
@@ -269,7 +269,7 @@ class SettingsPage extends StatelessWidget {
   settingsWebView(BuildContext context) {
     return GetBuilder<SettingsController>(builder: (controller) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal:72.w),
+        padding: EdgeInsets.symmetric(horizontal:8.w),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,20 +284,11 @@ class SettingsPage extends StatelessWidget {
                         onTap: () {
                           controller.gotoNextPage(controller.settingsList[index]);
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              controller.settingsList[index],
-                              style: TextStyle(
-                                fontSize: 6.sp,
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 18,
-                            )
-                          ],
+                        child: Text(
+                          controller.settingsList[index],
+                          style: TextStyle(
+                            fontSize: 5.sp,
+                          ),
                         ),
                       ),
                     );

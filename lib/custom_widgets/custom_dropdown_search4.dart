@@ -45,7 +45,7 @@ class CustomDropdownSearch4 extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.r),
               ),
               labelText: labelText,
-              labelStyle: TextStyle(color: textColor,fontSize: 6.sp),
+              labelStyle: TextStyle(color: textColor,fontSize: 4.sp),
               alignLabelWithHint: true,
               contentPadding: contentPadding)),
       compareFn: (i, s) => i.toLowerCase() == s.toLowerCase(),

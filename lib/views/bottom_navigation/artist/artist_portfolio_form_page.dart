@@ -41,6 +41,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
         KalakarConstants.portfolio1,
         style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle: false,
       /* actions: [
         InkWell(
           onTap: () {
@@ -64,8 +65,9 @@ class ArtistPortfolioFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.portfolio1,
-        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle: false,
       /*actions: [
         InkWell(
           onTap: () {},
@@ -168,7 +170,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
           return Padding(
-              padding: EdgeInsets.all(24.h),
+              padding: EdgeInsets.symmetric(vertical:24.h,horizontal: 32.w),
               child: Form(
                 key: controller.formPortFolioKey,
                 child: Column(children: [
@@ -230,7 +232,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
                           controller.validatePortfolioForm();
                         },
                         borderRadius: 50.r,
-                        fontSize: 6.sp,
+                        fontSize: 5.sp,
                         text: KalakarConstants.save,
                         horizontalPadding: 2.w,
                         verticalPadding: 8.h,
@@ -238,7 +240,7 @@ class ArtistPortfolioFormPage extends StatelessWidget {
                         showIcon: true,
                         iconColor: KalakarColors.headerText,
                         icon: Icons.save,
-                        width: 125.w,
+                        width: 100.w,
                       ),
                     ],
                   ),

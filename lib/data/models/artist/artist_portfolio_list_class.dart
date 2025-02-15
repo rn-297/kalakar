@@ -36,19 +36,23 @@ class PortfolioList {
   int? fKAccountID;
   int? fileType;
   String? filePath;
+  String? filePathName;
   Uint8List? thumbnail;
 
   PortfolioList(
       {this.artistProfilePortfolioID,
       this.fKAccountID,
       this.fileType,
-      this.filePath});
+      this.filePath,
+      this.filePathName,
+      });
 
   PortfolioList.fromJson(Map<String, dynamic> json) {
     artistProfilePortfolioID = json['artistProfile_PortfolioID'];
     fKAccountID = json['fK_AccountID'];
     fileType = json['fileType'];
     filePath = json['filePath'];
+    filePathName = json['filePathName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +61,7 @@ class PortfolioList {
     data['fK_AccountID'] = this.fKAccountID;
     data['fileType'] = this.fileType;
     data['filePath'] = this.filePath;
+    data['filePathName'] = this.filePathName;
     return data;
   }
 }

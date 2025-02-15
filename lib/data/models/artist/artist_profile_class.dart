@@ -90,8 +90,8 @@ class ArtistProfileDetailsClass {
     gender = json['gender'];
     age = json['age']*1.0;
     roleAge = json['roleAge']*1.0;
-    height = json['height'];
-    weight = json['weight'];
+    height = json['height']*1.0;
+    weight = json['weight']*1.0;
     bio = json['bio'];
     fbLink = json['fbLink'];
     wpLink = json['wpLink'];

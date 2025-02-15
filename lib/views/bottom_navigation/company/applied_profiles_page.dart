@@ -37,8 +37,8 @@ class AppliedProfilesPage extends StatelessWidget {
     RequirementController controller=Get.put(RequirementController());
     return AppBar(
       toolbarHeight: 40.h,
-      backgroundColor: KalakarColors.appBarBackground1,
-      surfaceTintColor: KalakarColors.appBarBackground1,
+      backgroundColor: KalakarColors.appBarBackground,
+      surfaceTintColor: KalakarColors.appBarBackground,
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -123,7 +123,7 @@ class AppliedProfilesPage extends StatelessWidget {
     RequirementController controller=Get.put(RequirementController());
     return AppBar(
       toolbarHeight: 50.h,
-      backgroundColor: KalakarColors.appBarBackground1,
+      backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground1,
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -783,7 +783,7 @@ class AppliedProfilesPage extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: 3,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 8.0),
+                        crossAxisCount: 2, childAspectRatio: 8.h),
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
 
@@ -867,7 +867,7 @@ class AppliedProfilesPage extends StatelessWidget {
                         .filterAppliedRequirementDetailsList.length,
 
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 8.0),
+                        crossAxisCount: 2, childAspectRatio: 8.h),
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       AppliedArtistDetailsList appliedProfileDetail =

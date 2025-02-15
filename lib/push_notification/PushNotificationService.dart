@@ -2,15 +2,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class PushNotificationService {
 // It is assumed that all messages contain a data field with the key 'type'
   Future<void> setupInteractedMessage() async {
-    if (html.window.navigator.userAgent.contains("unsupported")) {
-      print("This browser does not support Firebase Messaging.");
-      return;
-    }
+    // if (html.window.navigator.userAgent.contains("unsupported")) {
+    //   print("This browser does not support Firebase Messaging.");
+    //   return;
+    // }
     await Permission.notification.isDenied.then(
           (bool value) {
         if (value) {
@@ -105,10 +105,10 @@ class PushNotificationService {
       );
 
   static Future<String>getNotificationToken() async {
-    if (html.window.navigator.userAgent.contains("unsupported")) {
-      print("This browser does not support Firebase Messaging.");
-      return "";
-    }
+    // if (html.window.navigator.userAgent.contains("unsupported")) {
+    //   print("This browser does not support Firebase Messaging.");
+    //   return "";
+    // }
     var firebaseToken = await FirebaseMessaging.instance.getToken();
     print(firebaseToken);
     return firebaseToken??"";

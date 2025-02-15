@@ -63,8 +63,9 @@ class ArtistEducationFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.education,
-        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle: false,
       /*actions: [
         InkWell(
           onTap: () {},
@@ -107,7 +108,6 @@ class ArtistEducationFormPage extends StatelessWidget {
                   obscureText: false,
                   textInputType: TextInputType.text,
                   hintText: "Enter University or Institute",
-
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -121,7 +121,6 @@ class ArtistEducationFormPage extends StatelessWidget {
                   obscureText: false,
                   textInputType: TextInputType.text,
                   hintText: "Enter Course",
-
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -148,7 +147,6 @@ class ArtistEducationFormPage extends StatelessWidget {
                   obscureText: false,
                   textInputType: TextInputType.text,
                   hintText: "Enter Course Type",
-
                   passwordVisibility: false,
                   borderRadius: 12.r,
                   togglePasswordVisibility: () {},
@@ -158,7 +156,8 @@ class ArtistEducationFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  final date = await DatePickerHelper.selectDate(context);
+                  final date =
+                      await DatePickerHelper.selectDate(context, isOld: true);
                   if (date != null) {
                     controller.setDate(KalakarConstants.courseStartDate, date);
                   }
@@ -179,7 +178,8 @@ class ArtistEducationFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  final date = await DatePickerHelper.selectDate(context);
+                  final date =
+                      await DatePickerHelper.selectDate(context, isOld: true);
                   if (date != null) {
                     controller.setDate(KalakarConstants.courseEndDate, date);
                   }
@@ -214,11 +214,10 @@ class ArtistEducationFormPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  if(controller.artistEducationId != "0")
+                  if (controller.artistEducationId != "0")
                     CustomMobileButtonWidget(
                       onTap: () {
-                        controller
-                            .deleteEducationData();
+                        controller.deleteEducationData();
                       },
                       borderRadius: 50.r,
                       fontSize: 14.sp,
@@ -251,7 +250,6 @@ class ArtistEducationFormPage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-
             ]),
           ));
     }));
@@ -260,177 +258,184 @@ class ArtistEducationFormPage extends StatelessWidget {
   educationFormWebView(BuildContext context) {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
-          return Padding(
-              padding: EdgeInsets.symmetric(vertical:24.h,horizontal: 32.w),
-              child: Form(
-                key: controller.formEducationKey,
-                child: Column(children: [
-                  CommonWidgets.commonMobileTextField2(
-                      controller: controller.educationTypeTEController,
-                      labelText: KalakarConstants.educationType,
-                      obscureText: false,
-                      textInputType: TextInputType.text,
-                      hintText: "Enter Education Type",
-                      passwordVisibility: false,
-                      borderRadius: 12.r,
-                      togglePasswordVisibility: () {},
-                      validator: Validator.validateEducationType),
-                  SizedBox(
-                    height: 16.h,
+      return Padding(
+          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 32.w),
+          child: Form(
+            key: controller.formEducationKey,
+            child: Column(children: [
+              CommonWidgets.commonMobileTextField2(
+                  controller: controller.educationTypeTEController,
+                  labelText: KalakarConstants.educationType,
+                  obscureText: false,
+                  textInputType: TextInputType.text,
+                  hintText: "Enter Education Type",
+                  passwordVisibility: false,
+                  borderRadius: 12.r,
+                  togglePasswordVisibility: () {},
+                  validator: Validator.validateEducationType),
+              SizedBox(
+                height: 16.h,
+              ),
+              CommonWidgets.commonMobileTextField2(
+                  controller: controller.universityOrInstituteTEController,
+                  labelText: KalakarConstants.universityOrInstitute,
+                  obscureText: false,
+                  textInputType: TextInputType.text,
+                  hintText: "Enter University or Institute",
+                  passwordVisibility: false,
+                  borderRadius: 12.r,
+                  togglePasswordVisibility: () {},
+                  validator: Validator.validateUniversityOrInstitute),
+              SizedBox(
+                height: 16.h,
+              ),
+              CommonWidgets.commonMobileTextField2(
+                  controller: controller.courseTEController,
+                  labelText: KalakarConstants.course,
+                  obscureText: false,
+                  textInputType: TextInputType.text,
+                  hintText: "Enter Course",
+                  passwordVisibility: false,
+                  borderRadius: 12.r,
+                  togglePasswordVisibility: () {},
+                  validator: Validator.validateCourse),
+              SizedBox(
+                height: 16.h,
+              ),
+              CommonWidgets.commonMobileTextField2(
+                  controller: controller.specializationTEController,
+                  labelText: KalakarConstants.specialization,
+                  obscureText: false,
+                  hintText: "Enter Specialization",
+                  textInputType: TextInputType.text,
+                  passwordVisibility: false,
+                  borderRadius: 12.r,
+                  togglePasswordVisibility: () {},
+                  validator: Validator.validateSpecialization),
+              SizedBox(
+                height: 16.h,
+              ),
+              CommonWidgets.commonMobileTextField2(
+                  controller: controller.courseTypeTEController,
+                  labelText: KalakarConstants.courseType,
+                  obscureText: false,
+                  textInputType: TextInputType.text,
+                  hintText: "Enter Course Type",
+                  passwordVisibility: false,
+                  borderRadius: 12.r,
+                  togglePasswordVisibility: () {},
+                  validator: Validator.validateCourseType),
+              SizedBox(
+                height: 16.h,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () async {
+                        final date = await DatePickerHelper.selectDate(context,
+                            isOld: true);
+                        if (date != null) {
+                          controller.setDate(
+                              KalakarConstants.courseStartDate, date);
+                        }
+                      },
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.courseStartDateTEController,
+                          labelText: KalakarConstants.courseStartDate,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          editable: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateCourseStartDate),
+                    ),
                   ),
-                  CommonWidgets.commonMobileTextField2(
-                      controller: controller.universityOrInstituteTEController,
-                      labelText: KalakarConstants.universityOrInstitute,
-                      obscureText: false,
-                      textInputType: TextInputType.text,
-                      hintText: "Enter University or Institute",
-
-                      passwordVisibility: false,
-                      borderRadius: 12.r,
-                      togglePasswordVisibility: () {},
-                      validator: Validator.validateUniversityOrInstitute),
                   SizedBox(
-                    height: 16.h,
+                    width: 8.w,
                   ),
-                  CommonWidgets.commonMobileTextField2(
-                      controller: controller.courseTEController,
-                      labelText: KalakarConstants.course,
-                      obscureText: false,
-                      textInputType: TextInputType.text,
-                      hintText: "Enter Course",
-
-                      passwordVisibility: false,
-                      borderRadius: 12.r,
-                      togglePasswordVisibility: () {},
-                      validator: Validator.validateCourse),
-                  SizedBox(
-                    height: 16.h,
+                  Expanded(
+                    child: InkWell(
+                      onTap: () async {
+                        final date = await DatePickerHelper.selectDate(context,
+                            isOld: true);
+                        if (date != null) {
+                          controller.setDate(
+                              KalakarConstants.courseEndDate, date);
+                        }
+                      },
+                      child: CommonWidgets.commonMobileTextField2(
+                          controller: controller.courseEndDateTEController,
+                          labelText: KalakarConstants.courseEndDate,
+                          obscureText: false,
+                          textInputType: TextInputType.text,
+                          passwordVisibility: false,
+                          editable: false,
+                          borderRadius: 12.r,
+                          togglePasswordVisibility: () {},
+                          validator: Validator.validateCourseEndDate),
+                    ),
                   ),
-                  CommonWidgets.commonMobileTextField2(
-                      controller: controller.specializationTEController,
-                      labelText: KalakarConstants.specialization,
-                      obscureText: false,
-                      hintText: "Enter Specialization",
-                      textInputType: TextInputType.text,
-                      passwordVisibility: false,
-                      borderRadius: 12.r,
-                      togglePasswordVisibility: () {},
-                      validator: Validator.validateSpecialization),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  CommonWidgets.commonMobileTextField2(
-                      controller: controller.courseTypeTEController,
-                      labelText: KalakarConstants.courseType,
-                      obscureText: false,
-                      textInputType: TextInputType.text,
-                      hintText: "Enter Course Type",
-
-                      passwordVisibility: false,
-                      borderRadius: 12.r,
-                      togglePasswordVisibility: () {},
-                      validator: Validator.validateCourseType),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      final date = await DatePickerHelper.selectDate(context);
-                      if (date != null) {
-                        controller.setDate(KalakarConstants.courseStartDate, date);
-                      }
+                ],
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              CommonWidgets.commonMobileTextField2(
+                  controller: controller.scoreTEController,
+                  labelText: KalakarConstants.score,
+                  obscureText: false,
+                  hintText: "Enter Score",
+                  textInputType: TextInputType.text,
+                  passwordVisibility: false,
+                  borderRadius: 12.r,
+                  togglePasswordVisibility: () {},
+                  validator: Validator.validateScore),
+              SizedBox(
+                height: 24.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (controller.artistEducationId != "0")
+                    CustomMobileButtonWidget(
+                      onTap: () {
+                        controller.deleteEducationData();
+                      },
+                      borderRadius: 50.r,
+                      fontSize: 6.sp,
+                      width: 125.w,
+                      text: KalakarConstants.delete,
+                      horizontalPadding: 2.w,
+                      showIcon: true,
+                      icon: Icons.delete,
+                      iconColor: KalakarColors.white,
+                      verticalPadding: 8.h,
+                      textColor: KalakarColors.white,
+                      backgroundColor: Colors.red,
+                    ),
+                  CustomMobileButtonWidget(
+                    onTap: () {
+                      controller.validateEducationForm();
                     },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.courseStartDateTEController,
-                        labelText: KalakarConstants.courseStartDate,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateCourseStartDate),
+                    borderRadius: 50.r,
+                    fontSize: 6.sp,
+                    text: KalakarConstants.save,
+                    showIcon: true,
+                    icon: Icons.save,
+                    width: 125.w,
+                    iconColor: KalakarColors.headerText,
+                    horizontalPadding: 2.w,
+                    verticalPadding: 8.h,
                   ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      final date = await DatePickerHelper.selectDate(context);
-                      if (date != null) {
-                        controller.setDate(KalakarConstants.courseEndDate, date);
-                      }
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.courseEndDateTEController,
-                        labelText: KalakarConstants.courseEndDate,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateCourseEndDate),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  CommonWidgets.commonMobileTextField2(
-                      controller: controller.scoreTEController,
-                      labelText: KalakarConstants.score,
-                      obscureText: false,
-                      hintText: "Enter Score",
-                      textInputType: TextInputType.text,
-                      passwordVisibility: false,
-                      borderRadius: 12.r,
-                      togglePasswordVisibility: () {},
-                      validator: Validator.validateScore),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      if(controller.artistEducationId != "0")
-                        CustomMobileButtonWidget(
-                          onTap: () {
-                            controller
-                                .deleteEducationData();
-                          },
-                          borderRadius: 50.r,
-                          fontSize: 6.sp,
-                          width: 125.w,
-                          text: KalakarConstants.delete,
-                          horizontalPadding: 2.w,
-                          showIcon: true,
-                          icon: Icons.delete,
-                          iconColor: KalakarColors.white,
-                          verticalPadding: 8.h,
-                          textColor: KalakarColors.white,
-                          backgroundColor: Colors.red,
-                        ),
-                      CustomMobileButtonWidget(
-                        onTap: () {
-                          controller.validateEducationForm();
-                        },
-                        borderRadius: 50.r,
-                        fontSize: 6.sp,
-                        text: KalakarConstants.save,
-                        showIcon: true,
-                        icon: Icons.save,
-                        width: 125.w,
-                        iconColor: KalakarColors.headerText,
-                        horizontalPadding: 2.w,
-                        verticalPadding: 8.h,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-
-                ]),
-              ));
-        }));
+                ],
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+            ]),
+          ));
+    }));
   }
 }

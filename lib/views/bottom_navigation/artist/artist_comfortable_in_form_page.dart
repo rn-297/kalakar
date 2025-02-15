@@ -66,8 +66,9 @@ class ArtistComfortableInFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.comfortableIn,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle: false,
       // actions: [
       //   InkWell(
       //     onTap: () {},
@@ -154,7 +155,7 @@ class ArtistComfortableInFormPage extends StatelessWidget {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
           return Padding(
-              padding: EdgeInsets.all(24.h),
+              padding: EdgeInsets.symmetric(vertical:24.h,horizontal: 32.w),
               child: Form(
                 key: controller.formComfortableInKey,
                 child: Column(children: [
@@ -194,12 +195,12 @@ class ArtistComfortableInFormPage extends StatelessWidget {
                       verticalPadding: 8.h,
                     ),*/
                       CustomMobileButtonWidget(
-                        width: 125.w,
+                        width: 80.w,
                         onTap: () {
                           controller.validateComfortableInForm();
                         },
                         borderRadius: 50.r,
-                        fontSize: 6.sp,
+                        fontSize: 5.sp,
                         text: KalakarConstants.save,
                         showIcon: true,
                         icon: Icons.save,

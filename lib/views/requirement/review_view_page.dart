@@ -201,9 +201,11 @@ class ReviewViewPage extends StatelessWidget {
               title,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp,color: KalakarColors.headerText),
             ),
-            Text(
-              titleData,
-              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14.sp),
+            Expanded(
+              child: Text(
+                titleData,
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14.sp),
+              ),
             ),
           ],
         ),
@@ -222,12 +224,12 @@ class ReviewViewPage extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp,color: KalakarColors.headerText),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 5.sp,color: KalakarColors.headerText),
             ),
             Expanded(
               child: Text(
                 titleData,
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 8.sp),
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 5.sp),
               ),
             ),
           ],
@@ -244,7 +246,7 @@ class ReviewViewPage extends StatelessWidget {
       GetApplicationReviewList reviewData = controller.selectedReviewData;
       return SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.symmetric(vertical:16.w,horizontal: 48.w),
           child: Container(
             padding: EdgeInsets.all(12.h),
             decoration: BoxDecoration(
@@ -278,8 +280,8 @@ class ReviewViewPage extends StatelessWidget {
               Row(
                 children: [
 
-                  Text("Rating : ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp,color: KalakarColors.headerText),),
-                  Text(reviewData.reviewStar!.toString(),style: TextStyle(fontSize: 8.sp),),
+                  Text("Rating : ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 5.sp,color: KalakarColors.headerText),),
+                  Text(reviewData.reviewStar!.toString(),style: TextStyle(fontSize: 5.sp),),
                   SizedBox(
                     width: 16.w,
                   ),

@@ -198,7 +198,7 @@ class NewProjectFormPage extends StatelessWidget {
                           ? ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: controller.projectDocuments.length,
+                              itemCount: 3,
                               itemBuilder: (context, index) {
                                 return  Container(
                                         margin: EdgeInsets.only(right: 15.w),
@@ -360,7 +360,7 @@ class NewProjectFormPage extends StatelessWidget {
   newProjectFormWebView(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(16.h),
+        padding: EdgeInsets.symmetric(vertical: 16.h,horizontal: 32.w),
         child: GetBuilder<ProfileController>(builder: (controller) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,16 +414,38 @@ class NewProjectFormPage extends StatelessWidget {
                 key: controller.formNewProjectKey,
                 child: Column(
                   children: [
-                    CommonWidgets.commonMobileTextField2(
-                        controller: controller.projectTitleTEController,
-                        labelText: KalakarConstants.projectTitle,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        hintText: "Enter Project Title",
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateProjectTitle),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.projectTitleTEController,
+                              labelText: KalakarConstants.projectTitle,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              passwordVisibility: false,
+                              hintText: "Enter Project Title",
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: Validator.validateProjectTitle),
+                        ),
+
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Expanded(
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.projectTypeTEController,
+                              labelText: KalakarConstants.projectType,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              passwordVisibility: false,
+                              hintText: "Hindi Movie/ Television Series",
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: Validator.validateProjectType),
+                        ),
+                      ],
+                    ),
                     SizedBox(
                       height: 16.h,
                     ),
@@ -438,19 +460,7 @@ class NewProjectFormPage extends StatelessWidget {
                         borderRadius: 12.r,
                         togglePasswordVisibility: () {},
                         validator: Validator.validateProjectDescription),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    CommonWidgets.commonMobileTextField2(
-                        controller: controller.projectTypeTEController,
-                        labelText: KalakarConstants.projectType,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        hintText: "Hindi Movie/ Television Series",
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateProjectType),
+                    
                     SizedBox(
                       height: 16.h,
                     ),
@@ -512,7 +522,7 @@ class NewProjectFormPage extends StatelessWidget {
                           ? ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: controller.projectDocuments.length,
+                          itemCount: 3,
                           itemBuilder: (context, index) {
                             return  Container(
                               margin: EdgeInsets.only(right: 15.w),
@@ -642,7 +652,7 @@ class NewProjectFormPage extends StatelessWidget {
                     ),
                   CustomMobileButtonWidget(
                     onTap: () {
-                      controller.saveNewProject();
+                      controller.saveNewProjectWeb();
                     },
                     borderRadius: 50.r,
                     fontSize: 5.sp,
@@ -694,7 +704,7 @@ class NewProjectFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.createProject,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
       /*actions: [
         InkWell(

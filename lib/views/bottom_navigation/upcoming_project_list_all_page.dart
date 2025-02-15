@@ -93,7 +93,7 @@ class UpcomingProjectListAllPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.upcomingProject,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),
@@ -301,9 +301,9 @@ class UpcomingProjectListAllPage extends StatelessWidget {
           child: Column(
             children: [
               controller.isArtistHomeUpcomingProjectsLoading
-                  ? ListView.builder(
+                  ? GridView.builder(
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: 4,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.only(
@@ -311,55 +311,49 @@ class UpcomingProjectListAllPage extends StatelessWidget {
                         bottom: 8.h,
                         right: 8.h,
                       ),
-                      // padding: EdgeInsets.all(8.h),
-                      width: Get.size.width / 2,
                       decoration: BoxDecoration(
                         color: KalakarColors.white,
-                        border:
-                        Border.all(color: KalakarColors.backgroundGrey),
+                        border: Border.all(color: KalakarColors.backgroundGrey),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Shimmer.fromColors(
-                                baseColor: KalakarColors.blue10,
-                                highlightColor: KalakarColors.blue20,
-                                child: Container(
-                                  height: 80.h,
-                                  width: Get.size.width / 2,
-                                  color: KalakarColors.white,
-                                ),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Shimmer.fromColors(
+                              baseColor: KalakarColors.blue10,
+                              highlightColor: KalakarColors.blue20,
+                              child: Container(
+                                height: 100.h,
+                                width: (Get.size.width / 3.5) / 1.5,
+                                color: KalakarColors.white,
                               ),
                             ),
-                            Divider(
-                              color: KalakarColors.backgroundGrey,
-                              height: 20,
-                              thickness: 1,
-                              // indent: 20,
-                              // endIndent: 20,
-                            ),
-                            Shimmer.fromColors(
+                          ),
+                          SizedBox(width: 4.w),
+                          Expanded( // Ensures shimmer text takes the remaining space
+                            child: Shimmer.fromColors(
                               baseColor: KalakarColors.blue10,
                               highlightColor: KalakarColors.blue20,
                               child: Container(
                                 height: 20.h,
-                                width: 80.h,
+                                width: double.infinity, // Takes full width inside Row
                                 color: KalakarColors.white,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
-                  })
+                  }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 6.h),)
                   : controller.upcomingProjectsDetailsList.isNotEmpty
-                  ? ListView.builder(
+                  ? GridView.builder(
                   shrinkWrap: true,
                   itemCount:
                   controller.upcomingProjectsDetailsList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 6.h),
                   itemBuilder: (context, index) {
                     ResponseCompanyProjects upcomingProject =
                     controller.upcomingProjectsDetailsList[index];
@@ -374,12 +368,10 @@ class UpcomingProjectListAllPage extends StatelessWidget {
                           bottom: 8.h,
                           right: 8.h,
                         ),
-                        // padding: EdgeInsets.all(8.h),
                         width: Get.size.width / 3,
                         decoration: BoxDecoration(
                           color: KalakarColors.white,
-                          border: Border.all(
-                              color: KalakarColors.backgroundGrey),
+                          border: Border.all(color: KalakarColors.backgroundGrey),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Row(
@@ -387,52 +379,50 @@ class UpcomingProjectListAllPage extends StatelessWidget {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                upcomingProject.projectCoverDoc!,
-                                fit: BoxFit.cover,
-                                width: (Get.size.width / 3) / 1.5,
-                                height: 120.h,
-                                errorBuilder: (BuildContext context,
-                                    Object error,
-                                    StackTrace? stackTrace) {
-                                  // Return a dummy or placeholder image when an error occurs
-                                  return Image.asset(
-                                    "assets/images/movie.png",
-                                    height: 80.h,
-                                    fit: BoxFit.cover,
-                                  );
-                                },
+                              child: SizedBox(
+                                width: (Get.size.width / 3.5) / 1.5, // Fixed width
+                                height: double.infinity, // Take full height
+                                child: Image.network(
+                                  upcomingProject.projectCoverDoc!,
+                                  fit: BoxFit.cover, // Cover available space
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      "assets/images/movie.png",
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(16.h),
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    upcomingProject.projectTitle!,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 6.sp,
-
+                            SizedBox(width: 4.w,),
+                            Expanded( // Allows text to take remaining space
+                              child: Padding(
+                                padding: EdgeInsets.all(8.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      upcomingProject.projectTitle!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 6.sp,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(
-                                    height: 8.h,
-                                  ),
-                                  Text(
-                                    upcomingProject.projectSubTitle!,
-                                    style: TextStyle(
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      upcomingProject.projectSubTitle!,
+                                      style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 6.sp,
-                                        color: KalakarColors.orange),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
+                                        color: KalakarColors.orange,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

@@ -41,7 +41,7 @@ class SettingsController extends GetxController {
   void setSettingsList() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      print(loginTable!.accountType!);
+      print(loginTable!.accountType??""!);
 
       if (loginTable!.accountType == KalakarConstants.artist) {
         settingsList = [
@@ -144,12 +144,12 @@ class SettingsController extends GetxController {
           "Applying Referral Code Data", "Applying Referral Code Data");
       final body = {
         "referralCode": referralCodeTEController.text,
-        "accountID": loginTable.accountID,
+        "accountID": loginTable.accountID??"",
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.useReferralCodeApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -181,7 +181,7 @@ class SettingsController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getSettingsDataApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -204,12 +204,12 @@ class SettingsController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
       final body = {
-        "accountID": loginTable.accountID
+        "accountID": loginTable.accountID??""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getAccountData,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -239,11 +239,11 @@ class SettingsController extends GetxController {
   Future<void> getNotificationData() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"accountID": loginTable.accountID};
+      final body = {"accountID": loginTable.accountID??""};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getNotificationDataApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
 
@@ -265,11 +265,11 @@ class SettingsController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Setting Notification Data", "Setting Notification Data");
       final body = {"isNotificationOn": val,
-        "accountID": loginTable.accountID};
+        "accountID": loginTable.accountID??""};
       var response = await ApiClient.postDataToken(
           KalakarConstants.setNotificationDataApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
 

@@ -3,39 +3,41 @@ part 'login_table.g.dart';
 @HiveType(typeId: 0)
 class LoginTable {
   @HiveField(0)
-  final String accountID;
+  final String? accountID;
   @HiveField(1)
-  final String email;
+  final String? email;
   @HiveField(2)
-  final String mobileNumber;
+  final String? mobileNumber;
   @HiveField(3)
-  final String accountType;
+  final String? accountType;
   @HiveField(4)
-  final String fistName;
+  final String? fistName;
   @HiveField(5)
-  final String lastName;
+  final String? lastName;
   @HiveField(6)
-  late String token;
+  late String? token;
   @HiveField(7)
-  final String userID;
+  final String? userID;
   @HiveField(8)
-  final String verificationStatus;
+  final String? verificationStatus;
   @HiveField(9)
-  final int verificationStatusID;
+  final int? verificationStatusID;
   @HiveField(10)
-  final bool isverifiedContacts;
+  final bool? isverifiedContacts;
   @HiveField(11)
-  final int profileId;
+  final int? profileId;
   @HiveField(12)
-  final String referralCode;
+  final String? referralCode;
   @HiveField(13)
-  final String usedReferralCode;
+  final String? usedReferralCode;
   @HiveField(14)
-  final double totalReferralAmount;
+  final double? totalReferralAmount;
   @HiveField(15)
-  final double usedReferralAmount;
+  final double? usedReferralAmount;
   @HiveField(16)
-  final String profilePic;
+  final String? profilePic;
+  @HiveField(17)
+  final String? companyName;
 
    LoginTable(
     this.accountID,
@@ -55,6 +57,7 @@ class LoginTable {
     this.totalReferralAmount,
     this.usedReferralAmount,
     this.profilePic,
+    this.companyName,
 
   );
 }

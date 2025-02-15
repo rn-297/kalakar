@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 class FileController extends GetxController {
   String filePath = "";
+  String fileType = "";
   String appBarName="";
 
   downloadFile(String folderPath, String url) async {
@@ -20,17 +21,20 @@ class FileController extends GetxController {
     }
   }
 
-  viewFile(String folderPath, String filename,String appbarName) async {
+  viewFile(String folderPath, String filename,String appbarName,String fileType) async {
     String targetPath = await getTargetPath(folderPath, filename);
     filePath = targetPath;
     appBarName = appbarName;
+    this.fileType=fileType;
     print(filePath);
     Get.toNamed(RouteHelper.fileViewer);
   }
 
-  viewFile1(String filename,String appbarName){
+  viewFile1(String filename,String appbarName,String fileType){
     filePath = filename;
     appBarName = appbarName;
+    this.fileType=fileType;
+
     print(filePath);
     Get.toNamed(RouteHelper.fileViewer);
   }

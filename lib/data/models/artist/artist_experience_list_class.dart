@@ -40,6 +40,8 @@ class ExperienceList {
   String? companyName;
   String? roleImage;
   String? roleVideo;
+  String? roleImageName;
+  String? roleVideoName;
 
   ExperienceList(
       {this.artistProfileExperienceID,
@@ -51,7 +53,9 @@ class ExperienceList {
         this.roleProfile,
         this.companyName,
         this.roleImage,
-        this.roleVideo});
+        this.roleVideo,
+        this.roleImageName,
+        this.roleVideoName});
 
   ExperienceList.fromJson(Map<String, dynamic> json) {
     artistProfileExperienceID = json['artistProfile_ExperienceID'];
@@ -64,6 +68,8 @@ class ExperienceList {
     companyName = json['companyName'];
     roleImage = json['roleImage'];
     roleVideo = json['roleVideo'];
+    roleImageName = json['roleImageName'];
+    roleVideoName = json['roleVideoName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -78,6 +84,8 @@ class ExperienceList {
     data['companyName'] = this.companyName;
     data['roleImage'] = this.roleImage;
     data['roleVideo'] = this.roleVideo;
+    data['roleImageName'] = this.roleImageName;
+    data['roleVideoName'] = this.roleVideoName;
     return data;
   }
 }

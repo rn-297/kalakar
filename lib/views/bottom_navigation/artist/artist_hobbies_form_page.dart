@@ -61,8 +61,9 @@ class ArtistHobbiesFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.hobby,
-        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle: false,
       /*actions: [
         InkWell(
           onTap: () {},
@@ -147,7 +148,7 @@ class ArtistHobbiesFormPage extends StatelessWidget {
     return SingleChildScrollView(
         child: GetBuilder<ArtistProfileController>(builder: (controller) {
           return Padding(
-              padding: EdgeInsets.all(24.h),
+              padding: EdgeInsets.symmetric(vertical:24.h,horizontal: 32.w),
               child: Form(
                 key: controller.formHobbiesKey,
                 child: Column(children: [
@@ -189,7 +190,7 @@ class ArtistHobbiesFormPage extends StatelessWidget {
                           controller.validateHobbiesForm();
                         },
                         borderRadius: 50.r,
-                        fontSize: 6.sp,
+                        fontSize: 5.sp,
                         width: 125.w,
                         showIcon: true,
                         icon: Icons.save,

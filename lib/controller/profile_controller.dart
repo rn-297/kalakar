@@ -83,6 +83,7 @@ class ProfileController extends GetxController {
   FileDataWeb? filmCorporationCardData;
   FileDataWeb? adminAadharCardData;
   FileDataWeb? addressProofCompanyData;
+  FileDataWeb? projectCoverData;
 
   bool isNetworkCompanyLogo = true;
   bool isProfileLoading = false;
@@ -144,7 +145,7 @@ class ProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null &&
         loginTable.accountType == KalakarConstants.company) {
-      companyProfileID = loginTable.profileId;
+      companyProfileID = loginTable.profileId ?? 0;
       getProfileData();
       getStateData();
       getProjectStatusData();
@@ -159,11 +160,11 @@ class ProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
     print("userId ${loginTable?.userID}");
     if (loginTable != null) {
-      var body = {"fK_AccountID": loginTable.accountID};
+      var body = {"fK_AccountID": loginTable.accountID ?? ""};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getCompanyProfileDetailsApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         ProfileGetDataClass profileGetDataClass =
@@ -190,7 +191,7 @@ class ProfileController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getCompanyProfileDetailsApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         ProfileGetDataClass profileGetDataClass =
@@ -268,7 +269,11 @@ class ProfileController extends GetxController {
       case 5:
         try {
           if (profileData!.websiteLink!.isNotEmpty) {
-            launchUrl(Uri.parse(profileData!.websiteLink!));
+            launchUrl(
+                Uri.parse(
+                  profileData!.websiteLink!,
+                ),
+                mode: LaunchMode.externalApplication);
           } else {
             KalakarDialogs.successDialog("Website Link", "Link Not Added");
           }
@@ -310,13 +315,13 @@ class ProfileController extends GetxController {
         var body = {
           "mobileNo": mobileNumberTEController.text.trim(),
           "email": emailTEController.text.trim(),
-          "fK_AccountID": loginTable.accountID
+          "fK_AccountID": loginTable.accountID ?? ""
         };
 
         var response = await ApiClient.postDataToken(
             KalakarConstants.getCompanyProfileContactVerificationOtpApi,
             jsonEncode(body),
-            loginTable.token);
+            loginTable.token ?? "");
 
         if (Get.isDialogOpen!) {
           Get.back();
@@ -364,23 +369,23 @@ class ProfileController extends GetxController {
     nameTEController.text = profileData!.name ?? "";
     ownerCeoNameTEController.text = profileData!.adminOwerCEO ?? "";
     filmCorporationCardTEController.text =
-        (profileData!.filmCorpprationCardDOC ?? "").isNotEmpty
-            ? profileData!.filmCorpprationCardDOC.toString().split("\\").last
+        (profileData!.filmCorpprationCardDOCName ?? "").isNotEmpty
+            ? profileData!.filmCorpprationCardDOCName.toString()
             : "";
     filmCorporationCardPath = profileData!.filmCorpprationCardDOC ?? "";
     adminAadharCardTEController.text =
-        (profileData!.adminAdharCardDOC ?? "").isNotEmpty
-            ? profileData!.adminAdharCardDOC.toString().split("\\").last
+        (profileData!.adminAdharCardDOCName ?? "").isNotEmpty
+            ? profileData!.adminAdharCardDOCName.toString()
             : "";
     adminAadharCardPath = profileData!.adminAdharCardDOC ?? "";
     addressProofOfCompanyTEController.text =
-        (profileData!.addressProofofCompanyDOC ?? "").isNotEmpty
-            ? profileData!.addressProofofCompanyDOC.toString().split("\\").last
+        (profileData!.addressProofofCompanyDOCName ?? "").isNotEmpty
+            ? profileData!.addressProofofCompanyDOCName.toString()
             : "";
     addressProofCompanyPath = profileData!.addressProofofCompanyDOC ?? "";
     selfieUploadTEController.text =
-        (profileData!.selfieuploadDOC ?? "").isNotEmpty
-            ? profileData!.selfieuploadDOC.toString().split("\\").last
+        (profileData!.selfieuploadDOCName ?? "").isNotEmpty
+            ? profileData!.selfieuploadDOCName.toString()
             : "";
     selfieUploadedPath = profileData!.selfieuploadDOC ?? "";
     isContactVerified = profileData!.isVerifiedContacts == "True";
@@ -411,14 +416,14 @@ class ProfileController extends GetxController {
 
     if (loginTable != null) {
       var body = {
-        "fK_AccountID": loginTable.accountID,
+        "fK_AccountID": loginTable.accountID ?? "",
         "companyProjectID": projectId
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getCompanyProfileProjectsApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         CompanyProjectClass responseModel =
@@ -451,7 +456,7 @@ class ProfileController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getCompanyProfileProjectsApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         CompanyProjectClass responseModel =
@@ -481,14 +486,14 @@ class ProfileController extends GetxController {
         var body = {
           "mobileNo": mobileNumberTEController.text.trim(),
           "email": emailTEController.text.trim(),
-          "fK_AccountID": loginTable.accountID,
+          "fK_AccountID": loginTable.accountID ?? "",
           "vcrOTP": oTP
         };
 
         var response = await ApiClient.postDataToken(
             KalakarConstants.verifyCompanyProfileContactsApi,
             jsonEncode(body),
-            loginTable.token);
+            loginTable.token ?? "");
 
         if (Get.isDialogOpen!) {
           Get.back();
@@ -529,11 +534,11 @@ class ProfileController extends GetxController {
       if (loginTable != null) {
         // Example fields (if any)
         Map<String, String> fields = {
-          'FK_AccountID': loginTable.accountID,
+          'FK_AccountID': loginTable.accountID ?? "",
           'Email': emailTEController.text.trim(),
           'MobileNumber': mobileNumberTEController.text.trim(),
           'Name': nameTEController.text.trim(),
-          'UserID': loginTable.userID,
+          'UserID': loginTable.userID ?? "",
           'Admin_Ower_CEO': ownerCeoNameTEController.text.trim(),
         };
         print(fields);
@@ -550,7 +555,7 @@ class ProfileController extends GetxController {
             KalakarConstants.saveCompanyProfileMoreInfoApi,
             fields,
             files,
-            loginTable.token);
+            loginTable.token ?? "");
         print(response.statusCode);
         print(response.body);
         isLoading = false;
@@ -591,11 +596,11 @@ class ProfileController extends GetxController {
       if (loginTable != null) {
         // Example fields (if any)
         Map<String, String> fields = {
-          'FK_AccountID': loginTable.accountID,
+          'FK_AccountID': loginTable.accountID ?? "",
           'Email': emailTEController.text.trim(),
           'MobileNumber': mobileNumberTEController.text.trim(),
           'Name': nameTEController.text.trim(),
-          'UserID': loginTable.userID,
+          'UserID': loginTable.userID ?? "",
           'Admin_Ower_CEO': ownerCeoNameTEController.text.trim(),
         };
         print(fields);
@@ -612,7 +617,7 @@ class ProfileController extends GetxController {
             KalakarConstants.saveCompanyProfileMoreInfoApi,
             fields,
             files,
-            loginTable.token);
+            loginTable.token ?? "");
         print(response.statusCode);
         print(response.body);
         isLoading = false;
@@ -690,6 +695,12 @@ class ProfileController extends GetxController {
         selfieUploadTEController.text = pickerData.name;
       } else if (documentType == KalakarConstants.projectCover) {
         projectCoverPath = pickerData.path;
+        projectCoverData = FileDataWeb(
+            name: pickerData!.name,
+            path: pickerData!.path,
+            type: "IMAGE",
+            extension: pickerData!.name.split(".").last,
+            imageData: await pickerData.imageData);
         // selfieUploadTEController.text = file.path.split("/").last;
       } else if (documentType == KalakarConstants.companyLogo) {
         isNetworkCompanyLogo = false;
@@ -820,7 +831,7 @@ class ProfileController extends GetxController {
     if (loginTable != null) {
       // Example fields (if any)
       Map<String, String> fields = {
-        'FK_AccountID': loginTable.accountID,
+        'FK_AccountID': loginTable.accountID ?? "",
         'CompanyLogo': "${companyLogo.split("/").last}",
         'CompanyNameProductionhouse': companyNameTEController.text.trim(),
         'AuthoriseAdminName': adminNameTEController.text.trim(),
@@ -848,7 +859,7 @@ class ProfileController extends GetxController {
           KalakarConstants.saveCompanyProfileBasicsApi,
           fields,
           files,
-          loginTable.token);
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
       isLoading = false;
@@ -886,7 +897,7 @@ class ProfileController extends GetxController {
     if (loginTable != null) {
       // Example fields (if any)
       Map<String, String> fields = {
-        'FK_AccountID': loginTable.accountID,
+        'FK_AccountID': loginTable.accountID ?? "",
         'CompanyLogo': "${companyLogo.split("/").last}",
         'CompanyNameProductionhouse': companyNameTEController.text.trim(),
         'AuthoriseAdminName': adminNameTEController.text.trim(),
@@ -913,7 +924,7 @@ class ProfileController extends GetxController {
           KalakarConstants.saveCompanyProfileBasicsApi,
           fields,
           files,
-          loginTable.token);
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
       isLoading = false;
@@ -1023,8 +1034,11 @@ class ProfileController extends GetxController {
         if (kIsWeb) {
           utils.openLink(filmCorporationCardPath);
         } else {
-          fileController.viewFile(KalakarConstants.profilePath,
-              filmCorporationCardTEController.text.trim(), documentType);
+          fileController.viewFile(
+              KalakarConstants.profilePath,
+              filmCorporationCardTEController.text.trim(),
+              documentType,
+              "IMAGE");
         }
         break;
       case KalakarConstants.adminAadharCard:
@@ -1032,22 +1046,25 @@ class ProfileController extends GetxController {
           utils.openLink(adminAadharCardPath);
         } else {
           fileController.viewFile(KalakarConstants.profilePath,
-              adminAadharCardTEController.text.trim(), documentType);
+              adminAadharCardTEController.text.trim(), documentType, "PDF");
         }
         break;
       case KalakarConstants.addressProofOfCompany:
         if (kIsWeb) {
           utils.openLink(addressProofCompanyPath);
         } else {
-          fileController.viewFile(KalakarConstants.profilePath,
-              addressProofOfCompanyTEController.text.trim(), documentType);
+          fileController.viewFile(
+              KalakarConstants.profilePath,
+              addressProofOfCompanyTEController.text.trim(),
+              documentType,
+              "PDF");
         }
         break;
       case KalakarConstants.selfieUpload:
         if (kIsWeb) {
           utils.openLink(selfieUploadedPath);
         } else {
-          fileController.viewFile1(selfieUploadedPath, documentType);
+          fileController.viewFile1(selfieUploadedPath, documentType, "IMAGE");
         }
         break;
     }
@@ -1154,13 +1171,13 @@ class ProfileController extends GetxController {
 
     if (loginTable != null) {
       // Example fields (if any)
-      var body = {"fK_AccountID": "${loginTable.accountID}"};
+      var body = {"fK_AccountID": "${loginTable.accountID ?? ""}"};
       print(body);
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.sendCompanyProfileForVerificationApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
       isLoading = false;
@@ -1194,11 +1211,11 @@ class ProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      var body = {"fK_AccountID": loginTable.accountID};
+      var body = {"fK_AccountID": loginTable.accountID ?? ""};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getProjectStatus,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         ProjectStatusListClass projectStatusListClass =
@@ -1227,9 +1244,9 @@ class ProfileController extends GetxController {
     if (loginTable != null) {
       // Example fields (if any)
       Map<String, String> fields = {
-        'UserID': loginTable.userID,
+        'UserID': loginTable.userID ?? "",
         'CompanyProjectID': companyProjectId,
-        'FK_AccountID': loginTable.accountID,
+        'FK_AccountID': loginTable.accountID ?? "",
         'FK_CompanyProfileID': profileData!.companyProfileID!.toString(),
         'ProjectDescription': projectDescriptionTEController.text.trim(),
         'ProjectStatusID': selectedProjectStatusId,
@@ -1257,7 +1274,79 @@ class ProfileController extends GetxController {
           fields,
           files,
           files1,
-          loginTable.token);
+          loginTable.token ?? "");
+      print(response.statusCode);
+      print(response.body);
+      isLoading = false;
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Profile Saved", responseModel.message!);
+          getProfileData();
+          getCompanyProjects("0");
+          if (companyProjectId != "0") {
+            getProjectDocuments(companyProjectId);
+          }
+        } else {
+          KalakarDialogs.successDialog(
+              "Profile Save Failed", responseModel.message!);
+        }
+      }
+    } else {
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      KalakarDialogs.successDialog(
+          "Profile Save Failed", "Unable To Get Logged Data");
+    }
+  }
+
+  Future<void> saveNewProjectWeb() async {
+    isLoading = true;
+    KalakarDialogs.loadingDialog(
+        "Uploading Project Details", "Uploading Project Details");
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      // Example fields (if any)
+      Map<String, String> fields = {
+        'UserID': loginTable.userID ?? "",
+        'CompanyProjectID': companyProjectId,
+        'FK_AccountID': loginTable.accountID ?? "",
+        'FK_CompanyProfileID': profileData!.companyProfileID!.toString(),
+        'ProjectDescription': projectDescriptionTEController.text.trim(),
+        'ProjectStatusID': selectedProjectStatusId,
+        'ProjectTitle': projectTitleTEController.text.trim(),
+        'ProjectSubTitle': projectTypeTEController.text.trim(),
+      };
+      print(fields);
+
+      // Example files (if any)
+      Map<String, FileDataWeb> files = {
+        'ProjectCoverDoc':
+            projectCoverData!,
+      };
+
+      // Example files (if any)
+      Map<String, List<FileDataWeb>> files1 = {
+        'ProjectDocuments': projectDocuments1
+            .where((element) =>
+                element.path != "" && !element.path.startsWith("http"))
+            .toList(),
+      };
+
+      var response = await ApiClient.postFormDataToken1Web(
+          KalakarConstants.saveCompanyProfileProjectApi,
+          fields,
+          files,
+          files1,
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
       isLoading = false;
@@ -1292,6 +1381,7 @@ class ProfileController extends GetxController {
 
   void openProjectDetails(CompanyProjectsData companyProject) {
     if (isArtist) {
+      print("here");
       getProjectDocumentsForArtist(companyProject.companyProjectID!.toString(),
           profileData!.fKAccountID!);
       Get.toNamed(RouteHelper.companyProjectViewPage);
@@ -1342,13 +1432,13 @@ class ProfileController extends GetxController {
       update();
       var fields = {
         'companyProjectID': "$companyProjectID",
-        'fK_AccountID': loginTable.accountID,
+        'fK_AccountID': loginTable.accountID ?? "",
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getCompanyProfileProjectDocumentsApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
       print("response.body");
@@ -1428,7 +1518,7 @@ class ProfileController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getCompanyProfileProjectDocumentsApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
 
@@ -1452,14 +1542,14 @@ class ProfileController extends GetxController {
       // Example fields (if any)
       var fields = {
         'companyProjectID': "$companyProjectID",
-        'fK_AccountID': loginTable.accountID,
+        'fK_AccountID': loginTable.accountID ?? "",
         'companyProjectDocumentID': documentId,
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.deleteCompanyProfileProjectDocumentApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token ?? "");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -1489,13 +1579,13 @@ class ProfileController extends GetxController {
       // Example fields (if any)
       var fields = {
         'companyProjectID': "${selectedCompanyProject!.companyProjectID!}",
-        'fK_AccountID': loginTable.accountID,
+        'fK_AccountID': loginTable.accountID ?? "",
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.deleteCompanyProjectApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token ?? "");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -1516,11 +1606,15 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCompanyName() async {
-    LoginTable? loginTable = await HiveService.getLoginData();
+    try {
+      LoginTable? loginTable = await HiveService.getLoginData();
 
-    if (loginTable != null) {
-      companyName = "${loginTable.fistName ?? ""} ${loginTable.lastName ?? ""}";
-      profilePic = loginTable.profilePic;
+      if (loginTable != null) {
+        companyName = "${loginTable.companyName ?? ""}";
+        profilePic = loginTable.profilePic ?? "";
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -1533,8 +1627,8 @@ class ProfileController extends GetxController {
     }
   }
 
-  void showDocument1(String url, String type) {
+  void showDocument1(String url, String type, String fileType) {
     FileController fileController = Get.put(FileController());
-    fileController.viewFile1(url, type);
+    fileController.viewFile1(url, type, fileType);
   }
 }

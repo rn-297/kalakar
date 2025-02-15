@@ -296,7 +296,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                         border: Border.all(color: KalakarColors.backgroundGrey),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: upcomingProject.projectDocuments!.isNotEmpty
+                      child: upcomingProject.projectDocuments!=null&&upcomingProject.projectDocuments!.isNotEmpty
                           ? ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
@@ -308,7 +308,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                                     controller.showDocument(upcomingProject
                                         .projectDocuments![index]
                                         .projectDocuments
-                                        .toString(), KalakarConstants.upcomingProject);
+                                        .toString(), KalakarConstants.upcomingProject,"IMAGE");
                                   },
                                   child: Container(
                                     height: 165.h,
@@ -379,12 +379,12 @@ class UpcomingProjectsViewPage extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 6.sp,color: KalakarColors.headerText),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 5.sp,color: KalakarColors.headerText),
             ),
             Expanded(
               child: Text(
                 titleData,
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 6.sp),
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 5.sp),
               ),
             ),
           ],
@@ -402,7 +402,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
           controller.upcomingCompanyProject;
       return SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(16.h),
+          padding: EdgeInsets.symmetric(vertical:16.h,horizontal: 48.w),
           child: controller.isDocumentsLoading
               ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,7 +584,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                           controller.showDocument(upcomingProject
                               .projectDocuments![index]
                               .projectDocuments
-                              .toString(), KalakarConstants.upcomingProject);
+                              .toString(), KalakarConstants.upcomingProject,"IMAGE");
                         },
                         child: Container(
                           height: 265.h,

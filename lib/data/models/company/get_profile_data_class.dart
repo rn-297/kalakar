@@ -24,6 +24,10 @@ class ProfileGetDataClass {
   String? adminAdharCardDOC;
   String? addressProofofCompanyDOC;
   String? selfieuploadDOC;
+  String? filmCorpprationCardDOCName;
+  String? adminAdharCardDOCName;
+  String? addressProofofCompanyDOCName;
+  String? selfieuploadDOCName;
   String? fKVerificationStatusID;
   String? isVerifiedContacts;
   String? verificationSend;
@@ -58,6 +62,10 @@ class ProfileGetDataClass {
       this.adminAdharCardDOC,
       this.addressProofofCompanyDOC,
       this.selfieuploadDOC,
+      this.filmCorpprationCardDOCName,
+      this.adminAdharCardDOCName,
+      this.addressProofofCompanyDOCName,
+      this.selfieuploadDOCName,
       this.fKVerificationStatusID,
       this.isVerifiedContacts,
       this.verificationSend,
@@ -92,6 +100,10 @@ class ProfileGetDataClass {
     adminAdharCardDOC = json['adminAdharCard_DOC'] ?? "NA";
     addressProofofCompanyDOC = json['addressProofofCompany_DOC'] ?? "NA";
     selfieuploadDOC = json['selfieupload_DOC'] ?? "NA";
+    filmCorpprationCardDOCName = json['filmCorpprationCard_DOCName'] ?? "NA";
+    adminAdharCardDOCName = json['adminAdharCard_DOCName'] ?? "NA";
+    addressProofofCompanyDOCName = json['addressProofofCompany_DOCName'] ?? "NA";
+    selfieuploadDOCName = json['selfieupload_DOCName'] ?? "NA";
     fKVerificationStatusID = json['fK_VerificationStatusID'] ?? "NA";
     isVerifiedContacts = json['isverifiedContacts'] ?? "NA";
     verificationSend = json['verificationSend'] ?? "NA";
@@ -128,6 +140,10 @@ class ProfileGetDataClass {
     data['adminAdharCard_DOC'] = this.adminAdharCardDOC;
     data['addressProofofCompany_DOC'] = this.addressProofofCompanyDOC;
     data['selfieupload_DOC'] = this.selfieuploadDOC;
+    data['filmCorpprationCard_DOCName'] = this.filmCorpprationCardDOCName;
+    data['adminAdharCard_DOCName'] = this.adminAdharCardDOCName;
+    data['addressProofofCompany_DOCName'] = this.addressProofofCompanyDOCName;
+    data['selfieupload_DONameC'] = this.selfieuploadDOCName;
     data['fK_VerificationStatusID'] = this.fKVerificationStatusID;
     data['isverifiedContacts'] = this.isVerifiedContacts;
     data['verificationSend'] = this.verificationSend;

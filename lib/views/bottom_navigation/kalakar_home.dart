@@ -165,7 +165,7 @@ class KalakarHomePage extends StatelessWidget {
                                                     StackTrace? stackTrace) {
                                                   // Return a dummy or placeholder image when an error occurs
                                                   return Image.asset(
-                                                    "assets/images/app_bar_logo.png",
+                                                    "assets/images/app_logo2.PNG",
                                                     height: 80.h,
                                                     width: 80.h,
                                                   );
@@ -973,7 +973,7 @@ class KalakarHomePage extends StatelessWidget {
                                                 StackTrace? stackTrace) {
                                               // Return a dummy or placeholder image when an error occurs
                                               return Image.asset(
-                                                "assets/images/app_bar_logo.png",
+                                                "assets/images/app_logo2.PNG",
                                                 height: 60.h,
                                                 width: 60.h,
                                               );
@@ -1105,8 +1105,8 @@ class KalakarHomePage extends StatelessWidget {
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Container(
-            color: KalakarColors.appBarBackground1,
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+            color: KalakarColors.white,
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1167,7 +1167,7 @@ class KalakarHomePage extends StatelessWidget {
                                   padding: EdgeInsets.all(8.h),
                                   width: Get.size.width / 5,
                                   decoration: BoxDecoration(
-                                    color: KalakarColors.appBarBackground1,
+                                    color: KalakarColors.white,
                                     border: Border.all(
                                         color:
                                         KalakarColors.backgroundGrey),
@@ -1226,7 +1226,7 @@ class KalakarHomePage extends StatelessWidget {
                                                 StackTrace? stackTrace) {
                                               // Return a dummy or placeholder image when an error occurs
                                               return Image.asset(
-                                                "assets/images/app_bar_logo.png",
+                                                "assets/images/app_logo2.PNG",
                                                 height: 80.h,
                                                 width: 80.h,
                                               );
@@ -1800,7 +1800,7 @@ class KalakarHomePage extends StatelessWidget {
                                   upcomingProject.projectTitle!,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 6.sp,
+                                      fontSize: 4.sp,
                                       color:
                                       KalakarColors.headerText),
                                   maxLines: 2,
@@ -1811,7 +1811,7 @@ class KalakarHomePage extends StatelessWidget {
                                   upcomingProject.projectSubTitle!,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 6.sp,
+                                      fontSize: 4.sp,
                                       color:
                                       KalakarColors.orange),
                                   maxLines: 2,
@@ -1866,7 +1866,7 @@ class KalakarHomePage extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: 3,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 4.0),
+                        crossAxisCount: 2, childAspectRatio: 4.h),
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
 
@@ -1876,7 +1876,7 @@ class KalakarHomePage extends StatelessWidget {
                         // width: Get.size.width / 2,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.r),
-                          color: KalakarColors.appBarBackground1,
+                          color: KalakarColors.white,
                           border: Border.all(
                               color: KalakarColors.headerText),
                           boxShadow: [
@@ -1999,7 +1999,7 @@ class KalakarHomePage extends StatelessWidget {
                     itemCount: controller.reviewDetailsList.length,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 4.0),
+                        crossAxisCount: 2, childAspectRatio: 4.h),
                     itemBuilder: (context, index) {
                       GetApplicationReviewList reviewData =
                       controller.reviewDetailsList[index];
@@ -2009,7 +2009,7 @@ class KalakarHomePage extends StatelessWidget {
                         // width: Get.size.width / 2,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.r),
-                          color: KalakarColors.appBarBackground1,
+                          color: KalakarColors.white,
                           border: Border.all(
                               color: KalakarColors.headerText),
                           boxShadow: [
@@ -2040,7 +2040,7 @@ class KalakarHomePage extends StatelessWidget {
                                         StackTrace? stackTrace) {
                                       // Return a dummy or placeholder image when an error occurs
                                       return Image.asset(
-                                        "assets/images/app_bar_logo.png",
+                                        "assets/images/app_logo2.PNG",
                                         height: 60.h,
                                         width: 60.h,
                                       );
@@ -2060,7 +2060,7 @@ class KalakarHomePage extends StatelessWidget {
                                     Text(
                                       reviewData.reviewBy!,
                                       style: TextStyle(
-                                          fontSize: 6.sp,
+                                          fontSize: 5.sp,
                                           color:
                                           KalakarColors.headerText,
                                           fontWeight: FontWeight.w800),
@@ -2069,7 +2069,7 @@ class KalakarHomePage extends StatelessWidget {
                                     Text(
                                       reviewData.reviewerWork!,
                                       style: TextStyle(
-                                        fontSize: 5.sp,
+                                        fontSize: 4.sp,
                                         color: KalakarColors.orange,
                                       ),
                                     ),
@@ -2089,7 +2089,7 @@ class KalakarHomePage extends StatelessWidget {
                                           ),]
                                       ),
                                       child: Text(
-                                        reviewData.review!,maxLines: 3,),
+                                        reviewData.review!,maxLines: 3,style: TextStyle(fontSize: 4.sp),),
                                     )
                                     /* Row(
                                               children: [
@@ -2290,7 +2290,8 @@ class KalakarHomePage extends StatelessWidget {
           ],
         );
       }),
-      actions: [
+      centerTitle: false,
+      /*actions: [
         Icon(
           Icons.notifications,
           size: 35,
@@ -2298,7 +2299,7 @@ class KalakarHomePage extends StatelessWidget {
         SizedBox(
           width: 8.h,
         ),
-        /*Container(
+        *//*Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -2309,11 +2310,11 @@ class KalakarHomePage extends StatelessWidget {
                 image: AssetImage("assets/images/person.png"),
                 fit: BoxFit.fill),
           ),
-        ),*/
+        ),*//*
         SizedBox(
           width: 20.w,
         )
-      ],
+      ],*/
       bottom: PreferredSize(
         preferredSize: Size(double.infinity, 20.h),
         child: Padding(

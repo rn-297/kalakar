@@ -311,8 +311,9 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.moreInfo,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle: false,
       /*actions: [
         InkWell(
           onTap: () {
@@ -496,120 +497,144 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                 key: controller.formCompanyProfileMoreInfoDocumentsKey,
                 child: Column(
                   children: [
-                    CommonWidgets.commonMobileTextField2(
-                        controller: controller.nameTEController,
-                        labelText: KalakarConstants.name,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        hintText: "Enter First Name",
-                        // isSuffixIcon: true,
-                        // editable: true,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateName),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    CommonWidgets.commonMobileTextField2(
-                        controller: controller.ownerCeoNameTEController,
-                        labelText: KalakarConstants.adminCeo,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        hintText: "Enter Admin / CEO ",
-                        passwordVisibility: false,
-                        // isSuffixIcon: true,
-                        editable: true,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateOwnerCeoName),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.pickOrShowDocumentWeb(
-                            KalakarConstants.filmCorporationCard,
-                            context,
-                            controller);
-                      },
-                      child: CommonWidgets.commonMobileTextField2(
-                          controller:
-                          controller.filmCorporationCardTEController,
-                          labelText: KalakarConstants.filmCorporationCard,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          isSuffixIcon: true,
-                          editable: false,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateFilmCorporationCard),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.nameTEController,
+                              labelText: KalakarConstants.name,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              passwordVisibility: false,
+                              hintText: "Enter First Name",
+                              // isSuffixIcon: true,
+                              // editable: true,
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: Validator.validateName),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Expanded(
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.ownerCeoNameTEController,
+                              labelText: KalakarConstants.adminCeo,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              hintText: "Enter Admin / CEO ",
+                              passwordVisibility: false,
+                              // isSuffixIcon: true,
+                              editable: true,
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: Validator.validateOwnerCeoName),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 16.h,
                     ),
-                    InkWell(
-                      onTap: () {
-                        controller.pickOrShowDocumentWeb(
-                            KalakarConstants.adminAadharCard,
-                            context,
-                            controller);
-                      },
-                      child: CommonWidgets.commonMobileTextField2(
-                          controller: controller.adminAadharCardTEController,
-                          labelText: KalakarConstants.adminAadharCard,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          isSuffixIcon: true,
-                          editable: false,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateAdminAdharCard),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              controller.pickOrShowDocumentWeb(
+                                  KalakarConstants.filmCorporationCard,
+                                  context,
+                                  controller);
+                            },
+                            child: CommonWidgets.commonMobileTextField2(
+                                controller:
+                                controller.filmCorporationCardTEController,
+                                labelText: KalakarConstants.filmCorporationCard,
+                                obscureText: false,
+                                textInputType: TextInputType.text,
+                                passwordVisibility: false,
+                                isSuffixIcon: true,
+                                editable: false,
+                                borderRadius: 12.r,
+                                togglePasswordVisibility: () {},
+                                validator: Validator.validateFilmCorporationCard),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              controller.pickOrShowDocumentWeb(
+                                  KalakarConstants.adminAadharCard,
+                                  context,
+                                  controller);
+                            },
+                            child: CommonWidgets.commonMobileTextField2(
+                                controller: controller.adminAadharCardTEController,
+                                labelText: KalakarConstants.adminAadharCard,
+                                obscureText: false,
+                                textInputType: TextInputType.text,
+                                passwordVisibility: false,
+                                isSuffixIcon: true,
+                                editable: false,
+                                borderRadius: 12.r,
+                                togglePasswordVisibility: () {},
+                                validator: Validator.validateAdminAdharCard),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 16.h,
                     ),
-                    InkWell(
-                      onTap: () {
-                        controller.pickOrShowDocumentWeb(
-                            KalakarConstants.addressProofOfCompany,
-                            context,
-                            controller);
-                      },
-                      child: CommonWidgets.commonMobileTextField2(
-                          controller:
-                          controller.addressProofOfCompanyTEController,
-                          labelText: KalakarConstants.addressProofOfCompany,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          borderRadius: 12.r,
-                          isSuffixIcon: true,
-                          editable: false,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateAddressProofOfCompany),
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.pickOrShowDocumentWeb(
-                            KalakarConstants.selfieUpload, context, controller);
-                      },
-                      child: CommonWidgets.commonMobileTextField2(
-                          controller: controller.selfieUploadTEController,
-                          labelText: KalakarConstants.selfieUpload,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          editable: false,
-                          isSuffixIcon: true,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateUploadSelfie),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              controller.pickOrShowDocumentWeb(
+                                  KalakarConstants.addressProofOfCompany,
+                                  context,
+                                  controller);
+                            },
+                            child: CommonWidgets.commonMobileTextField2(
+                                controller:
+                                controller.addressProofOfCompanyTEController,
+                                labelText: KalakarConstants.addressProofOfCompany,
+                                obscureText: false,
+                                textInputType: TextInputType.text,
+                                passwordVisibility: false,
+                                borderRadius: 12.r,
+                                isSuffixIcon: true,
+                                editable: false,
+                                togglePasswordVisibility: () {},
+                                validator: Validator.validateAddressProofOfCompany),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              controller.pickOrShowDocumentWeb(
+                                  KalakarConstants.selfieUpload, context, controller);
+                            },
+                            child: CommonWidgets.commonMobileTextField2(
+                                controller: controller.selfieUploadTEController,
+                                labelText: KalakarConstants.selfieUpload,
+                                obscureText: false,
+                                textInputType: TextInputType.text,
+                                passwordVisibility: false,
+                                editable: false,
+                                isSuffixIcon: true,
+                                borderRadius: 12.r,
+                                togglePasswordVisibility: () {},
+                                validator: Validator.validateUploadSelfie),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

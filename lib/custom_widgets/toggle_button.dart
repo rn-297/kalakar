@@ -149,7 +149,7 @@ class SlidingButton extends StatelessWidget {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.fastOutSlowIn,
                   child: Container(
-                    width: constraints.maxWidth / 2,
+                    width: constraints.maxWidth / 2-10.w,
                     height: 40.h,
                     decoration: BoxDecoration(
                         color: buttonBackgroundColor,
@@ -175,7 +175,7 @@ class SlidingButton extends StatelessWidget {
                             list[0],
                             style: TextStyle(
                               color: active == 0 ? selectedColor : unSelectedColor,
-                              fontSize: 16,
+                              fontSize:   4.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -191,7 +191,7 @@ class SlidingButton extends StatelessWidget {
                             list[1],
                             style: TextStyle(
                               color: active == 0 ? unSelectedColor : selectedColor,
-                              fontSize: 16,
+                              fontSize: 4.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

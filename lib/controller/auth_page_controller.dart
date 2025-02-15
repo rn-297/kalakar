@@ -157,6 +157,7 @@ class AuthPageController extends GetxController {
       var body = {
         "googleAuthIDToken": idToken,
         "loginNotificationToken":
+        // ""
             await PushNotificationService.getNotificationToken()
       };
 
@@ -190,6 +191,7 @@ class AuthPageController extends GetxController {
             loginDataClass.totalReferralAmount ?? 0.0,
             loginDataClass.usedReferralAmount ?? 0.0,
             loginDataClass.profilePic ?? "",
+            loginDataClass.companyName ?? "",
           );
           HiveService.saveLoginData(loginTable);
           signInEmailOrMobile.clear();
@@ -402,7 +404,9 @@ class AuthPageController extends GetxController {
     var body = {
       "password": signInPassword.text,
       "emailOrMobileNumber": signInEmailOrMobile.text,
-      "loginToken": await PushNotificationService.getNotificationToken(),
+      "loginToken":
+      // ""
+      await PushNotificationService.getNotificationToken(),
     };
 
     var response = await ApiClient.postData(
@@ -438,6 +442,7 @@ class AuthPageController extends GetxController {
           loginDataClass.totalReferralAmount!.toDouble() ?? 0.0,
           loginDataClass.usedReferralAmount!.toDouble() ?? 0.0,
           loginDataClass.profilePic ?? "",
+          loginDataClass.companyName ?? "",
 
         );
         HiveService.saveLoginData(loginTable);
@@ -483,18 +488,22 @@ class AuthPageController extends GetxController {
 
   Future<void> splashScreenTask(AuthPageController authPageController) async {
     Future.delayed(Duration(seconds: 2), () async {
-      LoginTable? loginTable = await HiveService.getLoginData();
+      try {
+        LoginTable? loginTable = await HiveService.getLoginData();
 
-      if (loginTable != null) {
-        print(loginTable!.userID);
-        if (loginTable.accountType == KalakarConstants.artist) {
-          Get.offNamed(RouteHelper.bottomNavigationPage);
-        } else if (loginTable.accountType == KalakarConstants.company) {
-          Get.offNamed(RouteHelper.bottomNavigationPage);
-        }
-        authPageController.accountType = loginTable.accountType;
-      } else {
-        Get.offNamed(RouteHelper.login);
+        if (loginTable != null) {
+                print(loginTable.userID??"");
+                if (loginTable.accountType == KalakarConstants.artist) {
+                  Get.offNamed(RouteHelper.bottomNavigationPage);
+                } else if (loginTable.accountType == KalakarConstants.company) {
+                  Get.offNamed(RouteHelper.bottomNavigationPage);
+                }
+                authPageController.accountType = loginTable.accountType??"";
+              } else {
+                Get.offNamed(RouteHelper.login);
+              }
+      } catch (e) {
+        print(e);
       }
     });
   }
@@ -511,7 +520,8 @@ class AuthPageController extends GetxController {
         "userName": createEmail.text,
         "googleAuthIDToken": googleAuthToken,
         "loginNotificationToken":
-            await PushNotificationService.getNotificationToken()
+            // ""
+        await PushNotificationService.getNotificationToken()
       };
 
       var response = await ApiClient.postData(
@@ -545,6 +555,7 @@ class AuthPageController extends GetxController {
             loginDataClass.totalReferralAmount ?? 0.0,
             loginDataClass.usedReferralAmount ?? 0.0,
             loginDataClass.profilePic ?? "",
+            loginDataClass.companyName ?? "",
 
           );
           HiveService.saveLoginData(loginTable);

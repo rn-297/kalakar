@@ -440,7 +440,7 @@ class FavouritesRequirementsPage extends StatelessWidget {
                 controller.isArtistRequirementsInFavouritesLoading
                     ? GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 4.0),
+                        crossAxisCount: 2, childAspectRatio: 4.h),
                     itemCount: 6,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -569,7 +569,7 @@ class FavouritesRequirementsPage extends StatelessWidget {
                     : controller.artistRequirementsFavouritesList.isNotEmpty
                     ? GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 4.0),
+                        crossAxisCount: 2, childAspectRatio: 4.h),
                     itemCount:
                     controller.artistRequirementsFavouritesList.length,
                     shrinkWrap: true,

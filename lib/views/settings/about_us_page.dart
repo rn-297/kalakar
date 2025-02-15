@@ -92,7 +92,7 @@ class AboutUsPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.aboutUs,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 8.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),

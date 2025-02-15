@@ -400,7 +400,7 @@ class ReferralCodePage extends StatelessWidget {
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal:32.w,vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal:64.w,vertical: 16.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -412,7 +412,7 @@ class ReferralCodePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: controller.referredBy.isNotEmpty
-                        ? textSpanToShow(
+                        ? textSpanToShowWeb(
                         context,
                         "Referred By : ", controller.referredBy)
                         : Column(
@@ -438,7 +438,7 @@ class ReferralCodePage extends StatelessWidget {
                             horizontalPadding: 4.h,
                             verticalPadding: 8.h,
                             width: 100.w,
-                            fontSize: 6.sp,
+                            fontSize: 5.sp,
                             borderRadius: 40.r),
                         if (controller.detailsLoaded)
                           Column(

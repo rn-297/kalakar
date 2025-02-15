@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kalakar/controller/file_controller.dart';
+import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:video_player/video_player.dart';
 import '../../helper/route_helper.dart';
@@ -60,6 +61,7 @@ class _ViewFilePageState extends State<ViewFilePage> {
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 50.h),
         child: AppBar(
+          backgroundColor: KalakarColors.appBarBackground,
           title: Text(appBarText.value),
         ),
       ),
@@ -71,7 +73,7 @@ class _ViewFilePageState extends State<ViewFilePage> {
                 ? Container(
                     color: Colors.white,
                     padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: fileType.value == "pdf"
+                    child: fileType.value == "PDF"
                         ? PdfViewPinch(
                             controller: pdfController,
                             onDocumentError: (e) {
@@ -82,7 +84,7 @@ class _ViewFilePageState extends State<ViewFilePage> {
                             },
                             scrollDirection: Axis.vertical,
                           )
-                        : fileType.value == "mp4"
+                        : fileType.value == "VIDEO"
                             ? isInitialized.value
                                 ? AspectRatio(
                                     aspectRatio: 1 / 1,
@@ -142,19 +144,14 @@ class _ViewFilePageState extends State<ViewFilePage> {
 
     fileType.refresh();
 
-    fileType.value = fileController.filePath
-        .toString()
-        .split("/")
-        .last
-        .split(".")
-        .last
-        .replaceAll("'", "");
+    fileType.value = fileController.fileType;
+    print(fileType.value);
     try {
       // });
       // print(folderController.fileViewPath.lengthSync());
       // print("fileType${fileType.value} ${folderController.fileViewPath.path}");
       print(fileType.value);
-      if (fileType.value == "pdf") {
+      if (fileType.value == "PDF") {
         if (count == 0) {
           pdfController = PdfControllerPinch(
               document: PdfDocument.openFile(fileController.filePath));
@@ -172,7 +169,7 @@ class _ViewFilePageState extends State<ViewFilePage> {
         });
         // pdfController.document =
         //     PdfDocument.openFile(folderController.fileViewPath.path);
-      } else if (fileType.value == 'mp4') {
+      } else if (fileType.value == 'VIDEO') {
         setVideoData(fileController.filePath);
       } else {}
     } catch (e) {

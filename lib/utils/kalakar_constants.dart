@@ -2,8 +2,8 @@ class KalakarConstants {
   //API
   //auth apis
   // static const String baseURL="http://ec2-3-111-135-189.ap-south-1.compute.amazonaws.com";
-  // static const String baseURL = "http://3.111.135.189";
-  static const String baseURL = "https://848d-3-111-135-189.ngrok-free.app";
+  static const String baseURL = "http://3.111.135.189";
+  // static const String baseURL = "https://2f9c-3-111-135-189.ngrok-free.app";
   static const String getCreateAccountOtp = "/Account/CreateAccountGetOTP";
   static const String createAccountApi = "/Account/CreateAccount";
   static const String getForgotPasswordOtpApi = "/Account/ForgotPasswordGetOTP";
@@ -14,6 +14,7 @@ class KalakarConstants {
   static const String getCreateGoogleLoginApi = "/Account/CreateAccount_Google";
   static const String noInternetMessage = "No Internet Connection !!!";
   static const String somethingWentWrongMsg = "Something Went Wrong";
+  static const String googleClientID ="1036285532666-gqqf46u7vh5k3u48iopba7vg2mkdcc7b.apps.googleusercontent.com";
 
   //file paths
 
@@ -324,6 +325,7 @@ class KalakarConstants {
   static const String selfieUpload = "Selfie Upload";
   static const String addressProofOfCompany = "Address Proof of Company";
   static const String verifyContact = "Verify Contact";
+  static const String verifyProfile = "Verify Profile";
   static const String saveChanges = "Save Changes";
   static const String viewAll = "View All";
   static const String createProject = "Create Project";

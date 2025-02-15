@@ -29,7 +29,7 @@ class CompanyProjectsViewPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => companyProjectsMobileView(context),
-        tablet: (BuildContext context) => aboutUsWebView(context),
+        tablet: (BuildContext context) => companyProjectsWebView(context),
       ),
     );
   }
@@ -98,7 +98,7 @@ class CompanyProjectsViewPage extends StatelessWidget {
           ),
           Text(
             KalakarConstants.upcomingProject,
-            style: TextStyle(color: KalakarColors.textColor, fontSize: 25.sp),
+            style: TextStyle(color: KalakarColors.textColor, fontSize: 6.sp),
           ),
         ],
       ),
@@ -277,6 +277,7 @@ class CompanyProjectsViewPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     textSpanToShow(context,"Title : ",
                         upcomingProject.projectTitle.toString()),
@@ -311,7 +312,7 @@ class CompanyProjectsViewPage extends StatelessWidget {
                           controller.showDocument1(upcomingProject
                               .projectDocuments![index]
                               .projectDocuments
-                              .toString(), KalakarConstants.upcomingProject);
+                              .toString(), KalakarConstants.upcomingProject,"IMAGE");
                         },
                         child: Container(
                           height: 165.h,
@@ -349,36 +350,286 @@ class CompanyProjectsViewPage extends StatelessWidget {
     });
   }
 
-  textSpanToShow(BuildContext context, String title, String titleData) {
+  textSpanToShow1(BuildContext context, String title, String titleData) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: RichText(
-            text: TextSpan(
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                  text: title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp,color: KalakarColors.headerText),
-                ),
-                TextSpan(
-                  text: titleData,
-                  style:
-                  TextStyle(fontWeight: FontWeight.normal, fontSize: 13.sp),
-                ),
-              ],
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 5.sp,color: KalakarColors.headerText),
             ),
-          ),
+            Expanded(
+              child: Text(
+                titleData,
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 5.sp),
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: 8.h,
-          width: double.infinity,
         ),
       ],
     );
   }
 
-  aboutUsWebView(BuildContext context) {}
+  textSpanToShow(BuildContext context, String title, String titleData) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp,color: KalakarColors.headerText),
+            ),
+            Expanded(
+              child: Text(
+                titleData,
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14.sp),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+      ],
+    );
+  }
+
+
+
+  companyProjectsWebView(BuildContext context) {
+    return GetBuilder<ProfileController>(builder: (controller) {
+      ProjectDetailAndDocuments upcomingProject =
+          controller.projectDetailAndDocumentsForArtist;
+      return SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical:16.h,horizontal: 48.w),
+
+          child: controller.isProjectDocumentLoading
+
+              ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 8.h,
+              ),
+              Center(
+                child: ClipOval(
+                  // Image radius
+                  child: Shimmer.fromColors(
+                    baseColor: KalakarColors.blue10,
+                    highlightColor: KalakarColors.blue20,
+                    child: Container(
+                      height: 120.h,
+                      width: 120.h,
+                      color: KalakarColors.white,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Container(
+                padding: EdgeInsets.all(12.h),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: KalakarColors.white,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: KalakarColors.blue10,
+                      highlightColor: KalakarColors.blue20,
+                      child: Container(
+                        height: 20.h,
+                        width: 120.h,
+                        color: KalakarColors.white,
+                      ),
+                    ),
+                    SizedBox(height: 2.h,),
+                    Shimmer.fromColors(
+                      baseColor: KalakarColors.blue10,
+                      highlightColor: KalakarColors.blue20,
+                      child: Container(
+                        height: 20.h,
+                        width: 120.h,
+                        color: KalakarColors.white,
+                      ),
+                    ),
+                    SizedBox(height: 2.h,),
+
+                    Shimmer.fromColors(
+                      baseColor: KalakarColors.blue10,
+                      highlightColor: KalakarColors.blue20,
+                      child: Container(
+                        height: 20.h,
+                        width: 120.h,
+                        color: KalakarColors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Container(
+                  padding: EdgeInsets.all(12.h),
+                  height: 180.h,
+                  decoration: BoxDecoration(
+                    color: KalakarColors.white,
+                    border: Border.all(color: KalakarColors.backgroundGrey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child:ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                      3,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          height: 165.h,
+                          width: 125.h,
+                          margin: EdgeInsets.only(right: 8.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(
+                                color: KalakarColors.backgroundGrey),
+
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: KalakarColors.blue10,
+                            highlightColor: KalakarColors.blue20,
+                            child: Container(
+                              height: 165.h,
+                              width: 125.h,
+                              color: KalakarColors.white,
+                            ),
+                          ),
+                        ); //Container();
+                      })
+              ),
+
+            ],
+          )
+              : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 8.h,
+              ),
+              Center(
+                child: ClipOval(
+                  // Image radius
+                  child: Image.network(
+                    upcomingProject.projectCoverDoc ?? "",
+                    fit: BoxFit.cover,
+                    height: 120.h,
+                    width: 120.h,
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace? stackTrace) {
+                      // Return a dummy or placeholder image when an error occurs
+                      return Image.asset(
+                        "assets/images/app_bar_logo.png",
+                        height: 120.h,
+                        width: 120.h,
+                      );
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Container(
+                padding: EdgeInsets.all(12.h),
+                decoration: BoxDecoration(
+                  color: KalakarColors.turquoise15,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    textSpanToShow1(context,"Title : ",
+                        upcomingProject.projectTitle.toString()),
+                    textSpanToShow1(context,"Description : ",
+                        upcomingProject.projectDescription.toString()),
+                    textSpanToShow1(context,"Project Status : ",
+                        upcomingProject.projectStatus.toString()),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              Container(
+                padding: EdgeInsets.all(12.h),
+                height: 180.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: KalakarColors.appBarBackground1,
+                  border: Border.all(color: KalakarColors.backgroundGrey),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: upcomingProject.projectDocuments!.isNotEmpty
+                    ? ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount:
+                    upcomingProject.projectDocuments!.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: (){
+                          controller.showDocument1(upcomingProject
+                              .projectDocuments![index]
+                              .projectDocuments
+                              .toString(), KalakarConstants.upcomingProject,"IMAGE");
+                        },
+                        child: Container(
+                          height: 165.h,
+                          width: 125.h,
+                          margin: EdgeInsets.only(right: 8.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(
+                                color: KalakarColors.backgroundGrey),
+                            image: DecorationImage(
+                                image: upcomingProject
+                                    .projectDocuments![index]
+                                    .projectDocuments
+                                    .toString()
+                                    .startsWith("http")
+                                    ? NetworkImage(upcomingProject
+                                    .projectDocuments![index]
+                                    .projectDocuments
+                                    .toString())
+                                    : FileImage(File(upcomingProject
+                                    .projectDocuments![index]
+                                    .projectDocuments
+                                    .toString())) as ImageProvider,
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ); //Container();
+                    })
+                    : Center(child: Text("No Projects Documnets Found")),
+              )
+            ],
+          ),
+        ),
+      );
+    });
+
+
+  }
 }

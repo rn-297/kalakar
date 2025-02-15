@@ -34,18 +34,27 @@ class DocumentsList {
   String? passport;
   String? fileCorporationCard;
   String? adharCard;
+  String? passportName;
+  String? fileCorporationCardName;
+  String? adharCardName;
 
   DocumentsList(
       {this.fKAccountID,
         this.passport,
         this.fileCorporationCard,
-        this.adharCard});
+        this.adharCard,
+        this.passportName,
+        this.fileCorporationCardName,
+        this.adharCardName,});
 
   DocumentsList.fromJson(Map<String, dynamic> json) {
     fKAccountID = json['fK_AccountID'];
     passport = json['passport'];
     fileCorporationCard = json['fileCorporationCard'];
-    adharCard = json['adharCard'];
+    adharCardName = json['adharCard'];
+    passportName = json['passportName'];
+    fileCorporationCardName = json['fileCorporationCardName'];
+    adharCardName = json['adharCardName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +63,9 @@ class DocumentsList {
     data['passport'] = this.passport;
     data['fileCorporationCard'] = this.fileCorporationCard;
     data['adharCard'] = this.adharCard;
+    data['passportName'] = this.passportName;
+    data['fileCorporationCardName'] = this.fileCorporationCardName;
+    data['adharCardName'] = this.adharCardName;
     return data;
   }
 }

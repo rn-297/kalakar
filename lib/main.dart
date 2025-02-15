@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/auth_page_controller.dart';
 import 'package:kalakar/controller/file_controller.dart';
@@ -12,14 +14,18 @@ import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:kalakar/push_notification/PushNotificationService.dart';
+import 'package:kalakar/utils/kalakar_constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await PushNotificationService().setupInteractedMessage();
   PushNotificationService.getNotificationToken();
+
+  // if(kIsWeb) GoogleSignIn(
+  //   clientId: KalakarConstants.googleClientID,
+  // );
   await Hive.initFlutter();
   Hive.registerAdapter(LoginTableAdapter());
   await Hive.openBox<LoginTable>("loginBox");
@@ -74,7 +80,7 @@ class MyApp extends StatelessWidget {
                 useMaterial3: true,
                 fontFamily: "Montserrat"),
             getPages: RouteHelper.routes,
-            initialRoute: RouteHelper.splash,
+            initialRoute: RouteHelper.initial,
           );
         });
   }

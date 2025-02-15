@@ -60,9 +60,10 @@ class ArtistExperienceFormPage extends StatelessWidget {
     return AppBar(
       backgroundColor: KalakarColors.appBarBackground,
       surfaceTintColor: KalakarColors.appBarBackground,
+      centerTitle: false,
       title: Text(
-        KalakarConstants.experience,
-        style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
+        KalakarConstants.experience1,
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
       /*actions: [
         InkWell(
@@ -204,7 +205,7 @@ class ArtistExperienceFormPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  controller.pickOrShowDocumentWeb(
+                  controller.pickOrShowDocument(
                       KalakarConstants.roleVideo, context, controller);
                 },
                 child: CommonWidgets.commonMobileTextField1(
@@ -301,44 +302,52 @@ class ArtistExperienceFormPage extends StatelessWidget {
                   SizedBox(
                     height: 16.h,
                   ),
-                  InkWell(
-                    onTap: () async {
-                      final date = await DatePickerHelper.selectDate(context,isOld:true);
-                      if (date != null) {
-                        controller.setDate(KalakarConstants.expStartDate, date);
-                      }
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.expStartDateTEController,
-                        labelText: KalakarConstants.startDate,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateStartDate),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      final date = await DatePickerHelper.selectDate(context,isOld:true);
-                      if (date != null) {
-                        controller.setDate(KalakarConstants.expEndDate, date);
-                      }
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.expEndDateTEController,
-                        labelText: KalakarConstants.endDate,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: Validator.validateEndDate),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            final date = await DatePickerHelper.selectDate(context,isOld:true);
+                            if (date != null) {
+                              controller.setDate(KalakarConstants.expStartDate, date);
+                            }
+                          },
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.expStartDateTEController,
+                              labelText: KalakarConstants.startDate,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              passwordVisibility: false,
+                              editable: false,
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: Validator.validateStartDate),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            final date = await DatePickerHelper.selectDate(context,isOld:true);
+                            if (date != null) {
+                              controller.setDate(KalakarConstants.expEndDate, date);
+                            }
+                          },
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.expEndDateTEController,
+                              labelText: KalakarConstants.endDate,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              passwordVisibility: false,
+                              editable: false,
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: Validator.validateEndDate),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 16.h,
@@ -370,42 +379,50 @@ class ArtistExperienceFormPage extends StatelessWidget {
                   SizedBox(
                     height: 16.h,
                   ),
-                  InkWell(
-                    onTap: () {
-                      controller.pickOrShowDocumentWeb(
-                          KalakarConstants.roleImage, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.roleImageTEController,
-                        labelText: KalakarConstants.roleImage,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        isSuffixIcon: true,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: null),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.pickOrShowDocumentWeb(
-                          KalakarConstants.roleVideo, context, controller);
-                    },
-                    child: CommonWidgets.commonMobileTextField2(
-                        controller: controller.roleVideoTEController,
-                        labelText: KalakarConstants.roleVideo,
-                        obscureText: false,
-                        textInputType: TextInputType.text,
-                        passwordVisibility: false,
-                        editable: false,
-                        isSuffixIcon: true,
-                        borderRadius: 12.r,
-                        togglePasswordVisibility: () {},
-                        validator: null),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            controller.pickOrShowDocumentWeb(
+                                KalakarConstants.roleImage, context, controller);
+                          },
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.roleImageTEController,
+                              labelText: KalakarConstants.roleImage,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              passwordVisibility: false,
+                              editable: false,
+                              isSuffixIcon: true,
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: null),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            controller.pickOrShowDocumentWeb(
+                                KalakarConstants.roleVideo, context, controller);
+                          },
+                          child: CommonWidgets.commonMobileTextField2(
+                              controller: controller.roleVideoTEController,
+                              labelText: KalakarConstants.roleVideo,
+                              obscureText: false,
+                              textInputType: TextInputType.text,
+                              passwordVisibility: false,
+                              editable: false,
+                              isSuffixIcon: true,
+                              borderRadius: 12.r,
+                              togglePasswordVisibility: () {},
+                              validator: null),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 24.h,

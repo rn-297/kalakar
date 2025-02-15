@@ -58,8 +58,9 @@ class AllProjectsPage extends StatelessWidget {
       surfaceTintColor: KalakarColors.appBarBackground,
       title: Text(
         KalakarConstants.projects,
-        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 6.sp, fontWeight: FontWeight.bold),
       ),
+      centerTitle:false,
       /*actions: [
         InkWell(
           onTap: () {
@@ -90,7 +91,7 @@ class AllProjectsPage extends StatelessWidget {
                       .openProjectDetails(controller.companyAllProjects[index]);
                 },
                 child: Container(
-                  padding: EdgeInsets.all(8.h),
+                  // padding: EdgeInsets.all(8.h),
                   margin: EdgeInsets.only(bottom: 16.h),
                   decoration: BoxDecoration(
                     border: Border.all(color: KalakarColors.textColor),
@@ -99,17 +100,24 @@ class AllProjectsPage extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 100.h,
-                        width: 100.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.r),
-                          image: DecorationImage(
-                            image: NetworkImage(controller
-                                .companyAllProjects[index].projectCoverDoc!),
-                          ),
-                        ),
-                      ),
+                  ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.network(
+                    controller.companyAllProjects[index].projectCoverDoc!,
+                    fit: BoxFit.cover,
+                    width: (Get.size.width / 3) / 1.5,
+                    errorBuilder: (BuildContext context,
+                        Object error,
+                        StackTrace? stackTrace) {
+                      // Return a dummy or placeholder image when an error occurs
+                      return Image.asset(
+                        "assets/images/movie.png",
+                        height: 80.h,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                ),
                       SizedBox(
                         width: 16.w,
                       ),
@@ -117,10 +125,13 @@ class AllProjectsPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(
+                              height: 16.h,
+                            ),
                             Text(
                               controller.companyAllProjects[index].projectTitle!,
                               style: TextStyle(
-                                fontSize: 18.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -129,7 +140,7 @@ class AllProjectsPage extends StatelessWidget {
                             ),
                             Text(controller
                                 .companyAllProjects[index].projectTitle!,style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
                             ),),
                             SizedBox(
@@ -141,9 +152,12 @@ class AllProjectsPage extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: 12  .sp,
                                 fontWeight: FontWeight.normal,
                               ),
+                            ),
+                            SizedBox(
+                              height: 8.h,
                             ),
                           ],
                         ),
@@ -160,56 +174,90 @@ class AllProjectsPage extends StatelessWidget {
   allProjectsWebView() {
     return GetBuilder<ProfileController>(builder: (controller) {
       return Padding(
-        padding: EdgeInsets.all(16.h),
+        padding: EdgeInsets.symmetric(vertical: 16.h,horizontal: 32.w),
         child: GridView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: controller.companyAllProjects.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: 4.0),
+                crossAxisCount: 2, childAspectRatio: 3.8.h),
             itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.all(8.h),
-                margin: EdgeInsets.only(right: 16.h),
-                decoration: BoxDecoration(
-                  border: Border.all(color: KalakarColors.textColor),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 130.h,
-                      width: 130.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(65.r),
-                        image: DecorationImage(
-                          image: NetworkImage(controller
-                              .companyAllProjects[index].projectCoverDoc!),
-                        ),
+              return InkWell(
+                onTap: () {
+                  controller
+                      .openProjectDetails(controller.companyAllProjects[index]);
+                },
+                child: Container(
+                  // padding: EdgeInsets.all(8.h),
+                  margin: EdgeInsets.only(right: 16.h,bottom: 10.h),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: KalakarColors.textColor),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                              borderRadius: BorderRadius.circular(8.r),
+                              child: Image.network(
+                                controller.companyAllProjects[index].projectCoverDoc!,
+                                fit: BoxFit.cover,
+                                width: (Get.size.width / 4) / 1.5,
+                                errorBuilder: (BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace) {
+                                  // Return a dummy or placeholder image when an error occurs
+                                  return Image.asset(
+                                    "assets/images/movie.png",
+                                    height: 80.h,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                      SizedBox(
+                        width: 4.w,
                       ),
-                    ),
-                    SizedBox(
-                      width: 16.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          controller.companyAllProjects[index].projectTitle!,
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Expanded(
+                        flex: 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 12.h,
+                            ),
+                            Text(
+                              controller.companyAllProjects[index].projectTitle!,maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 5.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Text(
+                                controller.companyAllProjects[index].projectTitle!,maxLines: 1,style: TextStyle(
+                              fontSize: 4.sp,
+                              fontWeight: FontWeight.normal,
+                            )), SizedBox(
+                              height: 4.h,
+                            ),
+                            Text(
+                                controller.companyAllProjects[index].projectDescription!,
+                                maxLines: 2,
+                                style: TextStyle(
+                              fontSize: 4.sp,
+                              fontWeight: FontWeight.normal,
+                            )),
+                            SizedBox(
+                              height: 12.h,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        Text(
-                            controller.companyAllProjects[index].projectTitle!),
-                      ],
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               );
             }),

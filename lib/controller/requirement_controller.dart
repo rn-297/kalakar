@@ -241,12 +241,12 @@ class RequirementController extends GetxController {
       LoginTable? loginTable = await HiveService.getLoginData();
 
       if (loginTable != null) {
-        int? profileId = loginTable.profileId;
+        int? profileId = loginTable.profileId??0;
 
         Map<String, String> fields = {
-          'UserID': loginTable.userID,
+          'UserID': loginTable.userID??"",
           'RequirementDetailsID': selectedRequirementId.toString(),
-          'FK_AccountID': loginTable.accountID,
+          'FK_AccountID': loginTable.accountID??"",
           'FK_CompanyProfileID': "$profileId",
           'FK_RequirementStatusMasterID': "$requirementStatusId",
           'RequirementTitle': requirementTitleTEController.text.trim(),
@@ -290,7 +290,7 @@ class RequirementController extends GetxController {
             KalakarConstants.saveRequirementsDetailsApi,
             fields,
             files,
-            loginTable.token);
+            loginTable.token??"");
         if (Get.isDialogOpen!) {
           Get.back();
         }
@@ -312,7 +312,6 @@ class RequirementController extends GetxController {
     }
   }
 
-
   saveRequirementsDetailsWeb() async {
     if (_formRequirementKey.currentState!.validate()) {
       KalakarDialogs.loadingDialog(
@@ -320,12 +319,12 @@ class RequirementController extends GetxController {
       LoginTable? loginTable = await HiveService.getLoginData();
 
       if (loginTable != null) {
-        int? profileId = loginTable.profileId;
+        int? profileId = loginTable.profileId??0;
 
         Map<String, String> fields = {
-          'UserID': loginTable.userID,
+          'UserID': loginTable.userID??"",
           'RequirementDetailsID': selectedRequirementId.toString(),
-          'FK_AccountID': loginTable.accountID,
+          'FK_AccountID': loginTable.accountID??"",
           'FK_CompanyProfileID': "$profileId",
           'FK_RequirementStatusMasterID': "$requirementStatusId",
           'RequirementTitle': requirementTitleTEController.text.trim(),
@@ -369,7 +368,7 @@ class RequirementController extends GetxController {
             KalakarConstants.saveRequirementsDetailsApi,
             fields,
             files,
-            loginTable.token);
+            loginTable.token??"");
         if (Get.isDialogOpen!) {
           Get.back();
         }
@@ -399,15 +398,15 @@ class RequirementController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Delete Requirement Data", "Deleting Requirement Data");
       var fields = {
-        'userID': loginTable.userID,
+        'userID': loginTable.userID??"",
         "requirementDetailsID": selectedRequirementId,
-        "fK_AccountID": loginTable.accountID,
+        "fK_AccountID": loginTable.accountID??"",
         "fK_CompanyProfileID": "$profileId"
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.deleteRequirementsDetailsApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -433,15 +432,15 @@ class RequirementController extends GetxController {
       isRequirementsLoading = true;
       update();
       var fields = {
-        "userID": loginTable.userID,
+        "userID": loginTable.userID??"",
         "requirementDetailsID": selectedRequirementId.toString(),
-        "fK_AccountID": loginTable.accountID,
-        "fK_CompanyProfileID": "${loginTable.profileId}"
+        "fK_AccountID": loginTable.accountID??"",
+        "fK_CompanyProfileID": "${loginTable.profileId??0}"
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getRequirementsDetailsCompanyApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (response.statusCode == 200) {
         CompanyRequirementListClass companyRequirementListClass =
             CompanyRequirementListClass.fromJson(jsonDecode(response.body));
@@ -473,7 +472,7 @@ class RequirementController extends GetxController {
       update();
       final DateFormat format = DateFormat('yyyy-MM-dd');
       var fields = {
-        "artistID": loginTable.accountID,
+        "artistID": loginTable.accountID??"",
         "location": searchLocationTEController.text,
         "startShootingDate": searchShootingStartDateTEController.text.isEmpty
             ? ""
@@ -490,12 +489,12 @@ class RequirementController extends GetxController {
             ? "0"
             : searchEndAgeTEController.text,
         "requirementDetailsID": "0",
-        "fK_CompanyProfileID": loginTable.accountID
+        "fK_CompanyProfileID": loginTable.accountID??""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.searchRequirementsDetailsArtistsApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (response.statusCode == 200) {
         CompanyRequirementListClass companyRequirementListClass =
             CompanyRequirementListClass.fromJson(jsonDecode(response.body));
@@ -514,7 +513,7 @@ class RequirementController extends GetxController {
       isSearching = true;
       update();
       var fields = {
-        "fK_AccountID": loginTable.accountID,
+        "fK_AccountID": loginTable.accountID??"",
         "applyFor": searchApplyForTEController.text,
         "profile": searchProfileTEController.text,
         "mobileNumber": searchMobileNumberTEController.text,
@@ -523,7 +522,7 @@ class RequirementController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.searchArtistForCompanyApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (response.statusCode == 200) {
         CompanySearchArtistClass searchArtistClass =
             CompanySearchArtistClass.fromJson(jsonDecode(response.body));
@@ -544,12 +543,12 @@ class RequirementController extends GetxController {
       var fields = {
         "artistAppliedForRequirementTransID": "0",
         "fK_RequirementDetailsID": requirementDetailsId,
-        "fK_AccountID": loginTable.accountID
+        "fK_AccountID": loginTable.accountID??""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveAppliedToRequirementApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -578,13 +577,13 @@ class RequirementController extends GetxController {
             selectedArtistProfileData.artistAppliedForRequirementTransID,
         "fK_RequirementDetailsID":
             selectedArtistProfileData.requirementDetailsID,
-        "fK_AccountID": loginTable.accountID,
+        "fK_AccountID": loginTable.accountID??"",
         "fK_ApplyStatusMasterID": applyStatusID
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveChangesAppliedRequirementStatusApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -615,12 +614,12 @@ class RequirementController extends GetxController {
       var fields = {
         "artistFavoritesRequirementTransID": 0,
         "fK_RequirementDetailsID": requirementId,
-        "fK_AccountID": loginTable.accountID
+        "fK_AccountID": loginTable.accountID??""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.addRequirementInFavoritesApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -657,12 +656,12 @@ class RequirementController extends GetxController {
       update();
       var fields = {
         "fK_RequirementDetailsID": requirementId,
-        "fK_AccountID": loginTable.accountID
+        "fK_AccountID": loginTable.accountID??""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistFavouritesRequirementsApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
 
       if (response.statusCode == 200) {
         CompanyRequirementListClass companyRequirementListClass =
@@ -685,12 +684,12 @@ class RequirementController extends GetxController {
       update();
       var fields = {
         "requirementDetailsID": 0,
-        "fK_AccountID": loginTable.accountID
+        "fK_AccountID": loginTable.accountID??""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getAppliedForRequirementArtistApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (response.statusCode == 200) {
         ArtistAppliedRequirementDetailsClass companyRequirementListClass =
             ArtistAppliedRequirementDetailsClass.fromJson(
@@ -712,12 +711,12 @@ class RequirementController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Removing From Favourites Data", "Removing From Favourites Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID;
-      body['fK_AccountID'] = loginTable.accountID;
+      body['userID'] = loginTable.userID??"";
+      body['fK_AccountID'] = loginTable.accountID??"";
       body['recordID'] = id.toString();
 
       var response = await ApiClient.deleteDataToken(
-          KalakarConstants.deleteFromFavouritesDataApi, body, loginTable.token);
+          KalakarConstants.deleteFromFavouritesDataApi, body, loginTable.token??"");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -757,12 +756,12 @@ class RequirementController extends GetxController {
       update();
       var fields = {
         "requirementDetailsID": selectedAppliedRequirementId,
-        "fK_AccountID": loginTable.accountID
+        "fK_AccountID": loginTable.accountID??""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getAppliedForRequirementCompanyApi,
           jsonEncode(fields),
-          loginTable.token);
+          loginTable.token??"");
       if (response.statusCode == 200) {
         company_artist.CompanyAppliedRequirementDetailsClass
             companyAppliedRequirementDetailsClass =
@@ -778,13 +777,13 @@ class RequirementController extends GetxController {
               if (list1[i].fileType == 2) {
                 try {
                   list1[i].thumbnail = await VideoThumbnail.thumbnailData(
-                                    video: list1[i].filePath!,
-                                    // Replace with your video URL
-                                    imageFormat: ImageFormat.JPEG,
-                                    maxHeight: 150,
-                                    // Set a maximum height for the thumbnail
-                                    quality: 75,
-                                  );
+                    video: list1[i].filePath!,
+                    // Replace with your video URL
+                    imageFormat: ImageFormat.JPEG,
+                    maxHeight: 150,
+                    // Set a maximum height for the thumbnail
+                    quality: 75,
+                  );
                 } catch (e) {
                   print(e);
                 }
@@ -804,13 +803,13 @@ class RequirementController extends GetxController {
               if (list1[i].roleVideo == 2) {
                 try {
                   list1[i].thumbnail = await VideoThumbnail.thumbnailData(
-                                    video: list1[i].roleVideo!,
-                                    // Replace with your video URL
-                                    imageFormat: ImageFormat.JPEG,
-                                    maxHeight: 150,
-                                    // Set a maximum height for the thumbnail
-                                    quality: 75,
-                                  );
+                    video: list1[i].roleVideo!,
+                    // Replace with your video URL
+                    imageFormat: ImageFormat.JPEG,
+                    maxHeight: 150,
+                    // Set a maximum height for the thumbnail
+                    quality: 75,
+                  );
                 } catch (e) {
                   print(e);
                 }
@@ -832,9 +831,9 @@ class RequirementController extends GetxController {
     }
   }
 
-  showDocument(String url, String type) {
+  showDocument(String url, String type,String fileType) {
     FileController fileController = Get.put(FileController());
-    fileController.viewFile1(url, type);
+    fileController.viewFile1(url, type,fileType);
   }
 
   Future<void> getImageFromCamera(BuildContext context, String type) async {
@@ -854,7 +853,6 @@ class RequirementController extends GetxController {
       requirementPhoto = file.path;
       update();
       Get.back();
-
     } else if (kIsWeb && pickerData != null) {
       requirementPhoto = pickerData.path;
       requirementPhotoData = FileDataWeb(
@@ -951,7 +949,7 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       var response = await ApiClient.postDataToken1(
-          KalakarConstants.artistProfileMasterApi, body, loginTable.token);
+          KalakarConstants.artistProfileMasterApi, body, loginTable.token??"");
       print(response.statusCode);
       print(response);
 
@@ -1100,11 +1098,11 @@ class RequirementController extends GetxController {
         isArtistHomeRequirementsLoading = true;
       }
       update();
-      var body = {"fK_AccountID": loginTable.accountID, "isAll": iSAll};
+      var body = {"fK_AccountID": loginTable.accountID??"", "isAll": iSAll};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeRequirementsApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
 
@@ -1138,7 +1136,7 @@ class RequirementController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeUpcomingProjectsApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
 
@@ -1163,7 +1161,7 @@ class RequirementController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeReviewApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
 
@@ -1186,7 +1184,7 @@ class RequirementController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeProjectDocumentsApi,
           jsonEncode(body),
-          loginTable.token);
+          loginTable.token??"");
       print(response.statusCode);
       print(response);
 
@@ -1217,13 +1215,16 @@ class RequirementController extends GetxController {
   }
 
   Future<void> openSocialMedia(int index, String link) async {
-    switch (index) {
+    try {
+      if (await canLaunchUrl(Uri.parse(link))) {
+        launchUrl(Uri.parse(link));
+      }
+    } catch (e) {
+      print(e);
+    }
+    /* switch (index) {
       case 0:
-        try {
-          launchUrl(Uri.parse(link));
-        } catch (e) {
-          print(e);
-        }
+
 
         break;
       case 1:
@@ -1264,7 +1265,7 @@ class RequirementController extends GetxController {
           print(e);
         }
         break;
-    }
+    }*/
   }
 
   void setReviewDataToView(GetApplicationReviewList reviewData) {
