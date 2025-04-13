@@ -143,7 +143,7 @@ class ReviewViewPage extends StatelessWidget {
                         StackTrace? stackTrace) {
                       // Return a dummy or placeholder image when an error occurs
                       return Image.asset(
-                        "assets/images/app_bar_logo.png",
+                        "assets/images/NA.jpg",
                         height: 120.h,
                         width: 120.h,
                       );
@@ -267,7 +267,7 @@ class ReviewViewPage extends StatelessWidget {
                         StackTrace? stackTrace) {
                       // Return a dummy or placeholder image when an error occurs
                       return Image.asset(
-                        "assets/images/app_bar_logo.png",
+                        "assets/images/NA.jpg",
                         height: 120.h,
                         width: 120.h,
                       );

@@ -23,6 +23,7 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(AuthPageController());
     return SafeArea(
         child: Scaffold(
       backgroundColor: kIsWeb ? KalakarColors.white : KalakarColors.background,
@@ -38,10 +39,11 @@ class AuthPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: kIsWeb?0.0:10.h,
+              height: kIsWeb ? 0.0 : 10.h,
             ),
             SizedBox(
-              height: kIsWeb ? Get.size.height - 100.h : Get.size.height/2+70.h,
+              height:
+                  kIsWeb ? Get.size.height - 100.h : Get.size.height / 2 + 70.h,
               child: ScreenTypeLayout.builder(
                 mobile: (BuildContext context) => tabBarMobileView(context),
                 tablet: (BuildContext context) => tabBarWebView(context),
@@ -107,11 +109,14 @@ class AuthPage extends StatelessWidget {
 
   tabBarWebView(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(gradient: LinearGradient(
-        colors: [KalakarColors.buttonBackground, KalakarColors.white], // Teal to Deep Blue
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [KalakarColors.buttonBackground, KalakarColors.white],
+          // Teal to Deep Blue
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
       child: Row(
         children: [
           Expanded(
@@ -123,7 +128,7 @@ class AuthPage extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.only(left: 16.w,right: 16.w,top: 50.h),
+              margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 50.h),
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               decoration: BoxDecoration(
                   color: KalakarColors.white,
@@ -256,7 +261,7 @@ class AuthPage extends StatelessWidget {
                 ],
               ),
             ),
-            authPageController.isOtpSent
+            !authPageController.isOtpSent
                 ? Form(
                     key: authPageController.formCreateAccountKey,
                     child: Column(
@@ -293,7 +298,7 @@ class AuthPage extends StatelessWidget {
                                     ),
                                   )
                                 : Text(
-                                    "Resend OTP in ${authPageController.startTime} seconds")
+                                    "Resend OTP in ${authPageController.formatDuration(authPageController.startTime)}")
                           ],
                         ),
                         SizedBox(
@@ -433,9 +438,9 @@ class AuthPage extends StatelessWidget {
                 },
                 child: Container(
                   padding:
-                  EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
                   decoration: BoxDecoration(
-                    // color: KalakarColors.background,
+                      // color: KalakarColors.background,
                       border: Border.all(color: KalakarColors.border),
                       borderRadius: BorderRadius.circular(50.r)),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -670,10 +675,10 @@ class AuthPage extends StatelessWidget {
                       authPageController.signInWithGoogle();
                     },
                     child: Container(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 24.w, vertical: 10.h),
                       decoration: BoxDecoration(
-                        // color: KalakarColors.background,
+                          // color: KalakarColors.background,
                           border: Border.all(color: KalakarColors.border),
                           borderRadius: BorderRadius.circular(50.r)),
                       child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -729,9 +734,7 @@ class AuthPage extends StatelessWidget {
     return GetBuilder<AuthPageController>(builder: (authPageController) {
       return ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-
         child: SingleChildScrollView(
-
           padding: EdgeInsets.symmetric(vertical: 8.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -810,7 +813,9 @@ class AuthPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 16.h,),
+              SizedBox(
+                height: 16.h,
+              ),
               authPageController.isOtpSent
                   ? Form(
                       key: authPageController.formCreateAccountKey,
@@ -849,7 +854,7 @@ class AuthPage extends StatelessWidget {
                                       ),
                                     )
                                   : Text(
-                                      "Resend OTP in ${authPageController.startTime} seconds",
+                                      "Resend OTP in ${authPageController.formatDuration(authPageController.startTime)}",
                                       style: TextStyle(
                                           color: KalakarColors.black,
                                           fontSize: 3.sp))
@@ -885,8 +890,8 @@ class AuthPage extends StatelessWidget {
                                     PasswordType.createCnfmPass);
                               },
                               validator: (val) {
-                                return Validator.validateConfirmPassword(
-                                    val, authPageController.createPassword.text);
+                                return Validator.validateConfirmPassword(val,
+                                    authPageController.createPassword.text);
                               }),
                           SizedBox(
                             height: 16.h,
@@ -913,7 +918,8 @@ class AuthPage extends StatelessWidget {
                             // buttonBorderColor: Colors.purpleAccent,
                             // buttonBackgroundColor: Colors.orange,
                             // buttonBorderColor: Colors.orangeAccent,
-                            buttonBackgroundColor: KalakarColors.buttonBackground,
+                            buttonBackgroundColor:
+                                KalakarColors.buttonBackground,
                             buttonBorderColor: KalakarColors.buttonBackground,
 
                             onChanged: (int index) {
@@ -980,7 +986,8 @@ class AuthPage extends StatelessWidget {
               Center(
                   child: Text(
                 KalakarConstants.orSignupWith,
-                style: TextStyle(color: KalakarColors.textColor, fontSize: 4.sp),
+                style:
+                    TextStyle(color: KalakarColors.textColor, fontSize: 4.sp),
               )),
               SizedBox(
                 height: 20.h,
@@ -1173,7 +1180,12 @@ class AuthPage extends StatelessWidget {
   }
 
   appBarMobileView() {
-    return Center(child: Image.asset("assets/images/app_logo2.PNG",height: 200.h,fit: BoxFit.cover,));
+    return Center(
+        child: Image.asset(
+      "assets/images/app_logo2.PNG",
+      height: 200.h,
+      fit: BoxFit.cover,
+    ));
   }
 
   appBarWebView() {

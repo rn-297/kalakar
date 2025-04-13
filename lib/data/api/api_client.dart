@@ -60,6 +60,31 @@ abstract class ApiClient extends GetxService {
     }
   }
 
+  static Future<dynamic> postData1(String uri, dynamic body) async {
+    try {
+      print(uri);
+      print(body);
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult.isEmpty) {
+        return const Response(
+            statusCode: 1, statusText: KalakarConstants.noInternetMessage);
+      }
+      var response = await client.post(
+          Uri.parse(uri),
+          body: body,
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded"
+          }).timeout(const Duration(seconds: timeoutInSeconds));
+      // print(_response.);
+
+      return response;
+    } catch (ex) {
+      print(ex);
+      return Response(statusCode: 1, statusText: ex.toString());
+    }
+  }
+
   static Future<dynamic> postListData(String uri, dynamic body) async {
     try {
       print(KalakarConstants.baseURL + uri);

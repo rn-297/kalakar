@@ -1,20 +1,20 @@
 class PaymentDetailsModel {
   List<ReturnPaymentIntegrationAPIResponseList>?
-  returnPaymentIntegrationAPIResponseList;
+      returnPaymentIntegrationAPIResponseList;
   ProfileStatusData? pProfileStatusData;
   bool? replayStatus;
   String? message;
 
   PaymentDetailsModel(
       {this.returnPaymentIntegrationAPIResponseList,
-        this.pProfileStatusData,
-        this.replayStatus,
-        this.message});
+      this.pProfileStatusData,
+      this.replayStatus,
+      this.message});
 
   PaymentDetailsModel.fromJson(Map<String, dynamic> json) {
     if (json['returnPaymentIntegrationAPIResponseList'] != null) {
       returnPaymentIntegrationAPIResponseList =
-      <ReturnPaymentIntegrationAPIResponseList>[];
+          <ReturnPaymentIntegrationAPIResponseList>[];
       json['returnPaymentIntegrationAPIResponseList'].forEach((v) {
         returnPaymentIntegrationAPIResponseList!
             .add(new ReturnPaymentIntegrationAPIResponseList.fromJson(v));
@@ -55,19 +55,19 @@ class ReturnPaymentIntegrationAPIResponseList {
 
   ReturnPaymentIntegrationAPIResponseList(
       {this.transactionId,
-        this.responseCode,
-        this.message,
-        this.paymentDate,
-        this.amount,
-        this.merchantTransactionId,
-        this.paymentType});
+      this.responseCode,
+      this.message,
+      this.paymentDate,
+      this.amount,
+      this.merchantTransactionId,
+      this.paymentType});
 
   ReturnPaymentIntegrationAPIResponseList.fromJson(Map<String, dynamic> json) {
     transactionId = json['transactionId'];
     responseCode = json['responseCode'];
     message = json['message'];
     paymentDate = json['paymentDate'];
-    amount = json['amount']*1.0;
+    amount = json['amount'] * 1.0;
     merchantTransactionId = json['merchantTransactionId'];
     paymentType = json['paymentType'];
   }
@@ -90,34 +90,45 @@ class ProfileStatusData {
   String? verificationStatus;
   int? registrationStatusID;
   String? registrationStatus;
-  String? expiryDate;
-  String? subscriptionExpiryDate;
   double? appPrice;
   double? discount;
   double? discountedAmount;
+  String? expiryDate;
+  String? subscriptionExpiryDate;
+  double? totalReferralPonits;
+  double? totalUsedReferralPonits;
+  double? totalUnUsedReferralPonits;
+  double? paybleAmount;
 
   ProfileStatusData(
-      {this.verificationStatusID=0,
-        this.verificationStatus="",
-        this.registrationStatusID=0,
-        this.registrationStatus="",
-        this.expiryDate="",
-        this.subscriptionExpiryDate="",
-        this.appPrice=0,
-        this.discount=0,
-      this.discountedAmount=0
-      });
+      {this.verificationStatusID,
+      this.verificationStatus,
+      this.registrationStatusID,
+      this.registrationStatus,
+      this.appPrice,
+      this.discount,
+      this.discountedAmount,
+      this.expiryDate,
+      this.subscriptionExpiryDate,
+      this.totalReferralPonits,
+      this.totalUsedReferralPonits,
+      this.totalUnUsedReferralPonits,
+      this.paybleAmount});
 
   ProfileStatusData.fromJson(Map<String, dynamic> json) {
     verificationStatusID = json['verificationStatusID'];
     verificationStatus = json['verificationStatus'];
     registrationStatusID = json['registrationStatusID'];
     registrationStatus = json['registrationStatus'];
+    appPrice = json['appPrice'] * 1.0;
+    discount = json['discount'] * 1.0;
+    discountedAmount = json['discountedAmount']*1.0;
     expiryDate = json['expiryDate'];
     subscriptionExpiryDate = json['subscriptionExpiryDate'];
-    appPrice = json['appPrice']*1.0;
-    discount = json['discount']*1.0;
-    discountedAmount = json['discountedAmount']*1.0;
+    totalReferralPonits = json['totalReferralPonits'] * 1.0;
+    totalUsedReferralPonits = json['totalUsedReferralPonits'] * 1.0;
+    totalUnUsedReferralPonits = json['totalUnUsedReferralPonits'] * 1.0;
+    paybleAmount = json['paybleAmount'] * 1.0;
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +142,10 @@ class ProfileStatusData {
     data['discountedAmount'] = this.discountedAmount;
     data['expiryDate'] = this.expiryDate;
     data['subscriptionExpiryDate'] = this.subscriptionExpiryDate;
+    data['totalReferralPonits'] = this.totalReferralPonits;
+    data['totalUsedReferralPonits'] = this.totalUsedReferralPonits;
+    data['totalUnUsedReferralPonits'] = this.totalUnUsedReferralPonits;
+    data['paybleAmount'] = this.paybleAmount;
     return data;
   }
 }

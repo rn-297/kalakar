@@ -104,8 +104,8 @@ class SettingsController extends GetxController {
     }
   }
 
-  void logOutMessage() {
-    if (kIsWeb) {
+  void logOutMessage(int i) {
+    if (i==1) {
       KalakarDialogs.logOutDialog1();
     } else {
       KalakarDialogs.logOutDialog();

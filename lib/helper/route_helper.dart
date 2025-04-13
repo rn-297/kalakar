@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:kalakar/helper/file_viewer/file_viewer.dart';
+import 'package:kalakar/helper/web_viewer.dart';
 import 'package:kalakar/views/auth/forgot_password.dart';
 import 'package:kalakar/views/auth/google_new_user_page.dart';
 import 'package:kalakar/views/auth/login_page.dart';
@@ -15,6 +16,7 @@ import 'package:kalakar/views/bottom_navigation/artist/artist_portfolio_form_pag
 import 'package:kalakar/views/bottom_navigation/artist/artist_profile_form_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/artist_search_requirement_page.dart';
 import 'package:kalakar/views/bottom_navigation/artist/favourites_requirements_page.dart';
+import 'package:kalakar/views/bottom_navigation/artist/kalakar_profile.dart';
 import 'package:kalakar/views/bottom_navigation/bottom_navigator.dart';
 import 'package:kalakar/views/bottom_navigation/company/all_projects_page.dart';
 import 'package:kalakar/views/bottom_navigation/company/applied_profiles_page.dart';
@@ -85,6 +87,8 @@ class RouteHelper {
   static const String companySearchArtistPage = '/kalakar_company_search_artist';
   static const String googleNewUserPage = '/kalakar_google_new_user_page';
   static const String payAndVerifyPage = '/kalakar_pay_and_verify_page';
+  static const String webViewPage = '/kalakar_web_view_page';
+  static const String artistProfilePage = '/kalakar_artist_profile_page';
 
   static List<GetPage> routes = [
     GetPage(
@@ -249,6 +253,14 @@ class RouteHelper {
     GetPage(
       name: RouteHelper.payAndVerifyPage,
       page: () => PayAndVerifyPage(),
+    ),
+    GetPage(
+      name: RouteHelper.webViewPage,
+      page: () => WebViewPage(),
+    ),
+    GetPage(
+      name: RouteHelper.artistProfilePage,
+      page: () => KalakarProfilePage(),
     ),
   ];
 }

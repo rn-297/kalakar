@@ -255,7 +255,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                               StackTrace? stackTrace) {
                             // Return a dummy or placeholder image when an error occurs
                             return Image.asset(
-                              "assets/images/app_bar_logo.png",
+                              "assets/images/NA.jpg",
                               height: 120.h,
                               width: 120.h,
                             );
@@ -305,7 +305,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: (){
-                                    controller.showDocument(upcomingProject
+                                    controller.showDocument1(upcomingProject
                                         .projectDocuments![index]
                                         .projectDocuments
                                         .toString(), KalakarConstants.upcomingProject,"IMAGE");
@@ -531,7 +531,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                         StackTrace? stackTrace) {
                       // Return a dummy or placeholder image when an error occurs
                       return Image.asset(
-                        "assets/images/app_bar_logo.png",
+                        "assets/images/NA.jpg",
                         height: 120.h,
                         width: 120.h,
                       );
@@ -581,7 +581,7 @@ class UpcomingProjectsViewPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: (){
-                          controller.showDocument(upcomingProject
+                          controller.showDocument1(upcomingProject
                               .projectDocuments![index]
                               .projectDocuments
                               .toString(), KalakarConstants.upcomingProject,"IMAGE");

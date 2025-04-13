@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:kalakar/controller/auth_page_controller.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/helper/route_helper.dart';
 import 'package:kalakar/views/splash/splash_screen.dart';
@@ -20,6 +21,7 @@ class HiveService {
   static Future<void> deleteLoginData() async {
     final box = await Hive.openBox<LoginTable>(_boxName);
     await box.delete('loginData');
+    Get.delete<AuthPageController>();
     Get.offAll(SplashScreenPage());
   }
   static Future<void> editLoginData(LoginTable updatedLoginData) async {

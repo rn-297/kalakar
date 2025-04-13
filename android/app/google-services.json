@@ -1,50 +1,49 @@
 {
   "project_info": {
-    "project_number": "1036285532666",
-    "firebase_url": "https://test-771d1.firebaseio.com",
-    "project_id": "test-771d1",
-    "storage_bucket": "test-771d1.appspot.com"
+    "project_number": "139795519514",
+    "project_id": "kalakaar-8a2e5",
+    "storage_bucket": "kalakaar-8a2e5.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1036285532666:android:e4a6f9c2384c4ecfd0ec43",
+        "mobilesdk_app_id": "1:139795519514:android:7ce53d0287db78feef99a3",
         "android_client_info": {
-          "package_name": "com.example.kalakar"
+          "package_name": "com.sajartech.kalakaarapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1036285532666-boih4k8lhnbu2c2a313oj2cq56454asf.apps.googleusercontent.com",
+          "client_id": "139795519514-i7qb8e478hqhs9p6odjfr0tckn4viqsf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.kalakar",
+            "package_name": "com.sajartech.kalakaarapp",
             "certificate_hash": "688a623ef764243e207e0fbe4289350bd77491fe"
           }
         },
         {
-          "client_id": "1036285532666-ge3p10ihjnpuh0etuq2nlvem2edl6mj9.apps.googleusercontent.com",
+          "client_id": "139795519514-kaf3iha7jkmqqoghskeqcidpd0aihjr0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.kalakar",
+            "package_name": "com.sajartech.kalakaarapp",
             "certificate_hash": "9348f16497332a9c969c26fbe4210841dcdb6c67"
           }
         },
         {
-          "client_id": "1036285532666-gqqf46u7vh5k3u48iopba7vg2mkdcc7b.apps.googleusercontent.com",
+          "client_id": "139795519514-peokc97nga77njhhmieuo70lbsj6tlh3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDJujK6baIRwr3pdJkxKhPT29aSofC35IE"
+          "current_key": "AIzaSyDOn6hclgqDR7CctKxGC6DFBlGKBXea47c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1036285532666-gqqf46u7vh5k3u48iopba7vg2mkdcc7b.apps.googleusercontent.com",
+              "client_id": "139795519514-peokc97nga77njhhmieuo70lbsj6tlh3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

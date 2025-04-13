@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_thumbnail_video/index.dart';
 import 'package:get_thumbnail_video/video_thumbnail.dart';
+import 'package:kalakar/controller/artist_profile_controller.dart';
 import 'package:kalakar/controller/file_controller.dart';
 import 'package:kalakar/controller/profile_controller.dart';
 import 'package:kalakar/data/models/artist/applied_requirement_list_class.dart';
@@ -25,12 +26,13 @@ import '../data/models/company/company_applied_details_class.dart'
     as company_artist;
 import '../data/models/company/project_details_documents_class.dart';
 import '../data/models/file_web_model.dart';
+import '../helper/file_viewer/web_video_viewer.dart';
 import '../helper/picker_helper.dart';
 import '../helper/route_helper.dart';
 import '../utils/kalakar_constants.dart';
 import 'package:intl/intl.dart';
 
-import '../views/dialogs/kalakar_dialogs.dart';
+import '../views/dialogs/kalakar_dialogs.dart';import 'package:kalakar/utils/web_utils.dart' as utils;
 
 class RequirementController extends GetxController {
   //TEControllers
@@ -77,6 +79,9 @@ class RequirementController extends GetxController {
   TextEditingController searchEndAgeTEController = TextEditingController();
   TextEditingController searchProfileTEController = TextEditingController();
   TextEditingController searchApplyForTEController = TextEditingController();
+  TextEditingController searchComfortableInTEController = TextEditingController();
+  TextEditingController searchInterestedInTEController = TextEditingController();
+  TextEditingController searchDistrictTEController = TextEditingController();
   TextEditingController searchMobileNumberTEController =
       TextEditingController();
   TextEditingController searchEmailTEController = TextEditingController();
@@ -93,6 +98,9 @@ class RequirementController extends GetxController {
   String? requirementEndDateText = "";
   String? artistName = "";
   String? companyName = "";
+  String auditionVideo = "";
+  String artistProfileId = "";
+
 
   //imageData
   FileDataWeb requirementPhotoData =
@@ -167,6 +175,18 @@ class RequirementController extends GetxController {
 
   company_artist.AppliedArtistDetailsList selectedArtistProfileData =
       company_artist.AppliedArtistDetailsList();
+  company_artist.GetArtistProfileModelForRequirememt artistData=company_artist.GetArtistProfileModelForRequirememt();
+  List<company_artist.EducationList> artistEducationData =[];
+  List<company_artist.HobbiesList> artistHobbiesData =[];
+  List<company_artist.InterestList> artistInterestInData =[];
+  List<company_artist.ComfortableInList> artistComfortableInData =[];
+  List<company_artist.ExperienceList> artistExperienceData =[];
+  List<company_artist.ApplyList> artistApplyData =[];
+  List<company_artist.PortfolioList> artistPortfolioImagesList = [];
+  List<company_artist.PortfolioList> artistPortfolioVideosList = [];
+
+  company_artist.EducationList selectedEducationData=company_artist.EducationList();
+  company_artist.ExperienceList selectedExperienceData=company_artist.ExperienceList();
 
   GetArtistProfileModellist selectedSearchedArtistProfileData =
       GetArtistProfileModellist();
@@ -188,6 +208,9 @@ class RequirementController extends GetxController {
   bool showStatus = false;
   bool isSearching = false;
   bool isSearchedArtist = false;
+
+  FileDataWeb? auditionVideoData;
+
 
   setDate(String type, DateTime date) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -241,12 +264,12 @@ class RequirementController extends GetxController {
       LoginTable? loginTable = await HiveService.getLoginData();
 
       if (loginTable != null) {
-        int? profileId = loginTable.profileId??0;
+        int? profileId = loginTable.profileId ?? 0;
 
         Map<String, String> fields = {
-          'UserID': loginTable.userID??"",
+          'UserID': loginTable.userID ?? "",
           'RequirementDetailsID': selectedRequirementId.toString(),
-          'FK_AccountID': loginTable.accountID??"",
+          'FK_AccountID': loginTable.accountID ?? "",
           'FK_CompanyProfileID': "$profileId",
           'FK_RequirementStatusMasterID': "$requirementStatusId",
           'RequirementTitle': requirementTitleTEController.text.trim(),
@@ -290,7 +313,7 @@ class RequirementController extends GetxController {
             KalakarConstants.saveRequirementsDetailsApi,
             fields,
             files,
-            loginTable.token??"");
+            loginTable.token ?? "");
         if (Get.isDialogOpen!) {
           Get.back();
         }
@@ -300,7 +323,7 @@ class RequirementController extends GetxController {
               ResponseModel.fromJson(jsonDecode(response.body));
 
           if (responseModel.replayStatus ?? false) {
-            KalakarDialogs.successDialog1(
+            KalakarDialogs.successDialog11(
                 "Uploading Requirement Data", responseModel.message!);
             getRequirementDetailsCompany(0);
           } else {
@@ -319,12 +342,12 @@ class RequirementController extends GetxController {
       LoginTable? loginTable = await HiveService.getLoginData();
 
       if (loginTable != null) {
-        int? profileId = loginTable.profileId??0;
+        int? profileId = loginTable.profileId ?? 0;
 
         Map<String, String> fields = {
-          'UserID': loginTable.userID??"",
+          'UserID': loginTable.userID ?? "",
           'RequirementDetailsID': selectedRequirementId.toString(),
-          'FK_AccountID': loginTable.accountID??"",
+          'FK_AccountID': loginTable.accountID ?? "",
           'FK_CompanyProfileID': "$profileId",
           'FK_RequirementStatusMasterID': "$requirementStatusId",
           'RequirementTitle': requirementTitleTEController.text.trim(),
@@ -368,7 +391,7 @@ class RequirementController extends GetxController {
             KalakarConstants.saveRequirementsDetailsApi,
             fields,
             files,
-            loginTable.token??"");
+            loginTable.token ?? "");
         if (Get.isDialogOpen!) {
           Get.back();
         }
@@ -398,15 +421,15 @@ class RequirementController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Delete Requirement Data", "Deleting Requirement Data");
       var fields = {
-        'userID': loginTable.userID??"",
+        'userID': loginTable.userID ?? "",
         "requirementDetailsID": selectedRequirementId,
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "fK_CompanyProfileID": "$profileId"
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.deleteRequirementsDetailsApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -432,15 +455,15 @@ class RequirementController extends GetxController {
       isRequirementsLoading = true;
       update();
       var fields = {
-        "userID": loginTable.userID??"",
+        "userID": loginTable.userID ?? "",
         "requirementDetailsID": selectedRequirementId.toString(),
-        "fK_AccountID": loginTable.accountID??"",
-        "fK_CompanyProfileID": "${loginTable.profileId??0}"
+        "fK_AccountID": loginTable.accountID ?? "",
+        "fK_CompanyProfileID": "${loginTable.profileId ?? 0}"
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getRequirementsDetailsCompanyApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (response.statusCode == 200) {
         CompanyRequirementListClass companyRequirementListClass =
             CompanyRequirementListClass.fromJson(jsonDecode(response.body));
@@ -472,7 +495,7 @@ class RequirementController extends GetxController {
       update();
       final DateFormat format = DateFormat('yyyy-MM-dd');
       var fields = {
-        "artistID": loginTable.accountID??"",
+        "artistID": loginTable.accountID ?? "",
         "location": searchLocationTEController.text,
         "startShootingDate": searchShootingStartDateTEController.text.isEmpty
             ? ""
@@ -489,12 +512,12 @@ class RequirementController extends GetxController {
             ? "0"
             : searchEndAgeTEController.text,
         "requirementDetailsID": "0",
-        "fK_CompanyProfileID": loginTable.accountID??""
+        "fK_CompanyProfileID": loginTable.accountID ?? ""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.searchRequirementsDetailsArtistsApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (response.statusCode == 200) {
         CompanyRequirementListClass companyRequirementListClass =
             CompanyRequirementListClass.fromJson(jsonDecode(response.body));
@@ -513,16 +536,19 @@ class RequirementController extends GetxController {
       isSearching = true;
       update();
       var fields = {
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "applyFor": searchApplyForTEController.text,
         "profile": searchProfileTEController.text,
         "mobileNumber": searchMobileNumberTEController.text,
         "email": searchEmailTEController.text,
+        "district": searchDistrictTEController.text,
+        "comfortableIn": searchComfortableInTEController.text,
+        "interestIn": searchInterestedInTEController.text
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.searchArtistForCompanyApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (response.statusCode == 200) {
         CompanySearchArtistClass searchArtistClass =
             CompanySearchArtistClass.fromJson(jsonDecode(response.body));
@@ -535,20 +561,65 @@ class RequirementController extends GetxController {
   }
 
   saveAppliedToRequirement(int requirementDetailsId) async {
+    if(kIsWeb){
+      saveAppliedToRequirementWeb(requirementDetailsId);
+    }else{
+      saveAppliedToRequirementMobile(requirementDetailsId);
+    }
+  }
+  saveAppliedToRequirementMobile(int requirementDetailsId) async {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
       KalakarDialogs.loadingDialog(
           "Applying For Opportunity", "Applying For Opportunity");
-      var fields = {
-        "artistAppliedForRequirementTransID": "0",
-        "fK_RequirementDetailsID": requirementDetailsId,
-        "fK_AccountID": loginTable.accountID??""
+      final body = <String, String>{};
+      body['ArtistAppliedForRequirementTransID'] = "0";
+      body['FK_RequirementDetailsID'] = requirementDetailsId.toString();
+      body['FK_AccountID'] = loginTable.accountID ?? "";
+      Map<String, File> files = {
+        'AuditionVideo': File(auditionVideo!),
       };
-      var response = await ApiClient.postDataToken(
+       var response = await ApiClient.postFormDataToken(
           KalakarConstants.saveAppliedToRequirementApi,
-          jsonEncode(fields),
-          loginTable.token??"");
+          body,
+          files,
+          loginTable.token ?? "");
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+      if (response.statusCode == 200) {
+        ResponseModel responseModel =
+            ResponseModel.fromJson(jsonDecode(response.body));
+        if (responseModel.replayStatus ?? false) {
+          KalakarDialogs.successDialog1(
+              "Applying For Opportunity Success", responseModel.message!);
+        } else {
+          KalakarDialogs.successDialog(
+              "Applying For Opportunity Failed", responseModel.message!);
+        }
+      } else {}
+    }
+  }
+
+  saveAppliedToRequirementWeb(int requirementDetailsId) async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+
+    if (loginTable != null) {
+      KalakarDialogs.loadingDialog(
+          "Applying For Opportunity", "Applying For Opportunity");
+      final body = <String, String>{};
+      body['ArtistAppliedForRequirementTransID'] = "0";
+      body['FK_RequirementDetailsID'] = requirementDetailsId.toString();
+      body['FK_AccountID'] = loginTable.accountID ?? "";
+      Map<String, FileDataWeb?> files = {
+        'AuditionVideo': auditionVideoData,
+      };
+       var response = await ApiClient.postFormDataTokenWeb(
+          KalakarConstants.saveAppliedToRequirementApi,
+          body,
+          files,
+          loginTable.token ?? "");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -577,13 +648,13 @@ class RequirementController extends GetxController {
             selectedArtistProfileData.artistAppliedForRequirementTransID,
         "fK_RequirementDetailsID":
             selectedArtistProfileData.requirementDetailsID,
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "fK_ApplyStatusMasterID": applyStatusID
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveChangesAppliedRequirementStatusApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -614,12 +685,12 @@ class RequirementController extends GetxController {
       var fields = {
         "artistFavoritesRequirementTransID": 0,
         "fK_RequirementDetailsID": requirementId,
-        "fK_AccountID": loginTable.accountID??""
+        "fK_AccountID": loginTable.accountID ?? ""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.addRequirementInFavoritesApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -656,12 +727,12 @@ class RequirementController extends GetxController {
       update();
       var fields = {
         "fK_RequirementDetailsID": requirementId,
-        "fK_AccountID": loginTable.accountID??""
+        "fK_AccountID": loginTable.accountID ?? ""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistFavouritesRequirementsApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         CompanyRequirementListClass companyRequirementListClass =
@@ -676,33 +747,44 @@ class RequirementController extends GetxController {
     }
   }
 
-  getAppliedForRequirementArtist() async {
-    LoginTable? loginTable = await HiveService.getLoginData();
+  getAppliedForRequirementArtist(int id) async {
+
+
+      LoginTable? loginTable = await HiveService.getLoginData();
+
 
     if (loginTable != null) {
+      isArtist = loginTable.accountType == KalakarConstants.artist;
       isArtistAppliedRequirementsLoading = true;
       update();
       var fields = {
-        "requirementDetailsID": 0,
-        "fK_AccountID": loginTable.accountID??""
+        "requirementDetailsID": id,
+        "fK_AccountID": loginTable.accountID ?? ""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getAppliedForRequirementArtistApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (response.statusCode == 200) {
         ArtistAppliedRequirementDetailsClass companyRequirementListClass =
             ArtistAppliedRequirementDetailsClass.fromJson(
                 jsonDecode(response.body));
         if (companyRequirementListClass.replayStatus ?? false) {
-          artistAppliedRequirementDetailsList =
-              companyRequirementListClass.objResponesRequirementDetailsList!;
+          if (id == 0) {
+            artistAppliedRequirementDetailsList =
+                companyRequirementListClass.objResponesRequirementDetailsList!;
+          } else {
+            selectedAppliedRequirement = companyRequirementListClass
+                .objResponesRequirementDetailsList![0];
+            print(selectedAppliedRequirement.shootingStartDate);
+          }
         }
       } else {}
       isArtistAppliedRequirementsLoading = false;
 
       update();
     }
+
   }
 
   Future<void> removeFromFavourites(int id, bool doubleBack) async {
@@ -711,12 +793,14 @@ class RequirementController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Removing From Favourites Data", "Removing From Favourites Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = id.toString();
 
       var response = await ApiClient.deleteDataToken(
-          KalakarConstants.deleteFromFavouritesDataApi, body, loginTable.token??"");
+          KalakarConstants.deleteFromFavouritesDataApi,
+          body,
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -752,16 +836,18 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
+      companyAppliedRequirementDetailsList=[];
+      filterAppliedRequirementDetailsList=[];
       isAppliedProfileLoading = true;
       update();
       var fields = {
         "requirementDetailsID": selectedAppliedRequirementId,
-        "fK_AccountID": loginTable.accountID??""
+        "fK_AccountID": loginTable.accountID ?? ""
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getAppliedForRequirementCompanyApi,
           jsonEncode(fields),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (response.statusCode == 200) {
         company_artist.CompanyAppliedRequirementDetailsClass
             companyAppliedRequirementDetailsClass =
@@ -771,6 +857,10 @@ class RequirementController extends GetxController {
           List<company_artist.AppliedArtistDetailsList> list =
               companyAppliedRequirementDetailsClass
                   .objResponesRequirementDetailsList!;
+          companyAppliedRequirementDetailsList=list;
+          filterAppliedRequirementDetailsList=list;
+          isAppliedProfileLoading = false;
+          update();
           for (int j = 0; j < list.length; j++) {
             List<company_artist.PortfolioList> list1 = list[j].portfolioList!;
             for (int i = 0; i < list1.length; i++) {
@@ -796,6 +886,8 @@ class RequirementController extends GetxController {
           List<company_artist.AppliedArtistDetailsList> list2 =
               companyAppliedRequirementDetailsClass
                   .objResponesRequirementDetailsList!;
+
+          print("object");
           for (int j = 0; j < list2.length; j++) {
             List<company_artist.ExperienceList> list1 =
                 list2[j].experienceList!;
@@ -831,9 +923,63 @@ class RequirementController extends GetxController {
     }
   }
 
-  showDocument(String url, String type,String fileType) {
+  pickOrShowDocument(BuildContext context,controller){
+
+    if (auditionVideo.isNotEmpty) {
+      PickerHelper.showOrPickDocBottomSheet(
+          "Audition Video", context, controller);
+    } else {
+      PickerHelper.showVideoBottomSheet(context, controller);
+    }
+  }
+  pickOrShowDocumentWeb(BuildContext context,controller){
+
+    if (auditionVideo.isNotEmpty) {
+      PickerHelper.showOrPickDocBottomSheetWeb(
+          "Audition Video", context, controller);
+    } else {
+      // PickerHelper.showVideoBottomSheetWeb(context, controller);
+      getVideoFromGallery(context);
+    }
+  }
+
+  Future<void> getVideoFromGallery(BuildContext context) async {
+    File? file;
+    FileDataWeb? pickerData;
+    if (!kIsWeb) {
+      file = await PickerHelper.pickVideoFromGallery(context);
+    } else {
+      pickerData = await PickerHelper.pickVideoFromGalleryWeb(context);
+    }
+
+    if (!kIsWeb && file != null) {
+      auditionVideo = file.path;
+      // roleVideoTEController.text = file.path.split("/").last;
+    }else if (kIsWeb && pickerData != null){
+      auditionVideo = pickerData.path;
+      auditionVideoData = FileDataWeb(
+          name: pickerData!.name,
+
+          path: pickerData!.path,
+          type: "VIDEO",
+          extension: pickerData!.name.split(".").last,
+          imageData: await pickerData.imageData);
+    }
+    update();
+
+  }
+
+  showDocument1(String url, String type, String fileType) {
+    print("");
     FileController fileController = Get.put(FileController());
-    fileController.viewFile1(url, type,fileType);
+    fileController.viewFile1(url, type, fileType);
+  }
+
+  showDocument(String url) {
+print("objectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobject");
+      FileController fileController = Get.put(FileController());
+      fileController.viewFile1(auditionVideo, "Audition Video", "VIDEO");
+
   }
 
   Future<void> getImageFromCamera(BuildContext context, String type) async {
@@ -875,7 +1021,7 @@ class RequirementController extends GetxController {
       if (isArtist) {
         getArtistHomeRequirementDetails(false);
 
-        getAppliedForRequirementArtist();
+        getAppliedForRequirementArtist(0);
       } else {
         getRequirementDetailsCompany(0);
       }
@@ -949,7 +1095,9 @@ class RequirementController extends GetxController {
 
     if (loginTable != null) {
       var response = await ApiClient.postDataToken1(
-          KalakarConstants.artistProfileMasterApi, body, loginTable.token??"");
+          KalakarConstants.artistProfileMasterApi,
+          body,
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
 
@@ -1007,41 +1155,51 @@ class RequirementController extends GetxController {
   }
 
   void emptyOpportunityData() async {
-    selectedRequirementId = 0;
-    requirementPhoto = "";
-    requirementTitleTEController.text = "";
-    requirementStatusTEController.text = "";
-    descriptionTEController.text = "";
-    lookingForTEController.text = "";
-    ageTEController.text = "";
-    languageTEController.text = "";
-    noOfOpeningsTEController.text = "";
-    genderTEController.text = "";
-    heightTEController.text = "";
-    weightTEController.text = "";
-    hairColorTEController.text = "";
-    bodyTypeTEController.text = "";
-    experienceTEController.text = "";
+    LoginTable? loginTable = await HiveService.getLoginData();
 
-    startDateTEController.text = "";
+    if (loginTable != null) {
+    if (loginTable.profileId==0){
+      KalakarDialogs.successDialog("title", "Please Fill Profile Data and Try Again");
+    }else {
 
-    endDateTEController.text = "";
-    shootingLocationTEController.text = "";
-    defineRoleTEController.text = "";
-    splSkillRequiredTEController.text = "";
-    comfortableInTEController.text = "";
-    scriptForAuditionTEController.text = "";
 
-    requirementEndDateTEController.text = "";
-    fbLinkTEController.text = "";
-    wpLinkTEController.text = "";
-    ytLinkTEController.text = "";
-    instaLinkTEController.text = "";
-    emailLinkTEController.text = "";
-    websiteLinkTEController.text = "";
-    salaryTEController.text = "";
-    salaryTypeTEController.text = "";
-    Get.toNamed(RouteHelper.requirementFormPage);
+      selectedRequirementId = 0;
+      requirementPhoto = "";
+      requirementTitleTEController.text = "";
+      requirementStatusTEController.text = "";
+      descriptionTEController.text = "";
+      lookingForTEController.text = "";
+      ageTEController.text = "";
+      languageTEController.text = "";
+      noOfOpeningsTEController.text = "";
+      genderTEController.text = "";
+      heightTEController.text = "";
+      weightTEController.text = "";
+      hairColorTEController.text = "";
+      bodyTypeTEController.text = "";
+      experienceTEController.text = "";
+
+      startDateTEController.text = "";
+
+      endDateTEController.text = "";
+      shootingLocationTEController.text = "";
+      defineRoleTEController.text = "";
+      splSkillRequiredTEController.text = "";
+      comfortableInTEController.text = "";
+      scriptForAuditionTEController.text = "";
+
+      requirementEndDateTEController.text = "";
+      fbLinkTEController.text = "";
+      wpLinkTEController.text = "";
+      ytLinkTEController.text = "";
+      instaLinkTEController.text = "";
+      emailLinkTEController.text = "";
+      websiteLinkTEController.text = "";
+      salaryTEController.text = "";
+      salaryTypeTEController.text = "";
+      Get.toNamed(RouteHelper.requirementFormPage);
+    }
+    }
   }
 
   void setHairColorValue(String selectedItem) {
@@ -1089,7 +1247,7 @@ class RequirementController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      artistName = "${loginTable.fistName} ${loginTable.lastName} ";
+      artistName = "${loginTable.fistName} ${loginTable.lastName}";
       isArtist = loginTable.accountType == KalakarConstants.artist;
 
       if (iSAll) {
@@ -1098,11 +1256,11 @@ class RequirementController extends GetxController {
         isArtistHomeRequirementsLoading = true;
       }
       update();
-      var body = {"fK_AccountID": loginTable.accountID??"", "isAll": iSAll};
+      var body = {"fK_AccountID": loginTable.accountID ?? "", "isAll": iSAll};
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeRequirementsApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
 
@@ -1136,7 +1294,7 @@ class RequirementController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeUpcomingProjectsApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
 
@@ -1161,7 +1319,7 @@ class RequirementController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeReviewApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
 
@@ -1184,7 +1342,7 @@ class RequirementController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistHomeProjectDocumentsApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
 
@@ -1201,6 +1359,7 @@ class RequirementController extends GetxController {
 
   void setRequirementViewData(
       RequirementDetailsData requirement, bool showStatus) {
+    auditionVideo="";
     selectedRequirement = requirement;
     this.showStatus = showStatus;
     Get.toNamed(RouteHelper.requirementViewPage);
@@ -1216,11 +1375,18 @@ class RequirementController extends GetxController {
 
   Future<void> openSocialMedia(int index, String link) async {
     try {
-      if (await canLaunchUrl(Uri.parse(link))) {
+      print(link);
+        if(link.isNotEmpty) {
         launchUrl(Uri.parse(link));
-      }
+      } else{
+          KalakarDialogs.successDialog("Facebook Link", "Link Not Added");
+        }
+
+        // KalakarDialogs.successDialog("Facebook Link", "Link Not Added");
+
     } catch (e) {
       print(e);
+
     }
     /* switch (index) {
       case 0:
@@ -1287,11 +1453,55 @@ class RequirementController extends GetxController {
     Get.toNamed(RouteHelper.appliedProfilesPage);
   }
 
-  void setArtistProfileDataToView(
-      company_artist.AppliedArtistDetailsList appliedProfileDetail) {
+  Future<void> setArtistProfileDataToView(
+      company_artist.AppliedArtistDetailsList appliedProfileDetail) async {
     isSearchedArtist = false;
     selectedArtistProfileData = appliedProfileDetail;
-    Get.toNamed(RouteHelper.artistProfileViewPage);
+    ArtistProfileController artistProfileController=Get.put(ArtistProfileController());
+    artistProfileController.isArtist=false;
+    List<company_artist.PortfolioList> artistPortfolioData =
+    selectedArtistProfileData.portfolioList!;
+     artistData =         selectedArtistProfileData.getArtistProfileModelForRequirememt!;
+     artistProfileId =         selectedArtistProfileData.artistUserID!;
+     artistEducationData =
+    selectedArtistProfileData.educationList!;
+     artistHobbiesData =
+    selectedArtistProfileData.hobbiesList!;
+    artistInterestInData =
+    selectedArtistProfileData.interestList!;
+    artistComfortableInData =
+    selectedArtistProfileData.comfortableInList!;
+     artistExperienceData =
+    selectedArtistProfileData.experienceList!;
+     artistApplyData =
+    selectedArtistProfileData.applyList!;
+
+    List<company_artist.PortfolioList> imagesList = [];
+    List<company_artist.PortfolioList> videosList = [];
+    for (int i = 0; i < artistPortfolioData.length; i++) {
+      if (artistPortfolioData[i].fileType == 2) {
+        try {
+          artistPortfolioData[i].thumbnail = await VideoThumbnail.thumbnailData(
+            video: artistPortfolioData[i].filePath!,
+            // Replace with your video URL
+            imageFormat: ImageFormat.JPEG,
+            maxHeight: 150,
+            // Set a maximum height for the thumbnail
+            quality: 75,
+          );
+          videosList.add(artistPortfolioData[i]);
+        } catch (e) {
+          print(e);
+        }
+      } else {
+        imagesList.add(artistPortfolioData[i]);
+      }
+    }
+    artistPortfolioImagesList = imagesList;
+    artistPortfolioVideosList = videosList;
+    update();
+
+    Get.toNamed(RouteHelper.artistProfilePage);
   }
 
   void clearSearchFilters() {
@@ -1342,4 +1552,19 @@ class RequirementController extends GetxController {
         .getCompanyProjectsForArtist(selectedRequirement.fKAccountID!);
     Get.toNamed(RouteHelper.companyProfilePage);
   }
+
+  void showAuditionVideo(String? auditionVideoPath) {
+    FileController fileController=Get.put(FileController());
+    fileController.viewFile1(auditionVideoPath!, "Audition Video", "VIDEO");
+  }
+
+  void showLocalAuditionVideo() {
+    // Get.to(BlobVideoPlayer(blobUrl: auditionVideoData!.path));
+  }
+
+  void deleteAuditionVideo() {
+    auditionVideo="";
+    update();
+  }
+
 }

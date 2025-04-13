@@ -9,6 +9,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../controller/requirement_controller.dart';
 import '../../../custom_widgets/button_mobile_widget.dart';
+import '../../../custom_widgets/custom_dropdown_search4.dart';
 import '../../../data/models/company/company_requirement_list_class.dart';
 import '../../../helper/common_widgets.dart';
 import '../../../helper/date_picker_helper.dart';
@@ -140,7 +141,7 @@ class CompanySearchArtistPage extends StatelessWidget {
                           height: 12.h,
                         ),
                         CommonWidgets.commonMobileTextField1(
-                            controller: controller.searchLanguageTEController,
+                            controller: controller.searchMobileNumberTEController,
                             labelText: KalakarConstants.mobileNumber,
                             obscureText: false,
                             borderRadius: 12.r,
@@ -154,14 +155,14 @@ class CompanySearchArtistPage extends StatelessWidget {
                         ),
                         CommonWidgets.commonMobileTextField1(
                             controller:
-                                controller.searchShootingStartDateTEController,
+                                controller.searchEmailTEController,
                             labelText: KalakarConstants.email,
                             obscureText: false,
                             hintText: "Search Email",
                             borderRadius: 12.r,
                             passwordVisibility: false,
                             togglePasswordVisibility: () {},
-                            editable: false,
+                            editable: true,
                             textInputType: TextInputType.text,
                             validator: Validator.validateEmail),
                         SizedBox(
@@ -276,7 +277,7 @@ class CompanySearchArtistPage extends StatelessWidget {
                           thickness: 2,
                         ),
                         CommonWidgets.commonMobileTextField2(
-                            controller: controller.searchLocationTEController,
+                            controller: controller.searchApplyForTEController,
                             labelText: KalakarConstants.applyFor,
                             obscureText: false,
                             borderRadius: 12.r,
@@ -289,31 +290,85 @@ class CompanySearchArtistPage extends StatelessWidget {
                         SizedBox(
                           height: 12.h,
                         ),
-                        CommonWidgets.commonMobileTextField2(
-                            controller: controller.searchLanguageTEController,
-                            labelText: KalakarConstants.mobileNumber,
-                            obscureText: false,
-                            borderRadius: 12.r,
-                            hintText: "Search Mobile Number",
-                            passwordVisibility: false,
-                            togglePasswordVisibility: () {},
-                            textInputType: TextInputType.text,
-                            validator: Validator.validateMobileNumber),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CommonWidgets.commonMobileTextField2(
+                                  controller: controller.searchMobileNumberTEController,
+                                  labelText: KalakarConstants.mobileNumber,
+                                  obscureText: false,
+                                  borderRadius: 12.r,
+                                  hintText: "Search Mobile Number",
+                                  passwordVisibility: false,
+                                  togglePasswordVisibility: () {},
+                                  textInputType: TextInputType.text,
+                                  validator: Validator.validateMobileNumber),
+                            ),
+                            SizedBox(
+                              width: 12.w,
+                            ),
+                            Expanded(
+                              child: CommonWidgets.commonMobileTextField2(
+                                  controller:
+                                  controller.searchEmailTEController,
+                                  labelText: KalakarConstants.email,
+                                  obscureText: false,
+                                  hintText: "Search Email",
+                                  borderRadius: 12.r,
+                                  passwordVisibility: false,
+                                  togglePasswordVisibility: () {},
+                                  editable: true,
+                                  textInputType: TextInputType.text,
+                                  validator: Validator.validateEmail),
+                            ),
+                          ],
+                        ),
                         SizedBox(
                           height: 12.h,
                         ),
                         CommonWidgets.commonMobileTextField2(
                             controller:
-                            controller.searchShootingStartDateTEController,
-                            labelText: KalakarConstants.email,
+                            controller.searchDistrictTEController,
+                            labelText: KalakarConstants.district,
                             obscureText: false,
-                            hintText: "Search Email",
+                            hintText: "Search District",
                             borderRadius: 12.r,
                             passwordVisibility: false,
                             togglePasswordVisibility: () {},
                             editable: true,
                             textInputType: TextInputType.text,
-                            validator: Validator.validateEmail),
+                            validator: Validator.validateDistrict),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        CustomDropdownSearch4(
+                          validator: null,
+                          items: controller.comfortableInList,
+                          titleText: KalakarConstants.comfortableIn,
+                          selectedItem:
+                          controller.comfortableInTEController.text.isEmpty
+                              ? null
+                              : controller.comfortableInTEController.text,
+                          labelText: KalakarConstants.comfortableIn,
+                          onItemSelected: (selectedItem) {
+                            controller.setComfortableInValue(selectedItem);
+                          },
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        CommonWidgets.commonMobileTextField2(
+                            controller:
+                            controller.searchInterestedInTEController,
+                            labelText: KalakarConstants.interestIn,
+                            obscureText: false,
+                            hintText: "Search Interest In",
+                            borderRadius: 12.r,
+                            passwordVisibility: false,
+                            togglePasswordVisibility: () {},
+                            editable: true,
+                            textInputType: TextInputType.text,
+                            validator: Validator.validateInterestedIn),
                         SizedBox(
                           height: 32.h,
                         ),
@@ -489,7 +544,7 @@ class CompanySearchArtistPage extends StatelessWidget {
                                             StackTrace? stackTrace) {
                                           // Return a dummy or placeholder image when an error occurs
                                           return Image.asset(
-                                            "assets/images/app_logo2.PNG.png",
+                                            "assets/images/NA.jpg",
                                             height: 50.h,
                                             width: 50.h,
                                           );
@@ -688,7 +743,7 @@ class CompanySearchArtistPage extends StatelessWidget {
                                    StackTrace? stackTrace) {
                                  // Return a dummy or placeholder image when an error occurs
                                  return Image.asset(
-                                   "assets/images/app_logo2.PNG.png",
+                                   "assets/images/NA.jpg",
                                    height: 70.h,
                                    width: 70.h,
                                  );

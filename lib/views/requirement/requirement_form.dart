@@ -397,7 +397,7 @@ class RequirementFormPage extends StatelessWidget {
                       child: InkWell(
                         onTap: () async {
                           final date =
-                              await DatePickerHelper.selectDate(context);
+                              await DatePickerHelper.selectDate(context,isOld: true,);
                           if (date != null) {
                             controller.setDate(
                                 KalakarConstants.startDate, date);
@@ -422,7 +422,7 @@ class RequirementFormPage extends StatelessWidget {
                       child: InkWell(
                         onTap: () async {
                           final date =
-                              await DatePickerHelper.selectDate(context);
+                              await DatePickerHelper.selectDate(context,isOld: true,startDate: controller.shootingStartDate);
                           if (date != null) {
                             controller.setDate(KalakarConstants.endDate, date);
                           }
@@ -482,12 +482,12 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: Validator.validateSplSkillsRequired),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
                 CustomDropdownSearch1(
-                  validator: Validator.validateComfortableIn,
+                  validator: null,
                   items: controller.comfortableInList,
                   titleText: KalakarConstants.comfortableIn,
                   selectedItem:
@@ -511,13 +511,13 @@ class RequirementFormPage extends StatelessWidget {
                     hintText: "Enter Script For Audition",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: Validator.validateScriptForAudition),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
                 InkWell(
                   onTap: () async {
-                    final date = await DatePickerHelper.selectDate(context);
+                    final date = await DatePickerHelper.selectDate(context,isOld: true,startDate: controller.shootingStartDate);
                     if (date != null) {
                       controller.setDate(
                           KalakarConstants.requirementEndDate, date);
@@ -1016,7 +1016,7 @@ class RequirementFormPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: CustomDropdownSearch4(
-                        validator: Validator.validateComfortableIn,
+                        validator: null,
                         items: controller.comfortableInList,
                         titleText: KalakarConstants.comfortableIn,
                         selectedItem:
@@ -1065,7 +1065,7 @@ class RequirementFormPage extends StatelessWidget {
                       child: InkWell(
                         onTap: () async {
                           final date =
-                          await DatePickerHelper.selectDate(context,isOld: true);
+                          await DatePickerHelper.selectDate(context,isOld: true,startDate: controller.shootingStartDate);
                           if (date != null) {
                             controller.setDate(KalakarConstants.endDate, date);
                           }
@@ -1125,7 +1125,7 @@ class RequirementFormPage extends StatelessWidget {
                     passwordVisibility: false,
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: Validator.validateSplSkillsRequired),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -1139,13 +1139,13 @@ class RequirementFormPage extends StatelessWidget {
                     hintText: "Enter Script For Audition",
                     borderRadius: 12.r,
                     togglePasswordVisibility: () {},
-                    validator: Validator.validateScriptForAudition),
+                    validator: null),
                 SizedBox(
                   height: 16.h,
                 ),
                 InkWell(
                   onTap: () async {
-                    final date = await DatePickerHelper.selectDate(context);
+                    final date = await DatePickerHelper.selectDate(context,isOld: true,startDate: controller.shootingStartDate);
                     if (date != null) {
                       controller.setDate(
                           KalakarConstants.requirementEndDate, date);
@@ -1279,14 +1279,14 @@ class RequirementFormPage extends StatelessWidget {
                           passwordVisibility: false,
                           borderRadius: 12.r,
                           togglePasswordVisibility: () {},
-                          validator: null),
+                          validator: Validator.validateSalary),
                     ),
                     SizedBox(
                       width: 8.w,
                     ),
                     Expanded(
                       child: CustomDropdownSearch4(
-                        validator: null,
+                        validator: Validator.validateSalaryType,
                         items: controller.salaryTypeList,
                         titleText: KalakarConstants.salaryType,
                         selectedItem:

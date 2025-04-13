@@ -116,7 +116,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                     ),
                                   )
                                 : Text(
-                                    "Resend OTP in ${authPageController.startTime} seconds")
+                                    "Resend OTP in ${authPageController.formatDuration(authPageController.startTime)}")
                           ],
                         ),
                         SizedBox(
@@ -313,7 +313,7 @@ mainAxisSize: MainAxisSize.min,
                                               ),
                                             )
                                           : Text(
-                                              "Resend OTP in ${authPageController.startTime} seconds",style: TextStyle(fontSize: 3.sp),)
+                                              "Resend OTP in ${authPageController.formatDuration(authPageController.startTime)}",style: TextStyle(fontSize: 3.sp),)
                                     ],
                                   ),
                                   SizedBox(

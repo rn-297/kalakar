@@ -123,7 +123,7 @@ class MyApplicationsPage extends StatelessWidget {
     return GetBuilder<RequirementController>(builder: (controller) {
       return RefreshIndicator(
         onRefresh: ()async{
-          controller.getAppliedForRequirementArtist();
+          controller.getAppliedForRequirementArtist(0);
         },
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
@@ -361,7 +361,7 @@ class MyApplicationsPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      controller.getAppliedForRequirementArtist();
+                      controller.getAppliedForRequirementArtist(0);
                     },
                     child: Column(
                       children: [
@@ -383,7 +383,7 @@ class MyApplicationsPage extends StatelessWidget {
     return GetBuilder<RequirementController>(builder: (controller) {
       return RefreshIndicator(
         onRefresh: ()async{
-          controller.getAppliedForRequirementArtist();
+          controller.getAppliedForRequirementArtist(0);
         },
         child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -646,7 +646,7 @@ class MyApplicationsPage extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          controller.getAppliedForRequirementArtist();
+                          controller.getAppliedForRequirementArtist(0);
                         },
                         child: Column(
                           children: [

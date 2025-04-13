@@ -89,6 +89,8 @@ class AppliedArtistDetailsList {
   String? district;
   String? email;
   String? mobileNumber;
+  String? auditionVideoPath;
+  String? auditionVideoName;
   List<EducationList>? educationList;
   List<HobbiesList>? hobbiesList;
   List<InterestList>? interestList;
@@ -150,6 +152,8 @@ class AppliedArtistDetailsList {
         this.district,
         this.email,
         this.mobileNumber,
+        this.auditionVideoPath,
+        this.auditionVideoName,
         this.educationList,
         this.hobbiesList,
         this.interestList,
@@ -213,6 +217,8 @@ class AppliedArtistDetailsList {
     district = json['district'];
     email = json['email'];
     mobileNumber = json['mobileNumber'];
+    auditionVideoPath = json['auditionVideoPath'];
+    auditionVideoName = json['auditionVideoName'];
     if (json['educationList'] != null) {
       educationList = <EducationList>[];
       json['educationList'].forEach((v) {
@@ -316,6 +322,8 @@ class AppliedArtistDetailsList {
     data['artistState'] = this.artistState;
     data['district'] = this.district;
     data['email'] = this.email;
+    data['auditionVideoName'] = this.auditionVideoName;
+    data['auditionVideoPath'] = this.auditionVideoPath;
     data['mobileNumber'] = this.mobileNumber;
     if (this.educationList != null) {
       data['educationList'] =
@@ -612,7 +620,7 @@ class GetArtistProfileModelForRequirememt {
   int? artistProfileID;
   int? fKAccountID;
   String? profilePic;
-  Null? profilePicName;
+  String? profilePicName;
   String? firstName;
   String? middleName;
   String? lastName;
@@ -643,6 +651,8 @@ class GetArtistProfileModelForRequirememt {
   String? bodyType;
   String? maritalStatus;
   String? vehicle;
+  String? auditionVideoPath;
+  String? auditionVideoName;
   bool? travelThrIndia;
 
   GetArtistProfileModelForRequirememt(
@@ -680,6 +690,8 @@ class GetArtistProfileModelForRequirememt {
         this.bodyType,
         this.maritalStatus,
         this.vehicle,
+        this.auditionVideoPath,
+        this.auditionVideoName,
         this.travelThrIndia});
 
   GetArtistProfileModelForRequirememt.fromJson(Map<String, dynamic> json) {
@@ -717,6 +729,8 @@ class GetArtistProfileModelForRequirememt {
     bodyType = json['bodyType'];
     maritalStatus = json['maritalStatus'];
     vehicle = json['vehicle'];
+    auditionVideoPath = json['auditionVideoPath'];
+    auditionVideoName = json['auditionVideoName'];
     travelThrIndia = json['travelThrIndia'];
   }
 
@@ -756,6 +770,8 @@ class GetArtistProfileModelForRequirememt {
     data['bodyType'] = this.bodyType;
     data['maritalStatus'] = this.maritalStatus;
     data['vehicle'] = this.vehicle;
+    data['auditionVideoPath'] = this.auditionVideoPath;
+    data['auditionVideoName'] = this.auditionVideoName;
     data['travelThrIndia'] = this.travelThrIndia;
     return data;
   }

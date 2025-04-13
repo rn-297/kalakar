@@ -752,6 +752,22 @@ class Validator {
   }
 
 
+  //validate requirement End date
+  static String? validateSalary(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Enter Salary';
+    }
+    return null;
+  }
+  //validate requirement End date
+  static String? validateSalaryType(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please Select Salary Type';
+    }
+    return null;
+  }
+
+
 
 /*
     //validate Education Type

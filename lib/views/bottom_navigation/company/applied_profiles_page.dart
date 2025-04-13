@@ -34,7 +34,7 @@ class AppliedProfilesPage extends StatelessWidget {
   }
 
   appbarMobileView() {
-    RequirementController controller=Get.put(RequirementController());
+    RequirementController controller = Get.put(RequirementController());
     return AppBar(
       toolbarHeight: 40.h,
       backgroundColor: KalakarColors.appBarBackground,
@@ -70,7 +70,7 @@ class AppliedProfilesPage extends StatelessWidget {
             children: [
               Expanded(
                   child: TextFormField(
-                    controller: controller.searchKalakarTEController,
+                controller: controller.searchKalakarTEController,
                 decoration: InputDecoration(
                   hintText: KalakarConstants.searchKalakar,
                   border: OutlineInputBorder(
@@ -84,7 +84,7 @@ class AppliedProfilesPage extends StatelessWidget {
                 ),
               )),
               InkWell(
-                onTap: (){
+                onTap: () {
                   controller.filterAppliedRequirementDetailsListData();
                 },
                 child: Padding(
@@ -119,8 +119,8 @@ class AppliedProfilesPage extends StatelessWidget {
     );
   }
 
-  appbarWebView()  {
-    RequirementController controller=Get.put(RequirementController());
+  appbarWebView() {
+    RequirementController controller = Get.put(RequirementController());
     return AppBar(
       toolbarHeight: 50.h,
       backgroundColor: KalakarColors.appBarBackground,
@@ -156,21 +156,21 @@ class AppliedProfilesPage extends StatelessWidget {
             children: [
               Expanded(
                   child: TextFormField(
-                    controller: controller.searchKalakarTEController,
-                    decoration: InputDecoration(
-                      hintText: KalakarConstants.searchKalakar,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        // Apply border radius
-                        borderSide: BorderSide.none,
-                      ),
+                controller: controller.searchKalakarTEController,
+                decoration: InputDecoration(
+                  hintText: KalakarConstants.searchKalakar,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    // Apply border radius
+                    borderSide: BorderSide.none,
+                  ),
 
-                      filled: true, // Enables the background color
-                      fillColor: KalakarColors.white,
-                    ),
-                  )),
+                  filled: true, // Enables the background color
+                  fillColor: KalakarColors.white,
+                ),
+              )),
               InkWell(
-                onTap: (){
+                onTap: () {
                   controller.filterAppliedRequirementDetailsListData();
                 },
                 child: Padding(
@@ -210,8 +210,8 @@ class AppliedProfilesPage extends StatelessWidget {
       DateTime completedDate = DateTime.parse(
           controller.selectedRequirement.shootingEndDate.toString());
 
-      DateTime createdDate = DateTime.parse(
-          controller.selectedRequirement.createdDate.toString());
+      DateTime createdDate =
+          DateTime.parse(controller.selectedRequirement.createdDate.toString());
       DateFormat formatter = DateFormat('dd MMM yyyy');
       return RefreshIndicator(
         onRefresh: () async {
@@ -228,261 +228,273 @@ class AppliedProfilesPage extends StatelessWidget {
                 SizedBox(
                   height: 8.h,
                 ),
-                controller.selectedRequirement.fKRequirementStatusMasterID!=3?Container(
-                  margin: EdgeInsets.only(
-                    bottom:8.h,
-                  ),
-                  padding: EdgeInsets.all(16.h),
-                  decoration: BoxDecoration(
-                    color: KalakarColors.white,
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Text(
-                                controller.selectedRequirement.lookingFor!,
-
-                                style: TextStyle(
-                                    fontSize: 20.sp, fontWeight: FontWeight.bold),
-                              )),
-                          Text(
-                              "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("${controller.selectedRequirement.age}"),
-                          Text("${controller.selectedRequirement.shootingLocation}"),
-                          Text("${controller.selectedRequirement.gender}"),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Text(
-                        "${controller.selectedRequirement.requirementDescription}",
-
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Divider(
-                        color: Colors.grey.shade200,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "Created ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: formatter.format(createdDate),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: KalakarColors.orange),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // CustomMobileButtonWidget(
-                          //   text: "Edit",
-                          //   onTap: () {
-                          //     controller
-                          //         .setOpportunityData(controller.selectedRequirement);
-                          //   },
-                          //   horizontalPadding: 10.w,
-                          //   verticalPadding: 6.h,
-                          //   fontSize: 12.sp,
-                          //   borderRadius: 50.r,
-                          //   boxShadow: [],
-                          //   width: 70.w,
-                          //   textColor: KalakarColors.white,
-                          //   fontWeight: FontWeight.normal,
-                          // )
-                        ],
-                      )
-                    ],
-                  ),
-                ):Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 8.h,
-                  ),
-                  padding: EdgeInsets.all(16.h),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            controller.selectedRequirement.lookingFor!,
-                            style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.lineThrough),
-                          )),
-                          Text(
-                              "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Text(
-                        "${controller.selectedRequirement.requirementDescription}",
-                        style:
-                            TextStyle(decoration: TextDecoration.lineThrough),
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Divider(
-                        color: Colors.grey.shade200,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "Completed ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: formatter.format(completedDate),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: KalakarColors.orange),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          CustomMobileButtonWidget(
-                            text: "Complete",
-                            onTap: () {},
-                            horizontalPadding: 10.w,
-                            verticalPadding: 6.h,
-                            fontSize: 12.sp,
-                            borderRadius: 50.r,
-                            boxShadow: [],
-                            backgroundColor: KalakarColors.white,
-                            width: 80.w,
-                            textColor: KalakarColors.black,
-                            fontWeight: FontWeight.normal,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                controller.isAppliedProfileLoading
-                    ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 8.h),
-                        padding: EdgeInsets.all(8.h),
-                        // width: Get.size.width / 2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: KalakarColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade300,
-                                blurRadius: 3,
-                                offset: Offset(0, 2))
-                          ],
-                          border: Border.all(
-                              color: KalakarColors.backgroundGrey),
+                controller.selectedRequirement.fKRequirementStatusMasterID != 3
+                    ? Container(
+                        margin: EdgeInsets.only(
+                          bottom: 8.h,
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        padding: EdgeInsets.all(16.h),
+                        decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey.shade300)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Shimmer.fromColors(
-                              baseColor: KalakarColors.blue10,
-                              highlightColor: KalakarColors.blue20,
-                              child: Container(
-                                height: 40.h,
-                                width: 40.h,
-                                decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(20.r)),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  controller.selectedRequirement.lookingFor!,
+                                  style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                Text(
+                                    "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
+                              ],
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Padding(
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 8.h),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Shimmer.fromColors(
-                                      baseColor: KalakarColors.blue10,
-                                      highlightColor: KalakarColors.blue20,
-                                      child: Container(
-                                        height: 20.h,
-                                        width: 120.h,
-                                        color: KalakarColors.white,
-                                      ),
-                                    ),SizedBox(height: 2.h,),Shimmer.fromColors(
-                                      baseColor: KalakarColors.blue10,
-                                      highlightColor: KalakarColors.blue20,
-                                      child: Container(
-                                        height: 20.h,
-                                        width: 120.h,
-                                        color: KalakarColors.white,
-                                      ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("${controller.selectedRequirement.age}"),
+                                Text(
+                                    "${controller.selectedRequirement.shootingLocation}"),
+                                Text(
+                                    "${controller.selectedRequirement.gender}"),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Text(
+                              "${controller.selectedRequirement.requirementDescription}",
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Divider(
+                              color: Colors.grey.shade200,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: "Created ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: formatter.format(createdDate),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: KalakarColors.orange),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 16.w,
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Shimmer.fromColors(
-                              baseColor: KalakarColors.blue10,
-                              highlightColor: KalakarColors.blue20,
-                              child: Container(
-                                height: 40.h,
-                                width: 60.h,
-                                decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(4.r)),
-                              ),
+                                // CustomMobileButtonWidget(
+                                //   text: "Edit",
+                                //   onTap: () {
+                                //     controller
+                                //         .setOpportunityData(controller.selectedRequirement);
+                                //   },
+                                //   horizontalPadding: 10.w,
+                                //   verticalPadding: 6.h,
+                                //   fontSize: 12.sp,
+                                //   borderRadius: 50.r,
+                                //   boxShadow: [],
+                                //   width: 70.w,
+                                //   textColor: KalakarColors.white,
+                                //   fontWeight: FontWeight.normal,
+                                // )
+                              ],
                             )
                           ],
                         ),
-                      );
-                    })
+                      )
+                    : Container(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8.h,
+                        ),
+                        padding: EdgeInsets.all(16.h),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey.shade300)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  controller.selectedRequirement.lookingFor!,
+                                  style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.lineThrough),
+                                )),
+                                Text(
+                                    "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Text(
+                              "${controller.selectedRequirement.requirementDescription}",
+                              style: TextStyle(
+                                  decoration: TextDecoration.lineThrough),
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Divider(
+                              color: Colors.grey.shade200,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: "Completed ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: formatter.format(completedDate),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: KalakarColors.orange),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                CustomMobileButtonWidget(
+                                  text: "Complete",
+                                  onTap: () {},
+                                  horizontalPadding: 10.w,
+                                  verticalPadding: 6.h,
+                                  fontSize: 12.sp,
+                                  borderRadius: 50.r,
+                                  boxShadow: [],
+                                  backgroundColor: KalakarColors.white,
+                                  width: 80.w,
+                                  textColor: KalakarColors.black,
+                                  fontWeight: FontWeight.normal,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                controller.isAppliedProfileLoading
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 3,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 8.h),
+                            padding: EdgeInsets.all(8.h),
+                            // width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: KalakarColors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.shade300,
+                                    blurRadius: 3,
+                                    offset: Offset(0, 2))
+                              ],
+                              border: Border.all(
+                                  color: KalakarColors.backgroundGrey),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 40.h,
+                                    width: 40.h,
+                                    decoration: BoxDecoration(
+                                        color: KalakarColors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(20.r)),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.h),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 120.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
+                                        Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 120.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 16.w,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 40.h,
+                                    width: 60.h,
+                                    decoration: BoxDecoration(
+                                        color: KalakarColors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(4.r)),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        })
                     : ListView.builder(
                         shrinkWrap: true,
                         itemCount: controller
@@ -521,7 +533,7 @@ class AppliedProfilesPage extends StatelessWidget {
                                         Object error, StackTrace? stackTrace) {
                                       // Return a dummy or placeholder image when an error occurs
                                       return Image.asset(
-                                        "assets/images/app_logo2.PNG.png",
+                                        "assets/images/NA.jpg",
                                         height: 40.h,
                                         width: 40.h,
                                       );
@@ -530,7 +542,6 @@ class AppliedProfilesPage extends StatelessWidget {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 3,
                                   child: Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 8.h),
@@ -539,9 +550,9 @@ class AppliedProfilesPage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            "${appliedProfileDetail.firstName!} ${appliedProfileDetail.middleName!} "),
+                                            "${appliedProfileDetail.firstName!} ${appliedProfileDetail.middleName!} ",style: TextStyle(fontSize: 12.sp,),),
                                         Text(appliedProfileDetail.email
-                                            .toString()),
+                                            .toString(),style: TextStyle(fontSize: 12.sp,)),
                                         SizedBox(
                                           width: 16.w,
                                         ),
@@ -549,25 +560,59 @@ class AppliedProfilesPage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                CustomMobileButtonWidget(
-                                  text: "View",
-                                  onTap: () {
-                                    controller.setArtistProfileDataToView(
-                                        appliedProfileDetail);
-                                  },
-                                  horizontalPadding: 10.w,
-                                  verticalPadding: 10.h,
-                                  fontSize: 12.sp,
-                                  borderRadius: 8.r,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.shade300,
-                                        blurRadius: 2,
-                                        offset: Offset(0, 2))
+                                Column(
+                                  children: [
+                                    if (appliedProfileDetail
+                                        .auditionVideoPath !=
+                                        null &&
+                                        appliedProfileDetail
+                                            .auditionVideoPath!.isNotEmpty)
+                                      CustomMobileButtonWidget(
+                                        text: "Audition Video",
+                                        onTap: () {
+                                          controller.showAuditionVideo(
+                                              appliedProfileDetail
+                                                  .auditionVideoPath);
+                                        },
+                                        horizontalPadding: 2.w,
+                                        verticalPadding: 6.h,
+                                        fontSize: 10.sp,
+                                        borderRadius: 8.r,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.grey.shade300,
+                                              blurRadius: 2,
+                                              offset: Offset(0, 2))
+                                        ],
+                                        width: 100.w,
+                                        textColor: KalakarColors.white,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    SizedBox(
+                                      height: 12.h,
+                                    ),
+
+                                    CustomMobileButtonWidget(
+                                      text: "View",
+                                      onTap: () {
+                                        controller.setArtistProfileDataToView(
+                                            appliedProfileDetail);
+                                      },
+                                      horizontalPadding: 2.w,
+                                      verticalPadding: 6.h,
+                                      fontSize: 10.sp,
+                                      borderRadius: 8.r,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.shade300,
+                                            blurRadius: 2,
+                                            offset: Offset(0, 2))
+                                      ],
+                                      width: 100.w,
+                                      textColor: KalakarColors.white,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ],
-                                  width: 60.w,
-                                  textColor: KalakarColors.white,
-                                  fontWeight: FontWeight.normal,
                                 )
                               ],
                             ),
@@ -586,8 +631,8 @@ class AppliedProfilesPage extends StatelessWidget {
       DateTime completedDate = DateTime.parse(
           controller.selectedRequirement.shootingEndDate.toString());
 
-      DateTime createdDate = DateTime.parse(
-          controller.selectedRequirement.createdDate.toString());
+      DateTime createdDate =
+          DateTime.parse(controller.selectedRequirement.createdDate.toString());
       DateFormat formatter = DateFormat('dd MMM yyyy');
       return RefreshIndicator(
         onRefresh: () async {
@@ -596,7 +641,7 @@ class AppliedProfilesPage extends StatelessWidget {
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal:16.w,vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -604,356 +649,417 @@ class AppliedProfilesPage extends StatelessWidget {
                 SizedBox(
                   height: 8.h,
                 ),
-                controller.selectedRequirement.fKRequirementStatusMasterID!=3?Container(
-                  margin: EdgeInsets.only(
-                    bottom:8.h,
-                  ),
-                  padding: EdgeInsets.all(16.h),
-                  decoration: BoxDecoration(
-                      color: KalakarColors.white,
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Text(
-                                controller.selectedRequirement.lookingFor!,
-
-                                style: TextStyle(
-                                    fontSize: 8.sp, fontWeight: FontWeight.bold),
-                              )),
-                          Text(
-                              "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("${controller.selectedRequirement.age}"),
-                          Text("${controller.selectedRequirement.shootingLocation}"),
-                          Text("${controller.selectedRequirement.gender}"),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Text(
-                        "${controller.selectedRequirement.requirementDescription}",
-
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Divider(
-                        color: Colors.grey.shade200,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "Created ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: formatter.format(createdDate),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: KalakarColors.orange),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // CustomMobileButtonWidget(
-                          //   text: "Edit",
-                          //   onTap: () {
-                          //     controller
-                          //         .setOpportunityData(controller.selectedRequirement);
-                          //   },
-                          //   horizontalPadding: 10.w,
-                          //   verticalPadding: 6.h,
-                          //   fontSize: 12.sp,
-                          //   borderRadius: 50.r,
-                          //   boxShadow: [],
-                          //   width: 70.w,
-                          //   textColor: KalakarColors.white,
-                          //   fontWeight: FontWeight.normal,
-                          // )
-                        ],
-                      )
-                    ],
-                  ),
-                ):Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 8.h,
-                  ),
-                  padding: EdgeInsets.all(16.h),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Text(
-                                controller.selectedRequirement.lookingFor!,
-                                style: TextStyle(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.lineThrough),
-                              )),
-                          Text(
-                              "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Text(
-                        "${controller.selectedRequirement.requirementDescription}",
-                        style:
-                        TextStyle(decoration: TextDecoration.lineThrough),
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Divider(
-                        color: Colors.grey.shade200,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "Completed ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: formatter.format(completedDate),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: KalakarColors.orange),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          CustomMobileButtonWidget(
-                            text: "Complete",
-                            onTap: () {},
-                            horizontalPadding: 2.w,
-                            verticalPadding: 6.h,
-                            fontSize: 6.sp,
-                            borderRadius: 50.r,
-                            boxShadow: [],
-                            backgroundColor: KalakarColors.white,
-                            width: 50.w,
-                            textColor: KalakarColors.black,
-                            fontWeight: FontWeight.normal,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                controller.isAppliedProfileLoading
-                    ? GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 8.h),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 8.h),
-                        padding: EdgeInsets.all(8.h),
-                        // width: Get.size.width / 2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: KalakarColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade300,
-                                blurRadius: 3,
-                                offset: Offset(0, 2))
-                          ],
-                          border: Border.all(
-                              color: KalakarColors.backgroundGrey),
+                controller.selectedRequirement.fKRequirementStatusMasterID != 3
+                    ? Container(
+                        margin: EdgeInsets.only(
+                          bottom: 8.h,
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        padding: EdgeInsets.all(16.h),
+                        decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey.shade300)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Shimmer.fromColors(
-                              baseColor: KalakarColors.blue10,
-                              highlightColor: KalakarColors.blue20,
-                              child: Container(
-                                height: 40.h,
-                                width: 40.h,
-                                decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(20.r)),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  controller.selectedRequirement.lookingFor!,
+                                  style: TextStyle(
+                                      fontSize: 8.sp,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                Text(
+                                    "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
+                              ],
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Padding(
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 8.h),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Shimmer.fromColors(
-                                      baseColor: KalakarColors.blue10,
-                                      highlightColor: KalakarColors.blue20,
-                                      child: Container(
-                                        height: 20.h,
-                                        width: 120.h,
-                                        color: KalakarColors.white,
-                                      ),
-                                    ),SizedBox(height: 2.h,),Shimmer.fromColors(
-                                      baseColor: KalakarColors.blue10,
-                                      highlightColor: KalakarColors.blue20,
-                                      child: Container(
-                                        height: 20.h,
-                                        width: 120.h,
-                                        color: KalakarColors.white,
-                                      ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("${controller.selectedRequirement.age}"),
+                                Text(
+                                    "${controller.selectedRequirement.shootingLocation}"),
+                                Text(
+                                    "${controller.selectedRequirement.gender}"),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Text(
+                              "${controller.selectedRequirement.requirementDescription}",
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Divider(
+                              color: Colors.grey.shade200,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: "Created ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: formatter.format(createdDate),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: KalakarColors.orange),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 16.w,
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Shimmer.fromColors(
-                              baseColor: KalakarColors.blue10,
-                              highlightColor: KalakarColors.blue20,
-                              child: Container(
-                                height: 40.h,
-                                width: 60.h,
-                                decoration: BoxDecoration(color: KalakarColors.white,borderRadius: BorderRadius.circular(4.r)),
-                              ),
+                                // CustomMobileButtonWidget(
+                                //   text: "Edit",
+                                //   onTap: () {
+                                //     controller
+                                //         .setOpportunityData(controller.selectedRequirement);
+                                //   },
+                                //   horizontalPadding: 10.w,
+                                //   verticalPadding: 6.h,
+                                //   fontSize: 12.sp,
+                                //   borderRadius: 50.r,
+                                //   boxShadow: [],
+                                //   width: 70.w,
+                                //   textColor: KalakarColors.white,
+                                //   fontWeight: FontWeight.normal,
+                                // )
+                              ],
                             )
                           ],
                         ),
-                      );
-                    })
-                    : GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller
-                        .filterAppliedRequirementDetailsList.length,
-
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 8.h),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      AppliedArtistDetailsList appliedProfileDetail =
-                      controller
-                          .filterAppliedRequirementDetailsList[index];
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 8.h),
-                        padding: EdgeInsets.all(8.h),
-                        // width: Get.size.width / 2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: KalakarColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade300,
-                                blurRadius: 3,
-                                offset: Offset(0, 2))
-                          ],
-                          border: Border.all(
-                              color: KalakarColors.backgroundGrey),
+                      )
+                    : Container(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8.h,
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        padding: EdgeInsets.all(16.h),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey.shade300)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50.r),
-                              child: Image.network(
-                                appliedProfileDetail.profilePic!,
-                                fit: BoxFit.cover,
-                                height: 40.h,
-                                errorBuilder: (BuildContext context,
-                                    Object error, StackTrace? stackTrace) {
-                                  // Return a dummy or placeholder image when an error occurs
-                                  return Image.asset(
-                                    "assets/images/app_logo2.PNG.png",
-                                    height: 40.h,
-                                    width: 40.h,
-                                  );
-                                },
-                                width: 40.h,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  controller.selectedRequirement.lookingFor!,
+                                  style: TextStyle(
+                                      fontSize: 8.sp,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.lineThrough),
+                                )),
+                                Text(
+                                    "OP NO. ${controller.selectedRequirement.requirementDetailsID} "),
+                              ],
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Padding(
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 8.h),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        "${appliedProfileDetail.firstName!} ${appliedProfileDetail.middleName!} "),
-                                    Text(appliedProfileDetail.email
-                                        .toString()),
-                                    SizedBox(
-                                      width: 16.w,
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Text(
+                              "${controller.selectedRequirement.requirementDescription}",
+                              style: TextStyle(
+                                  decoration: TextDecoration.lineThrough),
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Divider(
+                              color: Colors.grey.shade200,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: "Completed ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: formatter.format(completedDate),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: KalakarColors.orange),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            CustomMobileButtonWidget(
-                              text: "View",
-                              onTap: () {
-                                controller.setArtistProfileDataToView(
-                                    appliedProfileDetail);
-                              },
-                              horizontalPadding: 2.w,
-                              verticalPadding: 6.h,
-                              fontSize: 4.sp,
-                              borderRadius: 8.r,
+                                CustomMobileButtonWidget(
+                                  text: "Complete",
+                                  onTap: () {},
+                                  horizontalPadding: 2.w,
+                                  verticalPadding: 6.h,
+                                  fontSize: 6.sp,
+                                  borderRadius: 50.r,
+                                  boxShadow: [],
+                                  backgroundColor: KalakarColors.white,
+                                  width: 50.w,
+                                  textColor: KalakarColors.black,
+                                  fontWeight: FontWeight.normal,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                controller.isAppliedProfileLoading
+                    ? GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: 3,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 8.h),
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 8.h),
+                            padding: EdgeInsets.all(8.h),
+                            // width: Get.size.width / 2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: KalakarColors.white,
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.grey.shade300,
-                                    blurRadius: 2,
+                                    blurRadius: 3,
                                     offset: Offset(0, 2))
                               ],
-                              width: 40.w,
-                              textColor: KalakarColors.white,
-                              fontWeight: FontWeight.normal,
-                            )
-                          ],
-                        ),
-                      );
-                    }),
+                              border: Border.all(
+                                  color: KalakarColors.backgroundGrey),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 40.h,
+                                    width: 40.h,
+                                    decoration: BoxDecoration(
+                                        color: KalakarColors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(20.r)),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.h),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 120.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
+                                        Shimmer.fromColors(
+                                          baseColor: KalakarColors.blue10,
+                                          highlightColor: KalakarColors.blue20,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 120.h,
+                                            color: KalakarColors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 16.w,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: KalakarColors.blue10,
+                                  highlightColor: KalakarColors.blue20,
+                                  child: Container(
+                                    height: 40.h,
+                                    width: 60.h,
+                                    decoration: BoxDecoration(
+                                        color: KalakarColors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(4.r)),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        })
+                    : LayoutBuilder(
+                      builder: (context,constraints) {
+                        double aspectRatio = 1.0; // Default square shape
+
+                        if (constraints.maxWidth > 1200) {
+                          aspectRatio = 6.5.h; // Wider items
+                        } else if (constraints.maxWidth > 800) {
+                          aspectRatio = 5.5.h;
+                        } else if (constraints.maxWidth > 500) {
+                          aspectRatio = 4.5.h;
+                        }
+                        return GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller
+                                .filterAppliedRequirementDetailsList.length,
+                            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 200.w, childAspectRatio: aspectRatio),
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              AppliedArtistDetailsList appliedProfileDetail =
+                                  controller
+                                      .filterAppliedRequirementDetailsList[index];
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 8.h),
+                                padding: EdgeInsets.all(8.h),
+                                // width: Get.size.width / 2,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  color: KalakarColors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.shade300,
+                                        blurRadius: 3,
+                                        offset: Offset(0, 2))
+                                  ],
+                                  border: Border.all(
+                                      color: KalakarColors.backgroundGrey),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50.r),
+                                      child: Image.network(
+                                        appliedProfileDetail.profilePic!,
+                                        fit: BoxFit.cover,
+                                        height: 40.h,
+                                        errorBuilder: (BuildContext context,
+                                            Object error, StackTrace? stackTrace) {
+                                          // Return a dummy or placeholder image when an error occurs
+                                          return Image.asset(
+                                            "assets/images/NA.jpg",
+                                            height: 40.h,
+                                            width: 40.h,
+                                          );
+                                        },
+                                        width: 40.h,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 8.h),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${appliedProfileDetail.firstName!} ${appliedProfileDetail.middleName!} ",
+                                              style: TextStyle(fontSize: 4.sp),
+                                            ),
+                                            Text(
+                                                appliedProfileDetail.email
+                                                    .toString(),
+                                                style: TextStyle(fontSize: 4.sp)),
+                                            SizedBox(
+                                              width: 16.w,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        if (appliedProfileDetail
+                                                    .auditionVideoPath !=
+                                                null &&
+                                            appliedProfileDetail
+                                                .auditionVideoPath!.isNotEmpty)
+                                          CustomMobileButtonWidget(
+                                            text: "Audition Video",
+                                            onTap: () {
+                                              controller.showAuditionVideo(
+                                                  appliedProfileDetail
+                                                      .auditionVideoPath);
+                                            },
+                                            horizontalPadding: 2.w,
+                                            verticalPadding: 6.h,
+                                            fontSize: 4.sp,
+                                            borderRadius: 8.r,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey.shade300,
+                                                  blurRadius: 2,
+                                                  offset: Offset(0, 2))
+                                            ],
+                                            width: 50.w,
+                                            textColor: KalakarColors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        SizedBox(
+                                          height: 12.h,
+                                        ),
+                                        CustomMobileButtonWidget(
+                                          text: "View",
+                                          onTap: () {
+                                            controller.setArtistProfileDataToView(
+                                                appliedProfileDetail);
+                                          },
+                                          horizontalPadding: 2.w,
+                                          verticalPadding: 6.h,
+                                          fontSize: 4.sp,
+                                          borderRadius: 8.r,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.grey.shade300,
+                                                blurRadius: 2,
+                                                offset: Offset(0, 2))
+                                          ],
+                                          width: 50.w,
+                                          textColor: KalakarColors.white,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            });
+                      }
+                    ),
               ],
             ),
           ),

@@ -133,7 +133,7 @@ class ArtistProfileController extends GetxController {
 
   //date time
   DateTime artistDOB = DateTime.now();
-  DateTime courseStartDate = DateTime.now();
+  DateTime? courseStartDate;
   DateTime courseEndDate = DateTime.now();
   DateTime expStartDate = DateTime.now();
   DateTime expEndDate = DateTime.now();
@@ -151,6 +151,7 @@ class ArtistProfileController extends GetxController {
   bool isComfortableInOther = false;
   bool isInterestedInOther = false;
   bool isApplyForOther = false;
+  bool isArtist = true;
 
   //int
   int artistProfileID = 0;
@@ -270,6 +271,11 @@ class ArtistProfileController extends GetxController {
       case KalakarConstants.courseStartDate:
         courseStartDate = date;
         courseStartDateTEController.text = formatter.format(date);
+        if (courseEndDate.isBefore(courseStartDate!)) {
+          // print("her");
+          courseEndDate = DateTime.now();
+          courseEndDateTEController.clear();
+        }
       case KalakarConstants.courseEndDate:
         courseEndDate = date;
         courseEndDateTEController.text = formatter.format(date);
@@ -289,9 +295,11 @@ class ArtistProfileController extends GetxController {
 
     if (loginTable != null) {
       var response = await ApiClient.postDataToken1(
-          KalakarConstants.artistProfileMasterApi, body, loginTable.token??"");
-      print(response.statusCode);
-      print(loginTable.token??"");
+          KalakarConstants.artistProfileMasterApi,
+          body,
+          loginTable.token ?? "");
+      // print(response.statusCode);
+      // print(loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         ArtistMasterClass artistMasterClass =
@@ -367,14 +375,14 @@ class ArtistProfileController extends GetxController {
 
   Future<void> saveArtistProfile() async {
     LoginTable? loginTable = await HiveService.getLoginData();
-    print("object");
+    // print("object");
     if (loginTable != null) {
       final DateFormat format = DateFormat('yyyy-MM-dd');
       KalakarDialogs.loadingDialog(
           "Uploading Profile Data", "Saving Profile Data");
       final body = <String, String>{};
       body['ArtistProfileID'] = artistProfileId;
-      body['FK_AccountID'] = loginTable.accountID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
       body['ProfilePic_Name'] = "image";
       body['FirstName'] = firstNameTEController.text.trim();
       body['MiddleName'] = middleNameTEController.text.trim();
@@ -413,10 +421,13 @@ class ArtistProfileController extends GetxController {
       Map<String, File> files = {
         'ProfilePic': File(artistProfileImage),
       };
-      print(body);
+      // print(body);
 
       var response = await ApiClient.postFormDataToken(
-          KalakarConstants.saveArtistProfileApi, body, files, loginTable.token??"");
+          KalakarConstants.saveArtistProfileApi,
+          body,
+          files,
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -444,14 +455,14 @@ class ArtistProfileController extends GetxController {
 
   Future<void> saveArtistProfileWeb() async {
     LoginTable? loginTable = await HiveService.getLoginData();
-    print("object");
+    // print("object");
     if (loginTable != null) {
       final DateFormat format = DateFormat('yyyy-MM-dd');
       KalakarDialogs.loadingDialog(
           "Uploading Profile Data", "Saving Profile Data");
       final body = <String, String>{};
       body['ArtistProfileID'] = artistProfileId;
-      body['FK_AccountID'] = loginTable.accountID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
       body['ProfilePic_Name'] = "image";
       body['FirstName'] = firstNameTEController.text.trim();
       body['MiddleName'] = middleNameTEController.text.trim();
@@ -490,10 +501,13 @@ class ArtistProfileController extends GetxController {
       Map<String, FileDataWeb?> files = {
         'ProfilePic': artistProfileImageData,
       };
-      print(body);
+      // print(body);
 
       var response = await ApiClient.postFormDataTokenWeb(
-          KalakarConstants.saveArtistProfileApi, body, files, loginTable.token??"");
+          KalakarConstants.saveArtistProfileApi,
+          body,
+          files,
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -522,13 +536,13 @@ class ArtistProfileController extends GetxController {
   Future<void> saveArtistProfileEducation() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      String startDate = courseStartDate.toIso8601String();
+      String startDate = courseStartDate!.toIso8601String();
       String endDate = courseEndDate.toIso8601String();
       KalakarDialogs.loadingDialog(
           "Uploading Education Data", "Saving Education Data");
       final body = {
         "artistProfile_EducationID": artistEducationId,
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "educationType": educationTypeTEController.text.trim(),
         "universityOrInstitute": universityOrInstituteTEController.text.trim(),
         "course": courseTEController.text.trim(),
@@ -542,7 +556,7 @@ class ArtistProfileController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveArtistProfileEducationApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -572,14 +586,14 @@ class ArtistProfileController extends GetxController {
           "Saving Hobbies Data", "Saving Hobbies Data");
       final body = {
         "artistProfile_hobbiesID": artistHobbiesId,
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "hobbyName": hobbyTEController.text.trim()
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveArtistProfileHobbiesApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -608,7 +622,7 @@ class ArtistProfileController extends GetxController {
           "Saving Interested In Data", "Saving Interested In Data");
       final body = {
         "artistProfile_InterestID": artistInterestInId,
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "fK_InterstedListMasterID": interestInMasterId,
         "interestOther": interestedInOtherTEController.text.trim()
       };
@@ -616,7 +630,7 @@ class ArtistProfileController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveArtistProfileInterestsApi,
           (jsonEncode(body)),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -645,14 +659,14 @@ class ArtistProfileController extends GetxController {
           "Saving Comfortable In Data", "Saving Comfortable In Data");
       final body = {
         "artistProfile_ComfortableInID": artistComfortableInId,
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "fK_ComfortableListMasterID": comfortableInMasterId
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveArtistProfileComfortableInApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -681,7 +695,7 @@ class ArtistProfileController extends GetxController {
           "Saving Apply For Data", "Saving Apply For Data");
       final body = {
         "artistProfile_ApplyForID": artistApplyForId,
-        "fK_AccountID": loginTable.accountID??"",
+        "fK_AccountID": loginTable.accountID ?? "",
         "fK_ApplyListMasterID": artistApplyForMasterId,
         "applyForOther": applyForOtherTEController.text.trim()
       };
@@ -689,7 +703,7 @@ class ArtistProfileController extends GetxController {
       var response = await ApiClient.postDataToken(
           KalakarConstants.saveArtistProfileApplyForApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       if (Get.isDialogOpen!) {
         Get.back();
       }
@@ -716,8 +730,8 @@ class ArtistProfileController extends GetxController {
           "Saving Artist Documents Data", "Saving Artist Documents Data");
       final body = <String, String>{};
       body['ArtistProfile_DocumentsID'] = artistDocumentId;
-      body['FK_AccountID'] = loginTable.accountID??"";
-      body['UserID'] = loginTable.userID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
+      body['UserID'] = loginTable.userID ?? "";
 
       Map<String, File> files = {
         'Passport': File(passportImage),
@@ -729,7 +743,7 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfileDocumentsApi,
           body,
           files,
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -758,8 +772,8 @@ class ArtistProfileController extends GetxController {
           "Saving Artist Documents Data", "Saving Artist Documents Data");
       final body = <String, String>{};
       body['ArtistProfile_DocumentsID'] = artistDocumentId;
-      body['FK_AccountID'] = loginTable.accountID??"";
-      body['UserID'] = loginTable.userID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
+      body['UserID'] = loginTable.userID ?? "";
 
       Map<String, FileDataWeb?> files = {
         'Passport': passportImageData,
@@ -771,7 +785,7 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfileDocumentsApi,
           body,
           files,
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
       if (Get.isDialogOpen!) {
@@ -798,9 +812,9 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Saving Experience Data", "Saving Experience Data");
       final body = <String, String>{};
-      body['UserID'] = loginTable.userID??"";
+      body['UserID'] = loginTable.userID ?? "";
       body['ArtistProfile_ExperienceID'] = artistExperienceId;
-      body['FK_AccountID'] = loginTable.accountID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
       body['CompanyName'] = companyNameTEController.text.trim();
       body['RoleName'] = roleNameTEController.text.trim();
       body['StartDate'] = expStartDate.toString();
@@ -816,7 +830,7 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfileExperienceApi,
           body,
           files,
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -844,14 +858,15 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Saving Experience Data", "Saving Experience Data");
       final body = <String, String>{};
-      body['UserID'] = loginTable.userID??"";
+      body['UserID'] = loginTable.userID ?? "";
       body['ArtistProfile_ExperienceID'] = artistExperienceId;
-      body['FK_AccountID'] = loginTable.accountID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
       body['CompanyName'] = companyNameTEController.text.trim();
       body['RoleName'] = roleNameTEController.text.trim();
       body['StartDate'] = expStartDate.toString();
       body['EndDate'] = expEndDate.toString();
       body['SkillUsed'] = skillsUsedTEController.text.trim();
+
       body['RoleProfile'] = roleProfileTEController.text.trim();
       Map<String, FileDataWeb?> files = {
         'RoleImage': expRoleImageData,
@@ -862,7 +877,7 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfileExperienceApi,
           body,
           files,
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
       if (Get.isDialogOpen!) {
@@ -890,9 +905,9 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Saving Portfolio Data", "Saving Portfolio Data");
       final body = <String, String>{};
-      body['UserID'] = loginTable.userID??"";
+      body['UserID'] = loginTable.userID ?? "";
       body['ArtistProfile_PortfolioID'] = artistPortfolioId;
-      body['FK_AccountID'] = loginTable.accountID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
       body['FileType'] = fileTypeTEController.text == "IMAGE" ? "1" : "2";
 
       Map<String, File> files = {
@@ -905,7 +920,7 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfilePortfolioApi,
           body,
           files,
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -934,9 +949,9 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Saving Portfolio Data", "Saving Portfolio Data");
       final body = <String, String>{};
-      body['UserID'] = loginTable.userID??"";
+      body['UserID'] = loginTable.userID ?? "";
       body['ArtistProfile_PortfolioID'] = artistPortfolioId;
-      body['FK_AccountID'] = loginTable.accountID??"";
+      body['FK_AccountID'] = loginTable.accountID ?? "";
       body['FileType'] = fileTypeTEController.text == "IMAGE" ? "1" : "2";
 
       Map<String, FileDataWeb?> files = {
@@ -949,7 +964,7 @@ class ArtistProfileController extends GetxController {
           KalakarConstants.saveArtistProfilePortfolioApi,
           body,
           files,
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -975,18 +990,18 @@ class ArtistProfileController extends GetxController {
   Future<void> getArtistProfileBasic() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      artistProfileID = loginTable.profileId??0;
+      artistProfileID = loginTable.profileId ?? 0;
       isArtistProfileBasicLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??""
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? ""
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileBasicApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
 
@@ -1005,7 +1020,7 @@ class ArtistProfileController extends GetxController {
     }
   }
 
-  setArtistProfileData() {
+  setArtistProfileData() async{
     if (artistProfileDetails != null) {
       artistProfileID = artistProfileDetails.artistProfileID!;
       artistProfileID = artistProfileDetails.artistProfileID!;
@@ -1037,9 +1052,17 @@ class ArtistProfileController extends GetxController {
           artistProfileDetails.travelThrIndia!.toString();
       address1TEController.text = artistProfileDetails.address1!;
       address2TEController.text = artistProfileDetails.address2!;
+      await getStateData();
+      await getCitiesData(artistProfileDetails.state!);
+      await getPinCodesData(artistProfileDetails.district!);
       stateTEController.text = artistProfileDetails.state!;
       districtTEController.text = artistProfileDetails.district!;
       postalCodeTEController.text = artistProfileDetails.postalcode!;
+
+
+
+
+
       bioTEController.text = artistProfileDetails.bio!;
       fbLinkTEController.text = artistProfileDetails.fbLink!;
       wpLinkTEController.text = artistProfileDetails.wpLink!;
@@ -1320,35 +1343,37 @@ class ArtistProfileController extends GetxController {
         if (kIsWeb) {
           utils.openLink(passportImage);
         } else {
-          fileController.viewFile1(passportImage, documentType,"IMAGE");
+          fileController.viewFile1(passportImage, documentType, "IMAGE");
         }
         break;
       case KalakarConstants.filmCorporationCard:
         if (kIsWeb) {
           utils.openLink(filmCorporationCardImage);
         } else {
-          fileController.viewFile1(filmCorporationCardImage, documentType,"IMAGE");
+          fileController.viewFile1(
+              filmCorporationCardImage, documentType, "IMAGE");
         }
         break;
       case KalakarConstants.aadharCard:
         if (kIsWeb) {
           utils.openLink(adharCardImage);
         } else {
-          fileController.viewFile1(adharCardImage, documentType,"IMAGE");
+          fileController.viewFile1(adharCardImage, documentType, "IMAGE");
         }
         break;
       case KalakarConstants.portfolio1:
         if (kIsWeb) {
           utils.openLink(portFolioImageOrVideo);
         } else {
-          fileController.viewFile1(portFolioImageOrVideo, documentType,fileTypeTEController.text);
+          fileController.viewFile1(
+              portFolioImageOrVideo, documentType, fileTypeTEController.text);
         }
         break;
       case KalakarConstants.roleImage:
         if (kIsWeb) {
           utils.openLink(expRoleImage);
         } else {
-          fileController.viewFile1(expRoleImage, documentType,"IMAGE");
+          fileController.viewFile1(expRoleImage, documentType, "IMAGE");
         }
         break;
       case KalakarConstants.roleVideo:
@@ -1356,14 +1381,14 @@ class ArtistProfileController extends GetxController {
           utils.openLink(expRoleVideo);
         } else {
           print(expRoleVideo);
-          fileController.viewFile1(expRoleVideo, documentType,"VIDEO");
+          fileController.viewFile1(expRoleVideo, documentType, "VIDEO");
         }
         break;
       case KalakarConstants.profilePhoto:
         if (kIsWeb) {
           utils.openLink(artistProfileImage);
         } else {
-          fileController.viewFile1(artistProfileImage, documentType,"IMAGE");
+          fileController.viewFile1(artistProfileImage, documentType, "IMAGE");
         }
         break;
       /*case KalakarConstants.selfieUpload:
@@ -1548,15 +1573,15 @@ class ArtistProfileController extends GetxController {
       isArtistProfileEducationLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??"",
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? "",
         "recordID": recordID
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileEducationApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1584,14 +1609,14 @@ class ArtistProfileController extends GetxController {
       isArtistProfileHobbiesLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??"",
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? "",
         "recordID": recordId
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileHobbiesApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1617,14 +1642,14 @@ class ArtistProfileController extends GetxController {
       isArtistProfileApplyForLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??"",
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? "",
         "recordID": recordId
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileApplyForApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1650,14 +1675,14 @@ class ArtistProfileController extends GetxController {
       isArtistProfileInterestedInLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??"",
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? "",
         "recordID": recordId
       };
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileInterestApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1683,15 +1708,15 @@ class ArtistProfileController extends GetxController {
       isArtistProfileComfortableInLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??"",
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? "",
         "recordID": recordId
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileComfortableInApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1718,14 +1743,14 @@ class ArtistProfileController extends GetxController {
       isArtistDocumentsLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??""
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? ""
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistProfileDocumentsApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1734,14 +1759,12 @@ class ArtistProfileController extends GetxController {
             ArtistDocumentListClass.fromJson(jsonDecode(response.body));
         if (artistDocumentListClass.replayStatus ?? false) {
           artistDocumentsList = artistDocumentListClass.documentsList!;
-          passportTEController.text =
-              artistDocumentsList[0].passportName!;
+          passportTEController.text = artistDocumentsList[0].passportName!;
           passportImage = artistDocumentsList[0].passport.toString();
-          adharCardTEController.text =
-              artistDocumentsList[0].adharCardName!;
+          adharCardTEController.text = artistDocumentsList[0].adharCardName!;
           adharCardImage = artistDocumentsList[0].adharCard.toString();
-          filmCorporationCrdTEController.text = artistDocumentsList[0]
-              .fileCorporationCardName!;
+          filmCorporationCrdTEController.text =
+              artistDocumentsList[0].fileCorporationCardName!;
           filmCorporationCardImage =
               artistDocumentsList[0].fileCorporationCard.toString();
         }
@@ -1762,15 +1785,15 @@ class ArtistProfileController extends GetxController {
       isArtistProfileExperienceLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??"",
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? "",
         "recordID": recordId
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistExperienceApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1797,15 +1820,15 @@ class ArtistProfileController extends GetxController {
       isArtistProfilePortfolioLoading = true;
       update();
       final body = {
-        "userID": loginTable.userID??"",
-        "fK_AccountID": loginTable.accountID??"",
+        "userID": loginTable.userID ?? "",
+        "fK_AccountID": loginTable.accountID ?? "",
         "recordID": recordId
       };
 
       var response = await ApiClient.postDataToken(
           KalakarConstants.getArtistPortfolioApi,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       // print(response.statusCode);
       // print(response);
 
@@ -1858,7 +1881,7 @@ class ArtistProfileController extends GetxController {
   }
 
   Future<void> getCitiesData(String selectedItem) async {
-    print(stateCityPinCodeList.length);
+    print("stateCityPinCodeList ${stateCityPinCodeList.length}");
     stateTEController.text = selectedItem;
     cityList = await StateCityPinCodeHelper.getFilteredCities(
         stateCityPinCodeList, selectedItem);
@@ -1915,7 +1938,7 @@ class ArtistProfileController extends GetxController {
       case 1:
         try {
           print(artistProfileDetails.instalink);
-          if (artistProfileDetails.instalink!.isNotEmpty&&
+          if (artistProfileDetails.instalink!.isNotEmpty &&
               await canLaunchUrl(Uri.parse(artistProfileDetails.instalink!))) {
             launchUrl(Uri.parse(artistProfileDetails.instalink!));
           } else {
@@ -1928,7 +1951,7 @@ class ArtistProfileController extends GetxController {
         break;
       case 2:
         try {
-          if (artistProfileDetails!.wpLink!.isNotEmpty&&
+          if (artistProfileDetails!.wpLink!.isNotEmpty &&
               await canLaunchUrl(Uri.parse(artistProfileDetails.wpLink!))) {
             launchUrl(Uri.parse(artistProfileDetails!.wpLink!));
           } else {
@@ -1941,7 +1964,7 @@ class ArtistProfileController extends GetxController {
         break;
       case 3:
         try {
-          if (artistProfileDetails!.ytLink!.isNotEmpty&&
+          if (artistProfileDetails!.ytLink!.isNotEmpty &&
               await canLaunchUrl(Uri.parse(artistProfileDetails.ytLink!))) {
             launchUrl(Uri.parse(artistProfileDetails!.ytLink!));
           } else {
@@ -1954,7 +1977,7 @@ class ArtistProfileController extends GetxController {
         break;
       case 4:
         try {
-          if (artistProfileDetails!.emailLink!.isNotEmpty&&
+          if (artistProfileDetails!.emailLink!.isNotEmpty &&
               await canLaunchUrl(Uri.parse(artistProfileDetails.emailLink!))) {
             launchUrl(Uri.parse(artistProfileDetails!.emailLink!));
           } else {
@@ -1966,8 +1989,9 @@ class ArtistProfileController extends GetxController {
         break;
       case 5:
         try {
-          if (artistProfileDetails!.websiteLink!.isNotEmpty&&
-              await canLaunchUrl(Uri.parse(artistProfileDetails.websiteLink!))) {
+          if (artistProfileDetails!.websiteLink!.isNotEmpty &&
+              await canLaunchUrl(
+                  Uri.parse(artistProfileDetails.websiteLink!))) {
             launchUrl(Uri.parse(artistProfileDetails!.websiteLink!));
           } else {
             KalakarDialogs.successDialog1("YouTube Link", "Link Not Added");
@@ -2069,14 +2093,14 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Deleting Education Data", "Deleting Education Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = artistEducationId;
 
       var response = await ApiClient.deleteDataToken(
           KalakarConstants.deleteArtistEducationDataApi,
           body,
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -2139,14 +2163,14 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Deleting Comfortable In Data", "Deleting Comfortable In Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = artistComfortableInId;
 
       var response = await ApiClient.deleteDataToken(
           KalakarConstants.deleteArtistComfortableInDataApi,
           body,
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -2175,12 +2199,14 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Deleting Hobby Data", "Deleting Hobby Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = artistHobbiesId;
 
       var response = await ApiClient.deleteDataToken(
-          KalakarConstants.deleteArtistHobbyDataApi, body, loginTable.token??"");
+          KalakarConstants.deleteArtistHobbyDataApi,
+          body,
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -2246,14 +2272,14 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Deleting Interested In Data", "Deleting Interested In Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = artistInterestInId;
 
       var response = await ApiClient.deleteDataToken(
           KalakarConstants.deleteArtistInterestedInDataApi,
           body,
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -2282,14 +2308,14 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Deleting Experience Data", "Deleting Experience Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = artistExperienceId;
 
       var response = await ApiClient.deleteDataToken(
           KalakarConstants.deleteArtistExperienceDataApi,
           body,
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -2420,7 +2446,7 @@ class ArtistProfileController extends GetxController {
       }
       interestInMasterId += element.fKInterstedListMasterID.toString() + ",";
     });
-    if(!isInterestedInOther){
+    if (!isInterestedInOther) {
       interestedInOtherTEController.clear();
     }
 
@@ -2444,11 +2470,9 @@ class ArtistProfileController extends GetxController {
       expEndDateTEController.text = formatter.format(endDate);
       skillsUsedTEController.text = experienceData.skillUsed.toString();
       roleProfileTEController.text = experienceData.roleProfile.toString();
-      roleImageTEController.text =
-          experienceData.roleImageName!;
+      roleImageTEController.text = experienceData.roleImageName!;
       expRoleImage = experienceData.roleImage!;
-      roleVideoTEController.text =
-          experienceData.roleVideoName!;
+      roleVideoTEController.text = experienceData.roleVideoName!;
       expRoleVideo = experienceData.roleVideo!;
     } else {
       companyNameTEController.text = "";
@@ -2478,8 +2502,7 @@ class ArtistProfileController extends GetxController {
 
       porFolioFileType =
           artistPortfolio.fileType.toString() == "1" ? "IMAGE" : "VIDEO";
-      filePathTEController.text =
-          artistPortfolio.filePathName!;
+      filePathTEController.text = artistPortfolio.filePathName!;
       portFolioImageOrVideo = artistPortfolio.filePath.toString();
     } else {
       artistPortfolioId = "0";
@@ -2497,14 +2520,14 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Deleting Portfolio Data", "Deleting Portfolio Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = artistPortfolioId;
 
       var response = await ApiClient.deleteDataToken(
           KalakarConstants.deleteArtistPortfolioDataApi,
           body,
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -2561,7 +2584,7 @@ class ArtistProfileController extends GetxController {
     artistApplyForMasterId = "";
     // isApplyForOther = false;
     // applyForOtherTEController.clear();'
-    isApplyForOther=false;
+    isApplyForOther = false;
     selectedItem.forEach((element) {
       final matchedItems =
           applyForMasterList.where((item) => item.name == element).toList();
@@ -2576,7 +2599,7 @@ class ArtistProfileController extends GetxController {
         // You can also choose to add a default value or perform another action if needed
       }
     });
-    if(!isApplyForOther){
+    if (!isApplyForOther) {
       applyForOtherTEController.clear();
     }
 
@@ -2592,12 +2615,14 @@ class ArtistProfileController extends GetxController {
       KalakarDialogs.loadingDialog(
           "Deleting Apply For Data", "Deleting apply For Data");
       final body = <String, String>{};
-      body['userID'] = loginTable.userID??"";
-      body['fK_AccountID'] = loginTable.accountID??"";
+      body['userID'] = loginTable.userID ?? "";
+      body['fK_AccountID'] = loginTable.accountID ?? "";
       body['recordID'] = artistApplyForId;
 
       var response = await ApiClient.deleteDataToken(
-          KalakarConstants.deleteArtistApplyForDataApi, body, loginTable.token??"");
+          KalakarConstants.deleteArtistApplyForDataApi,
+          body,
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response);
       if (Get.isDialogOpen!) {
@@ -2623,13 +2648,16 @@ class ArtistProfileController extends GetxController {
     LoginTable? loginTable = await HiveService.getLoginData();
 
     if (loginTable != null) {
-      var body = {"token": loginTable.token??"", "accountID": loginTable.accountID??""};
+      var body = {
+        "token": loginTable.token ?? "",
+        "accountID": loginTable.accountID ?? ""
+      };
       var response = await ApiClient.postDataToken(
           KalakarConstants.checkTokenExpired,
           jsonEncode(body),
-          loginTable.token??"");
+          loginTable.token ?? "");
       print(response.statusCode);
-      print(loginTable.token??"");
+      print(loginTable.token ?? "");
 
       if (response.statusCode == 200) {
         TokenExpirationClass tokenExpirationClass =
@@ -2648,9 +2676,11 @@ class ArtistProfileController extends GetxController {
   Future<void> getAccountData() async {
     LoginTable? loginTable = await HiveService.getLoginData();
     if (loginTable != null) {
-      final body = {"accountID": loginTable.accountID??""};
+      final body = {"accountID": loginTable.accountID ?? ""};
       var response = await ApiClient.postDataToken(
-          KalakarConstants.getAccountData, jsonEncode(body), loginTable.token??"");
+          KalakarConstants.getAccountData,
+          jsonEncode(body),
+          loginTable.token ?? "");
       print(response.statusCode);
       print(response.body);
       if (Get.isDialogOpen!) {
@@ -2668,7 +2698,7 @@ class ArtistProfileController extends GetxController {
             loginDataClass.accountType ?? "",
             loginDataClass.fistName ?? "",
             loginDataClass.lastName ?? "",
-            loginTable.token??"",
+            loginTable.token ?? "",
             loginDataClass.userID ?? "",
             loginDataClass.verificationStatus ?? "",
             loginDataClass.verificationStatusID ?? 0,
@@ -2716,5 +2746,10 @@ class ArtistProfileController extends GetxController {
   void getArtistQualificationData() {
     getArtistProfileEducation(0);
     getArtistProfileApplyFor(0);
+  }
+
+  void viewPortfolio(String filePath, String fileType) {
+    FileController fileController = Get.put(FileController());
+    fileController.viewFile1(filePath, KalakarConstants.portfolio, fileType);
   }
 }

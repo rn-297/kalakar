@@ -113,6 +113,8 @@ class _ViewFilePageState extends State<ViewFilePage> {
     print("object");
     FileController fileController = Get.put(FileController());
     final String _localFilePath = fileController.filePath;
+    print(fileController.filePath);
+
     try {
       videoPlayerController =
           CachedVideoPlayerController.network(_localFilePath)

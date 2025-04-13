@@ -250,7 +250,7 @@ class SettingsPage extends StatelessWidget {
             Center(
                 child: InkWell(
               onTap: () {
-                controller.logOutMessage();
+                controller.logOutMessage(2);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
@@ -396,7 +396,7 @@ class SettingsPage extends StatelessWidget {
               Center(
                   child: InkWell(
                     onTap: () {
-                      controller.logOutMessage();
+                      controller.logOutMessage(1);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),

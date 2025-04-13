@@ -77,26 +77,26 @@ class ArtistDocumentsFormPage extends StatelessWidget {
           child: Form(
             key: controller.formDocumentKey,
             child: Column(children: [
-              InkWell(
-                onTap: () {
-                  controller.documentType = KalakarConstants.passport;
-                  controller.pickOrShowDocument(
-                      KalakarConstants.passport, context, controller);
-                },
-                child: CommonWidgets.commonMobileTextField1(
-                    controller: controller.passportTEController,
-                    labelText: KalakarConstants.passport,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    editable: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validatePassport),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     controller.documentType = KalakarConstants.passport;
+              //     controller.pickOrShowDocument(
+              //         KalakarConstants.passport, context, controller);
+              //   },
+              //   child: CommonWidgets.commonMobileTextField1(
+              //       controller: controller.passportTEController,
+              //       labelText: KalakarConstants.passport,
+              //       obscureText: false,
+              //       textInputType: TextInputType.text,
+              //       passwordVisibility: false,
+              //       editable: false,
+              //       borderRadius: 12.r,
+              //       togglePasswordVisibility: () {},
+              //       validator: Validator.validatePassport),
+              // ),
+              // SizedBox(
+              //   height: 16.h,
+              // ),
               InkWell(
                 onTap: () {
                   controller.documentType =
@@ -117,26 +117,26 @@ class ArtistDocumentsFormPage extends StatelessWidget {
                     togglePasswordVisibility: () {},
                     validator: Validator.validateFilmCorporationCard),
               ),
-              SizedBox(
-                height: 16.h,
-              ),
-              InkWell(
-                onTap: () {
-                  controller.documentType = KalakarConstants.aadharCard;
-                  controller.pickOrShowDocument(
-                      KalakarConstants.aadharCard, context, controller);
-                },
-                child: CommonWidgets.commonMobileTextField1(
-                    controller: controller.adharCardTEController,
-                    labelText: KalakarConstants.aadharCard,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    editable: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateAdharCard),
-              ),
+              // SizedBox(
+              //   height: 16.h,
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     controller.documentType = KalakarConstants.aadharCard;
+              //     controller.pickOrShowDocument(
+              //         KalakarConstants.aadharCard, context, controller);
+              //   },
+              //   child: CommonWidgets.commonMobileTextField1(
+              //       controller: controller.adharCardTEController,
+              //       labelText: KalakarConstants.aadharCard,
+              //       obscureText: false,
+              //       textInputType: TextInputType.text,
+              //       passwordVisibility: false,
+              //       editable: false,
+              //       borderRadius: 12.r,
+              //       togglePasswordVisibility: () {},
+              //       validator: Validator.validateAdharCard),
+              // ),
               SizedBox(
                 height: 24.h,
               ),
@@ -163,26 +163,26 @@ class ArtistDocumentsFormPage extends StatelessWidget {
           child: Form(
             key: controller.formDocumentKey,
             child: Column(children: [
-              InkWell(
-                onTap: () {
-                  controller.documentType = KalakarConstants.passport;
-                  controller.pickOrShowDocumentWeb(
-                      KalakarConstants.passport, context, controller);
-                },
-                child: CommonWidgets.commonMobileTextField2(
-                    controller: controller.passportTEController,
-                    labelText: KalakarConstants.passport,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    editable: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validatePassport),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     controller.documentType = KalakarConstants.passport;
+              //     controller.pickOrShowDocumentWeb(
+              //         KalakarConstants.passport, context, controller);
+              //   },
+              //   child: CommonWidgets.commonMobileTextField2(
+              //       controller: controller.passportTEController,
+              //       labelText: KalakarConstants.passport,
+              //       obscureText: false,
+              //       textInputType: TextInputType.text,
+              //       passwordVisibility: false,
+              //       editable: false,
+              //       borderRadius: 12.r,
+              //       togglePasswordVisibility: () {},
+              //       validator: Validator.validatePassport),
+              // ),
+              // SizedBox(
+              //   height: 16.h,
+              // ),
               InkWell(
                 onTap: () {
                   controller.documentType =
@@ -206,23 +206,23 @@ class ArtistDocumentsFormPage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              InkWell(
-                onTap: () {
-                  controller.documentType = KalakarConstants.aadharCard;
-                  controller.pickOrShowDocumentWeb(
-                      KalakarConstants.aadharCard, context, controller);
-                },
-                child: CommonWidgets.commonMobileTextField2(
-                    controller: controller.adharCardTEController,
-                    labelText: KalakarConstants.aadharCard,
-                    obscureText: false,
-                    textInputType: TextInputType.text,
-                    passwordVisibility: false,
-                    editable: false,
-                    borderRadius: 12.r,
-                    togglePasswordVisibility: () {},
-                    validator: Validator.validateAdharCard),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     controller.documentType = KalakarConstants.aadharCard;
+              //     controller.pickOrShowDocumentWeb(
+              //         KalakarConstants.aadharCard, context, controller);
+              //   },
+              //   child: CommonWidgets.commonMobileTextField2(
+              //       controller: controller.adharCardTEController,
+              //       labelText: KalakarConstants.aadharCard,
+              //       obscureText: false,
+              //       textInputType: TextInputType.text,
+              //       passwordVisibility: false,
+              //       editable: false,
+              //       borderRadius: 12.r,
+              //       togglePasswordVisibility: () {},
+              //       validator: Validator.validateAdharCard),
+              // ),
               SizedBox(
                 height: 24.h,
               ),

@@ -2,7 +2,9 @@ class KalakarConstants {
   //API
   //auth apis
   // static const String baseURL="http://ec2-3-111-135-189.ap-south-1.compute.amazonaws.com";
-  static const String baseURL = "http://3.111.135.189";
+  // static const String baseURL = "http://superadmin.kalakarapp.com/api";
+  static const String baseURL = "https://superadmin.kalakarapp.com/api";
+  // static const String baseURL = "http://13.126.226.68/api";
   // static const String baseURL = "https://2f9c-3-111-135-189.ngrok-free.app";
   static const String getCreateAccountOtp = "/Account/CreateAccountGetOTP";
   static const String createAccountApi = "/Account/CreateAccount";
@@ -14,7 +16,6 @@ class KalakarConstants {
   static const String getCreateGoogleLoginApi = "/Account/CreateAccount_Google";
   static const String noInternetMessage = "No Internet Connection !!!";
   static const String somethingWentWrongMsg = "Something Went Wrong";
-  static const String googleClientID ="1036285532666-gqqf46u7vh5k3u48iopba7vg2mkdcc7b.apps.googleusercontent.com";
 
   //file paths
 
@@ -146,6 +147,8 @@ class KalakarConstants {
   //payment
   static const String initiatePayment = "/SuperAdmin/InitiatePayment";
   static const String getPaymentDetails = "/SuperAdmin/PaymentIntegrationAPIResponse";
+  static const String getPaymentAndroidDetails = "/SuperAdmin/GetPaymentDatailsForApp";
+
 
 
   //Strings
@@ -293,6 +296,7 @@ class KalakarConstants {
   static const String male = "Male";
   static const String female = "Female";
   static const String apply = "Apply";
+  static const String addVideo = "Add Audition Video";
   static const String applied = "Applied";
   static const String appliedProfiles = "Applied Profiles";
   static const String opportunityApplicants = "Opportunity Applicants";

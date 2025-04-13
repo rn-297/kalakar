@@ -31,7 +31,7 @@ class PayAndVerifyPage extends StatelessWidget {
           ),
         ),
         body: ScreenTypeLayout.builder(
-          mobile: (BuildContext context) => payAndVerifyMobileView(),
+          mobile: (BuildContext context) => payAndVerifyMobileView(context),
           tablet: (BuildContext context) => payAndVerifyWebView(),
         ));
   }
@@ -59,7 +59,7 @@ class PayAndVerifyPage extends StatelessWidget {
     );
   }
 
-  payAndVerifyMobileView() {
+  payAndVerifyMobileView(BuildContext context) {
     return GetBuilder<PaymentController>(builder: (paymentController) {
       return SingleChildScrollView(
         child: Column(
@@ -81,7 +81,7 @@ class PayAndVerifyPage extends StatelessWidget {
                 !paymentController.isPaymentDetailsLoading)
               Container(
                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-                margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -153,7 +153,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         return Column(
                           children: [
                             SizedBox(
-                              height: 24.h,
+                              height: 8.h,
                             ),
                             CustomMobileButtonWidget(
                               text: KalakarConstants.sendProfileForVerification,
@@ -175,7 +175,7 @@ class PayAndVerifyPage extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              height: 24.h,
+                              height: 8.h,
                             ),
                           ],
                         );
@@ -183,9 +183,7 @@ class PayAndVerifyPage extends StatelessWidget {
                   ],
                 ),
               ),
-            SizedBox(
-              height: 24.h,
-            ),
+
             if (paymentController.isPaymentDetailsLoading)
               Shimmer.fromColors(
                 baseColor: KalakarColors.blue10,
@@ -202,7 +200,7 @@ class PayAndVerifyPage extends StatelessWidget {
             if (!paymentController.isPaymentDetailsLoading)
               Container(
                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-                margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey,
@@ -224,14 +222,16 @@ class PayAndVerifyPage extends StatelessWidget {
                               .toString(),
                           style: TextStyle(
                               fontSize: 14.sp, fontWeight: FontWeight.bold),
-                        ),Text(
-                          paymentController.profileStatusData.appPrice
-                              .toString(),
+                        ),
+                        Text(
+                          " ${paymentController.profileStatusData.appPrice.toString()}",
                           style: TextStyle(
-                              fontSize: 12.sp, fontWeight: FontWeight.normal,decoration: TextDecoration.lineThrough),
-                        ),Text(
-                          "(${paymentController.profileStatusData.discount}%)"
-                              ,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                        Text(
+                          " (${paymentController.profileStatusData.discount}%)",
                           style: TextStyle(
                               fontSize: 14.sp, fontWeight: FontWeight.normal),
                         ),
@@ -248,34 +248,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            /*Text(
-                              "Not Verified",
-                              style: TextStyle(fontSize: 12.sp),
-                            ),
-                            Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.red,
-                              size: 30,
-                            ),*/
 
-                            /*Text(
-                              "Verified",
-                              style: TextStyle(fontSize: 12.sp),
-                            ),
-                            Icon(
-                              Icons.check_circle_outline,
-                              color: Colors.green,
-                              size: 30,
-                            ),*/
-                            /*Text(
-                              "Pending",
-                              style: TextStyle(fontSize: 12.sp),
-                            ),
-                            Icon(
-                              Icons.check_circle_outline,
-                              color: Colors.yellow,
-                              size: 30,
-                            ),*/
                             Text(
                               paymentController
                                   .profileStatusData.registrationStatus
@@ -309,7 +282,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         )
                       ],
                     ),
-                    Row(
+                    if(paymentController.profileStatusData.registrationStatusID!=1)Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
@@ -320,18 +293,163 @@ class PayAndVerifyPage extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-
                             Text(
-                              paymentController
-                                  .profileStatusData.expiryDate
+                              paymentController.profileStatusData.subscriptionExpiryDate
                                   .toString(),
-                              style: TextStyle(fontSize: 12.sp),
+                              style: TextStyle(fontSize: 12.sp,),
                             ),
                           ],
                         )
                       ],
                     ),
+
+
+
+                    if(paymentController.profileStatusData.registrationStatusID==1)Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: 6.h,),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text:  "If you get a subscription Today then your subscription expiry date will be : ",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.sp),
+                              ),
+                              TextSpan(
+                                text:  paymentController.profileStatusData.expiryDate
+                                    .toString(),
+
+                                style:
+                                TextStyle(fontWeight: FontWeight.normal, fontSize: 11.sp),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 6.h,),
+                      ],
+                    ),
+                    if (!paymentController.isPaymentDetailsLoading)
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+                        margin: EdgeInsets.symmetric(vertical: 8.h),
+                        decoration: BoxDecoration(
+
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(8.r)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text(
+                            "Referral Points Details : ",
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Total : ",
+                                  style: TextStyle(
+                                      fontSize: 12.sp, fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      paymentController.profileStatusData.totalReferralPonits
+                                          .toString(),
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                )
+                              ],
+                                                      ),
+                              SizedBox(width: 8.w,),
+                              Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Used : ",
+                                  style: TextStyle(
+                                      fontSize: 12.sp, fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      paymentController.profileStatusData.totalUsedReferralPonits
+                                          .toString(),
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                )
+                              ],
+                                                      ),
+                              SizedBox(width: 8.w,),
+                              Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Remaining : ",
+                                  style: TextStyle(
+                                      fontSize: 12.sp, fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      paymentController.profileStatusData.totalUnUsedReferralPonits
+                                          .toString(),
+                                      style: TextStyle(fontSize: 12.sp),
+                                    ),
+                                  ],
+                                )
+                              ],
+                                                      ),
+                            ],
+                          ),
+
+
+
+                        ],),),
                     if (paymentController
+                                .profileStatusData.registrationStatusID ==
+                            1 ||
+                        paymentController
+                                .profileStatusData.registrationStatusID ==
+                            4)Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Payable Amount : ",
+                          style: TextStyle(
+                              fontSize: 14.sp, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              paymentController.profileStatusData.paybleAmount
+                                  .toString(),
+                              style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+
+
+                      if (paymentController
                                 .profileStatusData.registrationStatusID ==
                             1 ||
                         paymentController
@@ -341,7 +459,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         return Column(
                           children: [
                             SizedBox(
-                              height: 24.h,
+                              height: 8.h,
                             ),
                             CustomMobileButtonWidget(
                               text: KalakarConstants.makePayment,
@@ -363,7 +481,7 @@ class PayAndVerifyPage extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              height: 24.h,
+                              height: 8.h,
                             ),
                           ],
                         );
@@ -371,9 +489,10 @@ class PayAndVerifyPage extends StatelessWidget {
                   ],
                 ),
               ),
-            SizedBox(
-              height: 24.h,
-            ),
+
+
+
+
             if (paymentController.isPaymentDetailsLoading)
               Shimmer.fromColors(
                 baseColor: KalakarColors.blue10,
@@ -390,7 +509,7 @@ class PayAndVerifyPage extends StatelessWidget {
             if (!paymentController.isPaymentDetailsLoading)
               Container(
                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
-                margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey,
@@ -413,7 +532,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (ctx, index) {
                           DateFormat inputFormat =
-                              DateFormat("M/d/yyyy h:mm:ss a");
+                              DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                           DateTime parsedDate = inputFormat.parse(
                               paymentController
                                   .paymentDetailsList[index].paymentDate!);
@@ -573,7 +692,7 @@ class PayAndVerifyPage extends StatelessWidget {
                 !paymentController.isPaymentDetailsLoading)
               Container(
                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-                margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -680,9 +799,7 @@ class PayAndVerifyPage extends StatelessWidget {
                   ],
                 ),
               ),
-            SizedBox(
-              height: 24.h,
-            ),
+
             if (paymentController.isPaymentDetailsLoading)
               Shimmer.fromColors(
                 baseColor: KalakarColors.blue10,
@@ -707,7 +824,7 @@ class PayAndVerifyPage extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(8.r)),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (paymentController
                                 .profileStatusData.registrationStatusID ==
@@ -729,14 +846,20 @@ class PayAndVerifyPage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 6.sp, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 2.w,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
                           Text(
                             paymentController.profileStatusData.appPrice!
                                 .toString(),
-                            style: TextStyle(fontSize: 4.sp,decoration: TextDecoration.lineThrough,),
+                            style: TextStyle(
+                              fontSize: 4.sp,
+                              decoration: TextDecoration.lineThrough,
+                            ),
                           ),
-                          SizedBox(width: 2.w,),
-
+                          SizedBox(
+                            width: 2.w,
+                          ),
                           Text(
                             "(${paymentController.profileStatusData.discount!.toString()}%)",
                             style: TextStyle(fontSize: 4.sp),
@@ -814,7 +937,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         )
                       ],
                     ),
-                    Row(
+                    if(paymentController.profileStatusData.registrationStatusID!=1)Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
@@ -823,8 +946,123 @@ class PayAndVerifyPage extends StatelessWidget {
                               fontSize: 5.sp, fontWeight: FontWeight.bold),
                         ),
                         Text(
+                          paymentController.profileStatusData.subscriptionExpiryDate!,
+                          style: TextStyle(fontSize: 4.sp),
+                        )
+                      ],
+                    ),
+
+                    if(paymentController.profileStatusData.registrationStatusID==1)Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Expiry Date : ",
+                          style: TextStyle(
+                              fontSize: 5.sp, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
                           paymentController.profileStatusData.expiryDate!,
                           style: TextStyle(fontSize: 4.sp),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 8.h,),
+
+                    Container(
+                      width: 100.w,
+                      padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r),border: Border.all()),
+                      constraints: BoxConstraints(minWidth: 10.w),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Referral Points Details : ",
+                            style: TextStyle(
+                                fontSize: 5.sp, fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Total : ",
+                                    style: TextStyle(
+                                        fontSize: 4.sp, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    paymentController
+                                        .profileStatusData.totalReferralPonits!
+                                        .toString(),
+                                    style: TextStyle(fontSize: 4.sp),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: 4.w,),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Used : ",
+                                    style: TextStyle(
+                                        fontSize: 4.sp, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    paymentController
+                                        .profileStatusData.totalUsedReferralPonits!
+                                        .toString(),
+                                    style: TextStyle(fontSize: 4.sp),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: 4.w,),
+
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Remaining : ",
+                                    style: TextStyle(
+                                        fontSize: 4.sp, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    paymentController
+                                        .profileStatusData.totalUnUsedReferralPonits!
+                                        .toString(),
+                                    style: TextStyle(fontSize: 4.sp),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.h,),
+
+                    if (paymentController
+                        .profileStatusData.registrationStatusID ==
+                        1 ||
+                        paymentController
+                            .profileStatusData.registrationStatusID ==
+                            4)Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Payable Amount : ",
+                          style: TextStyle(
+                              fontSize: 5.sp, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              paymentController.profileStatusData.paybleAmount
+                                  .toString(),
+                              style: TextStyle(fontSize: 4.sp,fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         )
                       ],
                     ),
@@ -838,7 +1076,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         return Column(
                           children: [
                             SizedBox(
-                              height: 24.h,
+                              height: 12.h,
                             ),
                             CustomMobileButtonWidget(
                               text: KalakarConstants.makePayment,
@@ -860,7 +1098,7 @@ class PayAndVerifyPage extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              height: 24.h,
+                              height: 8.h,
                             ),
                           ],
                         );
@@ -868,9 +1106,7 @@ class PayAndVerifyPage extends StatelessWidget {
                   ],
                 ),
               ),
-            SizedBox(
-              height: 24.h,
-            ),
+
             if (paymentController.isPaymentDetailsLoading)
               Shimmer.fromColors(
                 baseColor: KalakarColors.blue10,
@@ -911,7 +1147,7 @@ class PayAndVerifyPage extends StatelessWidget {
                         itemCount: paymentController.paymentDetailsList.length,
                         itemBuilder: (ctx, index) {
                           DateFormat inputFormat =
-                              DateFormat("M/d/yyyy h:mm:ss a");
+                              DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                           DateTime parsedDate = inputFormat.parse(
                               paymentController
                                   .paymentDetailsList[index].paymentDate!);
@@ -1026,10 +1262,10 @@ class PayAndVerifyPage extends StatelessWidget {
                                                             .toUpperCase() ==
                                                         "PENDING"
                                                     ? Colors.yellow
-                                                    : Colors.red),
+                                                    : Colors.red,fontSize: 4.sp),
                                       ),
-                                      Text("${formattedDate}"),
-                                      Text("${formattedTime}"),
+                                      Text("${formattedDate}",style: TextStyle(fontSize: 4.sp),),
+                                      Text("${formattedTime}",style: TextStyle(fontSize: 4.sp)),
                                     ],
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                   )),

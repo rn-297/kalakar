@@ -85,18 +85,40 @@ class ArtistProfileFormPage extends StatelessWidget {
                         height: 100.h,
                         width: 100.h,
                         decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: controller.artistProfileImage
-                                        .startsWith("http")
-                                    ? NetworkImage(
-                                        controller.artistProfileImage)
-                                    : FileImage(
-                                        File(controller.artistProfileImage),
-                                      ) as ImageProvider,
-                                fit: BoxFit.fill),
-                            border: Border.all(color: KalakarColors.textColor),
-                            borderRadius: BorderRadius.circular(50.r)),
-                      ),
+                          border: Border.all(color: KalakarColors.textColor),
+                          borderRadius: BorderRadius.circular(50.r),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.r),
+                          child: controller.artistProfileImage.isNotEmpty
+                              ? (controller.artistProfileImage.startsWith("http")
+                              ? Image.network(
+                            controller.artistProfileImage,
+                            fit: BoxFit.fill,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                "assets/images/NA.jpg", // Fallback image
+                                fit: BoxFit.fill,
+                              );
+                            },
+                          )
+                              : Image.file(
+                            File(controller.artistProfileImage),
+                            fit: BoxFit.fill,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                "assets/images/NA.jpg", // Fallback image
+                                fit: BoxFit.fill,
+                              );
+                            },
+                          ))
+                              : Image.asset(
+                            "assets/images/NA.jpg", // Fallback if empty string
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      )
+                      ,
                       Positioned(
                           bottom: 0,
                           right: 0,
@@ -626,14 +648,24 @@ class ArtistProfileFormPage extends StatelessWidget {
                         height: 100.h,
                         width: 100.h,
                         decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                    NetworkImage(controller.artistProfileImage)
-                                        as ImageProvider,
-                                fit: BoxFit.cover),
-                            border: Border.all(color: KalakarColors.textColor),
-                            borderRadius: BorderRadius.circular(50.r)),
-                      ),
+                          border: Border.all(color: KalakarColors.textColor),
+                          borderRadius: BorderRadius.circular(50.r),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.r),
+                          child: Image.network(
+                            controller.artistProfileImage,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                "assets/images/NA.jpg", // Fallback image
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                        ),
+                      )
+                      ,
                       Positioned(
                           bottom: 0,
                           right: 0,

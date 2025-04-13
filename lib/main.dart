@@ -19,16 +19,16 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Hive.initFlutter();
+  Hive.registerAdapter(LoginTableAdapter());
+  await Hive.openBox<LoginTable>("loginBox");
   await PushNotificationService().setupInteractedMessage();
   PushNotificationService.getNotificationToken();
 
   // if(kIsWeb) GoogleSignIn(
   //   clientId: KalakarConstants.googleClientID,
   // );
-  await Hive.initFlutter();
-  Hive.registerAdapter(LoginTableAdapter());
-  await Hive.openBox<LoginTable>("loginBox");
+
   // final appDocumentDir = await getApplicationDocumentsDirectory();
   Get.lazyPut(() => SettingsController());
   Get.lazyPut(() => AuthPageController());

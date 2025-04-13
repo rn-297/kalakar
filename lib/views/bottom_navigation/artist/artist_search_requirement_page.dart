@@ -29,8 +29,7 @@ class ArtistSearchRequirementPage extends StatelessWidget {
       ),
       body: ScreenTypeLayout.builder(
         mobile: (BuildContext context) => artistSearchOpportunitiesMobileView(),
-        tablet: (BuildContext context) =>
-            artistSearchOpportunitiesWebView(),
+        tablet: (BuildContext context) => artistSearchOpportunitiesWebView(),
       ),
     );
   }
@@ -282,7 +281,7 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                         left: 24.h,
                         top: 16.h,
                         bottom:
-                        MediaQuery.of(context).viewInsets.bottom + 10.h),
+                            MediaQuery.of(context).viewInsets.bottom + 10.h),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -393,7 +392,7 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                           },
                           child: CommonWidgets.commonMobileTextField2(
                               controller:
-                              controller.searchShootingEndDateTEController,
+                                  controller.searchShootingEndDateTEController,
                               labelText: "Shooting End Date",
                               obscureText: false,
                               hintText: "Search Shooting End Date",
@@ -671,21 +670,27 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                                         fit: BoxFit.cover,
                                                       )),
                                                 ) //requirementData.companyLogo ?? "",
-                                              : Container(
-                                                  margin: EdgeInsets.all(1.h),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
                                                         Radius.circular(8.r),
-                                                      ),
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                          requirementData
-                                                                  .refPhotoName ??
-                                                              "",
-                                                        ),
+                                                    bottomLeft:
+                                                        Radius.circular(8.r),
+                                                  ),
+                                                  child: Image.network(
+                                                    requirementData
+                                                        .refPhotoName!,
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context,
+                                                        error, stackTrace) {
+                                                      return Image.asset(
+                                                        "assets/images/NA.jpg",
+                                                        // Fallback image
                                                         fit: BoxFit.cover,
-                                                      )),
+                                                      );
+                                                    },
+                                                  ),
                                                 )),
                                       Expanded(
                                           flex: 4,
@@ -699,7 +704,8 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                                                   requirementData
                                                       .requirementTitle!,
                                                   maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                       fontSize: 16.sp,
                                                       color: KalakarColors
@@ -798,289 +804,299 @@ class ArtistSearchRequirementPage extends StatelessWidget {
                 ),
               controller.isSearching
                   ? ListView.builder(
-                  itemCount: 6,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          vertical: 12.h, horizontal: 4.h),
-                      decoration: BoxDecoration(
-                        color: KalakarColors.white,
-                        borderRadius: BorderRadius.circular(
-                          8.r,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                          ),
-                        ],
-                      ),
-                      child: IntrinsicHeight(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Shimmer.fromColors(
-                                  baseColor: KalakarColors.blue10,
-                                  highlightColor: KalakarColors.blue20,
-                                  child: Container(
-                                    height: 80.h,
-                                    width: 80.h,
-                                    color: KalakarColors.white,
-                                  ),
-                                )),
-                            Expanded(
-                                flex: 4,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.h),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Shimmer.fromColors(
-                                        baseColor: KalakarColors.blue10,
-                                        highlightColor:
-                                        KalakarColors.blue20,
-                                        child: Container(
-                                          height: 20.h,
-                                          width: 80.h,
-                                          color: KalakarColors.white,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8.h,
-                                      ),
-                                      Shimmer.fromColors(
-                                        baseColor: KalakarColors.blue10,
-                                        highlightColor:
-                                        KalakarColors.blue20,
-                                        child: Container(
-                                          height: 20.h,
-                                          width: 80.h,
-                                          color: KalakarColors.white,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8.h,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor:
-                                            KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                          Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor:
-                                            KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor:
-                                            KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                          Shimmer.fromColors(
-                                            baseColor: KalakarColors.blue10,
-                                            highlightColor:
-                                            KalakarColors.blue20,
-                                            child: Container(
-                                              height: 20.h,
-                                              width: 80.h,
-                                              color: KalakarColors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
-                    );
-                  })
-                  : controller.requirementDetailsSearchList.isNotEmpty
-                  ? GridView.builder(
-                  itemCount:
-                  controller.requirementDetailsSearchList.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 4.h),
-                  itemBuilder: (context, index) {
-                    RequirementDetailsData requirementData =
-                    controller.requirementDetailsSearchList[index];
-                    final DateFormat formatter =
-                    DateFormat('dd-MM-yyyy');
-                    DateTime shootingDate = DateTime.parse(
-                        requirementData!.shootingStartDate!);
-                    String date = formatter.format(shootingDate);
-                    print(requirementData.requirementDetailsID);
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          vertical: 8.h, horizontal: 4.h),
-                      decoration: BoxDecoration(
-                        color: KalakarColors.backgroundTurquoise,
-                        border: Border.all(
-                            color: KalakarColors.backgroundGrey),
-                        borderRadius: BorderRadius.circular(8.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
-                            blurRadius: 2.0,
-                          ),
-                        ],
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          controller
-                              .checkArtistAndSetData(requirementData);
-                        },
-                        child: IntrinsicHeight(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: requirementData.refPhotoName ==
-                                      null
-                                      ? Container(
-                                    margin: EdgeInsets.all(1.h),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.all(
-                                          Radius.circular(8.r),
-                                        ),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/movie.png",
-                                          ),
-                                          fit: BoxFit.cover,
-                                        )),
-                                  ) //requirementData.companyLogo ?? "",
-                                      : Container(
-                                    margin: EdgeInsets.all(1.h),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.all(
-                                          Radius.circular(8.r),
-                                        ),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            requirementData
-                                                .refPhotoName ??
-                                                "",
-                                          ),
-                                          fit: BoxFit.cover,
-                                        )),
-                                  )),
-                              Expanded(
-                                  flex: 4,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.h),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          requirementData
-                                              .requirementTitle!,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 5.sp,
-                                              color: KalakarColors
-                                                  .headerText,
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        Text(
-                                          requirementData
-                                              .requirementDescription! ??
-                                              "",
-                                          overflow:
-                                          TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 4.sp),
-                                          maxLines: 2,
-                                        ),
-                                        SizedBox(
-                                          height: 8.h,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          children: [
-                                            Text(requirementData
-                                                .shootingLocation!,style: TextStyle(
-                                                fontSize: 3.5.sp,
-
-                                                fontWeight:
-                                                FontWeight.normal),),
-                                            Text(date,style: TextStyle(
-                                                fontSize: 3.5.sp,
-
-                                                fontWeight:
-                                                FontWeight.normal),),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          children: [
-                                            Text(requirementData
-                                                .gender!,style: TextStyle(
-                                                fontSize: 3.5.sp,
-
-                                                fontWeight:
-                                                FontWeight.normal),),
-                                            Text(requirementData.age!
-                                                .split(".")[0],style: TextStyle(
-                                                fontSize: 3.5.sp,
-
-                                                fontWeight:
-                                                FontWeight.normal),),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                      itemCount: 6,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 12.h, horizontal: 4.h),
+                          decoration: BoxDecoration(
+                            color: KalakarColors.white,
+                            borderRadius: BorderRadius.circular(
+                              8.r,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                              ),
                             ],
                           ),
-                        ),
-                      ),
-                    );
-                  })
-                  : Text("No Opportunities Found"),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    flex: 2,
+                                    child: Shimmer.fromColors(
+                                      baseColor: KalakarColors.blue10,
+                                      highlightColor: KalakarColors.blue20,
+                                      child: Container(
+                                        height: 80.h,
+                                        width: 80.h,
+                                        color: KalakarColors.white,
+                                      ),
+                                    )),
+                                Expanded(
+                                    flex: 4,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.h),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor:
+                                                KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8.h,
+                                          ),
+                                          Shimmer.fromColors(
+                                            baseColor: KalakarColors.blue10,
+                                            highlightColor:
+                                                KalakarColors.blue20,
+                                            child: Container(
+                                              height: 20.h,
+                                              width: 80.h,
+                                              color: KalakarColors.white,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8.h,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                              Shimmer.fromColors(
+                                                baseColor: KalakarColors.blue10,
+                                                highlightColor:
+                                                    KalakarColors.blue20,
+                                                child: Container(
+                                                  height: 20.h,
+                                                  width: 80.h,
+                                                  color: KalakarColors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        );
+                      })
+                  : controller.requirementDetailsSearchList.isNotEmpty
+                      ? GridView.builder(
+                          itemCount:
+                              controller.requirementDetailsSearchList.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 4.h),
+                          itemBuilder: (context, index) {
+                            RequirementDetailsData requirementData =
+                                controller.requirementDetailsSearchList[index];
+                            final DateFormat formatter =
+                                DateFormat('dd-MM-yyyy');
+                            DateTime shootingDate = DateTime.parse(
+                                requirementData!.shootingStartDate!);
+                            String date = formatter.format(shootingDate);
+                            print(requirementData.requirementDetailsID);
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 8.h, horizontal: 4.h),
+                              decoration: BoxDecoration(
+                                color: KalakarColors.backgroundTurquoise,
+                                border: Border.all(
+                                    color: KalakarColors.backgroundGrey),
+                                borderRadius: BorderRadius.circular(8.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.4),
+                                    blurRadius: 2.0,
+                                  ),
+                                ],
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  controller
+                                      .checkArtistAndSetData(requirementData);
+                                },
+                                child: IntrinsicHeight(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          flex: 2,
+                                          child: requirementData.refPhotoName ==
+                                                  null
+                                              ? Container(
+                                                  margin: EdgeInsets.all(1.h),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(8.r),
+                                                      ),
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                          "assets/images/movie.png",
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                                ) //requirementData.companyLogo ?? "",
+                                              : Container(
+                                                  margin: EdgeInsets.all(1.h),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(8.r),
+                                                      ),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          requirementData
+                                                                  .refPhotoName ??
+                                                              "",
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                                )),
+                                      Expanded(
+                                          flex: 4,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(8.h),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  requirementData
+                                                      .requirementTitle!,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 5.sp,
+                                                      color: KalakarColors
+                                                          .headerText,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  height: 8.h,
+                                                ),
+                                                Text(
+                                                  requirementData
+                                                          .requirementDescription! ??
+                                                      "",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      TextStyle(fontSize: 4.sp),
+                                                  maxLines: 2,
+                                                ),
+                                                SizedBox(
+                                                  height: 8.h,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      requirementData
+                                                          .shootingLocation!,
+                                                      style: TextStyle(
+                                                          fontSize: 3.5.sp,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                    Text(
+                                                      date,
+                                                      style: TextStyle(
+                                                          fontSize: 3.5.sp,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      requirementData.gender!,
+                                                      style: TextStyle(
+                                                          fontSize: 3.5.sp,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                    Text(
+                                                      requirementData.age!
+                                                          .split(".")[0],
+                                                      style: TextStyle(
+                                                          fontSize: 3.5.sp,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          })
+                      : Text("No Opportunities Found"),
             ],
           ),
         ),

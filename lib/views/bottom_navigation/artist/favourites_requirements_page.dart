@@ -313,22 +313,22 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                                           fit: BoxFit.cover,
                                                         )),
                                                   ) //requirementData.companyLogo ?? "",
-                                                : Container(
-                                                    margin: EdgeInsets.all(2.h),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(8.r),
-                                                        ),
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                            requirementData
-                                                                    .refPhotoName ??
-                                                                "",
-                                                          ),
-                                                          fit: BoxFit.cover,
-                                                        )),
-                                                  )),
+                                                : ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(8.r),
+                                                bottomLeft: Radius.circular(8.r),
+                                              ),
+                                                  child: Image.network(
+                                                                                                requirementData.refPhotoName!,
+                                                                                                fit: BoxFit.cover,
+                                                                                                errorBuilder: (context, error, stackTrace) {
+                                                  return Image.asset(
+                                                    "assets/images/NA.jpg", // Fallback image
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                                                                },
+                                                                                              ),
+                                                )),
                                         Expanded(
                                             flex: 4,
                                             child: Padding(
@@ -624,21 +624,15 @@ class FavouritesRequirementsPage extends StatelessWidget {
                                             fit: BoxFit.cover,
                                           )),
                                     ) //requirementData.companyLogo ?? "",
-                                        : Container(
-                                      margin: EdgeInsets.all(2.h),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.all(
-                                            Radius.circular(8.r),
-                                          ),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                              requirementData
-                                                  .refPhotoName ??
-                                                  "",
-                                            ),
-                                            fit: BoxFit.cover,
-                                          )),
+                                        : Image.network(
+                                      requirementData.refPhotoName!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(
+                                          "assets/images/NA.jpg", // Fallback image
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
                                     )),
                                 Expanded(
                                     flex: 4,

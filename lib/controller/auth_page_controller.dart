@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kalakar/controller/requirement_controller.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
 import 'package:kalakar/data/models/generate_otp_model.dart';
@@ -37,6 +39,8 @@ class AuthPageController extends GetxController {
   bool createShowCnfmPassword = true;
   bool signInPasswordValue = true;
   bool isOtpSent = false;
+  bool isNotification = false;
+  int requirementID=0;
   String oTP = "";
   String googleAuthToken = "";
   String createUserType = "Artist";
@@ -64,7 +68,7 @@ class AuthPageController extends GetxController {
 
   //Timer
   late Timer timer;
-  int startTime = 90;
+  int startTime = 900;
 
   final _formGetOtpKey = GlobalKey<FormState>();
   final _formGetForgotOtpKey = GlobalKey<FormState>();
@@ -246,10 +250,11 @@ class AuthPageController extends GetxController {
         KalakarDialogs.successDialog("OTP Success", generateOtpClass.message!);
         createMobileNumberEditable = false;
         createEmailEditable = false;
+        startTimer();
+
       } else {
         KalakarDialogs.successDialog("OTP Failed", generateOtpClass.message!);
       }
-      startTimer();
     } else {
       await WriteLogFile.writeLog("URL : ${KalakarConstants.baseURL + url}");
       await WriteLogFile.writeLog("body : ${body}");
@@ -367,7 +372,7 @@ class AuthPageController extends GetxController {
   }
 
   startTimer() {
-    startTime = 90;
+    startTime = 900;
     Timer.periodic(Duration(seconds: 1), (timer) {
       if (startTime <= 0) {
         timer.cancel();
@@ -376,6 +381,12 @@ class AuthPageController extends GetxController {
       }
       update();
     });
+  }
+
+  String formatDuration(int totalSeconds) {
+    int minutes = totalSeconds ~/ 60; // Integer division to get minutes
+    int seconds = totalSeconds % 60;  // Modulo to get remaining seconds
+    return totalSeconds<60?"${seconds.toString().padLeft(2, '0')} seconds":'$minutes:${seconds.toString().padLeft(2, '0')} minutes'; // Ensures two-digit seconds
   }
 
   Future<void> changePassword() async {
@@ -484,29 +495,52 @@ class AuthPageController extends GetxController {
     createWhatsappNumber.clear();
     createWhatsappNumber.clear();
     oTP = "";
+    tabIndex.value=0;
+    update();
   }
 
   Future<void> splashScreenTask(AuthPageController authPageController) async {
     Future.delayed(Duration(seconds: 2), () async {
       try {
-        LoginTable? loginTable = await HiveService.getLoginData();
+        if (isNotification){
+          RequirementController controller = Get.put(RequirementController());
+          controller.showStatus = true;
+          controller.getAppliedForRequirementArtist(requirementID);
+          Get.offNamed(RouteHelper.requirementViewPage);
+        }else {
+          LoginTable? loginTable = await HiveService.getLoginData();
 
-        if (loginTable != null) {
-                print(loginTable.userID??"");
-                if (loginTable.accountType == KalakarConstants.artist) {
-                  Get.offNamed(RouteHelper.bottomNavigationPage);
-                } else if (loginTable.accountType == KalakarConstants.company) {
-                  Get.offNamed(RouteHelper.bottomNavigationPage);
-                }
-                authPageController.accountType = loginTable.accountType??"";
-              } else {
-                Get.offNamed(RouteHelper.login);
-              }
+          if (loginTable != null) {
+                          print(loginTable.userID??"no userId");
+                          if (loginTable.accountType == KalakarConstants.artist) {
+                            Get.offNamed(RouteHelper.bottomNavigationPage);
+                          } else if (loginTable.accountType == KalakarConstants.company) {
+                            Get.offNamed(RouteHelper.bottomNavigationPage);
+                          }
+                          authPageController.accountType = loginTable.accountType??"";
+                        } else {
+                          Get.offNamed(RouteHelper.login);
+                        }
+        }
       } catch (e) {
         print(e);
       }
     });
   }
+  // void initDynamicLinks() async {
+  //   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+  //     final Uri deepLink = dynamicLinkData.link;
+  //     if (deepLink != null) {
+  //       String profileId = deepLink.queryParameters['id'] ?? '';
+  //       if (profileId.isNotEmpty) {
+  //
+  //       }
+  //     }
+  //   }).onError((error) {
+  //     print('Dynamic Link Error: $error');
+  //   });
+  // }
+
 
   Future<void> createGoogleAccount() async {
     if (_formGoogleSignInKey.currentState!.validate()) {

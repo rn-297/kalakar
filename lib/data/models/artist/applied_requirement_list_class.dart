@@ -77,6 +77,8 @@ class ArtistAppliedRequirementDetailsList {
   String? firstName;
   String? middleName;
   String? profilePic;
+  String? auditionVideoPath;
+  String? auditionVideoName;
   int? fKApplyStatusMasterID;
   String? applyStatus;
   int?   artistFavoritesRequirementTransID;
@@ -127,6 +129,8 @@ class ArtistAppliedRequirementDetailsList {
         this.middleName,
         this.profilePic,
         this.fKApplyStatusMasterID,
+        this.auditionVideoPath,
+        this.auditionVideoName,
         this.applyStatus,  this.artistFavoritesRequirementTransID,
        this.artistAppliedForRequirementTransID});
 
@@ -174,6 +178,8 @@ class ArtistAppliedRequirementDetailsList {
     profilePic = json['profilePic'];
     fKApplyStatusMasterID = json['fK_ApplyStatusMasterID'];
     applyStatus = json['applyStatus'];
+    auditionVideoName = json['auditionVideoName'];
+    auditionVideoPath = json['auditionVideoPath'];
     artistFavoritesRequirementTransID = json['artistFavoritesRequirementTransID'];
     artistAppliedForRequirementTransID = json['artistAppliedForRequirementTransID'];
   }
@@ -223,6 +229,8 @@ class ArtistAppliedRequirementDetailsList {
     data['profilePic'] = this.profilePic;
     data['fK_ApplyStatusMasterID'] = this.fKApplyStatusMasterID;
     data['applyStatus'] = this.applyStatus;
+    data['auditionVideoPath'] = this.auditionVideoPath;
+    data['auditionVideoName'] = this.auditionVideoName;
     data['artistFavoritesRequirementTransID'] = this.artistFavoritesRequirementTransID;
     data['artistAppliedForRequirementTransID'] = this.artistAppliedForRequirementTransID;
     return data;

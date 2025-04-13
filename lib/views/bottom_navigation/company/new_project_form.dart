@@ -259,7 +259,8 @@ class NewProjectFormPage extends StatelessWidget {
                                                 borderRadius:
                                                     BorderRadius.circular(8.r),
                                                 image: DecorationImage(
-                                                    image: controller
+                                                    image: controller.projectDocuments[index].type == "VIDEO"
+                                                        ? MemoryImage(controller.projectDocuments[index].imageData!) :controller
                                                             .projectDocuments[
                                                                 index]
                                                             .path
@@ -281,14 +282,22 @@ class NewProjectFormPage extends StatelessWidget {
                                               top: 2,
                                               child: InkWell(
                                                 onTap: () {
-                                                  controller.deleteProjectDocuments(
-                                                      controller
-                                                          .selectedCompanyProject!
-                                                          .companyProjectID!,
-                                                      controller
-                                                          .projectDocuments[
-                                                              index]
-                                                          .documentId);
+                                                  if (controller
+                                                      .projectDocuments[
+                                                  index]
+                                                      .path
+                                                      .startsWith("http")) {
+                                                    controller.deleteProjectDocuments(
+                                                                                                          controller
+                                                                                                              .selectedCompanyProject!
+                                                                                                              .companyProjectID!,
+                                                                                                          controller
+                                                                                                              .projectDocuments[
+                                                                                                                  index]
+                                                                                                              .documentId);
+                                                  } else {
+controller.deleteLocalProjectDocument(index);
+                                                  }
                                                 },
                                                 child: Container(
                                                     padding:

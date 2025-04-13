@@ -72,6 +72,7 @@ class OpportunityPage extends StatelessWidget {
                                     horizontalPadding: 10.w,
                                     verticalPadding: 8.h,
                                     fontSize: 15.sp,
+                                    width: 250.w,
                                     borderRadius: 50.r),
                               ],
                             ),
@@ -246,41 +247,29 @@ class OpportunityPage extends StatelessWidget {
                                     },
                                     child: IntrinsicHeight(
                                       child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
                                         children: [
                                           Expanded(
                                               flex: 2,
-                                              child: requirementData.refPhotoName ==
-                                                      null
-                                                  ? Container(
-                                                      margin: EdgeInsets.all(2.h),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(8.r),
-                                                          ),
-                                                          image: DecorationImage(
-                                                            image: AssetImage(
-                                                              "assets/images/movie.png",
-                                                            ),
-                                                            fit: BoxFit.fill,
-                                                          )),
-                                                    ) //requirementData.companyLogo ?? "",
-                                                  : Container(
-                                                      margin: EdgeInsets.all(2.h),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(8.r),
-                                                          ),
-                                                          image: DecorationImage(
-                                                            image: NetworkImage(
-                                                              requirementData
-                                                                      .refPhotoName ??
-                                                                  "",
-                                                            ),
-                                                            fit: BoxFit.cover,
-                                                          )),
-                                                    )),
+                                              child:  Container(
+                                                margin: EdgeInsets.all(2.h),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                                  child: Image.network(
+                                                    requirementData.refPhotoName ?? "",
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context, error, stackTrace) {
+                                                      return Image.asset(
+                                                        "assets/images/NA.jpg", // Your default image
+                                                        fit: BoxFit.cover,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              )),
                                           Expanded(
                                               flex: 4,
                                               child: Padding(
@@ -629,14 +618,20 @@ class OpportunityPage extends StatelessWidget {
                                               BorderRadius.all(
                                                 Radius.circular(8.r),
                                               ),
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  requirementData
-                                                      .refPhotoName ??
-                                                      "",
-                                                ),
-                                                fit: BoxFit.cover,
-                                              )),
+                                             ),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                            child: Image.network(
+                                              requirementData.refPhotoName ?? "",
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  "assets/images/NA.jpg", // Your default image
+                                                  fit: BoxFit.cover,
+                                                );
+                                              },
+                                            ),
+                                          ),
                                         )),
                                     Expanded(
                                         flex: 4,

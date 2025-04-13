@@ -174,6 +174,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
+                        print(KalakarConstants.filmCorporationCard);
                         controller.pickOrShowDocument(
                             KalakarConstants.filmCorporationCard,
                             context,
@@ -195,51 +196,51 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     SizedBox(
                       height: 16.h,
                     ),
-                    InkWell(
-                      onTap: () {
-                        controller.pickOrShowDocument(
-                            KalakarConstants.adminAadharCard,
-                            context,
-                            controller);
-                      },
-                      child: CommonWidgets.commonMobileTextField1(
-                          controller: controller.adminAadharCardTEController,
-                          labelText: KalakarConstants.adminAadharCard,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          isSuffixIcon: true,
-                          editable: false,
-                          borderRadius: 12.r,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateAdminAdharCard),
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.pickOrShowDocument(
-                            KalakarConstants.addressProofOfCompany,
-                            context,
-                            controller);
-                      },
-                      child: CommonWidgets.commonMobileTextField1(
-                          controller:
-                              controller.addressProofOfCompanyTEController,
-                          labelText: KalakarConstants.addressProofOfCompany,
-                          obscureText: false,
-                          textInputType: TextInputType.text,
-                          passwordVisibility: false,
-                          borderRadius: 12.r,
-                          isSuffixIcon: true,
-                          editable: false,
-                          togglePasswordVisibility: () {},
-                          validator: Validator.validateAddressProofOfCompany),
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     controller.pickOrShowDocument(
+                    //         KalakarConstants.adminAadharCard,
+                    //         context,
+                    //         controller);
+                    //   },
+                    //   child: CommonWidgets.commonMobileTextField1(
+                    //       controller: controller.adminAadharCardTEController,
+                    //       labelText: KalakarConstants.adminAadharCard,
+                    //       obscureText: false,
+                    //       textInputType: TextInputType.text,
+                    //       passwordVisibility: false,
+                    //       isSuffixIcon: true,
+                    //       editable: false,
+                    //       borderRadius: 12.r,
+                    //       togglePasswordVisibility: () {},
+                    //       validator: Validator.validateAdminAdharCard),
+                    // ),
+                    // SizedBox(
+                    //   height: 16.h,
+                    // ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     controller.pickOrShowDocument(
+                    //         KalakarConstants.addressProofOfCompany,
+                    //         context,
+                    //         controller);
+                    //   },
+                    //   child: CommonWidgets.commonMobileTextField1(
+                    //       controller:
+                    //           controller.addressProofOfCompanyTEController,
+                    //       labelText: KalakarConstants.addressProofOfCompany,
+                    //       obscureText: false,
+                    //       textInputType: TextInputType.text,
+                    //       passwordVisibility: false,
+                    //       borderRadius: 12.r,
+                    //       isSuffixIcon: true,
+                    //       editable: false,
+                    //       togglePasswordVisibility: () {},
+                    //       validator: Validator.validateAddressProofOfCompany),
+                    // ),
+                    // SizedBox(
+                    //   height: 16.h,
+                    // ),
                     InkWell(
                       onTap: () {
                         controller.pickOrShowDocument(
@@ -387,6 +388,62 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
     );
   }
 
+  Widget _getOtpEditorWeb(ProfileController profileController) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OtpInputEditor(
+          key: const Key("otp-field"),
+          obscureText: false,
+          otpLength: 4,
+          onOtpChanged: (value) {
+            profileController.setOtpValue(value);
+          },
+          onInitialization: (OtpInputController otpInputController) {},
+          invalid: true,
+          otpTextFieldBackgroundColor: Colors.white,
+          cursorHeight: 18.h,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 2.0,
+              spreadRadius: 1.0,
+            ),
+          ],
+          fieldWidth: 20.w,
+          fieldHeight: 33.h,
+          cursorWidth: .5.w,
+          textInputStyle: TextStyle(
+            fontSize: 8.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          boxDecoration: BoxDecoration(
+            border: Border.all(
+              color: profileController.otpError ? Colors.red : Colors.grey,
+              width: .5.w,
+            ),
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+        ),
+        profileController.otpError
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    "Please Enter Valid OTP",
+                    style: TextStyle(color: Colors.red),
+                  )
+                ],
+              )
+            : Container(),
+      ],
+    );
+  }
+
   companyMoreInfoWebView(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
@@ -436,7 +493,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(KalakarConstants.otp),
-                    _getOtpEditor(controller),
+                    _getOtpEditorWeb(controller),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -535,8 +592,83 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                     SizedBox(
                       height: 16.h,
                     ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: InkWell(
+                    //         onTap: () {
+                    //           controller.pickOrShowDocumentWeb(
+                    //               KalakarConstants.filmCorporationCard,
+                    //               context,
+                    //               controller);
+                    //         },
+                    //         child: CommonWidgets.commonMobileTextField2(
+                    //             controller:
+                    //             controller.filmCorporationCardTEController,
+                    //             labelText: KalakarConstants.filmCorporationCard,
+                    //             obscureText: false,
+                    //             textInputType: TextInputType.text,
+                    //             passwordVisibility: false,
+                    //             isSuffixIcon: true,
+                    //             editable: false,
+                    //             borderRadius: 12.r,
+                    //             togglePasswordVisibility: () {},
+                    //             validator: Validator.validateFilmCorporationCard),
+                    //       ),
+                    //     ),
+                    //     SizedBox(
+                    //       width: 8.w,
+                    //     ),
+                    //     Expanded(
+                    //       child: InkWell(
+                    //         onTap: () {
+                    //           controller.pickOrShowDocumentWeb(
+                    //               KalakarConstants.adminAadharCard,
+                    //               context,
+                    //               controller);
+                    //         },
+                    //         child: CommonWidgets.commonMobileTextField2(
+                    //             controller: controller.adminAadharCardTEController,
+                    //             labelText: KalakarConstants.adminAadharCard,
+                    //             obscureText: false,
+                    //             textInputType: TextInputType.text,
+                    //             passwordVisibility: false,
+                    //             isSuffixIcon: true,
+                    //             editable: false,
+                    //             borderRadius: 12.r,
+                    //             togglePasswordVisibility: () {},
+                    //             validator: Validator.validateAdminAdharCard),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // SizedBox(
+                    //   height: 16.h,
+                    // ),
                     Row(
                       children: [
+                        // Expanded(
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       controller.pickOrShowDocumentWeb(
+                        //           KalakarConstants.addressProofOfCompany,
+                        //           context,
+                        //           controller);
+                        //     },
+                        //     child: CommonWidgets.commonMobileTextField2(
+                        //         controller:
+                        //         controller.addressProofOfCompanyTEController,
+                        //         labelText: KalakarConstants.addressProofOfCompany,
+                        //         obscureText: false,
+                        //         textInputType: TextInputType.text,
+                        //         passwordVisibility: false,
+                        //         borderRadius: 12.r,
+                        //         isSuffixIcon: true,
+                        //         editable: false,
+                        //         togglePasswordVisibility: () {},
+                        //         validator: Validator.validateAddressProofOfCompany),
+                        //   ),
+                        // ),
                         Expanded(
                           child: InkWell(
                             onTap: () {
@@ -557,59 +689,6 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                                 borderRadius: 12.r,
                                 togglePasswordVisibility: () {},
                                 validator: Validator.validateFilmCorporationCard),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.w,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              controller.pickOrShowDocumentWeb(
-                                  KalakarConstants.adminAadharCard,
-                                  context,
-                                  controller);
-                            },
-                            child: CommonWidgets.commonMobileTextField2(
-                                controller: controller.adminAadharCardTEController,
-                                labelText: KalakarConstants.adminAadharCard,
-                                obscureText: false,
-                                textInputType: TextInputType.text,
-                                passwordVisibility: false,
-                                isSuffixIcon: true,
-                                editable: false,
-                                borderRadius: 12.r,
-                                togglePasswordVisibility: () {},
-                                validator: Validator.validateAdminAdharCard),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              controller.pickOrShowDocumentWeb(
-                                  KalakarConstants.addressProofOfCompany,
-                                  context,
-                                  controller);
-                            },
-                            child: CommonWidgets.commonMobileTextField2(
-                                controller:
-                                controller.addressProofOfCompanyTEController,
-                                labelText: KalakarConstants.addressProofOfCompany,
-                                obscureText: false,
-                                textInputType: TextInputType.text,
-                                passwordVisibility: false,
-                                borderRadius: 12.r,
-                                isSuffixIcon: true,
-                                editable: false,
-                                togglePasswordVisibility: () {},
-                                validator: Validator.validateAddressProofOfCompany),
                           ),
                         ),
                         SizedBox(
@@ -648,6 +727,7 @@ class CompanyMoreInfoFormPage extends StatelessWidget {
                 },
                 borderRadius: 50.r,
                 fontSize: 5.sp,
+                width: 100.sp,
                 text: KalakarConstants.saveChanges,
                 horizontalPadding: 2.w,
                 verticalPadding: 8.h,

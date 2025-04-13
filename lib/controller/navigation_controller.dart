@@ -73,9 +73,10 @@ class BottomNavigationController extends GetxController {
 
         artistProfileController.getArtistExperience(0);
         artistProfileController.getArtistPortFolio(0);
+        artistProfileController.getStateData();
         profileCount = 1;
-      }else if(selectedIndex == 3 && settingsCount == 0){
-        requirementController.getAppliedForRequirementArtist();
+      } else if (selectedIndex == 3 && settingsCount == 0) {
+        requirementController.getAppliedForRequirementArtist(0);
         requirementController.getArtistRequirementInFavorites(0);
       }
     } else if (accountType == KalakarConstants.company) {
@@ -97,6 +98,7 @@ class BottomNavigationController extends GetxController {
       } else if (selectedIndex == 1 && opportunityCount == 0) {
       } else if (selectedIndex == 2 && profileCount == 0) {
         ProfileController profileController = Get.put(ProfileController());
+        print("object getrequireddata");
         profileController.getRequireData();
         profileCount = 1;
       }
@@ -118,9 +120,9 @@ class BottomNavigationController extends GetxController {
   void getLoginData() async {
     try {
       LoginTable? loginTable = await HiveService.getLoginData();
-      print("account  type ${loginTable!.accountType??""!}");
-      accountType = loginTable!.accountType??"";
-      homeCount=0;
+      print("account  type ${loginTable!.accountType ?? ""!}");
+      accountType = loginTable!.accountType ?? "";
+      homeCount = 0;
       profileCount = 0;
       opportunityCount = 0;
       settingsCount = 0;

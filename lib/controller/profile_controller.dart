@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_thumbnail_video/index.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:kalakar/data/api/api_client.dart';
 import 'package:kalakar/data/local_database/hive_service.dart';
 import 'package:kalakar/data/local_database/login_table.dart';
@@ -24,6 +26,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:kalakar/utils/web_utils.dart' as utils;
 import '../data/models/company/get_profile_data_class.dart';
 import '../data/models/csv_model_class.dart';
+import '../data/models/login_data_model.dart';
 import '../helper/route_helper.dart';
 import '../views/dialogs/kalakar_dialogs.dart';
 import 'package:http/http.dart' as http;
@@ -151,6 +154,7 @@ class ProfileController extends GetxController {
       getProjectStatusData();
       getCompanyProjects("0");
     }
+
   }
 
   void getProfileData() async {
@@ -351,8 +355,8 @@ class ProfileController extends GetxController {
     update();
   }
 
-  setProfileFormData() {
-    print(profileData!.verificationStatus);
+  setProfileFormData() async {
+    print("profileData!.isVerifiedContacts ${profileData!.selfieuploadDOC}");
     isNetworkCompanyLogo = true;
     companyProfileID = profileData!.companyProfileID ?? 0;
     companyLogo = profileData!.companyLogo ?? "";
@@ -360,9 +364,13 @@ class ProfileController extends GetxController {
         profileData!.companyNameProductionhouse ?? "";
     adminNameTEController.text = profileData!.authoriseAdminName ?? "";
     addressTEController.text = profileData!.address ?? "";
-    pinCodeTEController.text = profileData!.postalcode ?? "";
-    districtTEController.text = profileData!.district ?? "";
+    await getStateData();
+    await getCitiesData(profileData!.state ?? "");
+    await getPinCodesData(profileData!.district ?? "");
     stateTEController.text = profileData!.state ?? "";
+    districtTEController.text = profileData!.district ?? "";
+    pinCodeTEController.text = profileData!.postalcode ?? "";
+
     bioTEController.text = profileData!.bio ?? "";
     mobileNumberTEController.text = profileData!.mobileNumber ?? "";
     emailTEController.text = profileData!.email ?? "";
@@ -388,27 +396,41 @@ class ProfileController extends GetxController {
             ? profileData!.selfieuploadDOCName.toString()
             : "";
     selfieUploadedPath = profileData!.selfieuploadDOC ?? "";
-    isContactVerified = profileData!.isVerifiedContacts == "True";
-    mobileNumberEditable = !(profileData!.isVerifiedContacts == "True");
-    emailEditable = !(profileData!.isVerifiedContacts == "True");
+    isContactVerified = profileData!.isVerifiedContacts.toString() == "1";
+    mobileNumberEditable = !(profileData!.isVerifiedContacts.toString() == "1");
+    emailEditable = !(profileData!.isVerifiedContacts.toString() == "1");
     if (!kIsWeb) {
       FileController fileController = Get.put(FileController());
       if (filmCorporationCardPath.isNotEmpty) {
         print("here");
+        if(isPdfUrl(filmCorporationCardPath))
         fileController.downloadFile(
-            KalakarConstants.profilePath, filmCorporationCardPath);
+            KalakarConstants.profilePath, profileData!.filmCorpprationCardDOCName!,filmCorporationCardPath);
       }
-      if (adminAadharCardPath.isNotEmpty) {
-        fileController.downloadFile(
-            KalakarConstants.profilePath, adminAadharCardPath);
-      }
-      if (addressProofCompanyPath.isNotEmpty) {
-        fileController.downloadFile(
-            KalakarConstants.profilePath, addressProofCompanyPath);
-      }
+      // if (adminAadharCardPath.isNotEmpty) {
+      //   fileController.downloadFile(
+      //       KalakarConstants.profilePath, adminAadharCardPath);
+      // }
+      // if (addressProofCompanyPath.isNotEmpty) {
+      //   fileController.downloadFile(
+      //       KalakarConstants.profilePath, addressProofCompanyPath);
+      // }
     }
 
     update();
+  }
+
+  bool isImageUrl(String url) {
+    return url.toLowerCase().contains('.png?') ||
+        url.toLowerCase().contains('.jpg?') ||
+        url.toLowerCase().contains('.jpeg?') ||
+        url.toLowerCase().contains('.gif?') ||
+        url.toLowerCase().contains('.bmp?') ||
+        url.toLowerCase().contains('.webp?');
+  }
+
+  bool isPdfUrl(String url) {
+    return url.toLowerCase().contains('.pdf?');
   }
 
   void getCompanyProjects(String projectId) async {
@@ -508,6 +530,7 @@ class ProfileController extends GetxController {
             isOtpSent = false;
             isContactVerified = true;
             // startTimer();
+            getAccountData();
           } else {
             KalakarDialogs.successDialog(
                 "Contact Verification Failed", responseModel.message!);
@@ -753,7 +776,15 @@ class ProfileController extends GetxController {
     } else {
       if (file != null) {
         if (documentType == KalakarConstants.projectDocuments) {
-          FileData fileData = FileData(path: file.path, type: "VIDEO");
+          var thumbnail=await VideoThumbnail.thumbnailData(
+            video: file.path,
+            // Replace with your video URL
+            imageFormat: ImageFormat.JPEG,
+            maxHeight: 150,
+            // Set a maximum height for the thumbnail
+            quality: 75,
+          );
+          FileData fileData = FileData(path: file.path, type: "VIDEO",imageData: thumbnail);
           projectDocuments.add(fileData);
         }
       }
@@ -774,6 +805,17 @@ class ProfileController extends GetxController {
       } else if (documentType == KalakarConstants.companyLogo) {
         isNetworkCompanyLogo = false;
         companyLogo = file.path;
+      }else if (documentType == KalakarConstants.projectDocuments) {
+        var thumbnail=await VideoThumbnail.thumbnailData(
+          video: file.path,
+          // Replace with your video URL
+          imageFormat: ImageFormat.JPEG,
+          maxHeight: 150,
+          // Set a maximum height for the thumbnail
+          quality: 75,
+        );
+        FileData fileData = FileData(path: file.path, type: "VIDEO",imageData: thumbnail);
+        projectDocuments.add(fileData);
       }
       update();
     }
@@ -790,8 +832,54 @@ class ProfileController extends GetxController {
     }
   }
 
+  Future<void> getAccountData() async {
+    LoginTable? loginTable = await HiveService.getLoginData();
+    if (loginTable != null) {
+      final body = {"accountID": loginTable.accountID ?? ""};
+      var response = await ApiClient.postDataToken(
+          KalakarConstants.getAccountData,
+          jsonEncode(body),
+          loginTable.token ?? "");
+      print(response.statusCode);
+      print(response.body);
+      if (Get.isDialogOpen!) {
+        Get.back();
+      }
+
+      if (response.statusCode == 200) {
+        LoginDataClass loginDataClass =
+            LoginDataClass.fromJson(jsonDecode(response.body));
+        if (loginDataClass.replayStatus ?? false) {
+          LoginTable loginTable1 = LoginTable(
+            loginDataClass.accountID ?? "",
+            loginDataClass.email ?? "",
+            loginDataClass.mobileNumber ?? "",
+            loginDataClass.accountType ?? "",
+            loginDataClass.fistName ?? "",
+            loginDataClass.lastName ?? "",
+            loginTable.token ?? "",
+            loginDataClass.userID ?? "",
+            loginDataClass.verificationStatus ?? "",
+            loginDataClass.verificationStatusID ?? 0,
+            loginDataClass.isverifiedContacts ?? false,
+            loginDataClass.profileID ?? 0,
+            loginDataClass.referralCode ?? "",
+            loginDataClass.usedReferralCode ?? "",
+            loginDataClass.totalReferralAmount!.toDouble() ?? 0.0,
+            loginDataClass.usedReferralAmount!.toDouble() ?? 0.0,
+            loginDataClass.profilePic ?? "",
+            loginDataClass.companyName ?? "",
+          );
+          HiveService.saveLoginData(loginTable1);
+          getProfileData();
+        } else {}
+      }
+    }
+  }
+
   getStateData() async {
     stateCityPinCodeList = await StateCityPinCodeHelper.getCsvData();
+    print("stateCityPinCodeList ${stateCityPinCodeList.length}");
     stateList =
         await StateCityPinCodeHelper.getFilteredState(stateCityPinCodeList);
 
@@ -799,11 +887,11 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCitiesData(String selectedItem) async {
-    print(stateCityPinCodeList.length);
+    print("stateCityPinCodeList ${stateCityPinCodeList.length}");
     stateTEController.text = selectedItem;
     cityList = await StateCityPinCodeHelper.getFilteredCities(
         stateCityPinCodeList, selectedItem);
-    print(cityList);
+    print("cityList ${cityList}");
     districtTEController.text = "";
     pinCodeTEController.text = "";
     update();
@@ -872,7 +960,11 @@ class ProfileController extends GetxController {
 
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
-          getProfileData();
+          if (loginTable.profileId == 0) {
+            getAccountData();
+          } else {
+            getProfileData();
+          }
         } else {
           KalakarDialogs.successDialog(
               "Profile Save Failed", responseModel.message!);
@@ -937,7 +1029,11 @@ class ProfileController extends GetxController {
 
         if (responseModel.replayStatus ?? false) {
           KalakarDialogs.successDialog("Profile Saved", responseModel.message!);
-          getProfileData();
+          if (loginTable.profileId == 0) {
+            getAccountData();
+          } else {
+            getProfileData();
+          }
         } else {
           KalakarDialogs.successDialog(
               "Profile Save Failed", responseModel.message!);
@@ -983,6 +1079,7 @@ class ProfileController extends GetxController {
           PickerHelper.showOrPickDocBottomSheet(
               documentType, context, controller);
         } else {
+          this.documentType = documentType;
           PickerHelper.showImageBottomSheet(context, controller);
         }
         break;
@@ -1034,11 +1131,15 @@ class ProfileController extends GetxController {
         if (kIsWeb) {
           utils.openLink(filmCorporationCardPath);
         } else {
-          fileController.viewFile(
-              KalakarConstants.profilePath,
-              filmCorporationCardTEController.text.trim(),
-              documentType,
-              "IMAGE");
+          if(isPdfUrl(filmCorporationCardPath)) {
+            fileController.viewFile(
+                KalakarConstants.profilePath,
+                filmCorporationCardTEController.text.trim(),
+                documentType,
+                "PDF");
+          }else{
+            fileController.viewFile1(filmCorporationCardPath, documentType, "IMAGE");
+          }
         }
         break;
       case KalakarConstants.adminAadharCard:
@@ -1076,6 +1177,7 @@ class ProfileController extends GetxController {
     switch (documentType) {
       case KalakarConstants.filmCorporationCard:
         File? file = await PickerHelper.pickPdfFromGallery();
+        print(file);
         if (file != null) {
           filmCorporationCardPath = file.path;
           filmCorporationCardTEController.text = file.path.split("/").last;
@@ -1100,7 +1202,7 @@ class ProfileController extends GetxController {
         break;
       case KalakarConstants.selfieUpload:
         this.documentType = documentType;
-        PickerHelper.showImageBottomSheetWeb(context, controller);
+        PickerHelper.showImageBottomSheet(context, controller);
         // getImageFromCamera(context,KalakarConstants.gallery);
         break;
     }
@@ -1329,8 +1431,7 @@ class ProfileController extends GetxController {
 
       // Example files (if any)
       Map<String, FileDataWeb> files = {
-        'ProjectCoverDoc':
-            projectCoverData!,
+        'ProjectCoverDoc': projectCoverData!,
       };
 
       // Example files (if any)
@@ -1418,9 +1519,24 @@ class ProfileController extends GetxController {
     projectCoverPath = "";
     projectTitleTEController.text = "";
     projectDescriptionTEController.text = "";
+    projectTypeTEController.text = "";
     selectedProjectStatus = null;
     selectedCompanyProject = null;
+     projectDocuments = [FileData(path: "", type: "Add")];
+     projectDocuments1 = [
+      FileDataWeb(name: "", path: "", type: "Add", extension: '', imageData: null)
+    ];
     Get.toNamed(RouteHelper.newProjectFormPage);
+  }
+
+  deleteLocalProjectDocument(int index){
+    if(kIsWeb){
+      projectDocuments1.removeAt(index);
+    }else{
+      projectDocuments.removeAt(index);
+    }
+    update();
+
   }
 
   Future<void> getProjectDocuments(String companyProjectID) async {
@@ -1471,9 +1587,9 @@ class ProfileController extends GetxController {
                       .split(".")
                       .last,
                   imageData: null));
-              update();
             }
           }
+          update();
         } else {
           projectDocuments.clear();
           projectDocuments = [FileData(path: "", type: "Add")];
@@ -1488,13 +1604,24 @@ class ProfileController extends GetxController {
               int documentId = projectDetailAndDocuments
                   .projectDocuments![i].companyProjectDocumentID!;
               String type =
-                  path.toLowerCase().endsWith(".mp4") ? "VIDEO" : "IMAGE";
+                  path.toLowerCase().contains(".mp4?") ? "VIDEO" : "IMAGE";
+              Uint8List? thumbnail=null;
+              if(type=="VIDEO"){
+                thumbnail=await VideoThumbnail.thumbnailData(
+                  video: path,
+                  // Replace with your video URL
+                  imageFormat: ImageFormat.JPEG,
+                  maxHeight: 150,
+                  // Set a maximum height for the thumbnail
+                  quality: 75,
+                );
+              }
 
               projectDocuments.add(
-                  FileData(path: path, type: type, documentId: documentId));
-              update();
+                  FileData(path: path, type: type, documentId: documentId,imageData: thumbnail));
             }
           }
+          update();
         }
 
         isProjectDocumentLoading = false;
@@ -1610,7 +1737,12 @@ class ProfileController extends GetxController {
       LoginTable? loginTable = await HiveService.getLoginData();
 
       if (loginTable != null) {
-        companyName = "${loginTable.companyName ?? ""}";
+        companyName = loginTable.companyName.toString().isNotEmpty &&
+                loginTable.companyName.toString() != "null"
+            ? loginTable.companyName.toString()
+            : loginTable.fistName.toString().toUpperCase() +
+                " " +
+                loginTable.lastName.toString().toUpperCase();
         profilePic = loginTable.profilePic ?? "";
       }
     } catch (e) {
@@ -1628,6 +1760,7 @@ class ProfileController extends GetxController {
   }
 
   void showDocument1(String url, String type, String fileType) {
+    print(fileType);
     FileController fileController = Get.put(FileController());
     fileController.viewFile1(url, type, fileType);
   }

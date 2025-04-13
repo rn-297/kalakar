@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import 'kalakar_colors.dart';
 
@@ -24,48 +25,13 @@ class CommonWidgets {
       int maxLines = 1,
       String? hintText = null,
       double borderRadius = 50.0}) {
-    return TextFormField(
-      controller: controller,
-      style: TextStyle(color: textColor,fontSize: kIsWeb?4.sp:14.sp),
-      obscureText: passwordVisibility,
-      validator: validator,
-      keyboardType: textInputType,
-      enabled: editable,
-      maxLines: maxLines,
-
-      // Added validator
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        labelText: labelText,
-        labelStyle:
-            TextStyle(color: labelColor, fontSize: kIsWeb ? 3.5.sp : 14.sp),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor, width: 1),
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-
-        hintText: hintText,
-        alignLabelWithHint: true,
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedBorderColor, width: 1),
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        contentPadding: EdgeInsetsDirectional.symmetric(
-            horizontal: kIsWeb ? 8.w : 24.w, vertical: kIsWeb ? 2.h : 12.h),
-        suffixIcon: obscureText
-            ? InkWell(
-                onTap: togglePasswordVisibility,
-                child: Icon(passwordVisibility
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,size: kIsWeb?5.sp:16.sp,),
-              )
-            : isSuffixIcon
-                ? Icon(suffixIcon)
-                : null,
-      ),
+    return ScreenTypeLayout.builder(
+      mobile: (BuildContext context) => mobileView(controller,labelText,obscureText,passwordVisibility,togglePasswordVisibility,textInputType,validator,
+          textColor,borderColor,focusedBorderColor,labelColor,editable,isSuffixIcon,suffixIcon,maxLines,hintText,borderRadius),
+      tablet: (BuildContext context) => webView(controller,labelText,obscureText,passwordVisibility,togglePasswordVisibility,textInputType,validator,
+          textColor,borderColor,focusedBorderColor,labelColor,editable,isSuffixIcon,suffixIcon,maxLines,hintText,borderRadius),
     );
+
   }
 
   static Widget commonMobileTextField1({
@@ -194,6 +160,128 @@ class CommonWidgets {
             : isSuffixIcon
                 ? Icon(suffixIcon)
                 : null,
+      ),
+    );
+  }
+
+  static mobileView( TextEditingController controller,
+     String labelText,
+     bool obscureText,
+     bool passwordVisibility,
+     VoidCallback? togglePasswordVisibility,
+     TextInputType? textInputType,
+     String? Function(String?)?
+    validator, // Added validator parameter
+    Color textColor ,
+    Color borderColor ,
+    Color focusedBorderColor,
+    Color labelColor ,
+    bool editable ,
+    bool isSuffixIcon ,
+    IconData suffixIcon ,
+    int maxLines ,
+    String? hintText ,
+    double borderRadius ) {
+    return TextFormField(
+      controller: controller,
+      style: TextStyle(color: textColor,fontSize: 14.sp),
+      obscureText: passwordVisibility,
+      validator: validator,
+      keyboardType: textInputType,
+      enabled: editable,
+      maxLines: maxLines,
+
+      // Added validator
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        labelText: labelText,
+        labelStyle:
+        TextStyle(color: labelColor, fontSize:   14.sp),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: borderColor, width: 1),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+
+        hintText: hintText,
+        alignLabelWithHint: true,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: focusedBorderColor, width: 1),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        contentPadding: EdgeInsetsDirectional.symmetric(
+            horizontal:  24.w, vertical:  12.h),
+        suffixIcon: obscureText
+            ? InkWell(
+          onTap: togglePasswordVisibility,
+          child: Icon(passwordVisibility
+              ? Icons.visibility_off_outlined
+              : Icons.visibility_outlined,size: 16.sp,),
+        )
+            : isSuffixIcon
+            ? Icon(suffixIcon)
+            : null,
+      ),
+    );
+  }
+  static webView( TextEditingController controller,
+     String labelText,
+     bool obscureText,
+     bool passwordVisibility,
+     VoidCallback? togglePasswordVisibility,
+     TextInputType? textInputType,
+     String? Function(String?)?
+    validator, // Added validator parameter
+    Color textColor ,
+    Color borderColor ,
+    Color focusedBorderColor,
+    Color labelColor ,
+    bool editable ,
+    bool isSuffixIcon ,
+    IconData suffixIcon ,
+    int maxLines ,
+    String? hintText ,
+    double borderRadius ) {
+    return TextFormField(
+      controller: controller,
+      style: TextStyle(color: textColor,fontSize: 4.sp),
+      obscureText: passwordVisibility,
+      validator: validator,
+      keyboardType: textInputType,
+      enabled: editable,
+      maxLines: maxLines,
+
+      // Added validator
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        labelText: labelText,
+        labelStyle:
+        TextStyle(color: labelColor, fontSize: 3.5.sp ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: borderColor, width: 1),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        hintText: hintText,
+        alignLabelWithHint: true,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: focusedBorderColor, width: 1),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        contentPadding: EdgeInsetsDirectional.symmetric(
+            horizontal:  8.w , vertical:  2.h ),
+        suffixIcon: obscureText
+            ? InkWell(
+          onTap: togglePasswordVisibility,
+          child: Icon(passwordVisibility
+              ? Icons.visibility_off_outlined
+              : Icons.visibility_outlined,size: 5.sp),
+        )
+            : isSuffixIcon
+            ? Icon(suffixIcon)
+            : null,
       ),
     );
   }

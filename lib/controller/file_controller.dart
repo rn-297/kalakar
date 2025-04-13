@@ -8,32 +8,34 @@ import 'package:http/http.dart' as http;
 class FileController extends GetxController {
   String filePath = "";
   String fileType = "";
-  String appBarName="";
+  String appBarName = "";
 
-  downloadFile(String folderPath, String url) async {
-    print("here 1");
-    String targetPath = await getTargetPath(folderPath, url.split("\\").last);
+  downloadFile(String folderPath, String filename, String url) async {
+    print("here 1$folderPath");
+    String targetPath = await getTargetPath(folderPath, filename);
     print("targetPath $targetPath");
-    if (!File(targetPath).existsSync()) {
-      var bytes = await http.readBytes(Uri.parse(url));
-       File(targetPath).writeAsBytesSync(bytes);
-       print("done");
+    if (File(targetPath).existsSync()) {
+      File(targetPath).delete();
     }
+    var bytes = await http.readBytes(Uri.parse(url));
+    File(targetPath).writeAsBytesSync(bytes);
+    print("done");
   }
 
-  viewFile(String folderPath, String filename,String appbarName,String fileType) async {
+  viewFile(String folderPath, String filename, String appbarName,
+      String fileType) async {
     String targetPath = await getTargetPath(folderPath, filename);
     filePath = targetPath;
     appBarName = appbarName;
-    this.fileType=fileType;
+    this.fileType = fileType;
     print(filePath);
     Get.toNamed(RouteHelper.fileViewer);
   }
 
-  viewFile1(String filename,String appbarName,String fileType){
+  viewFile1(String filename, String appbarName, String fileType) {
     filePath = filename;
     appBarName = appbarName;
-    this.fileType=fileType;
+    this.fileType = fileType;
 
     print(filePath);
     Get.toNamed(RouteHelper.fileViewer);
@@ -47,13 +49,13 @@ class FileController extends GetxController {
       } else if (Platform.isAndroid) {
         dir = await getExternalStorageDirectory();
       }
-      // print(dir.path);
+      print(dir.path);
       // final dir = await getExternalStorageDirectories();
 
-      final targetPath = '${dir.absolute.name}${targetFolder}$fileName';
-      // print("targetPath $targetPath");
-      if (!await Directory("${dir.absolute.name}${targetFolder}").exists()) {
-        await Directory("${dir.absolute.name}${targetFolder}")
+      final targetPath = '${dir.path}/${targetFolder}/$fileName';
+      print("targetPath $targetPath");
+      if (!await Directory("${dir.path}/${targetFolder}").exists()) {
+        await Directory("${dir.path}/${targetFolder}")
             .create(recursive: true)
             .then((Directory directory) {
           // print('Path of New Dir: ' + directory.path);
@@ -65,7 +67,7 @@ class FileController extends GetxController {
 
       return targetPath;
     } catch (e) {
-      // print(e);
+      print(e);
       return "";
     }
   }

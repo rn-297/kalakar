@@ -44,12 +44,13 @@ class StateCityPinCodeHelper {
     print(selectedState);
     print(csvData[0].stateName == selectedState);
     csvData.forEach((data) {
-      if (data.stateName == selectedState) {
+      if (data.stateName.toUpperCase() == selectedState.toUpperCase()) {
         citySet.add(data.city);
       } // Add city to set if state matches selectedState
     });
     List<String> cityList = citySet.toList();
     cityList.sort(); // Sort alphabetically if needed
+    print(cityList.length);
 
     return cityList;
   }
@@ -57,19 +58,21 @@ class StateCityPinCodeHelper {
   static Future<List<String>> getFilteredPinCodes(
       List<CSVData> csvData, String selectedState, String selectedCity) async {
     Set<String> pinCodeSet = Set();
-    print(selectedState);
-    print(selectedCity);
-    print(csvData[0].stateName);
-    print(csvData[0].city);
-    print(csvData[0].pincode);
+    // print("selectedState ${selectedState}");
+    // print("selectedCity ${selectedCity}");
+    // print(csvData[0].stateName);
+    // print(csvData[0].city);
+    // print(csvData[0].pincode);
     csvData.forEach((data) {
-      if (data.stateName == selectedState && data.city == selectedCity) {
+
+      if (data.stateName.toUpperCase() == selectedState.toUpperCase() && data.city.toUpperCase() == selectedCity.toUpperCase()) {
+        // print("pincode");
         pinCodeSet.add(data.pincode);
       } // Add city to set if state matches selectedState
     });
     List<String> pinCodeList = pinCodeSet.toList();
     pinCodeList.sort(); // Sort alphabetically if needed
-
+    print("pinCodeList ${pinCodeList.length}");
     return pinCodeList;
   }
 }

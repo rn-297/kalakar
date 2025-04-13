@@ -9,6 +9,7 @@ import 'package:kalakar/custom_widgets/button_mobile_widget.dart';
 import 'package:kalakar/helper/kalakar_colors.dart';
 import 'package:kalakar/utils/kalakar_constants.dart';
 
+import '../../controller/navigation_controller.dart';
 import '../../data/local_database/hive_service.dart';
 import '../../helper/route_helper.dart';
 
@@ -30,6 +31,25 @@ class KalakarDialogs {
     Future.delayed(Duration(seconds: 2), () {
       Get.back();
       Get.back();
+
+    });
+    Get.defaultDialog(
+      title: title,
+      titleStyle: TextStyle(fontSize: 1.sp),
+      radius: 5.r,
+      barrierDismissible: false,
+      content: Text(message),
+    );
+  }
+
+  static successDialog11(String title, String message) {
+    Future.delayed(Duration(seconds: 2), () {
+      Get.back();
+      Get.back();
+      BottomNavigationController bottomNavigationController =
+      Get.put(BottomNavigationController());
+      bottomNavigationController.selectedIndex = 1;
+      bottomNavigationController.update();
     });
     Get.defaultDialog(
       title: title,
@@ -152,49 +172,57 @@ class KalakarDialogs {
       // titleStyle: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),
       radius: 5.r,
       barrierDismissible: false,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Log Out of Your Account?",
-            style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 16.h,
-          ),
-          Text("Are you sure you want to log out?"),
-          SizedBox(
-            height: 24.h,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomMobileButtonWidget(
-                  text: "Cancel",
-                  onTap: () {
-                    Get.back();
-                  },
-                  horizontalPadding: 2.w,
-                  verticalPadding: 8.h,
-                  fontSize: 5.sp,
-                  width: 40.w,
-                  borderRadius: 40.r),
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Log Out of Your Account?",
+              style: TextStyle(fontSize: 5.sp, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 16.w),
+              child: Text("Are you sure you want to log out?",
+                style: TextStyle(fontSize: 4.sp, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 24.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomMobileButtonWidget(
+                    text: "Cancel",
+                    onTap: () {
+                      Get.back();
+                    },
+                    horizontalPadding: 2.w,
+                    verticalPadding: 4.h,
+                    fontSize: 4.sp,
+                    width: 40.w,
+                    borderRadius: 40.r),
 
-              CustomMobileButtonWidget(
-                  text: "Logout",
-                  onTap: () {
-                    HiveService.deleteLoginData();
-                  },
-                  horizontalPadding: 2.w,
-                  verticalPadding: 8.h,
-                  fontSize: 5.sp,
-                  width: 40.w,
-                  textColor: KalakarColors.white,
-                  backgroundColor: Colors.red,
-                  borderRadius: 40.r),
-            ],
-          )
-        ],
+                CustomMobileButtonWidget(
+                    text: "Logout",
+                    onTap: () {
+                      HiveService.deleteLoginData();
+                    },
+                    horizontalPadding: 2.w,
+                    verticalPadding: 4.h,
+                    fontSize: 4.sp,
+                    width: 40.w,
+                    textColor: KalakarColors.white,
+                    backgroundColor: Colors.red,
+                    borderRadius: 40.r),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

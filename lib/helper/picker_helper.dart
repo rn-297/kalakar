@@ -16,20 +16,20 @@ class PickerHelper {
 
   static Future<File?> pickImageFromGallery(BuildContext context) async {
     XFile? file = await _imagePicker.pickImage(
-        source: ImageSource.gallery, maxWidth: 800, maxHeight: 800);
+        source: ImageSource.gallery);
     print("111 ${file!.readAsBytes()}");
-    String? croppedImage = "";
-    if (file != null) {
-      croppedImage = await cropMyImage(file, context) ?? "";
-      print("222 ${croppedImage}");
-    }
-    return File(croppedImage);
+    // String? croppedImage = "";
+    // if (file != null) {
+    //   croppedImage = await cropMyImage(file, context) ?? "";
+    //   print("222 ${croppedImage}");
+    // }
+    return file!=null?File(file.path):null;
   }
 
   static Future<FileDataWeb?> pickImageFromGalleryWeb(
       BuildContext context) async {
     XFile? file = await _imagePicker.pickImage(
-        source: ImageSource.gallery, maxWidth: 800, maxHeight: 800);
+        source: ImageSource.gallery);
     FileDataWeb? pickerData;
     if (file!=null) {
       pickerData= FileDataWeb(
@@ -46,11 +46,11 @@ class PickerHelper {
   static Future<File?> pickImageFromCamera(BuildContext context) async {
     XFile? file = await _imagePicker.pickImage(
         source: ImageSource.camera, maxWidth: 800, maxHeight: 800);
-    String? croppedImage = "";
-    if (file != null) {
-      croppedImage = await cropMyImage(file, context) ?? "";
-    }
-    return File(croppedImage);
+    // String? croppedImage = "";
+    // if (file != null) {
+    //   croppedImage = await cropMyImage(file, context) ?? "";
+    // }
+    return file!=null?File(file.path):null;;
   }
 
   static Future<File?> pickVideoFromGallery(BuildContext context) async {
@@ -66,10 +66,10 @@ class PickerHelper {
     XFile? file = await _imagePicker.pickVideo(source: ImageSource.gallery);
     FileDataWeb? pickerData;
     if (file!=null) {
-      print("file.name ${file.name}");
+      print("file.name ${file.path}");
       pickerData= FileDataWeb(
           name: file.name,
-          path: "file.path",
+          path: file.path,
           type: "VIDEO",
 
           extension: file.name.split(".").last,
@@ -93,11 +93,11 @@ class PickerHelper {
       type: FileType.custom,
       allowMultiple: false,
       allowCompression: true,
-      allowedExtensions: ['pdf'],
+      allowedExtensions: ['pdf',"png","jpg","jpeg","bmp","gif","webp"],
     );
 
     if (result != null) {
-      File file = await File.fromRawPath(result.files.first.bytes!);
+      // File file = await File.fromRawPath(result.files.first.bytes!);
       // print("object");
       return File(result.paths[0]!);
     }

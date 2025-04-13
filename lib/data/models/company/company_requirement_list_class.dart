@@ -78,6 +78,8 @@ class RequirementDetailsData {
   String? companyNameProductionhouse;
   String? companyLogo;
   String? appliedCount;
+  String? auditionVideoPath;
+  String? auditionVideoName;
   List<AppliedProfilePics>? appliedProfilePics;
 
   RequirementDetailsData(
@@ -124,6 +126,8 @@ class RequirementDetailsData {
         this.companyNameProductionhouse,
         this.companyLogo,
         this.appliedCount,
+        this.auditionVideoPath,
+        this.auditionVideoName,
         this.appliedProfilePics});
 
   RequirementDetailsData.fromJson(Map<String, dynamic> json) {
@@ -172,6 +176,8 @@ class RequirementDetailsData {
     companyNameProductionhouse = json['companyNameProductionhouse'];
     companyLogo = json['companyLogo'];
     appliedCount = json['appliedCount'];
+    auditionVideoPath = json['auditionVideoPath'];
+    auditionVideoName = json['auditionVideoName'];
     if (json['appliedProfilePics'] != null) {
       appliedProfilePics = <AppliedProfilePics>[];
       json['appliedProfilePics'].forEach((v) {
